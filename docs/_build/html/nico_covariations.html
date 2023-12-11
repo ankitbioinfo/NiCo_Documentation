@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nico_covariations package &mdash; NiCo 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=8d563738"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="nico_covariations.utils package" href="nico_covariations.utils.html" />
+    <link rel="prev" title="nico_annotations.utils package" href="nico_annotations.utils.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            NiCo
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="nico_annotations.html">nico_annotations package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">nico_covariations package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nico_covariations.utils.html">nico_covariations.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-nico_covariations.Covariations">nico_covariations.Covariations module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.alignment_score"><code class="docutils literal notranslate"><span class="pre">alignment_score()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.compute_PC_space"><code class="docutils literal notranslate"><span class="pre">compute_PC_space()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.create_directory"><code class="docutils literal notranslate"><span class="pre">create_directory()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.create_subtitle"><code class="docutils literal notranslate"><span class="pre">create_subtitle()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.extract_and_plot_top_genes_from_chosen_factor_in_celltype"><code class="docutils literal notranslate"><span class="pre">extract_and_plot_top_genes_from_chosen_factor_in_celltype()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.findXYZC"><code class="docutils literal notranslate"><span class="pre">findXYZC()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.find_LR_interactions_in_interacting_cell_types"><code class="docutils literal notranslate"><span class="pre">find_LR_interactions_in_interacting_cell_types()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.find_PC_of_invidualCluster_in_SC"><code class="docutils literal notranslate"><span class="pre">find_PC_of_invidualCluster_in_SC()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.find_correlation_bw_genes_and_PC_component_in_singlecell"><code class="docutils literal notranslate"><span class="pre">find_correlation_bw_genes_and_PC_component_in_singlecell()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.find_correlation_bw_genes_and_PC_component_in_singlecell_cosine"><code class="docutils literal notranslate"><span class="pre">find_correlation_bw_genes_and_PC_component_in_singlecell_cosine()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.find_fold_change"><code class="docutils literal notranslate"><span class="pre">find_fold_change()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.find_index"><code class="docutils literal notranslate"><span class="pre">find_index()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.find_logistic_regression_interacting_score"><code class="docutils literal notranslate"><span class="pre">find_logistic_regression_interacting_score()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.gene_covariation_analysis"><code class="docutils literal notranslate"><span class="pre">gene_covariation_analysis()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.makePCneighboorhoodFeatureMatrix"><code class="docutils literal notranslate"><span class="pre">makePCneighboorhoodFeatureMatrix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.make_excel_sheet_for_gene_correlation"><code class="docutils literal notranslate"><span class="pre">make_excel_sheet_for_gene_correlation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.model_linear_regression"><code class="docutils literal notranslate"><span class="pre">model_linear_regression()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.multiplicative_method"><code class="docutils literal notranslate"><span class="pre">multiplicative_method()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.pathway_analysis"><code class="docutils literal notranslate"><span class="pre">pathway_analysis()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.plot_all_ct"><code class="docutils literal notranslate"><span class="pre">plot_all_ct()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.plot_cosine_and_spearman_correlation_to_factors"><code class="docutils literal notranslate"><span class="pre">plot_cosine_and_spearman_correlation_to_factors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.plot_feature_matrices"><code class="docutils literal notranslate"><span class="pre">plot_feature_matrices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.plot_ligand_receptor_in_interacting_celltypes"><code class="docutils literal notranslate"><span class="pre">plot_ligand_receptor_in_interacting_celltypes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.plot_significant_regression_covariations_as_circleplot"><code class="docutils literal notranslate"><span class="pre">plot_significant_regression_covariations_as_circleplot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.plot_significant_regression_covariations_as_heatmap"><code class="docutils literal notranslate"><span class="pre">plot_significant_regression_covariations_as_heatmap()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.plot_top_selected_genes_for_all_factors_from_chosen_celltype"><code class="docutils literal notranslate"><span class="pre">plot_top_selected_genes_for_all_factors_from_chosen_celltype()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.read_LigRecDb"><code class="docutils literal notranslate"><span class="pre">read_LigRecDb()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.read_spatial_data"><code class="docutils literal notranslate"><span class="pre">read_spatial_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.remove_extra_character_from_name"><code class="docutils literal notranslate"><span class="pre">remove_extra_character_from_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.run_ridge_regression"><code class="docutils literal notranslate"><span class="pre">run_ridge_regression()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.save_LR_interactions_in_excelsheet_and_regression_summary_in_textfile_for_interacting_cell_types"><code class="docutils literal notranslate"><span class="pre">save_LR_interactions_in_excelsheet_and_regression_summary_in_textfile_for_interacting_cell_types()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.sort_index_in_right_order"><code class="docutils literal notranslate"><span class="pre">sort_index_in_right_order()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.sorting_of_factors_for_showing_the_value_in_excelsheet"><code class="docutils literal notranslate"><span class="pre">sorting_of_factors_for_showing_the_value_in_excelsheet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.top_genes_in_correlation_list_without"><code class="docutils literal notranslate"><span class="pre">top_genes_in_correlation_list_without()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.triangulation_for_triheatmap"><code class="docutils literal notranslate"><span class="pre">triangulation_for_triheatmap()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.visualize_factors_in_scRNAseq_umap"><code class="docutils literal notranslate"><span class="pre">visualize_factors_in_scRNAseq_umap()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nico_covariations.Covariations.visualize_factors_in_spatial_umap"><code class="docutils literal notranslate"><span class="pre">visualize_factors_in_spatial_umap()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-nico_covariations">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nico_interactions.html">nico_interactions package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">utils package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">NiCo</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">src</a></li>
+      <li class="breadcrumb-item active">nico_covariations package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/nico_covariations.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="nico-covariations-package">
+<h1>nico_covariations package<a class="headerlink" href="#nico-covariations-package" title="Link to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="nico_covariations.utils.html">nico_covariations.utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nico_covariations.utils.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nico_covariations.utils.html#module-nico_covariations.utils.pyliger_utilities">nico_covariations.utils.pyliger_utilities module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nico_covariations.utils.html#nico_covariations.utils.pyliger_utilities.NMF_obj_eval"><code class="docutils literal notranslate"><span class="pre">NMF_obj_eval()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nico_covariations.utils.html#nico_covariations.utils.pyliger_utilities.column_group_sub"><code class="docutils literal notranslate"><span class="pre">column_group_sub()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nico_covariations.utils.html#nico_covariations.utils.pyliger_utilities.iNMF"><code class="docutils literal notranslate"><span class="pre">iNMF()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nico_covariations.utils.html#nico_covariations.utils.pyliger_utilities.nnlsm_blockpivot"><code class="docutils literal notranslate"><span class="pre">nnlsm_blockpivot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nico_covariations.utils.html#nico_covariations.utils.pyliger_utilities.nonneg"><code class="docutils literal notranslate"><span class="pre">nonneg()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nico_covariations.utils.html#nico_covariations.utils.pyliger_utilities.normal_eq_comb"><code class="docutils literal notranslate"><span class="pre">normal_eq_comb()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nico_covariations.utils.html#module-nico_covariations.utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-nico_covariations.Covariations">
+<span id="nico-covariations-covariations-module"></span><h2>nico_covariations.Covariations module<a class="headerlink" href="#module-nico_covariations.Covariations" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.alignment_score">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">alignment_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spH</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_spH</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#alignment_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.alignment_score" title="Link to this definition"></a></dt>
+<dd><p>The helper function is used in find_PC_of_invidualCluster_in_SC to find the alignment score during the integrated NMF step.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.compute_PC_space">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">compute_PC_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sct_ad_sc_full</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#compute_PC_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.compute_PC_space" title="Link to this definition"></a></dt>
+<dd><p>Helper function used gene_covariation_analysis. The spatial clusters’ names must match the scRNA-seq clusters’ names. If it is not, then it will throw an error.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.create_directory">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">create_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outputFolder</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#create_directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.create_directory" title="Link to this definition"></a></dt>
+<dd><p>This function create empty directory.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.create_subtitle">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">create_subtitle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Figure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SubplotSpec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#create_subtitle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.create_subtitle" title="Link to this definition"></a></dt>
+<dd><p>Helper function used in plot_top_selected_genes_as_dotplot.
+Sign sets of subplots with title.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.extract_and_plot_top_genes_from_chosen_factor_in_celltype">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">extract_and_plot_top_genes_from_chosen_factor_in_celltype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choose_celltype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choose_factor_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_NOG</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rps_rpl_mt_genes_included</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation_with_spearman</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">positively_correlated</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'RdBu_r'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparent_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(5,</span> <span class="pre">6)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#extract_and_plot_top_genes_from_chosen_factor_in_celltype"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.extract_and_plot_top_genes_from_chosen_factor_in_celltype" title="Link to this definition"></a></dt>
+<dd><p>Inputs:</p>
+<p>The main input is the output from gene_covariation_analysis.</p>
+<p>Define the cell type that you want to see.</p>
+<p>Define the factor id of the cell type that you want to see.</p>
+<div class="line-block">
+<div class="line">Number of genes to visualize</div>
+<div class="line">(default) top_NOG=30</div>
+</div>
+<div class="line-block">
+<div class="line">For pathway analysis, decide whether to include rps, rpl, and mt genes. If “ True, “ they are included; otherwise, “ No. “</div>
+<div class="line">(default) rps_rpl_mt_genes_included=True</div>
+</div>
+<div class="line-block">
+<div class="line">If True, visualize genes factor correlation with Spearman; otherwise, If False, then cosine.</div>
+<div class="line">(default) correlation_with_spearman=True</div>
+</div>
+<div class="line-block">
+<div class="line">If the genes factor association is chosen as Spearman correlation, the belonging genes can be selected as either positively correlated (True) or negatively correlated (False).</div>
+<div class="line">(default) positively_correlated=True</div>
+</div>
+<div class="line-block">
+<div class="line">Define the colormap for visualizing factors</div>
+<div class="line">(default) cmap=’RdBu_r’</div>
+</div>
+<div class="line-block">
+<div class="line">Save the figures in PDF or PNG format (dpi for PNG format is 300)</div>
+<div class="line">(default) saveas=’pdf’</div>
+</div>
+<div class="line-block">
+<div class="line">Dimension of the figure size</div>
+<div class="line">(default) figsize=(15,10)</div>
+</div>
+<div class="line-block">
+<div class="line">Background color in the figures</div>
+<div class="line">(default) transparent_mode=False</div>
+</div>
+<p>Outputs:</p>
+<div class="line-block">
+<div class="line">Return the data frame of the gene, factor, average expression, and proportion of population expressed that gene.</div>
+<div class="line">The figures are saved in spatial_ct_ct_interactions/covariations_R*_F*/dotplots/Factors*</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.findXYZC">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">findXYZC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#findXYZC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.findXYZC" title="Link to this definition"></a></dt>
+<dd><p>Helper function used in plot_top_selected_genes_as_dotplot.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.find_LR_interactions_in_interacting_cell_types">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">find_LR_interactions_in_interacting_cell_types</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choose_interacting_celltype_pair</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choose_factors_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pvalueCutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation_with_spearman</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LR_plot_NMF_Fa_thres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LR_plot_Exp_thres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparent_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(12,</span> <span class="pre">10)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#find_LR_interactions_in_interacting_cell_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.find_LR_interactions_in_interacting_cell_types" title="Link to this definition"></a></dt>
+<dd><p>Inputs:</p>
+<div class="line-block">
+<div class="line">The main input is the output from gene_covariation_analysis.</div>
+</div>
+<div class="line-block">
+<div class="line">Define the cell type pairs in the list you want to see the ligand-receptor communication in the central (CC) and niche cell types (NC).</div>
+<div class="line">The first element of the list is the central cell type, and the second element of the list is the niche one.</div>
+<div class="line">LR will perform for all interacting niches if the niche cell type is not defined.</div>
+<div class="line">choose_interacting_celltype_pair=[?,?]</div>
+<div class="line">If the list is Null, then LR plots will be saved for all the significant interacting niche cell types.</div>
+</div>
+<div class="line-block">
+<div class="line">Define the factors id via the list you want to visualize in the ligand-receptor communication.</div>
+<div class="line">The first element of the list is the factor ID of the central cell type, and the second element of the list is the factor ID of the niche cell type.</div>
+<div class="line">choose_factors_id=[?,?]</div>
+<div class="line">If the list is Null, then LR plots will be saved for all the significant niche cell type factor interactions.</div>
+</div>
+<div class="line-block">
+<div class="line">If True, visualize genes factor correlation with Spearman; otherwise, If False, then cosine.</div>
+<div class="line">(default) correlation_with_spearman=True</div>
+</div>
+<div class="line-block">
+<div class="line">The cutoff used to find the significant central cell type factor and niche cell type factor interactions</div>
+<div class="line">(default) pvalueCutoff=0.05</div>
+</div>
+<div class="line-block">
+<div class="line">Save the figures in PDF or PNG format (dpi for PNG format is 300)</div>
+<div class="line">(default) saveas=’pdf’</div>
+</div>
+<div class="line-block">
+<div class="line">Ligand Receptor analysis uses factor cutoff to find the enriched LR pairs</div>
+<div class="line">(default) LR_plot_NMF_Fa_thres=0.2</div>
+</div>
+<div class="line-block">
+<div class="line">Ligand Receptor analysis uses % expressed cell population cutoff to find the enriched LR pairs.</div>
+<div class="line">(default) LR_plot_Exp_thres=0.2</div>
+</div>
+<div class="line-block">
+<div class="line">Background color in the figures</div>
+<div class="line">(default) transparent_mode=False</div>
+</div>
+<div class="line-block">
+<div class="line">Dimension of the figure size.</div>
+<div class="line">Figure size on the X-axis direction is the (number of genes) multiplied by factor 12/34.</div>
+<div class="line">Figure size on the Y-axis direction is the (number of genes) multiplied by factor 10/44</div>
+<div class="line">All generated figure size are scaled according to the above factors</div>
+<div class="line">(initital figure size) figsize=(12,10)</div>
+</div>
+<p>Outputs:</p>
+<div class="line-block">
+<div class="line">The LR interaction figures are saved in “./spatial_ct_ct_interactions/covariations_R*_F*/Plot_ligand_receptor_in_niche*”</div>
+</div>
+<div class="line-block">
+<div class="line">Our analysis accounts for bidirectional cellular crosstalk interactions of ligands and receptors in cell types A and B.</div>
+<div class="line">It means in one way, it assumes a ligand diffused from cell type A and the receptor is detected in cell type B,</div>
+<div class="line">while in another way, it assumes a ligand is diffusing from cell type B, and the receptor is detected in cell type A.</div>
+<div class="line">Ligand-receptor plots show the bidirectional cellular crosstalk interaction of ligand and receptor in cell types A and B.</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.find_PC_of_invidualCluster_in_SC">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">find_PC_of_invidualCluster_in_SC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scbarcode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iNMFmode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_of_pc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spbarcode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sct_ad_sc_full</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">celltype_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_to_count_exp_cell_population</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#find_PC_of_invidualCluster_in_SC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.find_PC_of_invidualCluster_in_SC" title="Link to this definition"></a></dt>
+<dd><p>Helper function used in compute_PC_space.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.find_correlation_bw_genes_and_PC_component_in_singlecell">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">find_correlation_bw_genes_and_PC_component_in_singlecell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">KcomponentCluster</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clusterExpression</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#find_correlation_bw_genes_and_PC_component_in_singlecell"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.find_correlation_bw_genes_and_PC_component_in_singlecell" title="Link to this definition"></a></dt>
+<dd><p>Helper function used in find_PC_of_invidualCluster_in_SC to find the Spearman correlation between common genes scRNAseq factors and scRNAseq expression.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.find_correlation_bw_genes_and_PC_component_in_singlecell_cosine">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">find_correlation_bw_genes_and_PC_component_in_singlecell_cosine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">KcomponentCluster</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clusterExpression</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#find_correlation_bw_genes_and_PC_component_in_singlecell_cosine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.find_correlation_bw_genes_and_PC_component_in_singlecell_cosine" title="Link to this definition"></a></dt>
+<dd><p>Helper function used in find_PC_of_invidualCluster_in_SC
+to find the cosine similarity between common genes scRNAseq factors and scRNAseq expression.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.find_fold_change">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">find_fold_change</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">PCA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NH_PCA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gene</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CCPC</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NCPC</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">totalLRpairs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LRcutoff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CC_meanExpression</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NC_meanExpression</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CC_popExpression</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NC_popExpression</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_top_genes_to_print</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#find_fold_change"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.find_fold_change" title="Link to this definition"></a></dt>
+<dd><p>Helper function used to find the ligand-receptor genes for find_LR_interactions_in_interacting_cell_types.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.find_index">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">find_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sp_genename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sc_genename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#find_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.find_index" title="Link to this definition"></a></dt>
+<dd><p>Helper function used in gene_covariation_analysis to find the common gene space submatrix between two modalities.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.find_logistic_regression_interacting_score">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">find_logistic_regression_interacting_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coef</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CTFeatures</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nameOfCellType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logistic_coef_cutoff</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#find_logistic_regression_interacting_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.find_logistic_regression_interacting_score" title="Link to this definition"></a></dt>
+<dd><p>Helper function used in gene_covariation_analysis
+to find niche interaction scores from logistic regression classifier.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.gene_covariation_analysis">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">gene_covariation_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">niche_prediction_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./spatial_ct_ct_interactions/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refpath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./inputRef/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./inputQuery/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_cluster_tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cluster'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_common_counts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'common_counts_sc.h5ad'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_original_counts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Original_counts.h5ad'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">que_common_counts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'common_counts_sp.h5ad'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LRdbFilename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'NiCoLRdb.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iNMFmode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_of_factors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shap_analysis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shap_cluster_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_to_count_exp_cell_population</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_c</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0.0009765625,</span> <span class="pre">0.001953125,</span> <span class="pre">0.00390625,</span> <span class="pre">0.0078125,</span> <span class="pre">0.015625,</span> <span class="pre">0.03125,</span> <span class="pre">0.0625,</span> <span class="pre">0.125,</span> <span class="pre">0.25,</span> <span class="pre">0.5,</span> <span class="pre">1.0,</span> <span class="pre">2.0,</span> <span class="pre">4.0,</span> <span class="pre">8.0,</span> <span class="pre">16.0,</span> <span class="pre">32.0,</span> <span class="pre">64.0,</span> <span class="pre">128.0,</span> <span class="pre">256.0,</span> <span class="pre">512.0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coeff_cutoff_for_rid_reg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logistic_coef_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#gene_covariation_analysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.gene_covariation_analysis" title="Link to this definition"></a></dt>
+<dd><div class="line-block">
+<div class="line"><strong>This is the primary function called by the user to perform gene covariation analysis in the niche</strong>.</div>
+<div class="line"><strong>Before calling this function user must call spatial_neighborhood_analysis function from the interaction module.</strong></div>
+<div class="line">Please provide Original_counts.h5ad, common_counts_sc.h5ad, sct_singleCell.h5ad files from scRNAseq data.</div>
+<div class="line">And common_counts_sp.h5ad, sct_spatial.h5ad files for the single-cell resolution of spatial data.</div>
+<div class="line">Original_counts.h5ad should also have the cluster information in the .obs[] and the umap information in .obsm[‘X_umap’]</div>
+</div>
+<p>Inputs:</p>
+<div class="line-block">
+<div class="line">The previous niche interaction runs output directory location from the function spatial_neighborhood_analysis</div>
+<div class="line">(default) niche_prediction_dir=’./spatial_ct_ct_interactions/’</div>
+</div>
+<div class="line-block">
+<div class="line">Reference scRNAseq count matrix in scTransform-like normalization in the common gene space. The filename must be sct_singleCell.h5ad</div>
+<div class="line">(default) refpath=’./inputRef/’</div>
+</div>
+<div class="line-block">
+<div class="line">Queried spatial count matrix in scTransform-like normalization in the common gene space. The filename must be sct_spatial.h5ad</div>
+<div class="line">(default) quepath=’./inputQuery/’</div>
+</div>
+<div class="line-block">
+<div class="line">Original count data of scRNAseq in h5ad format</div>
+<div class="line">(default) ref_original_counts=’Original_counts.h5ad’</div>
+<div class="line">Must have the cluster information in the .obs and the umap information in .obsm[‘X_umap’]</div>
+<div class="line">.raw layer should have integer count matrix data. It will used to find the Spearman correlation and cosine similarity.  </div>
+</div>
+<div class="line-block">
+<div class="line">The tag in reference h5ad file where cluster information is stored</div>
+<div class="line">(default) ref_cluster_tag=’cluster’</div>
+</div>
+<div class="line-block">
+<div class="line">Common genes scRNAseq count data in h5ad format</div>
+<div class="line">(default) ref_common_counts=’common_counts_sc.h5ad’</div>
+</div>
+<div class="line-block">
+<div class="line">Common gene spatial count data in h5ad format</div>
+<div class="line">(default) que_common_counts=’common_counts_sp.h5ad’</div>
+</div>
+<div class="line-block">
+<div class="line">The filename of the ligand-receptor database (the first column is Ligand, the second column is Receptor, a third is the resource list)</div>
+<div class="line">(default) LRdbFilename=’NiCoLRdb.txt’</div>
+</div>
+<div class="line-block">
+<div class="line">This radius parameter should be the same as used in spatial neighborhood analysis to find the niche interactions.</div>
+<div class="line">(default) Radius=0</div>
+</div>
+<div class="line-block">
+<div class="line">Number of factors used in NMF for finding the common gene latent dimension space</div>
+<div class="line">(default) no_of_factors=3</div>
+</div>
+<div class="line-block">
+<div class="line">By default, the common gene latent dimension space uses an integrated NMF approach to learn a gene-by-factor submatrix from both modalities.</div>
+<div class="line">If this value is false, then it uses an ordinary NMF approach to learn a gene by factor submatrix only from scRNAseq data.</div>
+<div class="line">(default) iNMFmode=True</div>
+</div>
+<div class="line-block">
+<div class="line">The initial range of regularization parameters used in the ridge regression step to find the best-regularized parameter</div>
+<div class="line">(default) lambda_c=list(np.power(2.0, np.arange(-10, 10)))</div>
+</div>
+<div class="line-block">
+<div class="line">Do you want to perform the shap analysis</div>
+<div class="line">shap_analysis=False</div>
+</div>
+<div class="line-block">
+<div class="line">Shap analysis cutoff parameter</div>
+<div class="line">shap_cluster_cutoff=0.5</div>
+</div>
+<div class="line-block">
+<div class="line">This cutoff is used to make the list of significant celltype_factor-celltype_factor niche interactions whose absolute regression coefficient is greater than this</div>
+<div class="line">coeff_cutoff_for_rid_reg=0</div>
+</div>
+<div class="line-block">
+<div class="line">This cutoff is used to know the positive niche interactions (cell type -cell type). When it is &gt;0, then cell type - cell type likely to interact with each other</div>
+<div class="line">logistic_coef_cutoff=0</div>
+</div>
+<div class="line-block">
+<div class="line">Used to find the percentage of the cell population that expressed a given gene in a given cell type. Value 0 is acceptable with count data.</div>
+<div class="line">cutoff_to_count_exp_cell_population=0</div>
+</div>
+<p>Outputs:</p>
+<div class="line-block">
+<div class="line">The output of covariations in the interacted niche</div>
+<div class="line">(default) niche_prediction_dir=./spatial_ct_ct_interactions/covariations_R*_F*</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.makePCneighboorhoodFeatureMatrix">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">makePCneighboorhoodFeatureMatrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#makePCneighboorhoodFeatureMatrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.makePCneighboorhoodFeatureMatrix" title="Link to this definition"></a></dt>
+<dd><p>Helper function in gene_covariation_analysis to find the weighted neighborhood
+average of cell types from the spatial factors.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.make_excel_sheet_for_gene_correlation">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">make_excel_sheet_for_gene_correlation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#make_excel_sheet_for_gene_correlation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.make_excel_sheet_for_gene_correlation" title="Link to this definition"></a></dt>
+<dd><p>This function create the excel sheet for all compiled genes related to factors across different cell types.</p>
+<p>This organization facilitates a more structured and accessible
+representation of gene factors association in the cell types.</p>
+<p>These sheets were categorized to accommodate various types of information, including average gene
+expression (‘avg gene exp’ sheet), Spearman correlation values
+for different factors within scRNASeq data (‘spearman scRNAseq Fa(i)’ sheets),
+cosine similarity values within scRNASeq data (‘cosine scRNAseq Fa(i)’ sheet),
+as well as a subset of genes unique to spatial data (‘spearman spatial Fa(i)’and
+‘cosine spatial Fa(i)’ sheets).</p>
+<div class="line-block">
+<div class="line">In these sheet names, ‘i’ corresponds to the factor ID.</div>
+<div class="line">As columns are traversed within each sheet, factors representing various cell types are presented.</div>
+<div class="line">These genes in factors are sorted based on their factor ID present in the sheet name.</div>
+<div class="line">To enhance clarity and insight, we employed a color coding scheme that distinguishes genes as ligands (depicted in blue), receptors (in red), or both ligand and receptor functions (in magenta).</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.model_linear_regression">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">model_linear_regression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logistic_predicted_interactions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#model_linear_regression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.model_linear_regression" title="Link to this definition"></a></dt>
+<dd><p>Helper function for gene_covariation_analysis that prepare data Y(central cell factors) and X (neighborhood avg spatial cell factors) for each celltype to perform regression.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.multiplicative_method">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">multiplicative_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">W</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iter</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#multiplicative_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.multiplicative_method" title="Link to this definition"></a></dt>
+<dd><p>Helper function used in find_PC_of_invidualCluster_in_SC to perform the
+conventional NMF.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.pathway_analysis">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">pathway_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NOG_pathway</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choose_factors_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation_with_spearman</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savefigure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">positively_correlated</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rps_rpl_mt_genes_included</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choose_celltypes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">circlesize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pathwayCutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pathwayorganism</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Mouse'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['GO_Biological_Process_2021',</span> <span class="pre">'BioPlanet_2019',</span> <span class="pre">'Reactome_2016']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#pathway_analysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.pathway_analysis" title="Link to this definition"></a></dt>
+<dd><p>Inputs:</p>
+<p>The main input is the output from gene_covariation_analysis.</p>
+<div class="line-block">
+<div class="line">Number of genes associated with NMF factors to search in the pathway database. If you don’t observe any pathway, then increase the number of genes and try with 100 or 200 or try with different databases.</div>
+<div class="line">(default) NOG_pathway=50</div>
+</div>
+<div class="line-block">
+<div class="line">Define the factors id via the list you want to visualize in the pathway.</div>
+<div class="line">choose_factors_id=[]</div>
+<div class="line">If the list is Null, then pathway will be saved for all the factors.</div>
+</div>
+<div class="line-block">
+<div class="line">The cell type that you want to analyze via the pathway Enrichr library.</div>
+<div class="line">(default) choose_celltypes=[]</div>
+<div class="line">If the list is empty, the output will show for all the cell types.</div>
+</div>
+<div class="line-block">
+<div class="line">If True, visualize genes factor correlation with Spearman; otherwise, If False, then cosine.</div>
+<div class="line">(default) correlation_with_spearman=True</div>
+</div>
+<div class="line-block">
+<div class="line">If the genes factor association is chosen as Spearman correlation, the belonging genes can be selected as either positively correlated (True) or negatively correlated (False).</div>
+<div class="line">(default) positively_correlated=True</div>
+</div>
+<div class="line-block">
+<div class="line">For pathway analysis, decide whether to include rps, rpl, and mt genes. If “ True, “ they are included; otherwise, “ No. “</div>
+<div class="line">(default) rps_rpl_mt_genes_included=True</div>
+</div>
+<div class="line-block">
+<div class="line">The gseapy parameter to find the pathway-enriched library from the top gene list from each factor of a given cell type</div>
+<div class="line">(default) pathwayCutoff=0.5</div>
+</div>
+<div class="line-block">
+<div class="line">Organisms used in the gseapy package</div>
+<div class="line">(default) pathwayorganism=’Mouse’</div>
+</div>
+<div class="line-block">
+<div class="line">The database used in the gseapy package for pathway analysis. The default uses all three databases. For other non-mentioned databases, please follow the GSEApy tutorial.</div>
+<div class="line">(default) database=[‘GO_Biological_Process_2021’,’BioPlanet_2019’,’Reactome_2016’]</div>
+<div class="line">If you are interested in knowing what other database is available, then you can check for these species ‘Human,’ ‘Mouse,’ ‘Yeast,’ ‘Fly,’ ‘Fish,’ and ‘Worm’ in the following way:</div>
+<div class="line">&gt;&gt;&gt; import gseapy as gp</div>
+<div class="line">&gt;&gt;&gt; mouse = gp.get_library_name(organism=’Mouse’)</div>
+<div class="line">&gt;&gt;&gt; human = gp.get_library_name(organism=’Human’)</div>
+</div>
+<div class="line-block">
+<div class="line">The cell type that you want to see the covariation regression pattern</div>
+<div class="line">(default) choose_celltypes=[]</div>
+<div class="line">If the list is empty, the output will show for all the cell types.</div>
+</div>
+<div class="line-block">
+<div class="line">Save the figures in PDF or PNG format (dpi for PNG format is 300)</div>
+<div class="line">(default) saveas=’pdf’</div>
+</div>
+<div class="line-block">
+<div class="line">The size of the point in the pathway figure. Increase if the dots are too small.</div>
+<div class="line">(default) circlesize=12</div>
+</div>
+<p>Outputs:</p>
+<div class="line-block">
+<div class="line">The pathways figures are saved in “./spatial_ct_ct_interactions/covariations_R*_F*/Pathway_figures/”</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.plot_all_ct">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">plot_all_ct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">CTname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cellsinCT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mycelltype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Fa</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msna</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#plot_all_ct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.plot_all_ct" title="Link to this definition"></a></dt>
+<dd><p>Helper function used in visualizing factors value in the umap.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.plot_cosine_and_spearman_correlation_to_factors">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">plot_cosine_and_spearman_correlation_to_factors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choose_celltypes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NOG_Fa</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparent_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(15,</span> <span class="pre">10)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#plot_cosine_and_spearman_correlation_to_factors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.plot_cosine_and_spearman_correlation_to_factors" title="Link to this definition"></a></dt>
+<dd><p>Inputs:</p>
+<p>The main input is the output from gene_covariation_analysis.</p>
+<div class="line-block">
+<div class="line">The cell type that you want to see the covariation regression pattern.</div>
+<div class="line">(default) choose_celltypes=[]</div>
+<div class="line">If the list is empty, then the output will show for all the cell types.</div>
+</div>
+<div class="line-block">
+<div class="line">Number of genes to visualize in each factor</div>
+<div class="line">(default) NOG_Fa=30</div>
+</div>
+<div class="line-block">
+<div class="line">Save the figures in PDF or PNG format (dpi for PNG format is 300)</div>
+<div class="line">(default) saveas=’pdf’</div>
+</div>
+<div class="line-block">
+<div class="line">Dimension of the figure size</div>
+<div class="line">(default) figsize=(15,10)</div>
+</div>
+<div class="line-block">
+<div class="line">Background color in the figures</div>
+<div class="line">(default) transparent_mode=False</div>
+</div>
+<p>Outputs:</p>
+<div class="line-block">
+<div class="line">The output NMF plots are saved in ./spatial_ct_ct_interactions/covariations_R*_F*/NMF_output</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.plot_feature_matrices">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">plot_feature_matrices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparent_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(10,</span> <span class="pre">10)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#plot_feature_matrices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.plot_feature_matrices" title="Link to this definition"></a></dt>
+<dd><p>Plots features vectors of the spatial factors from the regression step.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.plot_ligand_receptor_in_interacting_celltypes">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">plot_ligand_receptor_in_interacting_celltypes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">CC_celltype_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NC_celltype_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logRegScore</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pc1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pc2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ridgeRegScore</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pvalue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Found1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Found2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveLRplots</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LR_plot_Exp_thres</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparent_mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flag</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#plot_ligand_receptor_in_interacting_celltypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.plot_ligand_receptor_in_interacting_celltypes" title="Link to this definition"></a></dt>
+<dd><p>Helper function used in find_LR_interactions_in_interacting_cell_types to plot the rectangle p-value figures.</p>
+<p>The Y-axis shows the central cell type factors, and the X-axis shows the neighborhood cell type factors.</p>
+<p>The circle size denotes the p-values. The large circle size is the most significant, and the smaller circle size is the least significant.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.plot_significant_regression_covariations_as_circleplot">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">plot_significant_regression_covariations_as_circleplot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choose_celltypes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pvalue_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mention_pvalue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparent_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(6,</span> <span class="pre">1.25)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#plot_significant_regression_covariations_as_circleplot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.plot_significant_regression_covariations_as_circleplot" title="Link to this definition"></a></dt>
+<dd><p>Inputs:</p>
+<div class="line-block">
+<div class="line">The main input is the output from gene_covariation_analysis.</div>
+</div>
+<div class="line-block">
+<div class="line">The cell type that you want to see the covariation regression pattern.</div>
+<div class="line">(default) choose_celltypes=[]</div>
+<div class="line">If the list is empty, then the output will show for all the cell types.</div>
+</div>
+<div class="line-block">
+<div class="line">The pvalue cutoff used to print the -log10(pvalue) on the top of circle.</div>
+<div class="line">(default) pvalueCutoff=0.05</div>
+</div>
+<div class="line-block">
+<div class="line">Whether to mention the p-value on top of the circle plot. If false, then it would not show.</div>
+<div class="line">(default) mention_pvalue=True</div>
+</div>
+<div class="line-block">
+<div class="line">Save the figures in PDF or PNG format (dpi for PNG format is 300)</div>
+<div class="line">(default) saveas=’pdf’</div>
+</div>
+<div class="line-block">
+<div class="line">Background color in the figures</div>
+<div class="line">(default) transparent_mode=False</div>
+</div>
+<div class="line-block">
+<div class="line">Dimension of the figure size</div>
+<div class="line">(default) figsize=(6,1.25)</div>
+</div>
+<p>Outputs:</p>
+<div class="line-block">
+<div class="line">The regression figures are saved in ./spatial_ct_ct_interactions/covariations_R*_F*/Regression_outputs/</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.plot_significant_regression_covariations_as_heatmap">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">plot_significant_regression_covariations_as_heatmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choose_celltypes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparent_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(6,</span> <span class="pre">10)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#plot_significant_regression_covariations_as_heatmap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.plot_significant_regression_covariations_as_heatmap" title="Link to this definition"></a></dt>
+<dd><p>Inputs:</p>
+<div class="line-block">
+<div class="line">The main input is the output from gene_covariation_analysis.</div>
+</div>
+<div class="line-block">
+<div class="line">The cell type that you want to see the covariation regression pattern.</div>
+<div class="line">(default) choose_celltypes=[]</div>
+<div class="line">If the list is empty, then the output will show for all the cell types.</div>
+</div>
+<div class="line-block">
+<div class="line">Save the figures in PDF or PNG format (dpi for PNG format is 300)</div>
+<div class="line">(default) saveas=’pdf’</div>
+</div>
+<div class="line-block">
+<div class="line">Background color in the figures</div>
+<div class="line">(default) transparent_mode=False</div>
+</div>
+<div class="line-block">
+<div class="line">Dimension of the figure size</div>
+<div class="line">(default) figsize=(6,1.25)</div>
+</div>
+<p>Outputs:</p>
+<div class="line-block">
+<div class="line">The regression figures are saved in ./spatial_ct_ct_interactions/covariations_R*_F*/Regression_outputs/</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.plot_top_selected_genes_for_all_factors_from_chosen_celltype">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">plot_top_selected_genes_for_all_factors_from_chosen_celltype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choose_celltypes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_NOG</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rps_rpl_mt_genes_included</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation_with_spearman</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparent_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(12,</span> <span class="pre">10)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#plot_top_selected_genes_for_all_factors_from_chosen_celltype"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.plot_top_selected_genes_for_all_factors_from_chosen_celltype" title="Link to this definition"></a></dt>
+<dd><p>Inputs:</p>
+<p>The main input is the output from gene_covariation_analysis.</p>
+<div class="line-block">
+<div class="line">Number of genes to visualize</div>
+<div class="line">(default) top_NOG=20</div>
+</div>
+<div class="line-block">
+<div class="line">If True, visualize genes factor correlation with Spearman; otherwise, If False, then cosine.</div>
+<div class="line">(default) correlation_with_spearman=True</div>
+</div>
+<div class="line-block">
+<div class="line">For pathway analysis, decide whether to include rps, rpl, and mt genes. If “ True, “ they are included; otherwise, “ No. “</div>
+<div class="line">(default) rps_rpl_mt_genes_included=True</div>
+</div>
+<div class="line-block">
+<div class="line">The cell type that you want to see the covariation regression pattern</div>
+<div class="line">(default) choose_celltypes=[]</div>
+<div class="line">If the list is empty, the output will show for all the cell types.</div>
+</div>
+<div class="line-block">
+<div class="line">Save the figures in PDF or PNG format (dpi for PNG format is 300)</div>
+<div class="line">(default) saveas=’pdf’</div>
+</div>
+<div class="line-block">
+<div class="line">Background color in the figures</div>
+<div class="line">(default) transparent_mode=False</div>
+</div>
+<div class="line-block">
+<div class="line">Dimension of the figure size.</div>
+<div class="line">(default) figsize=(12,10)</div>
+</div>
+<p>Outputs:</p>
+<div class="line-block">
+<div class="line">The gene visualization figures are saved in ./spatial_ct_ct_interactions/covariations_R*_F*/dotplots/*</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.read_LigRecDb">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">read_LigRecDb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contdb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#read_LigRecDb"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.read_LigRecDb" title="Link to this definition"></a></dt>
+<dd><p>Read the ligand-receptor database file. The first column is the ligand pair, and the second is the receptor pair.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.read_spatial_data">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">read_spatial_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clusterFilename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">celltypeFilename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#read_spatial_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.read_spatial_data" title="Link to this definition"></a></dt>
+<dd><p>Helper function for gene_covariation_analysis to read the clusters information.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.remove_extra_character_from_name">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">remove_extra_character_from_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#remove_extra_character_from_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.remove_extra_character_from_name" title="Link to this definition"></a></dt>
+<dd><p>This function remove the special characters from the cell type names so it should not throw error while saving the figures.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.run_ridge_regression">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">run_ridge_regression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveoutname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylabelname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neighborhoodClass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shap_cluster_cutoff</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#run_ridge_regression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.run_ridge_regression" title="Link to this definition"></a></dt>
+<dd><p>Helper function for model_linear_regression to perform the ridge regression per cell type.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.save_LR_interactions_in_excelsheet_and_regression_summary_in_textfile_for_interacting_cell_types">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">save_LR_interactions_in_excelsheet_and_regression_summary_in_textfile_for_interacting_cell_types</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pvalueCutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation_with_spearman</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LR_plot_NMF_Fa_thres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LR_plot_Exp_thres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_top_genes_to_print</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#save_LR_interactions_in_excelsheet_and_regression_summary_in_textfile_for_interacting_cell_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.save_LR_interactions_in_excelsheet_and_regression_summary_in_textfile_for_interacting_cell_types" title="Link to this definition"></a></dt>
+<dd><p>Inputs:</p>
+<div class="line-block">
+<div class="line">The main input is the output from gene_covariation_analysis.</div>
+</div>
+<div class="line-block">
+<div class="line">The cutoff used to find the significant central cell type factor and niche cell type factor interactions</div>
+<div class="line">(default) pvalueCutoff=0.05</div>
+</div>
+<div class="line-block">
+<div class="line">The number of top correlating genes to print in regression summary text file.</div>
+<div class="line">(default) number_of_top_genes_to_print=20</div>
+</div>
+<div class="line-block">
+<div class="line">If True, visualize genes factor correlation with Spearman; otherwise, If False, then cosine.</div>
+<div class="line">(default) correlation_with_spearman=True</div>
+</div>
+<div class="line-block">
+<div class="line">Ligand Receptor analysis uses factor cutoff to find the enriched LR pairs</div>
+<div class="line">(default) LR_plot_NMF_Fa_thres=0.2</div>
+</div>
+<div class="line-block">
+<div class="line">Ligand Receptor analysis uses % expressed cell population cutoff to find the enriched LR pairs.</div>
+<div class="line">(default) LR_plot_Exp_thres=0.2</div>
+</div>
+<p>Outputs:</p>
+<div class="line-block">
+<div class="line">The Ligand receptors plots are also saved in an Excel sheet for easy access to this information.</div>
+<div class="line">In the sheet, columns are structured as follows:</div>
+<div class="line">column 1st denotes the ID of the cell type-cell type interaction,</div>
+<div class="line">2nd and 3rd columns identify the interacting cell types A and B,</div>
+<div class="line">4th column contains the normalized colocalized scores from the classifier,</div>
+<div class="line">5th and 6th represent the NMF factor IDs (metagenes) in cell types A and B,</div>
+<div class="line">7th column displays the ridge regression coefficient of the factors’ interaction,</div>
+<div class="line">8th column contains the ligand in cell type A,</div>
+<div class="line">9th column holds the receptor in cell type B,</div>
+<div class="line">10th and 11th exhibit the Pearson correlation of ligand and receptor genes, respectively, in cell types A and B, corresponding to the factors.</div>
+<div class="line">12th and 13th showcase the average expression of ligands and receptors in cell types A and B</div>
+<div class="line">14th and 15th reveal the population of cells expressing these genes with counts greater than zero in cell types A and B.</div>
+</div>
+<div class="line-block">
+<div class="line">The regression summary text mentioned the central cell type factor as (CC-Fa(i)), niche cell type factor as (NC-Fa(j))</div>
+<div class="line">The first-row information is as follows: CC-Fa(i), CC (cell type),niche_score (from classifier), NC-Fa*, NC (cell type), RegCoeff (covariation score), p-value in normal scale, p-value in -log10 scale</div>
+<div class="line">The second row inforamtion contains: Top 20 (number_of_top_genes_to_print) genes from Fa(i) of central cell type. Genes and their factor ID are mentioned in the pair.</div>
+<div class="line">The third row inforamtion contains: Top 20 (number_of_top_genes_to_print) genes from Fa(j) of niche cell type. Genes and their factor ID are mentioned in the pair.</div>
+</div>
+<div class="line-block">
+<div class="line">Our analysis accounts for bidirectional cellular crosstalk interactions of ligands and receptors in cell types A and B.</div>
+<div class="line">It means, in one way, it assumes a ligand diffused from cell type A, and the receptor is detected in cell type B,</div>
+<div class="line">while in another way, it assumes a ligand is diffusing from cell type B, and the receptor is detected in cell type A.</div>
+<div class="line">Both ligand-receptor plot and sheet show the bidirectional cellular crosstalk interaction of ligand and receptor in cell types A and B.</div>
+<div class="line">Each central cell type is represented in a separate Excel sheet, while the LR enrichment sheet aggregates all interactions across central cell types.</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.sort_index_in_right_order">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">sort_index_in_right_order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">correct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wrong</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#sort_index_in_right_order"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.sort_index_in_right_order" title="Link to this definition"></a></dt>
+<dd><p>Helper function used in visualize cell type annotations.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.sorting_of_factors_for_showing_the_value_in_excelsheet">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">sorting_of_factors_for_showing_the_value_in_excelsheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">CC_corr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_of_pc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gene</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">genenames</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#sorting_of_factors_for_showing_the_value_in_excelsheet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.sorting_of_factors_for_showing_the_value_in_excelsheet" title="Link to this definition"></a></dt>
+<dd><p>Helper function for make_excel_sheet_for_gene_correlation to sorting the factors value.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.top_genes_in_correlation_list_without">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">top_genes_in_correlation_list_without</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">genename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corr_NMFfactors_genes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_top_words</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#top_genes_in_correlation_list_without"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.top_genes_in_correlation_list_without" title="Link to this definition"></a></dt>
+<dd><p>Helper function for sorting the factors values in plot_cosine_and_spearman_correlation_to_factors.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.triangulation_for_triheatmap">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">triangulation_for_triheatmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">M</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#triangulation_for_triheatmap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.triangulation_for_triheatmap" title="Link to this definition"></a></dt>
+<dd><p>Helper function for plotting ligand receptor map in plot_ligand_receptor_in_interacting_celltypes.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.visualize_factors_in_scRNAseq_umap">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">visualize_factors_in_scRNAseq_umap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choose_interacting_celltype_pair</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visualize_factors_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refpath='./inputRef/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_original_counts='Original_counts.h5ad'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msna=0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ms=5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap=&lt;matplotlib.colors.LinearSegmentedColormap</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas='pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparent_mode=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showit=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize=(8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">3.5)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#visualize_factors_in_scRNAseq_umap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.visualize_factors_in_scRNAseq_umap" title="Link to this definition"></a></dt>
+<dd><p>Inputs:</p>
+<div class="line-block">
+<div class="line">The primary input is the output from gene_covariation_analysis.</div>
+</div>
+<div class="line-block">
+<div class="line">Define the cell type pairs via the list you want to visualize. The first is the central cell type, and the second is the niche cell type.</div>
+<div class="line">choose_interacting_celltype_pair=[‘?’]</div>
+</div>
+<div class="line-block">
+<div class="line">Define the factors id via the list you want to visualize in the umap. The first is the factor ID of the central cell type, and the second is the factor ID of the niche cell type.</div>
+<div class="line">visualize_factors_id=[‘?’]</div>
+</div>
+<div class="line-block">
+<div class="line">Reference scRNAseq count matrix in scTransform-like normalization in the common gene space. The filename must be sct_singleCell.h5ad</div>
+<div class="line">(default) refpath=’./inputRef/’</div>
+</div>
+<div class="line-block">
+<div class="line">Original count data of scRNAseq in h5ad format</div>
+<div class="line">(default) ref_original_counts=’Original_counts.h5ad’</div>
+<div class="line">Must have the umap information in .obsm[‘X_umap’]</div>
+</div>
+<div class="line-block">
+<div class="line">The marker size of chosen and NA cell types</div>
+<div class="line">(default) ms=5  (chosen)</div>
+<div class="line">(default) msna=0.1 (NA)</div>
+</div>
+<div class="line-block">
+<div class="line">Save the figures in PDF or PNG format (dpi for PNG format is 300)</div>
+<div class="line">(default) saveas=’pdf’</div>
+</div>
+<div class="line-block">
+<div class="line">Define the colormap for visualizing factors</div>
+<div class="line">(default) cmap=plt.cm.get_cmap(‘Spectral’)</div>
+</div>
+<div class="line-block">
+<div class="line">Background color in the figures</div>
+<div class="line">(default) transparent_mode=False</div>
+</div>
+<div class="line-block">
+<div class="line">Dimension of the figure size.</div>
+<div class="line">(default) figsize=(8,3.5)</div>
+</div>
+<p>Outputs:</p>
+<div class="line-block">
+<div class="line">The factor visualization in scRNAseq figure is saved in “./spatial_ct_ct_interactions/covariations_R*_F*/scRNAseq_factors_in_umap.”</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_covariations.Covariations.visualize_factors_in_spatial_umap">
+<span class="sig-prename descclassname"><span class="pre">nico_covariations.Covariations.</span></span><span class="sig-name descname"><span class="pre">visualize_factors_in_spatial_umap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choose_interacting_celltype_pair</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visualize_factors_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quepath='./inputQuery/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msna=0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ms=5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap=&lt;matplotlib.colors.LinearSegmentedColormap</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas='pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparent_mode=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showit=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize=(8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">3.5)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_covariations/Covariations.html#visualize_factors_in_spatial_umap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_covariations.Covariations.visualize_factors_in_spatial_umap" title="Link to this definition"></a></dt>
+<dd><p>Inputs:</p>
+<div class="line-block">
+<div class="line">The primary input is the output from gene_covariation_analysis.</div>
+</div>
+<div class="line-block">
+<div class="line">Define the cell type pairs via the list you want to visualize. The first is the central cell type, and the second is the niche cell type.</div>
+<div class="line">choose_interacting_celltype_pair=[‘?’]</div>
+</div>
+<div class="line-block">
+<div class="line">Define the factors id via the list you want to visualize in the umap. The first is the factor ID of the central cell type, and the second is the factor ID of the niche cell type.</div>
+<div class="line">visualize_factors_id=[‘?’]</div>
+</div>
+<div class="line-block">
+<div class="line">Queried spatial count matrix in scTransform-like normalization in the common gene space. The filename should be sct_spatial.h5ad</div>
+<div class="line">(default) quepath=’./inputQuery/’</div>
+<div class="line">Must have the umap information in .obsm[‘X_umap’]</div>
+</div>
+<div class="line-block">
+<div class="line">The marker size of chosen and NA cell types</div>
+<div class="line">(default) ms=5  (chosen)</div>
+<div class="line">(default) msna=0.1 (NA)</div>
+</div>
+<div class="line-block">
+<div class="line">Define the colormap for visualizing factors</div>
+<div class="line">(default) cmap=plt.cm.get_cmap(‘Spectral’)</div>
+</div>
+<div class="line-block">
+<div class="line">Save the figures in PDF or PNG format (dpi for PNG format is 300)</div>
+<div class="line">(default) saveas=’pdf’</div>
+</div>
+<div class="line-block">
+<div class="line">Background color in the figures</div>
+<div class="line">(default) transparent_mode=False</div>
+</div>
+<div class="line-block">
+<div class="line">Dimension of the figure size.</div>
+<div class="line">(default) figsize=(8,3.5)</div>
+</div>
+<p>Output:</p>
+<p>The output figure will be saved in spatial_ct_ct_interactions/covariations_R*_F*/spatial_factors_in_umap*</p>
+</dd></dl>
+
+</section>
+<section id="module-nico_covariations">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-nico_covariations" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="nico_annotations.utils.html" class="btn btn-neutral float-left" title="nico_annotations.utils package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="nico_covariations.utils.html" class="btn btn-neutral float-right" title="nico_covariations.utils package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Grün lab.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
