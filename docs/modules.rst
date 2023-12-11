@@ -1,5 +1,5 @@
-src
-===
+NiCo_Documentation
+==================
 
 .. toctree::
    :maxdepth: 4
