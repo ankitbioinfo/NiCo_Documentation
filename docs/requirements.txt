@@ -9,3 +9,13 @@ sphinxcontrib-htmlhelp==2.0.4
 sphinxcontrib-jsmath==1.0.1
 sphinxcontrib-qthelp==1.0.6
 sphinxcontrib-serializinghtml==1.1.9
+scanpy==1.9.6
+seaborn==0.12.2
+scipy==1.11.3
+matplotlib==3.7.3
+numpy==1.26.1
+gseapy==1.0.6
+xlsxwriter==3.1.9
+pydot==1.4.2
+KDEpy==1.1.8
+leidenalg
