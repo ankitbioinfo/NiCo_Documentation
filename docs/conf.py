@@ -29,4 +29,13 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'sphinx_rtd_theme'
+html_theme_options = {
+    'logo_only': True,
+    'collapse_navigation': True,
+    'sticky_navigation': True,
+    'includehidden':True,
+    'navigation_depth':3,
+    'titles_only':False,
+}
 html_static_path = ['_static']
+html_logo = "_static/nico-logo.png"

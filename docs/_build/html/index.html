@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to NiCo’s documentation! &mdash; NiCo 1.0.0 documentation</title>
+  <title>NiCo: Niche analysis of single-cell resolution of spatial cells &mdash; NiCo 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
@@ -32,8 +32,9 @@
 
           
           
-          <a href="#" class="icon icon-home">
-            NiCo
+          <a href="#">
+            
+              <img src="_static/nico-logo.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -62,7 +63,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Welcome to NiCo’s documentation!</li>
+      <li class="breadcrumb-item active">NiCo: Niche analysis of single-cell resolution of spatial cells</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -72,16 +73,79 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="welcome-to-nico-s-documentation">
-<h1>Welcome to NiCo’s documentation!<a class="headerlink" href="#welcome-to-nico-s-documentation" title="Link to this heading"></a></h1>
+  <section id="nico-niche-analysis-of-single-cell-resolution-of-spatial-cells">
+<h1>NiCo: Niche analysis of single-cell resolution of spatial cells<a class="headerlink" href="#nico-niche-analysis-of-single-cell-resolution-of-spatial-cells" title="Link to this heading"></a></h1>
+<figure class="align-center" id="id1">
+<img alt="NiCo spatial analysis" src="_images/Figure1.png" />
+<figcaption>
+<p><span class="caption-text">Infer cellular crosstalk from imaging-based spatial transcriptomics and scRNAseq data</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>The Niche Covariation (NiCo) package is developed for the integration of single-cell resolution of
+spatial transcriptomics and scRNA-seq data to perform the annotations in the spatial cells using the
+label transfer, predict the niche cell type interactions using the neighborhood, and find the covariation
+relationship in the niche using the latent factors of both modalities. The genes in the latent factors
+are used to find the ligand-receptor and pathway analysis.</p>
+</section>
+<section id="highlights-of-nico">
+<h1>Highlights of NiCo<a class="headerlink" href="#highlights-of-nico" title="Link to this heading"></a></h1>
+<ol class="arabic simple">
+<li><p>Annotations of spatial cells using label transfer</p></li>
+<li><p>Prediction of niche using neighborhood analysis</p></li>
+<li><p>Covariation analysis of the interacted niche in the latent factors</p></li>
+<li><p>Ligand-receptor analysis in the latent factors</p></li>
+<li><p>Pathway analysis in the latent factors</p></li>
+</ol>
+</section>
+<section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please install using following commands:</p>
+<div class="line-block">
+<div class="line">conda create -n nicoUser python=3.11</div>
+<div class="line">conda activate nicoUser</div>
+<div class="line">pip install nico-sc-sp</div>
+<div class="line">pip install jupyterlab</div>
+</div>
+</div>
+<p>For more details, follow the python package index guidelines from <a class="reference external" href="https://pypi.org/project/nico-sc-sp/">nico-sc-sp pypi</a></p>
+</section>
+<section id="tutorials">
+<h1>Tutorials<a class="headerlink" href="#tutorials" title="Link to this heading"></a></h1>
+<p>Please prepare the scRNAseq count data, cell type annotation cluster, spatial count data, and spatial
+cell coordinates files to run the complete NiCo tutorials.
+<a class="reference external" href="https://github.com/ankitbioinfo/nico_tutorial">Nico tutorials are available here</a></p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">NiCo_Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="nico_annotations.html">nico_annotations package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nico_covariations.html">nico_covariations package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nico_interactions.html">nico_interactions package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html">utils package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nico_annotations.html">nico_annotations package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nico_annotations.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nico_annotations.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nico_annotations.html#module-nico_annotations.Annotations">nico_annotations.Annotations module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nico_annotations.html#module-nico_annotations">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nico_covariations.html">nico_covariations package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nico_covariations.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nico_covariations.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nico_covariations.html#module-nico_covariations.Covariations">nico_covariations.Covariations module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nico_covariations.html#module-nico_covariations">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nico_interactions.html">nico_interactions package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nico_interactions.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nico_interactions.html#module-nico_interactions.Interactions">nico_interactions.Interactions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nico_interactions.html#module-nico_interactions">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">utils package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#module-utils.SCTransform">utils.SCTransform module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#module-utils">Module contents</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
