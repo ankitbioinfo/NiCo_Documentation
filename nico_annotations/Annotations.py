@@ -27,7 +27,7 @@ from SCTransform import SCTransform
 
 
 def create_directory(outputFolder):
-    "This function create empty directory."
+    "This function creates empty directory."
     answer=os.path.isdir(outputFolder)
     if answer==True:
         pass
@@ -58,7 +58,7 @@ def find_index(sp_genename,sc_genename):
 
 
 def find_match_index_in_dist(t1,t2,s1,s2,index_1,index_2):
-    "The helper function used find_mutual_nn to find the correct pairing of cell barcodes."
+    "The helper function used in find_mutual_nn to find the correct pairing of cell barcodes."
     for i in range(len(s1)):
         if s1[i]==index_1:
             p1=t1[i]
@@ -420,30 +420,30 @@ def visualize_spatial_anchored_cell_mapped_to_scRNAseq(input,saveas='pdf',transp
 def find_anchor_cells_between_ref_and_query(refpath='./inputRef/',quepath='./inputQuery/',neigh=50,no_of_pc=50,minkowski_order=2):
 
     """
-    **This function find all the anchored cells between queried and reference data.**
+    **This function finds all anchor cells between query and reference data.**
 
     Inputs:
 
-    | Reference path for scRNAseq. This directory should contain originial count matrix ('Original_counts.h5ad'), and scTransform-like normalization matrix in the common gene space ('sct_singleCell.h5ad').
+    | Path for reference scRNAseq data. This directory should contain originial count matrix ('Original_counts.h5ad'), and scTransform-like normalization matrix in the common gene space ('sct_singleCell.h5ad').
     | (default) refpath='./inputRef/'
 
-    | Queried path for single cell resolution of spatial data. This directory contains an expression matrix in scTransform-like normalization in the common gene space ('sct_spatial.h5ad').
+    | Query path for single cell resolution spatial transcriptomics data. This directory contains an expression matrix in scTransform-like normalization in the common gene space ('sct_spatial.h5ad').
     | (default) quepath='./inputQuery/'
 
-    | The K-nearest neighbor to find the anchored cells
+    | The number of K-nearest neighbors to find the anchor cells
     | (default) neigh=50
 
-    | The number of principal components used to transform normalized expression matrix into PCA space.
-    | This PCA-transformed matrix will be used to find the mutual nearest neighbor using the nearest neighbor distance.
+    | The number of principal components used to transform the normalized expression matrix into PCA space.
+    | This PCA-transformed matrix will be used to find the mutual nearest neighbor using a givene distance metric.
     | (default) no_of_pc=50
 
-    | Type of distance matrix: 2 means Euclidean distance, 1 means Manhattan distance
+    | Type of distance matrix: 2 Euclidean distance, 1 Manhattan distance
     | (default) minkowski_order=2
 
 
     Outputs:
 
-    | The output contains the mapping cell information between two modalities.
+    | The output contains the mapping of cell type information between two modalities.
 
     """
 
@@ -520,8 +520,8 @@ def delete_files(input):
 def nico_based_annotation(previous,ref_cluster_tag='cluster',across_spatial_clusters_dispersion_cutoff=0.15,guiding_spatial_cluster_resolution_tag='leiden0.5',
 number_of_iteration_to_perform_celltype_annotations=3,resolved_tie_issue_with_weighted_nearest_neighbor='No'):
     """
-    | **This is the primary function called by the user to perform the NiCo-based annotation in the spatial cells using the label transfer from scRNAseq data. The scRNAseq must have cell type information in the .obs[cluster] tag.**
-    | **This function finds the spatial cell type annotations based on the anchored cells. It chose the method either with the majority vote or weighted nearest distance from the spatial cell neighbors.**
+    | **This is the primary function called by the user to perform the NiCo-based annotation of the spatial cell transcriptomes by using label transfer from scRNAseq data. The scRNAseq reference data must have cell type information in the .obs[cluster] tag.**
+    | **This function finds the spatial cell type annotations based on the anchored cells. To iteratively annotate non-anchor cells, the method is optionally either executed with the majority vote or weighted votes according to the distances (in transformed gene expression space) of anchors within the neighborhood of non-anchors to be annotated.**
 
     | First, it reads the output of find_anchor_cells_between_ref_and_query, and then annotates based on the input arguments.
 
@@ -532,22 +532,22 @@ number_of_iteration_to_perform_celltype_annotations=3,resolved_tie_issue_with_we
     | The tag in reference h5ad file (Original_counts.h5ad) where cluster information is stored
     | (default) ref_cluster_tag='cluster'
 
-    | The guiding spatial Leiden cluster resolution, i.e., different resolution parameters of the Leiden cluster, should be stored in the queried file.
+    | The guiding spatial Leiden cluster resolution (clustering of spatial data used for anchor pruning), i.e., different resolution parameters of the Leiden cluster, should be stored in the queried file.
     | (default) guiding_spatial_cluster_resolution_tag='leiden0.5'
     | sct_spatial.h5ad file should have a different resolution of Leiden clustering to guide the NiCo annotation.
-    | It is good to have several Leiden clustering resolutions 0.3, 0.4, 0.5, 0.6, 0.7 and 0.8 that can be tagged with 'leiden0.3', 'leiden0.4', 'leiden0.5', 'leiden0.6', 'leiden0.7' and 'leiden0.8' in the adata.obs[].
+    | It is good to have several Leiden clustering resolutions, e.g, 0.3, 0.4, 0.5, 0.6, 0.7 and 0.8 that can be tagged with 'leiden0.3', 'leiden0.4', 'leiden0.5', 'leiden0.6', 'leiden0.7' and 'leiden0.8' in the adata.obs[].
 
 
-    | The cutoff used to remove the noisy anchors if anchored cells belong to any guiding spatial cluster with less than 0.15 fraction of the population
+    | The cutoff used to remove noisy anchors, if anchored cells belong to any guiding spatial cluster with a frquency (measured across all spatial clusters) lower than this cutoff
     | (default) across_spatial_clusters_dispersion_cutoff=0.15
 
-    | The number of iterations to perform the annotations
+    | The number of iterations to perform the annotations. Higher number of iterations annotates more cells, but confidence decreases with each iteration due to dilution of anchor information.
     | (default) number_of_iteration_to_perform_celltype_annotations=3
 
 
-    | Non-anchored cell uses their neighbors to find the proportion of cell types. The cell type having the highest proportion is assigned to this non-anchored cell.
-    | If the proportion occurs in a tie between two cell types, then 'No' statement is assigned to 'NM' (not mapped);
-    | otherwise, the 'Yes' statement uses the scheme inversely proportional to the distance
+    | Non-anchored cell are annotated based on cell type annotation of neighbors (either anchors or non-anchors annotated in the previous iteration). The cell type having the highest proportion among neighbors is assigned to this non-anchor cell.
+    | If the proportion occurs in a tie between two cell types, then 'No' statement results in assignment 'NM' (not mapped) to non-anchor cell;
+    | otherwise, 'Yes' statement results in utilization of the weighted average of cell type proportions for resolving the tie; weights are inversely proportional to the distance
     | to find the cell type that has the best weighted average score.
     | (default) resolved_tie_issue_with_weighted_nearest_neighbor='No'
 
@@ -556,7 +556,7 @@ number_of_iteration_to_perform_celltype_annotations=3,resolved_tie_issue_with_we
 
     | For each iteration, the annotation cluster file (_nico_annotation_cluster.csv) and cluster cell type name file (_nico_annotation_ct_name.csv) will be generated in the following directory.
     | (default) ./inputQuery/MNN_based_annotations/
-    | To find the niche cell type interactions in the spatial_neighborhood_analysis, we used the final iteration of the annotation.
+    | To find the niche cell type interactions in the spatial_neighborhood_analysis, we use the final iteration of the annotation.
 
     """
 
@@ -747,7 +747,7 @@ number_of_iteration_to_perform_celltype_annotations=3,resolved_tie_issue_with_we
 
 def read_dist_and_nodes_as_graph(knn_dist,knn_nodes):
     """
-    The helper function used in nico_based_annotation reads the edges information from k nearest neighbors data that convert into graph G, nodes, and degree.
+    The helper function used in nico_based_annotation reads the edges information from k nearest neighbors data and converts into graph G, nodes, and degree.
 
     """
 
@@ -897,7 +897,7 @@ def find_all_the_spatial_cells_mapped_to_single_cells(sc_ctype_id,sc_clusters,mn
     return sp_cell_identity
 
 def write_annotation(deg_annot_cluster_fname,deg_annot_ct_fname,unique_mapped,cellname):
-    "The helper function used in nico_based_annotation to generates each iteration's annotation cluster and cell type name CSV files."
+    "The helper function used in nico_based_annotation to generate each iteration's annotation cluster and cell type name CSV files."
     sc_ctype_name=[]
     d2={}
     for key in unique_mapped:
@@ -1082,7 +1082,7 @@ def resolved_confused_and_unmapped_mapping_of_cells_with_weighted_average_of_inv
 
 def resolved_confused_and_unmapped_mapping_of_cells_with_majority_vote(confused,G,all_mapped,unique_mapped,sp_leiden_barcode2cluid):
     """
-    This helper function is used for nico_based_annotation to annotate confused anchored and non-anchored spatial cells using a majority vote scheme from the neighbors.
+    This helper function is used for nico_based_annotation to annotate confused anchored and non-anchored spatial cells using a majority vote scheme across the neighbors.
     """
 
     for mainkey in confused:
@@ -1151,7 +1151,7 @@ cmap=plt.cm.get_cmap('jet'),saveas='pdf',transparent_mode=False,showit=True,figs
     | The position filename of cell coordinates
     | (default) positionFilename='./inputQuery/tissue_positions_list.csv'
 
-    | The number of iterations performed in the annotations
+    | The number of iterations performed for the annotations
     | (default) number_of_iteration_to_perform_celltype_annotations=3
 
     | Colormap used to color the cell types
@@ -1238,20 +1238,20 @@ cmap=plt.cm.get_cmap('jet'),saveas='pdf',transparent_mode=False,figsize=(8,3.5))
     """
     Inputs:
 
-    | Queried path for single-cell resolution of spatial data. This directory contains an expression matrix in scTransform-like normalization in the common gene space ('sct_spatial.h5ad').
+    | Query path for single-cell resolution spatial transcriptomics data. This directory contains an expression matrix in scTransform-like normalization in the common gene space ('sct_spatial.h5ad').
     | (default) quepath='./inputQuery/'
 
-    | The cell type pairs that you want to visualize as annotations
+    | The cell type pairs to visualize as annotations in spatial map
     | (default) choose_celltypes=[]
-    | If the list is empty, the output will show for each cell type independently.
+    | If the list is empty, the output will show annotation for each cell type independently.
 
     | The position filename of cell coordinates
     | (default) positionFilename='./inputQuery/tissue_positions_list.csv'
 
-    | The number of iterations performed in the annotations
+    | The number of iterations performed for the annotations
     | (default) number_of_iteration_to_perform_celltype_annotations=3
 
-    | The marker size of chosen and NA cell types
+    | The marker size of selected and non-selected (NA) cell types
     | (default) ms=0.5  (chosen)
     | (default) msna=0.1 (NA)
 
@@ -1408,7 +1408,7 @@ cmap=plt.cm.get_cmap('jet'),saveas='pdf',transparent_mode=False,figsize=(8,3.5))
 
 def remove_extra_character_from_name(name):
     """
-    This function remove the special characters from the cell type names so it should not throw error while saving the figures.
+    This function removes the special characters from the cell type names to avoid throwing an error while saving the figures.
     """
     name=name.replace('/','_')
     name=name.replace(' ','_')
@@ -1423,7 +1423,7 @@ def remove_extra_character_from_name(name):
 
 
 def plot_all_ct(CTname,PP,cellsinCT,ax,flag,cmap):
-    "Helper function used in visualizing cell type annotations to plot all cell types together."
+    "Helper function used for visualizing cell type annotations to plot all cell types together."
     #cmap=plt.cm.get_cmap('Spectral')
     #cmap=plt.cm.get_cmap('jet')
 
@@ -1441,7 +1441,7 @@ def plot_all_ct(CTname,PP,cellsinCT,ax,flag,cmap):
 
 
 def plot_specific_ct(CTname,PP,index,ax,cmap,ms,msna):
-    "Helper function used in visualizing cell type annotations to plot individual cell types."
+    "Helper function used for visualizing cell type annotations to plot individual cell types."
     cumsum=np.linspace(0,1,len(CTname))
     remaining_index=[]
     for i in range(len(PP)):
@@ -1460,7 +1460,7 @@ def plot_specific_ct(CTname,PP,index,ax,cmap,ms,msna):
         #ax.text(x,y,str(j),fontsize=12)
 
 def sort_index_in_right_order(correct,wrong):
-    "Helper function used in visualize cell type annotations."
+    "Helper function used to visualize cell type annotations."
     d={}
     for i in range(len(wrong)):
         d[wrong[i,0]]=i

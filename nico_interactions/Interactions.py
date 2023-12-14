@@ -53,7 +53,7 @@ os.environ["PYTHONWARNINGS"] = "ignore::UserWarning"
 
 
 def create_directory(outputFolder):
-    "This function create empty directory."
+    "This function creates empty directory."
     answer=os.path.isdir(outputFolder)
     if answer==True:
         pass
@@ -120,7 +120,7 @@ def findNeighbors_in_given_radius(location,radius):
 
 def find_neighbors(pindex, triang):
     """
-    The helper function is used in create_spatial_CT_feature_matrix to find the neighbors for each cell using the Delaunay.
+    The helper function is used in create_spatial_CT_feature_matrix to find the neighbors for each cell using the Delaunay triangulation.
     """
     return triang.vertex_neighbor_vertices[1][triang.vertex_neighbor_vertices[0][pindex]:triang.vertex_neighbor_vertices[0][pindex+1]]
 
@@ -230,7 +230,7 @@ def create_spatial_CT_feature_matrix(radius,PP,louvain,noct,fraction_CT,saveSpat
 
 
 def euclidean_dist(p1,p2):
-    "Calculated euclidean distance between two points in 2d/3d."
+    "Calculate euclidean distance between two points in 2d/3d."
     if len(p1)==2:
         value=np.sqrt((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2 )
     if len(p1)==3:
@@ -393,7 +393,7 @@ def reading_data(positionFilename,clusterFilename,celltypeFilename,saveSpatial,d
 
 def plot_multiclass_roc(clf, X_test, y_test, n_classes):
     """
-    Compute the ROC for each cell type prediction and its performance on the testing dataset.
+    Compute the ROC for each cell type prediction and its performance on the test dataset.
     """
     y_score = clf.decision_function(X_test)
     # structures
@@ -576,7 +576,7 @@ def plot_roc_results(input,nrows=4,ncols=4,saveas='pdf',showit=True,transparent_
 
     The primary input is the output from spatial_neighborhood_analysis.
 
-    | The top 16 cell types prediction is shown as an ROC curve. These 16 are plotted as four-by-four subplots
+    | The top 16 cell types predictions are shown as an ROC curve. These 16 are plotted as four-by-four subplots
     | (default) nrows=4, ncols=4
 
     | Save the figures in PDF or PNG format (dpi for PNG format is 300)
@@ -876,12 +876,12 @@ def find_interacting_cell_types(input,choose_celltypes=[],coeff_cutoff=20,saveas
 
     The main input is the output from spatial_neighborhood_analysis.
 
-    | The cell type that you want to see the covariation regression pattern.
+    | The cell type for which you would like to display the the regression coefficients indicating cell type interaction
     | (default) choose_celltypes=[]
-    | If the list is empty, then the output will show for all the cell types.
+    | If the list is empty, then the output will be shown for all cell types.
 
-    | The maximum number of neighborhood celltype showes in the X-axis of the figures for the central cell type
-    | If there are too many cell types then it avoid the crowding in the figure
+    | The maximum number of neighborhood cell types shown on the X-axis of the figures for each central cell type
+    | If there are too many interacting cell types, choosing a more stringet cutoff limits the display to the cell types with the largest positive or negative regression coefficients to avoid crowding of the figure
     | (default) coeff_cutoff=20
 
     | Save the figures in PDF or PNG format (dpi for PNG format is 300)
@@ -964,7 +964,7 @@ def find_interacting_cell_types(input,choose_celltypes=[],coeff_cutoff=20,saveas
                 #ax.set_ylabel('value of coeff.')
                 #ax.set_xlabel('name of the coeff.')
                 #titlename=nameOfCellType[goodPredictedCellType[k]]+', conf score = {0:.3f}'.format(a[goodPredictedCellType[k]]) +'$\pm$'+str('%0.3f'%b[goodPredictedCellType[k]])
-                titlename=nameOfCellType[goodPredictedCellType[k]]+', id = '+str(goodPredictedCellType[k])+', conf score = {0:.3f}'.format(a[goodPredictedCellType[k]]) +'$\pm$'+str('%0.3f'%b[goodPredictedCellType[k]])
+                titlename=nameOfCellType[goodPredictedCellType[k]]+', conf. score = {0:.3f}'.format(a[goodPredictedCellType[k]]) +'$\pm$'+str('%0.3f'%b[goodPredictedCellType[k]])
 
                 titlename=titlename.replace('_',' ')
                 ax.set_title(titlename,fontsize=7)
@@ -1025,7 +1025,7 @@ def plot_celltype_nich_prediction_from_neighborhood_all_together(cmn,coef,cmn_st
 
 def remove_extra_character_from_name(name):
     """
-    This function remove the special characters from the cell type names so it should not throw error while saving the figures.
+    This function removes special characters from the cell type names to avoid throwing an error while saving the figures.
     """
     name=name.replace('/','_')
     name=name.replace(' ','_')
@@ -1048,31 +1048,31 @@ removed_CTs_before_finding_CT_CT_interactions=['NM']):
 
 
         '''
-        **This is the primary function called by the user to perform spatial neighborhood analysis in the niche.**
+        **This is the primary function called by the user to perform spatial neighborhood analysis, i.e., reconstruction of the niche.**
 
-        **Before calling this function, the user must have an annotation of the spatial cell from any method.
-        This annotation should have two files, clusterFilename that contain cells and cluster-ID information.
-        And celltypeFilename that contains cluster-ID and cell type name information.**
+        **Before calling this function, the user must have an annotation of the spatial cell from any method. It can be obtained by NiCo's annotation module.
+        This annotation is expected to comprise two files, clusterFilename that contain cells and cluster-ID information,
+        and celltypeFilename that contains cluster-ID and cell type name information.**
 
         call spatial_neighborhood_analysis function from the interaction module.
         Perform spatial neighborhood analysis to find the niche interaction patterns.
 
         If the user wants to run for multiple radius parameters, then it is good practice to change the outputdir directory name or delete the previously created one.
 
-        If an average neighbor is relatively low (<1), increase the radius and then try to perform neighborhood analysis.
+        If the average number of neighbors is relatively low (<1), increase the radius to perform neighborhood analysis.
 
-        Every input CSV file (positionFilename,clusterFilename,celltypeFilename) must have the header information.
+        Every input CSV file (positionFilename,clusterFilename,celltypeFilename) must contain the header information.
 
         Inputs:
 
         | The position filename of cell coordinates
         | (default) positionFilename='./inputQuery/tissue_positions_list.csv'
 
-        | Please change follwing two filename location if you are using different annotation algorithm
-        | The cluster filename from Nico or any standard clustering method (cell barcode, cluster-ID)
+        | Please change the following two filenames (an paths) if you are using external cell type annotation
+        | The cluster partition filename from NiCo or any standard clustering method (cell barcode, cluster-ID)
         | (default) clusterFilename='./inputQuery/MNN_based_annotations/3_deg_annotation_spatial_cluster.csv'
 
-        | The annotated cell type filename from Nico or any standard clustering method (cluster-ID, cell type name)
+        | The cell type information filename from NiCo or any standard clustering method (cluster-ID, cell type name)
         | (default) celltypeFilename='./inputQuery/MNN_based_annotations/3_deg_annotation_spatial_ct_name.dat'
 
 
@@ -1081,9 +1081,8 @@ removed_CTs_before_finding_CT_CT_interactions=['NM']):
         | delimiter=','
 
         | Niche radius to predict the cell type-cell type interactions
-        | Radius 0 searches the juxtacrine signaling using the Delaunay triangulation, and
-        | the nonzero Radius value searches the paracrine signaling in a given radius to
-        | calculate the cell type neighborhood to find the niche interactions.
+        | Radius 0 focuses on direct spatial neighbors infered by Delaunay triangulation, and
+        | nonzero Radius extends the neighborhood to include all cells within a given radius for predicting niche interactions.
         | (default) Radius=0
 
         | Number of times to run the logistic regression after finding the hyperparameters
@@ -1098,10 +1097,10 @@ removed_CTs_before_finding_CT_CT_interactions=['NM']):
         | Number of used processors For details, see here https://scikit-learn.org/stable/glossary.html#term-n_jobs
         | n_jobs=-1
 
-        | The inverse of lambda regularization
+        | The initial range of the inverse regularization parameter used in the logistic regression to find the optimal parameter
         | (default) lambda_c_ranges=list(np.power(2.0, np.arange(-12, 12)))
 
-        | The following cell type would not be used in the neighborhood analysis to predict the niche interactions
+        | Exclude cell types from the niche interactions analysis
         | (default) removed_CTs_before_finding_CT_CT_interactions=['NM']
 
         Outputs:
