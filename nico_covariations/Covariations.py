@@ -873,12 +873,12 @@ LR_plot_NMF_Fa_thres=0.2, LR_plot_Exp_thres=0.2,number_of_top_genes_to_print=20)
      - An Excel sheet with ligand-receptor interaction information for easy access.
       The columns are structured as follows in the sheets:
 
-        1. ID of the cell type-cell type interaction
-        2. Interacting cell types A and B
-        4. Normalized interaction scores from the logistic regression classifier
-        5. NMF factor IDs (metagenes) in cell types A and B
-        7. Ridge regression coefficient indicating the factors’ covariation
-        8. Ligand in cell type A
+        -1. ID of the cell type-cell type interaction
+        -2. Interacting cell types A and B
+        -4. Normalized interaction scores from the logistic regression classifier
+        -5. NMF factor IDs (metagenes) in cell types A and B
+        -7. Ridge regression coefficient indicating the factors’ covariation
+        -8. Ligand in cell type A
         9. Receptor in cell type B
         10. Pearson correlation of ligand and receptor genes in cell types A and B with the corresponding factors
         12. Average expression of ligands and receptors in cell types A and B
