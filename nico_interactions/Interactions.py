@@ -62,7 +62,7 @@ def create_directory(outputFolder):
 
 def findNeighbors_in_given_radius(location,radius):
     """
-    The helper function is used in create_spatial_CT_feature_matrix to find the neighbors for each cell using the radius parameter.
+    The helper function is used in dfdfdfdfdfdfd fdfd dfd to find the neighbors for each cell using the radius parameter.
     """
     n=location.shape[0]
     #print('ss',location.shape)
