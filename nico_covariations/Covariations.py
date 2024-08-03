@@ -874,15 +874,15 @@ LR_plot_NMF_Fa_thres=0.2, LR_plot_Exp_thres=0.2,number_of_top_genes_to_print=20)
       The columns are structured as follows in the sheets:
 
         - 1. ID of the cell type-cell type interaction
-        2. Interacting cell types A and B
-        4. Normalized interaction scores from the logistic regression classifier
-        5. NMF factor IDs (metagenes) in cell types A and B
-        7. Ridge regression coefficient indicating the factors’ covariation
-        8. Ligand in cell type A
-        9. Receptor in cell type B
-        10. Pearson correlation of ligand and receptor genes in cell types A and B with the corresponding factors
-        12. Average expression of ligands and receptors in cell types A and B
-        14. Fraction of cells expressing these genes with counts greater than zero in cell types A and B
+        - 2-3. Interacting cell types A and B
+        - 4. Normalized interaction scores from the logistic regression classifier
+        - 5-6. NMF factor IDs (metagenes) in cell types A and B
+        - 7. Ridge regression coefficient indicating the factors’ covariation
+        - 8. Ligand in cell type A
+        - 9. Receptor in cell type B
+        - 10. Pearson correlation of ligand and receptor genes in cell types A and B with the corresponding factors
+        - 12. Average expression of ligands and receptors in cell types A and B
+        - 14. Fraction of cells expressing these genes with counts greater than zero in cell types A and B
 
      - A regression summary text file with the following structure:
      - First row: CC-Fa(i), CC (cell type), niche_score (from classifier), NC-Fa*, NC (cell type), RegCoeff (covariation score), p-value on normal scale, p-value on -log10 scale
