@@ -98,7 +98,6 @@ lambda_c=list(np.power(2.0, np.arange(-10, 10))),
 #lambda_c=[1],
 coeff_cutoff_for_rid_reg=0,logistic_coef_cutoff=0):
 
-    #outputdir='./spatial_ct_ct_interactions/',
     ####Random seed used in RepeatedStratifiedKFold
     #####seed=3685134seed=3685134,
 
@@ -873,16 +872,16 @@ LR_plot_NMF_Fa_thres=0.2, LR_plot_Exp_thres=0.2,number_of_top_genes_to_print=20)
      - An Excel sheet with ligand-receptor interaction information for easy access.
       The columns are structured as follows in the sheets:
 
-        - 1. ID of the cell type-cell type interaction
-        - 2-3. Interacting cell types A and B
-        - 4. Normalized interaction scores from the logistic regression classifier
-        - 5-6. NMF factor IDs (metagenes) in cell types A and B
-        - 7. Ridge regression coefficient indicating the factors’ covariation
-        - 8. Ligand in cell type A
-        - 9. Receptor in cell type B
-        - 10. Pearson correlation of ligand and receptor genes in cell types A and B with the corresponding factors
-        - 12. Average expression of ligands and receptors in cell types A and B
-        - 14. Fraction of cells expressing these genes with counts greater than zero in cell types A and B
+        - A. ID of the cell type-cell type interaction
+        - BC. Interacting cell types A and B
+        - D. Normalized interaction scores from the logistic regression classifier
+        - EF. NMF factor IDs (metagenes) in cell types A and B
+        - G. Ridge regression coefficient indicating the factors’ covariation
+        - H. Ligand in cell type A
+        - I. Receptor in cell type B
+        - JK. Pearson correlation of ligand and receptor genes in cell types A and B with the corresponding factors
+        - LM. Average expression of ligands and receptors in cell types A and B
+        - NO. Fraction of cells expressing these genes with counts greater than zero in cell types A and B
 
      - A regression summary text file with the following structure:
      - First row: CC-Fa(i), CC (cell type), niche_score (from classifier), NC-Fa*, NC (cell type), RegCoeff (covariation score), p-value on normal scale, p-value on -log10 scale
@@ -1029,57 +1028,75 @@ LR_plot_NMF_Fa_thres=0.2, LR_plot_Exp_thres=0.2,number_of_top_genes_to_print=20)
 
 def find_LR_interactions_in_interacting_cell_types(input,choose_interacting_celltype_pair=[],choose_factors_id=[],pvalueCutoff=0.05,
 correlation_with_spearman=True, LR_plot_NMF_Fa_thres=0.2, LR_plot_Exp_thres=0.2,saveas='pdf',transparent_mode=False,showit=True,figsize=(12,10)):
-    """
-    Inputs:
-
-    | The main input is the output from gene_covariation_analysis.
-
-    | Define the cell type pairs in the list for which information on ligand-receptor communication should be returned, i.e. central cell type (CC) and niche cell type (NC).
-    | The first element of the list is the central cell type, and the second element of the list is the niche cell type.
-    | Ligand-receptor (LR) interactions will be returned for all cell types, if the list is empty.
-    | choose_interacting_celltype_pair=[?,?]
-    | If the list is Null, then LR plots will be saved for significant interactions of all cell types.
-
-    | Define factor IDs for which ligand-receptor interactions are visualized.
-    | The first element of the list is the factor ID of the central cell type, and the second element of the list is the factor ID of the niche cell type.
-    | choose_factors_id=[?,?]
-    | If the list is Null, then LR plots will be saved for all the significant niche cell type factor interactions.
-
-
-    | If True, compute gene-factor correlation as Spearman correlation coefficient; otherwise, compute as cosine similarity.
-    | (default) correlation_with_spearman=True
-
-    | The p-value cutoff used to find the significant central cell type factor and niche cell type factor interactions
-    | (default) pvalueCutoff=0.05
-
-    | Save the figures in PDF or PNG format (dpi for PNG format is 300)
-    | (default) saveas='pdf'
-
-    | Only ligands or receptors are retained, which exhibit a correlation to the respective factors higher than this cutoff
-    | (default) LR_plot_NMF_Fa_thres=0.2
-
-    | Only ligands or receptors are retained, which are expressed in a fraction of cells of the respective cell types exceeding this cutoff
-    | (default) LR_plot_Exp_thres=0.2
-
-
-    | Background color in the figures
-    | (default) transparent_mode=False
-
-    | Dimension of the figure size.
-    | Figure size on the X-axis direction is the (number of genes) multiplied by factor 12/34.
-    | Figure size on the Y-axis direction is the (number of genes) multiplied by factor 10/44
-    | All generated figure size are scaled according to the above factors
-    | (initital figure size) figsize=(12,10)
-
-    Outputs:
-
-    | The LR interaction figures are saved in "./spatial_ct_ct_interactions/covariations_R*_F*/Plot_ligand_receptor_in_niche*"
-
-    | Our analysis accounts for bidirectional cellular crosstalk interactions of ligands and receptors in cell types A and B.
-    | The ligand can be expressed on cell type A, and signal to the receptor detected on cell type B, or vice versa.
-    | Both ligand-receptor plots and Excel sheets profiles bidirectional cellular crosstalk of ligand and receptor in cell types A and B.
 
     """
+    Find ligand-receptor (LR) interactions in interacting cell types and visualize them.
+
+    This function processes the output from gene_covariation_analysis to identify significant LR interactions between specified cell type pairs and visualizes the results.
+
+    Parameters
+    ----------
+    input : object
+        The main input is the output from gene_covariation_analysis.
+
+    choose_interacting_celltype_pair : list, optional
+        Define the cell type pairs for which information on LR communication should be returned. The first element of the list is the central cell type (CC), and the second element is the niche cell type (NC).
+        If the list is empty, LR interactions will be returned for all significant interacting cell types.
+        Default is [].
+
+    choose_factors_id : list, optional
+        Define factor IDs for which LR interactions are visualized. The first element of the list is the factor ID of the central cell type, and the second element is the factor ID of the niche cell type.
+        If the list is empty, LR plots will be saved for all significant niche cell type factor interactions.
+        Default is [].
+
+    pvalueCutoff : float, optional
+        The p-value cutoff used to find the significant central cell type factor and niche cell type factor interactions.
+        Default is 0.05.
+
+    correlation_with_spearman : bool, optional
+        If True, compute gene-factor correlation as Spearman correlation coefficient; otherwise, compute as cosine similarity.
+        Default is True.
+
+    LR_plot_NMF_Fa_thres : float, optional
+        Only ligands or receptors that exhibit a correlation to the respective factors higher than this cutoff are retained.
+        Default is 0.2.
+
+    LR_plot_Exp_thres : float, optional
+        Only ligands or receptors that are expressed in a fraction of cells of the respective cell types exceeding this cutoff are retained.
+        Default is 0.2.
+
+    saveas : str, optional
+        Save the figures in PDF or PNG format (dpi for PNG format is 300).
+        Default is 'pdf'.
+
+    transparent_mode : bool, optional
+        Background color in the figures.
+        Default is False.
+
+    showit : bool, optional
+        If True, the figures are shown interactively.
+        Default is True.
+
+    figsize : tuple, optional
+        Dimension of the figure size. The figure size on the X-axis direction is the (number of genes) multiplied by factor 12/34.
+        The figure size on the Y-axis direction is the (number of genes) multiplied by factor 10/44.
+        All generated figure size are scaled according to the above factors.
+        Initital figure size is (12, 10).
+
+
+    Outputs
+    -------
+    - The LR interaction figures are saved in "./nico_out/covariations_R*_F*/Plot_ligand_receptor_in_niche*".
+
+    Notes
+    -----
+    - Our analysis accounts for bidirectional cellular crosstalk interactions of ligands and receptors in cell types A and B.
+    - The ligand can be expressed on cell type A and signal to the receptor detected on cell type B, or vice versa.
+    - Both ligand-receptor plots and Excel sheets profile bidirectional cellular crosstalk of ligand and receptor in cell types A and B.
+    """
+
+
+
 
 
     totalLRpairs,ligand,receptor,either=read_LigRecDb(input.LRdb)
@@ -1209,23 +1226,35 @@ correlation_with_spearman=True, LR_plot_NMF_Fa_thres=0.2, LR_plot_Exp_thres=0.2,
 
 
 def make_excel_sheet_for_gene_correlation(input):
+
     """
-    This function creates the excel sheet for all compiled genes related to factors across different cell types.
+    Create an Excel sheet compiling gene correlations with factors across different cell types.
 
-    This represenstation facilitates a more structured and accessible
-    informtion on gene factors associated with cell types.
+    This function generates an Excel sheet that provides a structured and accessible representation of gene factors associated with cell types. It includes various types of information, such as average gene expression, Spearman correlation values, and cosine similarity values for both scRNASeq and spatial data.
 
-    These sheets were categorized to accommodate various types of information, including average gene
-    expression (‘avg gene exp’ sheet), Spearman correlation values
-    for different factors within scRNASeq data (‘spearman scRNAseq Fa(i)’ sheets),
-    cosine similarity values within scRNASeq data (‘cosine scRNAseq Fa(i)’ sheet),
-    as well as the same informaton for the common genes in the spatial data (‘spearman spatial Fa(i)’and
-    ‘cosine spatial Fa(i)’ sheets).
+    Parameters
+    ----------
+    input : object
+        The main input is the output from gene_covariation_analysis.
 
-    | In the sheet names, ‘i’ corresponds to the factor ID.
-    | As columns factors representing all cell types are included.
-    | For each factor genes are sorted based on their association with the factor ID corresponding to the respective sheet.
-    | To enhance clarity and insight, we utilized a color coding scheme that distinguishes genes as ligands (depicted in blue), receptors (in red), or both ligand and receptor functions (in magenta).
+    Outputs
+    -------
+    - Excel sheets categorized into different types of information:
+        - 'avg gene exp': Average gene expression.
+        - 'spearman scRNAseq Fa(i)': Spearman correlation values for different factors within scRNASeq data.
+        - 'cosine scRNAseq Fa(i)': Cosine similarity values within scRNASeq data.
+        - 'spearman spatial Fa(i)': Spearman correlation values for common genes in the spatial data.
+        - 'cosine spatial Fa(i)': Cosine similarity values for common genes in the spatial data.
+
+    Notes
+    -----
+    - In the sheet names, ‘i’ corresponds to the factor ID.
+    - Columns include factors representing all cell types.
+    - For each factor, genes are sorted based on their association with the factor ID corresponding to the respective sheet.
+    - A color-coding scheme is used to distinguish genes:
+        - Ligands are depicted in blue.
+        - Receptors are depicted in red.
+        - Genes with both ligand and receptor functions are depicted in magenta.
     """
 
 
@@ -1360,56 +1389,91 @@ def pathway_analysis(input,NOG_pathway=50, choose_factors_id=[],correlation_with
  pathwayorganism='Mouse',database=['GO_Biological_Process_2021','BioPlanet_2019','Reactome_2016']):#background_geneName,background_expression
 
     """
-    Inputs:
+    Perform pathway analysis for gene covariations within niches.
 
-    The main input is the output from gene_covariation_analysis.
+    This function utilizes the gene covariation data from the gene_covariation_analysis to perform pathway enrichment analysis using the GSEApy package. It identifies and visualizes the pathways that are significantly enriched among the top genes associated with NMF factors.
 
-    | Number of top genes associated with NMF factors to search in the pathway database. If you don't observe any pathway, then increase the number of genes or try with different databases.
-    | (default) NOG_pathway=50
+    Parameters
+    ----------
+    input : object
+        The main input is the output from gene_covariation_analysis.
 
-    | Define the factor IDs, for which you want to visualize the pathway enrichments in this list.
-    | choose_factors_id=[]
-    | If the list is Null, then pathway will be saved for all the factors.
+    NOG_pathway : int, optional
+        Number of top genes associated with NMF factors to search in the pathway database. If no pathways are observed, increase the number of genes or try different databases.
+        (default is 50)
 
-    | Define the cell types, for which you want to return pathway enrichments from the Enrichr library.
-    | (default) choose_celltypes=[]
-    | If the list is empty, the output will be generated for all the cell types.
+    choose_factors_id : list, optional
+        Define the factor IDs for which pathway enrichments should be visualized. If empty, pathways will be saved for all factors.
+        (default is [])
 
-    | If True, visuautilizelize gene-factor correlations obtained by Spearman correlation coefficient; otherwise, cosine similarities are utilized.
-    | (default) correlation_with_spearman=True
+    correlation_with_spearman : bool, optional
+        If True, visualize gene-factor correlations obtained by Spearman correlation coefficient; otherwise, use cosine similarities.
+        (default is True)
 
-    | If the gene-factor association is selected as Spearman correlation, the corresponding genes can be selected as either positively correlated (True) or negatively correlated (False).
-    | (default) positively_correlated=True
+    positively_correlated : bool, optional
+        If True and correlation_with_spearman is selected, select positively correlated genes; otherwise, select negatively correlated genes.
+        (default is True)
 
-    | For pathway analysis, decide whether to include rps, rpl, and mt genes. If False, these genes are filtered out.
-    | (default) rps_rpl_mt_genes_included=True
+    rps_rpl_mt_genes_included : bool, optional
+        If True, include rps, rpl, and mt genes in the pathway analysis; if False, filter these genes out.
+        (default is True)
 
-    | The gseapy parameter to find the pathway-enriched library from the top genes for each factor of a given cell type
-    | (default) pathwayCutoff=0.5
+    pathwayCutoff : float, optional
+        The cutoff parameter for finding pathway-enriched libraries from the top genes for each factor of a given cell type using GSEApy.
+        (default is 0.5)
 
-    | Organisms used in the gseapy package
-    | (default) pathwayorganism='Mouse'
+    pathwayorganism : str, optional
+        The organism used in the GSEApy package.
+        (default is 'Mouse')
 
-    | The database used in the gseapy package for pathway analysis. The default uses all three databases. For other non-mentioned databases, please follow the GSEApy tutorial.
-    | (default) database=['GO_Biological_Process_2021','BioPlanet_2019','Reactome_2016']
-    | For other available databases, check for species ‘Human,’ ‘Mouse,’ ‘Yeast,’ ‘Fly,’ ‘Fish,’ and ‘Worm’ in the following way:
-    | >>> import gseapy as gp
-    | >>> mouse = gp.get_library_name(organism='Mouse')
-    | >>> human = gp.get_library_name(organism='Human')
+    database : list, optional
+        The databases used in the GSEApy package for pathway analysis. The default includes 'GO_Biological_Process_2021', 'BioPlanet_2019', and 'Reactome_2016'.
+        (default is ['GO_Biological_Process_2021', 'BioPlanet_2019', 'Reactome_2016'])
 
-    | The cell type for which the pathway analysis should be performed
-    | (default) choose_celltypes=[]
-    | If the list is empty, the output will be generated for all the cell types.
+    choose_celltypes : list, optional
+        Define the cell types for which pathway enrichments should be returned from the Enrichr library. If empty, the output will be generated for all cell types.
+        (default is [])
 
-    | Save the figures in PDF or PNG format (dpi for PNG format is 300)
-    | (default) saveas='pdf'
+    saveas : str, optional
+        Save the figures in PDF or PNG format (dpi for PNG format is 300).
+        (default is 'pdf')
 
-    | The size of the point in the pathway figure. Increase if the dots are too small.
-    | (default) circlesize=12
+    circlesize : int, optional
+        The size of the points in the pathway figure. Increase this value if the dots are too small.
+        (default is 12)
 
-    Outputs:
+    savefigure : bool, optional
+        If True, the generated figures will be saved.
+        (default is False)
 
-    | The pathways figures are saved in "./spatial_ct_ct_interactions/covariations_R*_F*/Pathway_figures/"
+    showit : bool, optional
+        If True, the generated figures will be displayed.
+        (default is True)
+
+    figsize : tuple, optional
+        The dimension of the figure size.
+        (default is (12, 10))
+
+    Outputs
+    -------
+    The pathway figures are saved in "./nico_out/covariations_R*_F*/Pathway_figures/".
+
+    Notes
+    -----
+    - In the sheet names, ‘i’ corresponds to the factor ID.
+    - Columns include factors representing all cell types.
+    - For each factor, genes are sorted based on their association with the factor ID corresponding to the respective sheet.
+    - A color-coding scheme is used to distinguish genes:
+        - Ligands are depicted in blue.
+        - Receptors are depicted in red.
+        - Genes with both ligand and receptor functions are depicted in magenta.
+
+    Example
+    -------
+    For other available databases, check for species ‘Human,’ ‘Mouse,’ ‘Yeast,’ ‘Fly,’ ‘Fish,’ and ‘Worm’ in the following way:
+    >>>import gseapy as gp
+    >>> mouse = gp.get_library_name(organism='Mouse')
+    >>> human = gp.get_library_name(organism='Human')
 
     """
 
@@ -1523,45 +1587,76 @@ def pathway_analysis(input,NOG_pathway=50, choose_factors_id=[],correlation_with
 def extract_and_plot_top_genes_from_chosen_factor_in_celltype(input,choose_celltype,choose_factor_id,top_NOG=30,rps_rpl_mt_genes_included=True,
 correlation_with_spearman=True,positively_correlated=True,saveas='pdf',cmap='RdBu_r',transparent_mode=False,showit=True,figsize=(5, 6)):
 
-    """
-    Inputs:
-
-    The main input is the output from gene_covariation_analysis.
-
-    Define the cell type to include.
-
-    Define the factor ID of the cell type.
-
-    | Number of genes to visualize
-    | (default) top_NOG=30
-
-    | For pathway analysis, decide whether to include rps, rpl, and mt genes. If True, they are included.
-    | (default) rps_rpl_mt_genes_included=True
-
-    | If True, visualize gene-factor association obtained as Spearman correlation coefficient; otherwise, cosine similarity is dsiplayed.
-    | (default) correlation_with_spearman=True
-
-    | If the gene-factor association is selected as Spearman correlation, the associated genes can be selected as either positively correlated (True) or negatively correlated (False).
-    | (default) positively_correlated=True
-
-    | Define the colormap for visualizing factors
-    | (default) cmap='RdBu_r'
-
-    | Save the figures in PDF or PNG format (dpi for PNG format is 300)
-    | (default) saveas=’pdf’
-
-    | Dimension of the figure size
-    | (default) figsize=(15,10)
-
-    | Background color of the figures
-    | (default) transparent_mode=False
-
-    Outputs:
-
-    | Return the data frame of the gene, factor, average expression, and proportion of population expressed that gene.
-    | The figures are saved in spatial_ct_ct_interactions/covariations_R*_F*/dotplots/Factors*
 
     """
+    Extract and plot top genes associated with a chosen factor in a specified cell type.
+
+    This function uses the output from gene_covariation_analysis to identify and visualize the top genes associated with a chosen factor in a specified cell type. The genes can be filtered and visualized based on their correlation with the factor, with options to include or exclude specific gene types.
+
+    Parameters
+    ----------
+    input : object
+        The main input is the output from gene_covariation_analysis.
+
+    choose_celltype : str
+        Define the cell type to include in the analysis.
+
+    choose_factor_id : int
+        Define the factor ID of the cell type to be analyzed.
+
+    top_NOG : int, optional
+        Number of top genes to visualize.
+        (default is 30)
+
+    rps_rpl_mt_genes_included : bool, optional
+        Decide whether to include rps, rpl, and mt genes in the pathway analysis. If True, they are included.
+        (default is True)
+
+    correlation_with_spearman : bool, optional
+        If True, visualize gene-factor association using the Spearman correlation coefficient; otherwise, use cosine similarity.
+        (default is True)
+
+    positively_correlated : bool, optional
+        If the gene-factor association is selected as Spearman correlation, choose whether the associated genes should be positively correlated (True) or negatively correlated (False).
+        (default is True)
+
+    saveas : str, optional
+        Save the figures in PDF or PNG format (dpi for PNG format is 300).
+        (default is 'pdf')
+
+    cmap : str, optional
+        Define the colormap for visualizing factors.
+        (default is 'RdBu_r')
+
+    transparent_mode : bool, optional
+        Define the background color of the figures. If True, figures have a transparent background.
+        (default is False)
+
+    showit : bool, optional
+        If True, the generated figures will be displayed.
+        (default is True)
+
+    figsize : tuple, optional
+        Dimension of the figure size.
+        (default is (5, 6))
+
+    Outputs
+    -------
+    pd.DataFrame
+        Returns a DataFrame containing the gene, factor, average expression, and proportion of the population expressing that gene.
+
+    Notes
+    -----
+    - The function saves the figures in the directory "nico_out/covariations_R*_F*/dotplots/Factors*".
+    - The DataFrame returned includes detailed information about the top genes associated with the chosen factor.
+
+    Example
+    -------
+    >>> extract_and_plot_top_genes_from_chosen_factor_in_celltype(input_data, 'CellTypeA', 1, top_NOG=50, saveas='png', figsize=(10, 8))
+    """
+
+
+
 
     savefigdir=input.covariation_dir+ 'dotplots/'
     create_directory(savefigdir)
@@ -1700,7 +1795,30 @@ correlation_with_spearman=True,positively_correlated=True,saveas='pdf',cmap='RdB
 
 
 def create_directory(outputFolder):
-    "This function creates empty directory."
+    """
+    Create an empty directory.
+
+    This function checks if a specified directory exists, and if not, it creates the directory.
+
+    Parameters
+    ----------
+    outputFolder : str
+        The path of the directory to be created.
+
+    Raises
+    ------
+    OSError
+        If the directory cannot be created due to permission issues or other OS-related errors.
+
+    Notes
+    -----
+    - If the directory already exists, no action is taken.
+    - This function ensures that the directory path is available for subsequent file operations.
+
+    Example
+    -------
+    >>> create_directory('./new_out/')
+    """
     answer=os.path.isdir(outputFolder)
     if answer==True:
         pass
@@ -1709,7 +1827,34 @@ def create_directory(outputFolder):
 
 
 def find_index(sp_genename,sc_genename):
-    "Helper function used in gene_covariation_analysis to find the common gene space submatrix between two modalities."
+    """
+    Find the common gene space submatrix between two modalities.
+
+    This helper function is used within the `gene_covariation_analysis` function to identify the indices of common genes
+    between two lists of gene names corresponding to spatial and scRNAseq modalities.
+
+    Parameters
+    ----------
+    sp_genename : list
+        A list of gene names from the spatial modality.
+
+    sc_genename : list
+        A list of gene names from the scRNAseq modality.
+
+    Returns
+    -------
+    list
+        A list of indices corresponding to the common genes found in both `sp_genename` and `sc_genename`.
+
+    Example
+    -------
+    >>> sp_genes = ['gene1', 'gene2', 'gene3', 'gene4']
+    >>> sc_genes = ['gene3', 'gene4', 'gene5', 'gene6']
+    >>> index_sp,index_sc = find_index(sp_genes, sc_genes)
+    >>> print(index_sp)
+    [2, 3]
+    """
+
     index_sc=[]
     index_sp=[]
     d={}
@@ -1731,7 +1876,19 @@ def find_index(sp_genename,sc_genename):
 
 def read_spatial_data(clusterFilename,celltypeFilename):
     """
-    Helper function for gene_covariation_analysis to read the cluster information.
+    Read the cluster information for spatial data.
+
+    This helper function is used within the `gene_covariation_analysis` function to read the cluster
+    and cell type information from the specified files.
+
+    Parameters
+    ----------
+    clusterFilename : str
+        The file path of the cluster information file.
+
+    celltypeFilename : str
+        The file path of the cell type information file.
+
     """
 
     df=pd.read_csv(celltypeFilename,sep='\t',header=None)
@@ -1776,8 +1933,24 @@ def read_spatial_data(clusterFilename,celltypeFilename):
 
 def find_correlation_bw_genes_and_PC_component_in_singlecell(KcomponentCluster,clusterExpression):
     """
-    Helper function used in find_PC_of_invidualCluster_in_SC to find the Spearman correlation between common gene scRNAseq factors and scRNAseq expression.
+    Calculate Spearman correlation between genes and principal components in single-cell data.
+
+    This helper function is used within the `find_PC_of_invidualCluster_in_SC` function to determine
+    the Spearman correlation between common gene scRNAseq factors (principal components) and scRNAseq
+    gene expression data.
+
+    Parameters
+    ----------
+    KcomponentCluster : numpy.ndarray or pandas.DataFrame
+        The matrix representing the principal components (factors) from scRNAseq data. Each column
+        corresponds to a principal component.
+
+    clusterExpression : numpy.ndarray or pandas.DataFrame
+        The matrix representing the gene expression data from scRNAseq. Each row corresponds to a gene
+        and each column corresponds to a cell.
+
     """
+
     mat=np.zeros((clusterExpression.shape[1],KcomponentCluster.shape[1]),dtype=float)
     for i in range(clusterExpression.shape[1]):
         v1=clusterExpression[:,i]
@@ -1796,8 +1969,28 @@ def find_correlation_bw_genes_and_PC_component_in_singlecell(KcomponentCluster,c
 
 def find_correlation_bw_genes_and_PC_component_in_singlecell_cosine(KcomponentCluster,clusterExpression):
     """
-    Helper function used in find_PC_of_invidualCluster_in_SC
-    to find the cosine similarity between common gene scRNAseq factors and scRNAseq expression.
+    Calculate cosine similarity between common gene scRNAseq factors and scRNAseq count data.
+
+    This helper function is used within the `find_PC_of_invidualCluster_in_SC` function to determine
+    the cosine similarity between common gene scRNAseq factors (principal components) and scRNAseq
+    gene expression data.
+
+    Parameters
+    ----------
+    KcomponentCluster : numpy.ndarray or pandas.DataFrame
+        The matrix representing the principal components (factors) from scRNAseq data. Each column
+        corresponds to a principal component.
+
+    clusterExpression : numpy.ndarray or pandas.DataFrame
+        The matrix representing the gene expression data from scRNAseq. Each row corresponds to a gene
+        and each column corresponds to a cell.
+
+    Returns
+    -------
+    numpy.ndarray
+        A matrix containing the cosine similarity scores between each gene and each principal component.
+        Each row corresponds to a gene, and each column corresponds to a principal component.
+
     """
     #same vector =1 perpendicular vector 0
     #print(KcomponentCluster.shape,clusterExpression.shape)
@@ -1808,9 +2001,35 @@ def find_correlation_bw_genes_and_PC_component_in_singlecell_cosine(KcomponentCl
 
 
 def top_genes_in_correlation_list_without(genename,corr_NMFfactors_genes,n_top_words):
-        """
-        Helper function for sorting the factor values in plot_cosine_and_spearman_correlation_to_factors.
-        """
+    """
+    Identify top genes associated with NMF factors, excluding duplicates.
+
+    This helper function sorts the factor values and selects the top genes
+    associated with each factor. It is used in `plot_cosine_and_spearman_correlation_to_factors`.
+
+    Parameters
+    ----------
+    genename : numpy.ndarray or pandas.Series
+        Array or Series containing gene names.
+
+    corr_NMFfactors_genes : numpy.ndarray or pandas.DataFrame
+        The matrix representing the correlation values between genes and NMF factors.
+        Each row corresponds to a gene, and each column corresponds to an NMF factor.
+
+    n_top_words : int
+        The number of top genes to retrieve for each NMF factor.
+
+    Returns
+    -------
+    gname : numpy.ndarray
+        Array containing the names of the top genes associated with the NMF factors.
+
+    mat : numpy.ndarray
+        Matrix containing the correlation values of the top genes associated with the NMF factors.
+        Each row corresponds to a selected top gene, and each column corresponds to an NMF factor.
+
+    """
+
         top_genes_assoc_factors=[]
         for topic_idx, topic in enumerate(corr_NMFfactors_genes.T):
             top_features_ind = topic.argsort()[: -n_top_words - 1 : -1]
@@ -2822,7 +3041,7 @@ saveas='pdf',transparent_mode=False,showit=True,figsize=(8,3.5)):
 
     Outputs:
 
-    | The factor visualization in scRNAseq embedding is saved in "./spatial_ct_ct_interactions/covariations_R*_F*/scRNAseq_factors_in_umap."
+    | The factor visualization in scRNAseq embedding is saved in "./nico_out/covariations_R*_F*/scRNAseq_factors_in_umap."
 
     """
 
@@ -2975,7 +3194,7 @@ saveas='pdf',transparent_mode=False,showit=True,figsize=(8,3.5)):
 
     Output:
 
-    The output figure will be saved in spatial_ct_ct_interactions/covariations_R*_F*/spatial_factors_in_umap*
+    The output figure will be saved in nico_out/covariations_R*_F*/spatial_factors_in_umap*
 
     """
 
@@ -3130,7 +3349,7 @@ def plot_top_genes_for_a_given_celltype_from_all_three_factors(input,choose_cell
 
     Outputs:
 
-    | The gene visualization figures are saved in ./spatial_ct_ct_interactions/covariations_R*_F*/dotplots/*
+    | The gene visualization figures are saved in ./nico_out/covariations_R*_F*/dotplots/*
 
     """
     savefigdir=input.covariation_dir+ 'dotplots/'
