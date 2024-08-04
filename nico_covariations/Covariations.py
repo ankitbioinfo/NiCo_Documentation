@@ -2554,9 +2554,39 @@ def makePCneighboorhoodFeatureMatrix(input):
 
 
 def compute_PC_space(input,sct_ad_sc_full):
+
     """
-    Helper function used by gene_covariation_analysis. The spatial clusters' names must match the scRNA-seq clusters' names. If not, it will throw an error.
+    Helper function in gene_covariation_analysis to find the weighted neighborhood
+    average of cell types from the spatial factors.
+
+    This function computes the weighted neighborhood average of principal components (PCs) for each cell type from spatial transcriptomics data. The weights are based on the inverse of the distances between neighboring cells.
+
+    Parameters
+    ----------
+    input : object
+        An object containing the following attributes:
+        - spatialcell_unique_clusterid: list of unique spatial cell cluster IDs.
+        - neighbors: list of neighbors for each cell.
+        - neigh_distances: list of distances to neighbors for each cell.
+        - annotation_spatial_barcode_id: list of spatial barcode IDs for each cell.
+        - annotation_spatial_cluster_id: list of spatial cluster IDs for each cell.
+        - pc_of_sp_clusterid: matrix of principal components for each spatial cluster ID.
+        - no_of_pc: int, number of principal components.
+        - outputname: str, the name of the output file to save the results.
+
+    Returns
+    -------
+    None
+        This function saves the weighted neighborhood of factors in a niche to a .npz file specified by input.outputname.
+
+    Notes
+    -----
+    - This function calculates the weighted average of the principal components (PCs) for each cell's neighborhood, using the inverse of the distances to its neighbors as weights.
+    - The result is a matrix where each row represents a cell, and each column represents the weighted average PC values for each cluster in the cell's neighborhood.
+    - The weighted neighborhood feature matrix is saved to a file in .npz format.
+
     """
+
     a=set(input.singlecell_unique_clustername)
     b=set(input.spatialcell_unique_clustername)
     common=a.intersection(b)
@@ -2609,9 +2639,58 @@ def compute_PC_space(input,sct_ad_sc_full):
 
 
 def model_linear_regression(input,logistic_predicted_interactions):
+
     """
-    Helper function for gene_covariation_analysis to prepare data Y (central cell factors) and X (neighborhood avg spatial cell factors) for each celltype to perform regression.
+    Helper function for gene_covariation_analysis to prepare data Y (central cell factors)
+    and X (neighborhood average spatial cell factors) for each cell type to perform regression.
+
+    This function loads the precomputed neighborhood feature matrix and prepares the data for linear
+    regression analysis. It then performs ridge regression for each cell type to find the relationship
+    between the central cell factors (Y) and the neighborhood average spatial cell factors (X).
+
+    Parameters
+    ----------
+    input : object
+        An object containing the following attributes:
+        - shap_cluster_cutoff : float, cutoff value for SHAP clustering.
+        - outputname : str, the name of the input file containing precomputed neighborhood features.
+        - no_of_pc : int, number of principal components.
+        - spatialcell_unique_clusterid : list, unique cluster IDs of spatial cells.
+        - annotation_spatial_cluster_id : list, cluster IDs for each spatial cell.
+        - spatialcell_unique_clustername : list, unique cluster names of spatial cells.
+        - seed : int, seed value for regression.
+        - lambda_c : float, regularization parameter for ridge regression.
+        - K_fold : int, number of folds for cross-validation.
+        - n_repeats : int, number of repeats for cross-validation.
+
+    logistic_predicted_interactions : dict
+        A dictionary where keys are cell type names and values are lists of tuples. Each tuple contains
+        a cell type name and a score representing the predicted interaction strength with the key cell type.
+
+    Returns
+    -------
+    save_coef : dict
+        A dictionary where keys are unique cluster IDs and values are lists containing the following elements:
+        - coef : array, coefficients of the ridge regression model.
+        - intercept : array, intercepts of the ridge regression model.
+        - alpha : float, regularization parameter of the ridge regression model.
+        - xlabel : array, names of the features.
+        - score : array, scores of the features.
+        - target : array, target values (central cell factors).
+        - neighborhoodClass : array, neighborhood average spatial cell factors.
+        - pv : array, p-values of the regression coefficients.
+        - percent_variance_explained : array, percentage of variance explained by the model.
+        - residual_variance_explained : array, residual variance explained by the model.
+
+    Notes
+    -----
+    - The function uses ridge regression to model the relationship between central cell factors and neighborhood factors.
+    - The precomputed neighborhood feature matrix is loaded from a file and NaN values are replaced with zeros.
+    - The function selects relevant features based on logistic_predicted_interactions and performs ridge regression.
+    - The results are stored in a dictionary and returned for further analysis.
+
     """
+
     shap_cluster_cutoff=input.shap_cluster_cutoff
     data1=np.load(input.outputname,allow_pickle=True)
     data1=data1['weighted_neighborhood_of_factors_in_niche']
@@ -2676,8 +2755,64 @@ def model_linear_regression(input,logistic_predicted_interactions):
 def run_ridge_regression(input,saveoutname,ylabelname,target,neighborhoodClass,shap_cluster_cutoff):
 
     """
-    Helper function for model_linear_regression to perform the ridge regression per cell type.
+    Helper function for model_linear_regression to perform ridge regression per cell type.
+
+    This function performs ridge regression for each target variable (central cell factors) using
+    the neighborhood average spatial cell factors as predictors. It normalizes the data, fits the
+    regression model, and computes various statistics including p-values and explained variance.
+
+    Parameters
+    ----------
+    input : object
+        An object containing the following attributes:
+        - shap_analysis : bool, whether to perform SHAP analysis.
+        - regression_outdir : str, directory to save regression outputs.
+        - lambda_c : list, list of regularization parameters for RidgeCV.
+        - no_of_pc : int, number of principal components.
+
+    saveoutname : str
+        The name to save the output of the regression results.
+
+    ylabelname : list
+        List of feature names for the predictors.
+
+    target : array
+        The target values (central cell factors).
+
+    neighborhoodClass : array
+        The neighborhood average spatial cell factors.
+
+    shap_cluster_cutoff : float
+        The cutoff value for clustering in SHAP analysis.
+
+    Returns
+    -------
+    coef : array
+        Coefficients of the ridge regression model.
+
+    intercept : array
+        Intercepts of the ridge regression model.
+
+    lambda_c : list
+        List of regularization parameters used in the ridge regression model.
+
+    percent_variance_explained : list
+        Percentage of variance explained by the model.
+
+    residual_variance_explained : float
+        Residual variance explained by the model (currently set to 0).
+
+    pv : array
+        P-values of the regression coefficients.
+
+    Notes
+    -----
+    - The function normalizes the predictors and target variables.
+    - It fits a ridge regression model for each target variable and computes various statistics.
+    - If SHAP analysis is enabled, it performs SHAP analysis and saves the plots.
+
     """
+
 
     train_index=range(target.shape[0])
     test_index=[]
@@ -2832,10 +2967,43 @@ def run_ridge_regression(input,saveoutname,ylabelname,target,neighborhoodClass,s
 
 
 def find_logistic_regression_interacting_score(cmn,coef,CTFeatures,nameOfCellType,logistic_coef_cutoff):
+
     """
-    Helper function used in gene_covariation_analysis
-    to find niche interaction scores from logistic regression classifier.
+    Helper function used in gene_covariation_analysis to find niche interaction scores from logistic regression classifier.
+
+    This function identifies the interacting cell types by analyzing the coefficients of a logistic regression classifier.
+    It normalizes the coefficients, sorts them, and identifies the significant interactions based on a specified cutoff value.
+
+    Parameters
+    ----------
+    cmn : array
+        Confusion matrix or similar matrix representing the performance of the logistic regression classifier.
+
+    coef : array
+        Coefficients of the logistic regression model.
+
+    CTFeatures : list
+        List of cell type features used in the logistic regression model.
+
+    nameOfCellType : list
+        List of names corresponding to cell types.
+
+    logistic_coef_cutoff : float
+        The cutoff value to consider a coefficient as significant for interaction.
+
+    Returns
+    -------
+    logistic_predicted_interactions : dict
+        A dictionary where keys are cell types and values are lists of interacting cell types with their interaction scores.
+
+    Notes
+    -----
+    - The function normalizes the logistic regression coefficients.
+    - It identifies the most significant interactions based on the absolute value of the coefficients.
+    - Interactions with coefficients above the cutoff value are considered significant and are included in the output.
+
     """
+
     a=np.diag(cmn)
     #b=np.diag(input.cmn_std)
     goodPredictedCellType=np.argsort(-a)
@@ -2883,7 +3051,37 @@ def find_logistic_regression_interacting_score(cmn,coef,CTFeatures,nameOfCellTyp
 
 
 def findXYZC(c,s):
-    "Helper function used in plot_top_selected_genes_as_dotplot."
+
+    """
+    Helper function used in plot_top_selected_genes_as_dotplot.
+
+    This function extracts and transforms data from the given matrices c and s, creating four lists:
+    x-coordinates, y-coordinates, values (z), and sizes (bigs).
+
+    Parameters
+    ----------
+    c : array-like
+        A 2D array (matrix) where each element represents a value at a specific (i, j) coordinate.
+
+    s : array-like
+        A 2D array (matrix) of the same shape as c, where each element represents a size multiplier for the corresponding
+        element in c.
+
+    Returns
+    -------
+    x : list
+        List of x-coordinates for each element in c.
+
+    y : list
+        List of y-coordinates for each element in c.
+
+    z : list
+        List of values from c corresponding to each (x, y) coordinate.
+
+    bigs : list
+        List of sizes, where each size is calculated as 100 times the corresponding element in s.
+    """
+
     x=[]
     y=[]
     z=[]
