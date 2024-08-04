@@ -1795,6 +1795,8 @@ correlation_with_spearman=True,positively_correlated=True,saveas='pdf',cmap='RdB
 
 
 def create_directory(outputFolder):
+
+
     """
     Create an empty directory.
 
@@ -1827,6 +1829,8 @@ def create_directory(outputFolder):
 
 
 def find_index(sp_genename,sc_genename):
+
+
     """
     Find the common gene space submatrix between two modalities.
 
@@ -1875,6 +1879,8 @@ def find_index(sp_genename,sc_genename):
     return index_sp,index_sc
 
 def read_spatial_data(clusterFilename,celltypeFilename):
+
+
     """
     Read the cluster information for spatial data.
 
@@ -1932,6 +1938,8 @@ def read_spatial_data(clusterFilename,celltypeFilename):
 
 
 def find_correlation_bw_genes_and_PC_component_in_singlecell(KcomponentCluster,clusterExpression):
+
+
     """
     Calculate Spearman correlation between genes and principal components in single-cell data.
 
@@ -1968,6 +1976,8 @@ def find_correlation_bw_genes_and_PC_component_in_singlecell(KcomponentCluster,c
     return mat
 
 def find_correlation_bw_genes_and_PC_component_in_singlecell_cosine(KcomponentCluster,clusterExpression):
+
+
     """
     Calculate cosine similarity between common gene scRNAseq factors and scRNAseq count data.
 
@@ -2001,6 +2011,8 @@ def find_correlation_bw_genes_and_PC_component_in_singlecell_cosine(KcomponentCl
 
 
 def top_genes_in_correlation_list_without(genename,corr_NMFfactors_genes,n_top_words):
+
+
     """
     Identify top genes associated with NMF factors, excluding duplicates.
 
@@ -2043,8 +2055,40 @@ def top_genes_in_correlation_list_without(genename,corr_NMFfactors_genes,n_top_w
 
 
 def alignment_score(H,spH,ind_H,ind_spH):
+
+
     """
-    The helper function is used in find_PC_of_invidualCluster_in_SC to find the alignment score during the integrated NMF step.
+    Calculate the alignment score between factors from two different modalities during integrated NMF.
+
+    This helper function is used in `find_PC_of_invidualCluster_in_SC` to evaluate the alignment
+    score between factors from scRNAseq data and spatial data.
+
+    Parameters
+    ----------
+    H : numpy.ndarray
+        The matrix representing the factors from the scRNAseq data.
+        Each row corresponds to a sample, and each column corresponds to a factor.
+
+    spH : numpy.ndarray
+        The matrix representing the factors from the spatial data.
+        Each row corresponds to a sample, and each column corresponds to a factor.
+
+    ind_H : numpy.ndarray or list
+        Indices of the common genes in the scRNAseq data.
+
+    ind_spH : numpy.ndarray or list
+        Indices of the common genes in the spatial data.
+
+    Returns
+    -------
+    float
+        The alignment score between the factors from the scRNAseq and spatial data.
+
+    Notes
+    -----
+    The alignment score is calculated by computing the cosine similarity between the factors of
+    the common genes in the scRNAseq and spatial data. A higher score indicates better alignment
+    between the factors from the two modalities.
     """
 
     #print(H.shape,spH.shape,len(ind_H),len(ind_spH))
@@ -2071,10 +2115,60 @@ def alignment_score(H,spH,ind_H,ind_spH):
     return score
 
 def multiplicative_method(W,H,A,max_iter):
+
+
     """
-    Helper function used in find_PC_of_invidualCluster_in_SC to perform the
-    conventional NMF.
+    Perform conventional Non-negative Matrix Factorization (NMF) using a multiplicative update rule.
+
+    This helper function is used in `find_PC_of_invidualCluster_in_SC` to decompose matrix `A` into
+    two non-negative matrices `W` and `H` such that `A ≈ W @ H`.
+
+    Parameters
+    ----------
+    W : numpy.ndarray
+        Initial matrix representing the basis vectors. Shape: (n_samples, n_components).
+
+    H : numpy.ndarray
+        Initial matrix representing the coefficients. Shape: (n_components, n_features).
+
+    A : numpy.ndarray
+        The input data matrix to be factorized. Shape: (n_samples, n_features).
+
+    max_iter : int
+        The maximum number of iterations for the multiplicative update algorithm.
+
+    Returns
+    -------
+    W : numpy.ndarray
+        Updated basis matrix after NMF. Shape: (n_samples, n_components).
+
+    H : numpy.ndarray
+        Updated coefficient matrix after NMF. Shape: (n_components, n_features).
+
+    norms : list
+        List of Frobenius norms of the difference between `A` and `W @ H` for each iteration.
+
+
+    Notes
+    -----
+    The update rules for `W` and `H` are based on minimizing the Frobenius norm of the difference
+    between `A` and `W @ H`. The update for `H` is performed as:
+
+    .. math::
+        H_{ij} = H_{ij} * \frac{(W^T A)_{ij}}{(W^T W H)_{ij} + \epsilon}
+
+    where `ε` is a small constant to prevent division by zero.
+
+    The update for `W` has been commented out but follows a similar form. Uncomment the lines under
+    "Update W" to perform updates for `W` as well.
+
+    .. math::
+        W_{ij} = W_{ij} * \frac{(A H^T)_{ij}}{(W H H^T)_{ij} + \epsilon}
+
+    This method is sensitive to initializations of `W` and `H`, and the results may vary across runs.
     """
+
+    
     norms = []
     e = 1.0e-10
     for n in range(max_iter):
