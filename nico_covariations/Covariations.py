@@ -2042,16 +2042,18 @@ def top_genes_in_correlation_list_without(genename,corr_NMFfactors_genes,n_top_w
 
     """
 
-        top_genes_assoc_factors=[]
-        for topic_idx, topic in enumerate(corr_NMFfactors_genes.T):
-            top_features_ind = topic.argsort()[: -n_top_words - 1 : -1]
-            for i in top_features_ind:
-                if i not in top_genes_assoc_factors:
-                    top_genes_assoc_factors.append(i)
-        gname=genename[top_genes_assoc_factors]
-        mat=corr_NMFfactors_genes[top_genes_assoc_factors,:]
+    top_genes_assoc_factors=[]
+    for topic_idx, topic in enumerate(corr_NMFfactors_genes.T):
+        top_features_ind = topic.argsort()[: -n_top_words - 1 : -1]
+        for i in top_features_ind:
+            if i not in top_genes_assoc_factors:
+                top_genes_assoc_factors.append(i)
+    gname=genename[top_genes_assoc_factors]
+    mat=corr_NMFfactors_genes[top_genes_assoc_factors,:]
 
-        return gname,mat
+    return gname,mat
+
+
 
 
 def alignment_score(H,spH,ind_H,ind_spH):
@@ -2168,7 +2170,7 @@ def multiplicative_method(W,H,A,max_iter):
     This method is sensitive to initializations of `W` and `H`, and the results may vary across runs.
     """
 
-    
+
     norms = []
     e = 1.0e-10
     for n in range(max_iter):
@@ -2191,9 +2193,48 @@ def multiplicative_method(W,H,A,max_iter):
 
 
 def remove_extra_character_from_name(name):
+
     """
-    This function removes special characters from the cell type names to avoid throwing an error while saving the figures.
+    Remove special characters from cell type names to avoid errors while saving figures.
+
+    This function replaces certain special characters in the input `name` with
+    underscores or other appropriate characters to ensure the name is safe for use
+    as a filename.
+
+    Parameters
+    ----------
+    name : str
+        The original cell type name that may contain special characters.
+
+    Returns
+    -------
+    str
+        The modified cell type name with special characters removed or replaced.
+
+    Example
+    -------
+    >>> name = 'T-cell (CD4+)/CD8+'
+    >>> clean_name = remove_extra_character_from_name(name)
+    >>> print(clean_name)
+    'T-cell_CD4p_CD8p'
+
+    Notes
+    -----
+    The following replacements are made:
+    - '/' is replaced with '_'
+    - ' ' (space) is replaced with '_'
+    - '"' (double quote) is removed
+    - "'" (single quote) is removed
+    - ')' is removed
+    - '(' is removed
+    - '+' is replaced with 'p'
+    - '-' is replaced with 'n'
+    - '.' (dot) is removed
+
+    These substitutions help in creating filenames that do not contain characters
+    that might be problematic for file systems or software.
     """
+
     name=name.replace('/','_')
     name=name.replace(' ','_')
     name=name.replace('"','')
@@ -2208,7 +2249,68 @@ def remove_extra_character_from_name(name):
 
 def find_PC_of_invidualCluster_in_SC(seed,spatial_integration_modality,scbarcode,iNMFmode,scadata,no_of_pc,spbarcode,spadata, sct_ad_sc_full,celltype_name,cutoff_to_count_exp_cell_population):
 
-    "Helper function used in compute_PC_space."
+    """
+    Helper function used in compute_PC_space to find principal components (PCs) for individual clusters in single-cell RNA sequencing (scRNA-seq) data and spatial transcriptomics data.
+
+    This function integrates scRNA-seq and spatial transcriptomics data using non-negative matrix factorization (NMF) or integrative NMF (iNMF), and computes the alignment score, correlation, and other metrics for the identified principal components.
+
+    Parameters
+    ----------
+    seed : int
+        Random seed for reproducibility.
+    spatial_integration_modality : str
+        Modality for spatial integration, either 'single' or 'double'.
+    scbarcode : list
+        List of single-cell barcodes.
+    iNMFmode : bool
+        Flag indicating whether to use iNMF (True) or not (False).
+    scadata : AnnData
+        Single-cell RNA-seq data in AnnData format.
+    no_of_pc : int
+        Number of principal components to compute.
+    spbarcode : list
+        List of spatial transcriptomics barcodes.
+    spadata : AnnData
+        Spatial transcriptomics data in AnnData format.
+    sct_ad_sc_full : AnnData
+        Full single-cell RNA-seq data in AnnData format.
+    celltype_name : str
+        Name of the cell type being analyzed.
+    cutoff_to_count_exp_cell_population : float
+        Expression cutoff to count the proportion of cell population expressing a gene.
+
+    Returns
+    -------
+    transfer_sp_com : ndarray
+        Transformed spatial component matrix.
+    transfer_sc_com : list
+        Transformed single-cell component matrix (currently not populated).
+    sc_spearman : ndarray
+        Spearman correlation between genes and principal components in single-cell data.
+    sc_cosine : ndarray
+        Cosine similarity between genes and principal components in single-cell data.
+    sc_genenames : ndarray
+        Array of gene names.
+    H : ndarray
+        Principal component matrix for single-cell data.
+    spH : ndarray
+        Principal component matrix for spatial data.
+    sc_cluster_mean_exp : ndarray
+        Mean expression of genes across single-cell clusters.
+    sc_cluster_exp_more_than_threshold : ndarray
+        Proportion of single-cell clusters expressing genes above the cutoff.
+    alpha : int
+        Optimal alpha value used in iNMF.
+
+    Notes
+    -----
+    - This function normalizes gene expression data and computes principal components using either NMF or iNMF.
+    - It calculates the alignment score for spatial and single-cell data integration.
+    - Spearman correlation and cosine similarity between genes and PCs are computed.
+    - The results include the transformed spatial component matrix, gene correlations, and other metrics for downstream analysis.
+
+    """
+
 
     cellname=sct_ad_sc_full.obs_names.to_numpy()
     d={}
