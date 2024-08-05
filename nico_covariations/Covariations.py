@@ -2502,14 +2502,14 @@ def makePCneighboorhoodFeatureMatrix(input):
     -----------
     input : object
         An object containing various attributes required for computation, such as:
-        - spatialcell_unique_clusterid: Unique cluster IDs for spatial cells.
-        - neighbors: List of neighboring cells for each cell.
-        - neigh_distances: Distances to neighbors.
-        - annotation_spatial_barcode_id: Barcode IDs for spatial annotations.
-        - annotation_spatial_cluster_id: Cluster IDs for spatial annotations.
-        - pc_of_sp_clusterid: Principal components for spatial cluster IDs.
-        - no_of_pc: Number of principal components.
-        - outputname: Name of the output file.
+            - spatialcell_unique_clusterid: Unique cluster IDs for spatial cells.
+            - neighbors: List of neighboring cells for each cell.
+            - neigh_distances: Distances to neighbors.
+            - annotation_spatial_barcode_id: Barcode IDs for spatial annotations.
+            - annotation_spatial_cluster_id: Cluster IDs for spatial annotations.
+            - pc_of_sp_clusterid: Principal components for spatial cluster IDs.
+            - no_of_pc: Number of principal components.
+            - outputname: Name of the output file.
 
     Outputs:
     --------
