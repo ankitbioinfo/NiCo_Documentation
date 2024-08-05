@@ -191,7 +191,7 @@ def create_spatial_CT_feature_matrix(radius,PP,louvain,noct,fraction_CT,saveSpat
     """
     Generate the expected spatial cell type neighborhood matrix.
 
-    This helper function is used in ```spatial_neighborhood_analysis``` to create a matrix that represents
+    This helper function is used in spatial_neighborhood_analysis to create a matrix that represents
     the expected neighborhood cell type composition based on spatial data. It uses either a radius-based
     approach or Delaunay triangulation to determine neighboring cells.
 
@@ -344,7 +344,7 @@ def euclidean_dist(p1,p2):
 
 def reading_data(coordinates,louvainFull,degbased_ctname,saveSpatial,removed_CTs_before_finding_CT_CT_interactions):
     """
-    Helper function used in ```spatial_neighborhood_analysis``` to read the cell coordinate file,
+    Helper function used in spatial_neighborhood_analysis to read the cell coordinate file,
     cluster file, and cluster name file according to the input cell type list provided for the prediction.
 
     Parameters:
@@ -577,24 +577,12 @@ def plot_multiclass_roc(clf, X_test, y_test, n_classes):
 
 def plot_confusion_matrix(input,saveas='pdf',showit=True,transparent_mode=False,figsize=(5.5,5)):
     """
-    Generate and save a confusion matrix plot from the results of ```spatial_neighborhood_analysis```.
+    Generate and save a confusion matrix plot from the results of spatial_neighborhood_analysis.
 
     Parameters:
     -----------
-    input : object
-        An object containing the results from spatial_neighborhood_analysis. This should have the following attributes:
-        - fout : str
-            Path to the file containing saved numpy arrays with the confusion matrix and related data.
-        - Radius : int or float
-            The radius value used in the spatial analysis.
-        - classes : list of int
-            List of class indices.
-        - nameOfCellType : dict
-            Dictionary mapping class indices to cell type names.
-        - lambda_c : float
-            Regularization parameter used in the logistic regression classifier.
-        - niche_pred_outdir : str
-            Directory where the output confusion matrix plot will be saved.
+    input : dict, or similar object
+        The main input is the output from spatial_neighborhood_analysis.
 
     saveas : str, optional, default='pdf'
         Format to save the figure. Options are 'pdf' or 'png'. If 'png', the dpi is set to 300.
@@ -651,26 +639,12 @@ def plot_confusion_matrix(input,saveas='pdf',showit=True,transparent_mode=False,
 
 def plot_coefficient_matrix(input,saveas='pdf',showit=True,transparent_mode=False,figsize=(5,8)):
     """
-    Generate and save a coefficient matrix plot from the results of ```spatial_neighborhood_analysis```.
+    Generate and save a coefficient matrix plot from the results of spatial_neighborhood_analysis.
 
     Parameters:
     -----------
-    input : object
-        An object containing the results from spatial_neighborhood_analysis. This should have the following attributes:
-        - fout : str
-            Path to the file containing saved numpy arrays with the coefficient matrix and related data.
-        - Radius : int or float
-            The radius value used in the spatial analysis.
-        - classes : list of int
-            List of class indices.
-        - nameOfCellType : dict
-            Dictionary mapping class indices to cell type names.
-        - lambda_c : float
-            Regularization parameter used in the logistic regression classifier.
-        - niche_pred_outdir : str
-            Directory where the output coefficient matrix plot will be saved.
-        - BothLinearAndCrossTerms : int
-            Indicator of whether both linear and cross terms are included in the model (1 if true, else 0).
+    input : dict, or similar object
+            The main input is the output from spatial_neighborhood_analysis.
 
     saveas : str, optional, default='pdf'
         Format to save the figure. Options are 'pdf' or 'png'. If 'png', the dpi is set to 300.
@@ -689,13 +663,6 @@ def plot_coefficient_matrix(input,saveas='pdf',showit=True,transparent_mode=Fals
     The function saves the coefficient matrix plot in the directory specified by ./nico_out/niche_prediction_linear/*.
     The filename will be in the format 'weight_matrix_R<Radius>.<saveas>', where <Radius> is the radius value
     from the input and <saveas> is the file format.
-
-    Notes:
-    ------
-    - The function loads data from a numpy file specified by `input.fout`, which should contain the coefficient matrix
-      and related data.
-    - The coefficient matrix is plotted using seaborn's heatmap function with annotations.
-    - The plot is saved in the specified format and directory, and optionally displayed based on the `showit` parameter.
     """
 
 
@@ -739,22 +706,8 @@ def plot_predicted_probabilities(input,saveas='pdf',showit=True,transparent_mode
 
     Parameters:
     -----------
-    input : object
-        An object containing the results from ```spatial_neighborhood_analysis```. This should have the following attributes:
-        - Radius : int or float
-            The radius value used in the spatial analysis.
-        - x_train : array-like
-            Training dataset features.
-        - x_test : array-like
-            Testing dataset features.
-        - predicted_probs : array-like
-            Predicted probabilities for the test set.
-        - inputFeatures : list of str
-            Names of the input features.
-        - classes : list of int
-            List of class indices.
-        - niche_pred_outdir : str
-            Directory where the output plot will be saved.
+    input : dict, or similar object
+            The main input is the output from spatial_neighborhood_analysis.
 
     saveas : str, optional, default='pdf'
         Format to save the figure. Options are 'pdf' or 'png'. If 'png', the dpi is set to 300.
@@ -774,10 +727,6 @@ def plot_predicted_probabilities(input,saveas='pdf',showit=True,transparent_mode
     The filename will be in the format 'predicted_probability_R<Radius>.<saveas>', where <Radius> is the radius value
     from the input and <saveas> is the file format.
 
-    Notes:
-    ------
-    - The function creates a plot with three subplots: the training set features, the testing set features, and the predicted probabilities.
-    - The plot is saved in the specified format and directory, and optionally displayed based on the `showit` parameter.
     """
 
 
@@ -820,20 +769,8 @@ def plot_roc_results(input,nrows=4,ncols=4,saveas='pdf',showit=True,transparent_
 
     Parameters:
     -----------
-    input : object
-        An object containing the results from ```spatial_neighborhood_analysis```. This should have the following attributes:
-        - Radius : int or float
-            The radius value used in the spatial analysis.
-        - roc_auc : dict
-            Dictionary containing ROC AUC values for each cell type.
-        - fpr : dict
-            Dictionary containing false positive rates for each cell type.
-        - tpr : dict
-            Dictionary containing true positive rates for each cell type.
-        - nameOfCellType : dict
-            Dictionary mapping class indices to cell type names.
-        - niche_pred_outdir : str
-            Directory where the output plot will be saved.
+    input : dict, or similar object
+        The main input is the output from spatial_neighborhood_analysis.
 
     nrows : int, optional, default=4
         Number of rows in the subplot grid.
@@ -862,7 +799,6 @@ def plot_roc_results(input,nrows=4,ncols=4,saveas='pdf',showit=True,transparent_
     Notes:
     ------
     - The function creates a grid of ROC curves for the top 16 cell types with the highest ROC AUC values.
-    - The plot is saved in the specified format and directory, and optionally displayed based on the `showit` parameter.
     """
 
     filename='R'+str(input.Radius)
@@ -913,7 +849,7 @@ def plot_roc_results(input,nrows=4,ncols=4,saveas='pdf',showit=True,transparent_
 def read_processed_data(radius,inputdir):
 
     """
-    Read and process the neighborhood expected feature matrix for ```spatial_neighborhood_analysis```.
+    Read and process the neighborhood expected feature matrix for spatial_neighborhood_analysis.
 
     Parameters:
     -----------
@@ -973,7 +909,7 @@ def read_processed_data(radius,inputdir):
 
 def model_log_regression(K_fold,n_repeats,neighborhoodClass,target,lambda_c,strategy,BothLinearAndCrossTerms,seed,n_jobs):
     """
-    Perform logistic regression classification to learn the probabilities of each cell type class. This helper function used in ```spatial_neighborhood_analysis```.
+    Perform logistic regression classification to learn the probabilities of each cell type class. This helper function used in spatial_neighborhood_analysis.
 
     Parameters:
     -----------
@@ -1018,8 +954,7 @@ def model_log_regression(K_fold,n_repeats,neighborhoodClass,target,lambda_c,stra
     Notes:
     ------
     - The function uses polynomial features to create interaction terms based on the specified degree.
-    - Several logistic regression strategies are supported, including L1, L2, and elastic net penalties.
-    - Hyperparameter tuning is performed using cross-validation with specified scoring metrics.
+    - Hyperparameter tuning is performed using cross-validation with f1_weighted scoring metrics.
     """
 
 
@@ -1210,7 +1145,7 @@ coeff_cutoff=20,saveas='pdf',transparent_mode=False,showit=True,figsize=(4.0,2.0
     Parameters:
     -----------
     input : object
-        The main input is the output from ```spatial_neighborhood_analysis```.
+        The main input is the output from spatial_neighborhood_analysis.
 
     choose_celltypes : list, optional
         List of cell types to display the regression coefficients for.
@@ -1621,9 +1556,7 @@ removed_CTs_before_finding_CT_CT_interactions=[]):
 def plot_evaluation_scores(input,saveas='pdf',transparent_mode=False,showit=True,figsize=(4,3)):
 
     """
-    Plot evaluation scores from the ```spatial neighborhood analysis```.
-
-    This function generates and saves plots of evaluation scores obtained from the ```spatial_neighborhood_analysis```.
+    This function generates and saves plots of evaluation scores obtained from the spatial_neighborhood_analysis.
     The plots can be saved in PDF or PNG format and can be displayed during execution.
 
     Parameters
@@ -1774,7 +1707,7 @@ def plot_niche_interactions_without_edge_weight(input,niche_cutoff=0.1,saveas='p
     Parameters
     ----------
     input : dict or similar
-        The main input is the output from ```spatial_neighborhood_analysis```. This should contain the necessary data to plot the niche interactions.
+        The main input is the output from spatial_neighborhood_analysis. This should contain the necessary data to plot the niche interactions.
     niche_cutoff : float, optional
         Cutoff value for plotting the cell type niche interactions map. Default is 0.1.
     saveas : str, optional
