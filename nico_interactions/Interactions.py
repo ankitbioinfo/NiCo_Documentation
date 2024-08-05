@@ -344,8 +344,41 @@ def euclidean_dist(p1,p2):
 
 def reading_data(coordinates,louvainFull,degbased_ctname,saveSpatial,removed_CTs_before_finding_CT_CT_interactions):
     """
-    Helper function used in spatial_neighborhood_analysis to read the cell coordinate file,
+    Helper function used in ```spatial_neighborhood_analysis``` to read the cell coordinate file,
     cluster file, and cluster name file according to the input cell type list provided for the prediction.
+
+    Parameters:
+    -----------
+    coordinates : str
+        Path to the file containing cell coordinates.
+
+    louvainFull : str
+        Path to the file containing the full louvain clustering information.
+
+    degbased_ctname : list of tuples
+        A list where each element is a tuple containing the cell type ID and the cell type name.
+
+    saveSpatial : str
+        Path where the spatial analysis results should be saved.
+
+    removed_CTs_before_finding_CT_CT_interactions : list of str
+        A list of cell type names that should be excluded from the analysis.
+
+    Returns:
+    --------
+    CTname : list of str
+        A list of cell type names that are included in the analysis after filtering out the removed cell types.
+
+    CTid : list of int
+        A list of cell type IDs corresponding to the filtered cell type names.
+
+
+    Notes:
+    ------
+    - This function assumes that `degbased_ctname` is a list of tuples where the first element is an integer
+      representing the cell type ID and the second element is a string representing the cell type name.
+    - The function filters out the cell types listed in `removed_CTs_before_finding_CT_CT_interactions` from the
+      `degbased_ctname` list and returns the remaining cell type names and IDs.
     """
     #df=pd.read_csv(celltypeFilename)
     #data=df.to_numpy()
@@ -495,7 +528,39 @@ def reading_data(coordinates,louvainFull,degbased_ctname,saveSpatial,removed_CTs
 
 def plot_multiclass_roc(clf, X_test, y_test, n_classes):
     """
-    Compute the ROC for each cell type prediction and its performance on the test dataset.
+    Compute the ROC (Receiver Operating Characteristic) curve for each cell type prediction
+    and evaluate its performance on the test dataset.
+
+    Parameters:
+    -----------
+    clf : classifier object
+        The classifier used for making predictions. It should have a `decision_function` method.
+
+    X_test : array-like of shape (n_samples, n_features)
+        Test feature set.
+
+    y_test : array-like of shape (n_samples,)
+        True labels for the test set.
+
+    n_classes : int
+        Number of unique classes (cell types) in the dataset.
+
+    Returns:
+    --------
+    fpr : dict
+        A dictionary where the keys are class indices and the values are arrays of false positive rates.
+
+    tpr : dict
+        A dictionary where the keys are class indices and the values are arrays of true positive rates.
+
+    roc_auc : dict
+        A dictionary where the keys are class indices and the values are the area under the ROC curve (AUC) scores.
+
+    Notes:
+    ------
+    - This function uses the `decision_function` method of the classifier to get the confidence scores for each class.
+    - The true labels `y_test` are converted into a binary format using one-hot encoding.
+    - The ROC curve is computed for each class and the AUC score is calculated for each ROC curve.
     """
     y_score = clf.decision_function(X_test)
     # structures
@@ -512,24 +577,49 @@ def plot_multiclass_roc(clf, X_test, y_test, n_classes):
 
 def plot_confusion_matrix(input,saveas='pdf',showit=True,transparent_mode=False,figsize=(5.5,5)):
     """
-    Inputs:
+    Generate and save a confusion matrix plot from the results of ```spatial_neighborhood_analysis```.
 
-    The primary input is the output from spatial_neighborhood_analysis.
+    Parameters:
+    -----------
+    input : object
+        An object containing the results from spatial_neighborhood_analysis. This should have the following attributes:
+        - fout : str
+            Path to the file containing saved numpy arrays with the confusion matrix and related data.
+        - Radius : int or float
+            The radius value used in the spatial analysis.
+        - classes : list of int
+            List of class indices.
+        - nameOfCellType : dict
+            Dictionary mapping class indices to cell type names.
+        - lambda_c : float
+            Regularization parameter used in the logistic regression classifier.
+        - niche_pred_outdir : str
+            Directory where the output confusion matrix plot will be saved.
 
-    | Save the figures in PDF or PNG format (dpi for PNG format is 300)
-    | (default) saveas='pdf'
+    saveas : str, optional, default='pdf'
+        Format to save the figure. Options are 'pdf' or 'png'. If 'png', the dpi is set to 300.
 
-    | Background color in the figures
-    | (default) transparent_mode=False
+    showit : bool, optional, default=True
+        Whether to display the plot after saving. If False, the plot will be closed after saving.
 
-    | Dimension of the figure size.
-    | (default) figsize=(5.5,5),
+    transparent_mode : bool, optional, default=False
+        Whether to save the figure with a transparent background.
+
+    figsize : tuple of float, optional, default=(5.5, 5)
+        Size of the figure in inches.
 
     Outputs:
+    --------
+    The function saves the confusion matrix plot in the directory specified by `nico_out/niche_prediction_linear/`.
+    The filename will be in the format 'Confusing_matrix_R<Radius>.<saveas>', where <Radius> is the radius value
+    from the input and <saveas> is the file format.
 
-    | The figures are saved in ./spatial_ct_ct_interactions/niche_prediction_linear/*
-    | Confusing_matrix_* shows the confusion matrix of the logistic regression classifier.
-
+    Notes:
+    ------
+    - The function loads data from a numpy file specified by `input.fout`, which should contain the confusion matrix
+      and related data.
+    - The confusion matrix is plotted using seaborn's heatmap function with annotations.
+    - The plot is saved in the specified format and directory, and optionally displayed based on the `showit` parameter.
     """
 
 
@@ -560,25 +650,52 @@ def plot_confusion_matrix(input,saveas='pdf',showit=True,transparent_mode=False,
         plt.close('all')
 
 def plot_coefficient_matrix(input,saveas='pdf',showit=True,transparent_mode=False,figsize=(5,8)):
-    """
-    Inputs:
+     """
+    Generate and save a coefficient matrix plot from the results of ```spatial_neighborhood_analysis```.
 
-    The primary input is the output from spatial_neighborhood_analysis.
+    Parameters:
+    -----------
+    input : object
+        An object containing the results from spatial_neighborhood_analysis. This should have the following attributes:
+        - fout : str
+            Path to the file containing saved numpy arrays with the coefficient matrix and related data.
+        - Radius : int or float
+            The radius value used in the spatial analysis.
+        - classes : list of int
+            List of class indices.
+        - nameOfCellType : dict
+            Dictionary mapping class indices to cell type names.
+        - lambda_c : float
+            Regularization parameter used in the logistic regression classifier.
+        - niche_pred_outdir : str
+            Directory where the output coefficient matrix plot will be saved.
+        - BothLinearAndCrossTerms : int
+            Indicator of whether both linear and cross terms are included in the model (1 if true, else 0).
 
-    | Save the figures in PDF or PNG format (dpi for PNG format is 300)
-    | (default) saveas='pdf'
+    saveas : str, optional, default='pdf'
+        Format to save the figure. Options are 'pdf' or 'png'. If 'png', the dpi is set to 300.
 
-    | Background color in the figures
-    | (default) transparent_mode=False
+    showit : bool, optional, default=True
+        Whether to display the plot after saving. If False, the plot will be closed after saving.
 
-    | Dimension of the figure size.
-    | (default) figsize=(5,8)
+    transparent_mode : bool, optional, default=False
+        Whether to save the figure with a transparent background.
+
+    figsize : tuple of float, optional, default=(5, 8)
+        Size of the figure in inches.
 
     Outputs:
+    --------
+    The function saves the coefficient matrix plot in the directory specified by ./nico_out/niche_prediction_linear/*.
+    The filename will be in the format 'weight_matrix_R<Radius>.<saveas>', where <Radius> is the radius value
+    from the input and <saveas> is the file format.
 
-    | The figures are saved in ./spatial_ct_ct_interactions/niche_prediction_linear/*
-    | weight_matrix_* shows the learned coefficient matrix from the logistic regression classifier.
-
+    Notes:
+    ------
+    - The function loads data from a numpy file specified by `input.fout`, which should contain the coefficient matrix
+      and related data.
+    - The coefficient matrix is plotted using seaborn's heatmap function with annotations.
+    - The plot is saved in the specified format and directory, and optionally displayed based on the `showit` parameter.
     """
 
 
@@ -618,25 +735,51 @@ def plot_coefficient_matrix(input,saveas='pdf',showit=True,transparent_mode=Fals
 
 def plot_predicted_probabilities(input,saveas='pdf',showit=True,transparent_mode=False,figsize=(12,6)):
     """
-    Inputs:
+    Generate and save a plot of predicted probabilities from the results of spatial_neighborhood_analysis.
 
-    The primary input is the output from spatial_neighborhood_analysis.
+    Parameters:
+    -----------
+    input : object
+        An object containing the results from ```spatial_neighborhood_analysis```. This should have the following attributes:
+        - Radius : int or float
+            The radius value used in the spatial analysis.
+        - x_train : array-like
+            Training dataset features.
+        - x_test : array-like
+            Testing dataset features.
+        - predicted_probs : array-like
+            Predicted probabilities for the test set.
+        - inputFeatures : list of str
+            Names of the input features.
+        - classes : list of int
+            List of class indices.
+        - niche_pred_outdir : str
+            Directory where the output plot will be saved.
 
-    | Save the figures in PDF or PNG format (dpi for PNG format is 300)
-    | (default) saveas='pdf'
+    saveas : str, optional, default='pdf'
+        Format to save the figure. Options are 'pdf' or 'png'. If 'png', the dpi is set to 300.
 
-    | Background color in the figures
-    | (default) transparent_mode=False
+    showit : bool, optional, default=True
+        Whether to display the plot after saving. If False, the plot will be closed after saving.
 
-    | Dimension of the figure size.
-    | (default) figsize=(12,6)
+    transparent_mode : bool, optional, default=False
+        Whether to save the figure with a transparent background.
+
+    figsize : tuple of float, optional, default=(12, 6)
+        Size of the figure in inches.
 
     Outputs:
+    --------
+    The function saves the plot of predicted probabilities in the directory specified by ./nico_out/niche_prediction_linear/.
+    The filename will be in the format 'predicted_probability_R<Radius>.<saveas>', where <Radius> is the radius value
+    from the input and <saveas> is the file format.
 
-    | The figures are saved in ./spatial_ct_ct_interactions/niche_prediction_linear/*
-    | predicted_probability_* shows the training, testing, and predicted probability used in the logistic regression classifier.
-
+    Notes:
+    ------
+    - The function creates a plot with three subplots: the training set features, the testing set features, and the predicted probabilities.
+    - The plot is saved in the specified format and directory, and optionally displayed based on the `showit` parameter.
     """
+
 
     filename='R'+str(input.Radius)
 
@@ -672,29 +815,54 @@ def plot_predicted_probabilities(input,saveas='pdf',showit=True,transparent_mode
 
 
 def plot_roc_results(input,nrows=4,ncols=4,saveas='pdf',showit=True,transparent_mode=False,figsize=(10, 7),):
-
     """
-    Inputs:
+    Generate and save ROC curves for the top 16 cell type predictions from the results of spatial_neighborhood_analysis.
 
-    The primary input is the output from spatial_neighborhood_analysis.
+    Parameters:
+    -----------
+    input : object
+        An object containing the results from ```spatial_neighborhood_analysis```. This should have the following attributes:
+        - Radius : int or float
+            The radius value used in the spatial analysis.
+        - roc_auc : dict
+            Dictionary containing ROC AUC values for each cell type.
+        - fpr : dict
+            Dictionary containing false positive rates for each cell type.
+        - tpr : dict
+            Dictionary containing true positive rates for each cell type.
+        - nameOfCellType : dict
+            Dictionary mapping class indices to cell type names.
+        - niche_pred_outdir : str
+            Directory where the output plot will be saved.
 
-    | The top 16 cell types predictions are shown as an ROC curve. These 16 are plotted as four-by-four subplots
-    | (default) nrows=4, ncols=4
+    nrows : int, optional, default=4
+        Number of rows in the subplot grid.
 
-    | Save the figures in PDF or PNG format (dpi for PNG format is 300)
-    | (default) saveas='pdf'
+    ncols : int, optional, default=4
+        Number of columns in the subplot grid.
 
-    | Background color in the figures
-    | (default) transparent_mode=False
+    saveas : str, optional, default='pdf'
+        Format to save the figure. Options are 'pdf' or 'png'. If 'png', the dpi is set to 300.
 
-    | Dimension of the figure size.
-    | (default) figsize=(10, 7)
+    showit : bool, optional, default=True
+        Whether to display the plot after saving. If False, the plot will be closed after saving.
+
+    transparent_mode : bool, optional, default=False
+        Whether to save the figure with a transparent background.
+
+    figsize : tuple of float, optional, default=(10, 7)
+        Size of the figure in inches.
 
     Outputs:
+    --------
+    The function saves the ROC curves plot in the directory specified by ./nico_out/niche_prediction_linear.
+    The filename will be in the format 'ROC_R<Radius>.<saveas>', where <Radius> is the radius value
+    from the input and <saveas> is the file format.
 
-    | The figures are saved in ./spatial_ct_ct_interactions/niche_prediction_linear/*
-    | ROC_* shows the Receiver operating characteristic for the top 16 cell types.
-
+    Notes:
+    ------
+    - The function creates a grid of ROC curves for the top 16 cell types with the highest ROC AUC values.
+    - The plot is saved in the specified format and directory, and optionally displayed based on the `showit` parameter.
     """
 
     filename='R'+str(input.Radius)
@@ -739,19 +907,39 @@ def plot_roc_results(input,nrows=4,ncols=4,saveas='pdf',showit=True,transparent_
         pass
     else:
         plt.close('all')
-    #'''
-
-
-
-
-
-
 
 
 
 def read_processed_data(radius,inputdir):
+
     """
-    Helper function used in spatial_neighborhood_analysis to read the neighborhood expected feature matrix.
+    Read and process the neighborhood expected feature matrix for ```spatial_neighborhood_analysis```.
+
+    Parameters:
+    -----------
+    radius : int or float
+        The radius value used in the spatial analysis.
+
+    inputdir : str
+        The directory containing the input data file.
+
+    Returns:
+    --------
+    neighborhoodClass : numpy.ndarray
+        The matrix of neighborhood class features.
+
+    target : numpy.ndarray
+        The target labels (cell types).
+
+    inputFeatures : range
+        A range object representing the indices of the input features.
+
+    Notes:
+    ------
+    - The function reads a compressed `.npz` file containing the neighborhood expected feature matrix.
+    - It filters out rows with NaN values.
+    - It calculates the proportion of each cell type in the dataset.
+    - The function returns the processed neighborhood class features, target labels, and input feature indices.
     """
 
     #name=inputdir+'normalized_spatial_neighbors_'+str(radius)+'.dat'
@@ -773,25 +961,67 @@ def read_processed_data(radius,inputdir):
     #print('cell type proportion')
     total=sum(prop.values())
     keys=sorted( list( prop.keys())  )
-
     nct=len(prop)
     featureVector=range(2,2+nct) # #just neighborhood
     neighborhoodClass= data[:,featureVector]
-
-
     target= data[:,1]
     print('data shape',data.shape, target.shape, "neighbor shape",neighborhoodClass.shape)
     inputFeatures=range(nct)
-
-
     return neighborhoodClass,target,inputFeatures
 
 
 
 def model_log_regression(K_fold,n_repeats,neighborhoodClass,target,lambda_c,strategy,BothLinearAndCrossTerms,seed,n_jobs):
     """
-    The helper function used in spatial_neighborhood_analysis to perform the logistic regression classifier to learn the probabilities of each cell type class.
+    Perform logistic regression classification to learn the probabilities of each cell type class. This helper function used in ```spatial_neighborhood_analysis```.
+
+    Parameters:
+    -----------
+    K_fold : int
+        Number of folds for cross-validation.
+
+    n_repeats : int
+        Number of times the cross-validation is repeated.
+
+    neighborhoodClass : numpy.ndarray
+        Matrix of neighborhood class features.
+
+    target : numpy.ndarray
+        Target labels (cell types).
+
+    lambda_c : list or numpy.ndarray
+        Regularization strength(s) to be tested in the logistic regression.
+
+    strategy : str
+        The regularization and multi-class strategy. Options include 'L1_multi', 'L1_ovr', 'L2_multi', 'L2_ovr', 'elasticnet_multi', 'elasticnet_ovr'.
+
+    BothLinearAndCrossTerms : int
+        Degree of polynomial features including interaction terms only.
+
+    seed : int
+        Random seed for reproducibility.
+
+    n_jobs : int
+        Number of jobs to run in parallel.
+
+    Returns:
+    --------
+    log_reg_model : sklearn.linear_model.LogisticRegression
+        The logistic regression model with specified parameters.
+
+    parameters : dict
+        Dictionary of parameters used for model training.
+
+    hyperparameter_scoring : dict
+        Dictionary of scoring metrics used for hyperparameter tuning.
+
+    Notes:
+    ------
+    - The function uses polynomial features to create interaction terms based on the specified degree.
+    - Several logistic regression strategies are supported, including L1, L2, and elastic net penalties.
+    - Hyperparameter tuning is performed using cross-validation with specified scoring metrics.
     """
+
 
     polynomial = PolynomialFeatures(degree = BothLinearAndCrossTerms, interaction_only=True, include_bias=False)
 
