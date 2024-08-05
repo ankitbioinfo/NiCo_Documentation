@@ -187,7 +187,6 @@ coeff_cutoff_for_rid_reg=0,logistic_coef_cutoff=0):
 
     Outputs
     -------
-    Cell types factor - cell types factor covariations in the niche.
     The output is saved in the directory specified by `output_niche_prediction_dir`, with default location being './nico_out/covariations_R*_F*'.
 
     Notes
@@ -2221,15 +2220,16 @@ def remove_extra_character_from_name(name):
     Notes
     -----
     The following replacements are made:
-    - '/' is replaced with '_'
-    - ' ' (space) is replaced with '_'
-    - '"' (double quote) is removed
-    - "'" (single quote) is removed
-    - ')' is removed
-    - '(' is removed
-    - '+' is replaced with 'p'
-    - '-' is replaced with 'n'
-    - '.' (dot) is removed
+
+        - '/' is replaced with '_'
+        - ' ' (space) is replaced with '_'
+        - '"' (double quote) is removed
+        - "'" (single quote) is removed
+        - ')' is removed
+        - '(' is removed
+        - '+' is replaced with 'p'
+        - '-' is replaced with 'n'
+        - '.' (dot) is removed
 
     These substitutions help in creating filenames that do not contain characters
     that might be problematic for file systems or software.
@@ -3388,11 +3388,6 @@ def  plot_ligand_receptor_in_interacting_celltypes(CC_celltype_name,NC_celltype_
         Size of the figure.
     flag : str
         Flag indicating which interactions to plot ('First', 'Second', 'Both').
-
-    Returns:
-    --------
-    int
-        Returns 0 on successful completion.
 
     """
 
