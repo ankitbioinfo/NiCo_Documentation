@@ -1623,7 +1623,7 @@ def plot_evaluation_scores(input,saveas='pdf',transparent_mode=False,showit=True
     """
     Plot evaluation scores from the ```spatial neighborhood analysis```.
 
-    This function generates and saves plots of evaluation scores obtained from the spatial_neighborhood_analysis.
+    This function generates and saves plots of evaluation scores obtained from the ```spatial_neighborhood_analysis```.
     The plots can be saved in PDF or PNG format and can be displayed during execution.
 
     Parameters
@@ -1646,10 +1646,7 @@ def plot_evaluation_scores(input,saveas='pdf',transparent_mode=False,showit=True
 
     Notes
     -----
-    - The function assumes that the input contains the necessary data for plotting evaluation scores.
-    - Figures are saved with a resolution of 300 dpi if the 'png' format is selected.
-    - The default save location is "./nico_out/niche_prediction_linear/".
-    _ The order of scores saved in input.score as follows:
+    - The order of scores saved in input.score as follows:
 
         - 1. accuracy
         - 2. macro F1
@@ -1661,7 +1658,7 @@ def plot_evaluation_scores(input,saveas='pdf',transparent_mode=False,showit=True
         - 8. weighted F1
         - 9. weighted precision
         - 10. weighted recall
-        - 11. Cohenb Kappa
+        - 11. Cohen Kappa
         - 12. cross entropy
         - 13. mathhew correlation coefficient
         - 14. heming loss
@@ -1769,26 +1766,30 @@ def plot_normalized_coefficients_radius_wise(inputRadius,BothLinearAndCrossTerms
 def plot_niche_interactions_without_edge_weight(input,niche_cutoff=0.1,saveas='pdf',transparent_mode=False,showit=True,figsize=(10,7)):
 
     """
-    Inputs:
+    Plot niche interactions map without edge weights.
 
-    The main input is the output from spatial_neighborhood_analysis.
+    This function generates and saves a niche interactions map using the output from spatial_neighborhood_analysis.
+    The plot can be saved in PDF or PNG format and can be displayed during execution.
 
-    | Cutoff used for plotting the niche interactions map
-    | (default) niche_cutoff=0.10
+    Parameters
+    ----------
+    input : dict or similar
+        The main input is the output from ```spatial_neighborhood_analysis```. This should contain the necessary data to plot the niche interactions.
+    niche_cutoff : float, optional
+        Cutoff value for plotting the cell type niche interactions map. Default is 0.1.
+    saveas : str, optional
+        Format to save the figures. Options are 'pdf' or 'png'. Default is 'pdf'.
+    transparent_mode : bool, optional
+        If True, the background color of the figures will be transparent. Default is False.
+    showit : bool, optional
+        If True, the figures will be displayed when the function is called. Default is True.
+    figsize : tuple, optional
+        Dimensions of the figure size in inches (width, height). Default is (10, 7).
 
-    | Save the figures in PDF or PNG format (dpi for PNG format is 300)
-    | (default) saveas='pdf'
-
-    | Background color in the figures
-    | (default) transparent_mode=False
-
-    | Dimension of the figure size.
-    | (default) figsize=(10,7)
-
-    Outputs:
-
-    | The figures are saved in ./nico_out/niche_prediction_linear/Niche_interactions_*
-
+    Outputs
+    -------
+    None
+        The function saves the generated figures in the directory "./nico_out/niche_prediction_linear/" with filenames starting with "Niche_interactions_*".
     """
 
     data=np.load(input.fout,allow_pickle=True)
@@ -1851,29 +1852,31 @@ def plot_niche_interactions_without_edge_weight(input,niche_cutoff=0.1,saveas='p
 def plot_niche_interactions_with_edge_weight(input,niche_cutoff=0.1,saveas='pdf',transparent_mode=False,showit=True,figsize=(10,7)):
         #niche_cutoff it is normalized large value has fewer connections and small value has larger connections
         """
-        Inputs:
+        Plot niche interactions map with edge weights.
 
-        The main input is the output from spatial_neighborhood_analysis.
+        This function generates and saves a niche interactions map using the output from spatial_neighborhood_analysis. The edges in the map are weighted based on the interaction strengths. The plot can be saved in PDF or PNG format and can be displayed during execution.
 
-        | Cutoff used for plotting the niche interactions map
-        | (default) niche_cutoff=0.10
+        Parameters
+        ----------
+        input : dict or similar
+            The main input is the output from spatial_neighborhood_analysis. This should contain the necessary data to plot the niche interactions.
+        niche_cutoff : float, optional
+            Cutoff value for plotting the niche interactions map. Higher values result in fewer connections, while lower values result in more connections. Default is 0.1.
+        saveas : str, optional
+            Format to save the figures. Options are 'pdf' or 'png'. Default is 'pdf'.
+        transparent_mode : bool, optional
+            If True, the background color of the figures will be transparent. Default is False.
+        showit : bool, optional
+            If True, the figures will be displayed when the function is called. Default is True.
+        figsize : tuple, optional
+            Dimensions of the figure size in inches (width, height). Default is (10, 7).
 
-        | Save the figures in PDF or PNG format (dpi for PNG format is 300)
-        | (default) saveas='pdf'
-
-        | Background color in the figures
-        | (default) transparent_mode=False
-
-        | Dimension of the figure size.
-        | (default) figsize=(10,7)
-
-        Outputs:
-
-        | The figures are saved in ./nico_out/niche_prediction_linear/Niche_interactions_*
+        Outputs
+        -------
+        None
+            The function saves the generated figures in the directory "./nico_out/niche_prediction_linear/" with filenames starting with "Niche_interactions_*".
 
         """
-
-
 
         data=np.load(input.fout,allow_pickle=True)
         coef=data['coef']
