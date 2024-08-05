@@ -11,7 +11,7 @@ import sys
 sys.path.insert(0,os.path.abspath(".."))
 
 project = 'NiCo'
-copyright = '2023, Grün lab'
+copyright = '2024, Grün lab'
 author = 'Ankit Agrawal'
 release = '1.0.0'
 
