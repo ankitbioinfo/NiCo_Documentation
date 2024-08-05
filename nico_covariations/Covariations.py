@@ -2494,7 +2494,28 @@ def makePCneighboorhoodFeatureMatrix(input):
     """
     Helper function in gene_covariation_analysis to find the weighted neighborhood
     average of cell types from the spatial factors.
+
+    This function computes a matrix where each row corresponds to a cell and each column
+    corresponds to a weighted average of principal components (PCs) from neighboring cells.
+
+    Parameters:
+    -----------
+    input : object
+        An object containing various attributes required for computation, such as:
+        - spatialcell_unique_clusterid: Unique cluster IDs for spatial cells.
+        - neighbors: List of neighboring cells for each cell.
+        - neigh_distances: Distances to neighbors.
+        - annotation_spatial_barcode_id: Barcode IDs for spatial annotations.
+        - annotation_spatial_cluster_id: Cluster IDs for spatial annotations.
+        - pc_of_sp_clusterid: Principal components for spatial cluster IDs.
+        - no_of_pc: Number of principal components.
+        - outputname: Name of the output file.
+
+    Outputs:
+    --------
+    A .npz file containing the matrix of weighted neighborhood principal components.
     """
+
 
     n=len(input.spatialcell_unique_clusterid)
     M=np.zeros((len(input.neighbors),n*input.no_of_pc),dtype=float)
@@ -3098,8 +3119,26 @@ def findXYZC(c,s):
 
 def create_subtitle(fig: plt.Figure, grid: SubplotSpec, title: str):
     """
-    Helper function used in plot_top_selected_genes_as_dotplot.
-    Sign sets of subplots with title.
+    Add a title to a specific set of subplots within a figure.
+
+    This helper function is used to create a title for a subset of plots within
+    a Matplotlib figure. The title is added with a specific formatting and the
+    subplot is hidden from view (no axes or frames).
+
+    Parameters:
+    -----------
+    fig : matplotlib.figure.Figure
+        The figure object to which the subplot belongs.
+    grid : matplotlib.gridspec.SubplotSpec
+        The subplot specification that defines the location and size of the subplot within the figure.
+    title : str
+        The title text to be displayed above the subplot.
+
+    Notes:
+    ------
+    - The newline character (`\n`) in the title string is crucial for proper spacing.
+    - The subplot is hidden using `set_frame_on(False)` and `axis('off')`.
+
     """
     row = fig.add_subplot(grid)
     # the '\n' is important
@@ -3113,7 +3152,54 @@ def create_subtitle(fig: plt.Figure, grid: SubplotSpec, title: str):
 
 
 def find_fold_change(PCA,NH_PCA,gene,CCPC,NCPC,totalLRpairs,LRcutoff,CC_meanExpression,NC_meanExpression,CC_popExpression,NC_popExpression,number_of_top_genes_to_print):
-    "Helper function used to find the ligand-receptor genes for find_LR_interactions_in_interacting_cell_types."
+    """
+    Identify ligand-receptor genes for cell type interaction analysis.
+
+    This helper function is used in `find_LR_interactions_in_interacting_cell_types` to find ligand-receptor (LR) genes based on principal component analysis (PCA) data. It identifies the top genes and checks for LR interactions between specific cell types.
+
+    Parameters:
+    -----------
+    PCA : numpy.ndarray
+        PCA data for the cell type of interest.
+    NH_PCA : numpy.ndarray
+        PCA data for non-host cell types.
+    gene : list of str
+        List of gene names corresponding to the PCA data.
+    CCPC : int
+        Principal component index for the cell type of interest.
+    NCPC : int
+        Principal component index for the non-host cell type.
+    totalLRpairs : list of tuples
+        List of tuples representing all possible ligand-receptor pairs.
+    LRcutoff : float
+        Threshold for selecting significant ligand-receptor interactions.
+    CC_meanExpression : numpy.ndarray
+        Mean expression values for the central cell type.
+    NC_meanExpression : numpy.ndarray
+        Mean expression values for the niche cell type.
+    CC_popExpression : numpy.ndarray
+        Population expression values for the central cell type.
+    NC_popExpression : numpy.ndarray
+        Population expression values for the niche cell type.
+    number_of_top_genes_to_print : int
+        Number of top genes to include in the output.
+
+    Returns:
+    --------
+    cc_genes : list of str
+        List of significant genes for the cell type of interest.
+    nc_genes : list of str
+        List of significant genes for the non-host cell type.
+    cc_genes5 : list of list
+        Top genes for the cell type of interest with their PCA scores.
+    nc_genes5 : list of list
+        Top genes for the non-host cell type with their PCA scores.
+    Found1 : list of list
+        Ligand-receptor pairs with ligands in the cell type of interest and receptors in the non-host cell type.
+    Found2 : list of list
+        Ligand-receptor pairs with ligands in the non-host cell type and receptors in the cell type of interest.
+
+    """
     listofallLR={}
     uniqueLRpairs={}
     for i in range(len(totalLRpairs)):
@@ -3180,7 +3266,21 @@ def find_fold_change(PCA,NH_PCA,gene,CCPC,NCPC,totalLRpairs,LRcutoff,CC_meanExpr
 
 def sorting_of_factors_for_showing_the_value_in_excelsheet(CC_corr,no_of_pc,gene,genenames):
     """
-    Helper function for make_excel_sheet_for_gene_correlation to sort the factor values.
+    Sort factor values for displaying in an Excel sheet.
+
+    This helper function is used in `make_excel_sheet_for_gene_correlation` to sort the factor values from correlation data. It separates the sorted values into all genes and a subset of common genes.
+
+    Parameters:
+    -----------
+    CC_corr : numpy.ndarray
+        Array of correlation values, where rows represent genes and columns represent principal components.
+    no_of_pc : int
+        Number of principal components.
+    gene : list of str
+        List of gene names corresponding to the rows in `CC_corr`.
+    genenames : list of str
+        List of gene names to be included in the common subset.
+
     """
 
     headersave_full=[]
@@ -3210,9 +3310,24 @@ def sorting_of_factors_for_showing_the_value_in_excelsheet(CC_corr,no_of_pc,gene
 
 def triangulation_for_triheatmap(M, N):
     """
-    Helper function for plotting ligand receptor map in plot_ligand_receptor_in_interacting_celltypes.
-    """
+    Create triangulation for plotting a ligand-receptor map.
 
+    This helper function generates the triangulation needed for plotting a rectangle four faces in
+    the `plot_ligand_receptor_in_interacting_celltypes` function. It constructs the vertices
+    and triangles required for visualizing the ligand-receptor interactions on a heatmap.
+
+    Parameters:
+    -----------
+    M : int
+        Number of columns in the heatmap.
+    N : int
+        Number of rows in the heatmap.
+
+    Returns:
+    --------
+    list of matplotlib.tri.Triangulation
+    """
+    
     xv, yv = np.meshgrid(np.arange(-0.5, M), np.arange(-0.5, N))  # vertices of the little squares
     xc, yc = np.meshgrid(np.arange(0, M), np.arange(0, N))  # centers of the little squares
     x = np.concatenate([xv.ravel(), xc.ravel()])
@@ -3232,12 +3347,56 @@ def triangulation_for_triheatmap(M, N):
 
 def  plot_ligand_receptor_in_interacting_celltypes(CC_celltype_name,NC_celltype_name,logRegScore,pc1,pc2,ridgeRegScore,pvalue,Found1,Found2,saveLRplots,LR_plot_Exp_thres,saveas,transparent_mode,showit,figsize,flag):
     """
-    Helper function used in find_LR_interactions_in_interacting_cell_types to plot the rectangle p-value figures.
+    Plot ligand-receptor interactions for interacting cell types.
 
-    The Y-axis shows the central cell type factors, and the X-axis shows the neighborhood cell type factors.
+    This helper function is used in `find_LR_interactions_in_interacting_cell_types` to plot
+    rectangle p-value figures representing ligand-receptor interactions between two cell types.
 
-    The circle size denotes the p-values. The circle size scales with significance.
+    The Y-axis shows the central cell type factors, and the X-axis shows the colocalized neighborhood cell type factors.
+    The circle size denotes the p-values, and the circle size scales with significance.
+
+    Parameters:
+    -----------
+    CC_celltype_name : str
+        Name of the central cell type.
+    NC_celltype_name : str
+        Name of the neighborhood cell type.
+    logRegScore : float
+        Logistic regression score.
+    pc1 : int
+        Principal component for the central cell type.
+    pc2 : int
+        Principal component for the neighborhood cell type.
+    ridgeRegScore : float
+        Ridge regression score.
+    pvalue : float
+        P-value for the interaction.
+    Found1 : list
+        List of found ligand-receptor interactions where the ligand is in the central cell type.
+    Found2 : list
+        List of found ligand-receptor interactions where the ligand is in the neighborhood cell type.
+    saveLRplots : str
+        Directory to save the ligand-receptor plots.
+    LR_plot_Exp_thres : float
+        Expression threshold for plotting.
+    saveas : str
+        File format to save the plots (e.g., 'png', 'pdf').
+    transparent_mode : bool
+        Whether to save the plots with a transparent background.
+    showit : bool
+        Whether to display the plots.
+    figsize : tuple
+        Size of the figure.
+    flag : str
+        Flag indicating which interactions to plot ('First', 'Second', 'Both').
+
+    Returns:
+    --------
+    int
+        Returns 0 on successful completion.
+
     """
+
     xfact=figsize[0]/34.0
     yfact=figsize[1]/44.0
     LRFigSize=np.zeros(np.array(figsize).shape)
@@ -3400,46 +3559,40 @@ msna=0.1,ms=5,cmap=matplotlib.rcParams["image.cmap"],
 saveas='pdf',transparent_mode=False,showit=True,figsize=(8,3.5)):
 
     """
-    Inputs:
+    Visualize factors in scRNAseq UMAP embedding.
 
-    | The primary input is the output from gene_covariation_analysis.
+    This function visualizes the factors in single-cell RNA sequencing (scRNAseq) UMAP embeddings. It highlights the interactions between specified cell type pairs and their corresponding factor IDs.
 
-    | Define the cell type pairs to visualize in the list. The first entry is the central cell type, and the second is the niche cell type.
-    | choose_interacting_celltype_pair=['?']
-
-    | Define the factor IDs to visualize in the umap in this list. The first entry is the factor ID of the central cell type, and the second is the factor ID of the niche cell type.
-    | visualize_factors_id=['?']
-
-    | Reference scRNAseq count matrix in scTransform-like normalization for the common gene space. The filename must be sct_singleCell.h5ad
-    | (default) refpath='./inputRef/'
-
-    | Original count data of scRNAseq in h5ad format
-    | (default) ref_original_counts='Original_counts.h5ad'
-    | Must have the umap information in .obsm['X_umap']
-
-    | The marker size of selected and NA cell types
-    | (default) ms=5  (chosen)
-    | (default) msna=0.1 (NA)
-
-    | Save the figures in PDF or PNG format (dpi for PNG format is 300)
-    | (default) saveas='pdf'
-
-    | Define the colormap for visualizing factors
-    | (default) cmap=matplotlib.rcParams["image.cmap"]
-
-    | Background color of the figures
-    | (default) transparent_mode=False
-
-    | Dimension of the figure size.
-    | (default) figsize=(8,3.5)
+    Parameters:
+    -----------
+    input : str
+        The primary input is the output from `gene_covariation_analysis`.
+    choose_interacting_celltype_pair : list
+        List defining the cell type single or in pairs to visualize. At least one cell type need to put by the user.
+    visualize_factors_id : list
+        List defining the factor IDs single or in pairs to visualize in the UMAP. The chosen factors analogous to defined cell types.
+    umap_tag : str, optional
+        The UMAP embedding tag in the .obsm field of the AnnData object (default is 'X_umap').
+    msna : float, optional
+        The marker size for non selected (NA) cell types (default is 0.1).
+    ms : int, optional
+        The marker size for selected cell types (default is 5).
+    cmap : str, optional
+        Colormap for visualizing factors (default is `matplotlib.rcParams["image.cmap"]`).
+    saveas : str, optional
+        Format to save the figures ('pdf' or 'png') (default is 'pdf').
+    transparent_mode : bool, optional
+        Whether to save the figures with a transparent background (default is False).
+    showit : bool, optional
+        Whether to display the figures (default is True).
+    figsize : tuple, optional
+        Size of the figure (default is (8, 3.5)).
 
     Outputs:
-
-    | The factor visualization in scRNAseq embedding is saved in "./nico_out/covariations_R*_F*/scRNAseq_factors_in_umap."
+    --------
+    The factor visualization in scRNAseq embedding is saved in "./nico_out/covariations_R*_F*/scRNAseq_factors_in_umap".
 
     """
-
-
 
     original_h5ad=input.umap_plot_sc
     umap=original_h5ad.obsm[umap_tag]
@@ -3526,7 +3679,33 @@ saveas='pdf',transparent_mode=False,showit=True,figsize=(8,3.5)):
 
 
 def plot_all_ct(CTname,PP,cellsinCT,ax,mycelltype,Fa,cmap,ms,msna):
-    "Helper function used for visualizing factor values in the umap."
+    """
+    Visualize factor values in UMAP for all cell types.
+
+    This helper function is used for visualizing factor values in UMAP, showing the distribution of cells across different cell types and highlighting specific cell types of interest.
+
+    Parameters:
+    -----------
+    CTname : list of str
+        List of cell type names.
+    PP : np.ndarray
+        UMAP embedding coordinates for all cells.
+    cellsinCT : dict
+        Dictionary where keys are cell type names and values are lists of cell indices corresponding to each cell type.
+    ax : matplotlib.axes.Axes
+        Matplotlib Axes object where the UMAP plot will be drawn.
+    mycelltype : list of str
+        List of cell types to highlight.
+    Fa : np.ndarray
+        Array of factor values corresponding to each cell.
+    cmap : str or matplotlib.colors.Colormap
+        Colormap used for plotting the factor values.
+    ms : int
+        Marker size for the highlighted cell types.
+    msna : int
+        Marker size for the non-highlighted (NA) cell types.
+
+    """
     #cmap=plt.cm.get_cmap('Spectral')
     #cmap=plt.cm.get_cmap('jet')
     cumsum=np.linspace(0,1,len(CTname))
@@ -3554,41 +3733,56 @@ umap_tag='X_umap',
 quepath='./inputQuery/',msna=0.1,ms=5,cmap=matplotlib.rcParams["image.cmap"],
 saveas='pdf',transparent_mode=False,showit=True,figsize=(8,3.5)):
 
-
     """
-    Inputs:
+    Visualize factors in spatial UMAP for cell type interactions.
 
-    | The primary input is the output from gene_covariation_analysis.
+    This function is used to visualize the factors of interacting cell types in a spatial UMAP embedding. It generates and saves plots showing the distribution and factor values of cells.
 
-    | Define the cell type pairs for visualization in the spatial umap in the list. The first entry is the central cell type, and the second is the niche cell type.
-    | choose_interacting_celltype_pair=['?']
+    Parameters:
+    -----------
+    input : str
+        The primary input is the output from gene_covariation_analysis.
 
-    | Define the factor IDs for visualization in the spatial umap in the list. The first entry is the factor ID of the central cell type, and the second is the factor ID of the niche cell type.
-    | visualize_factors_id=['?']
+    choose_interacting_celltype_pair : list of str
+        Define the cell type single or in pairs for visualization in the spatial UMAP.
+        Example: choose_interacting_celltype_pair=['CentralCellType', 'NicheCellType']
 
-    | Query spatial count matrix in scTransform-like normalization in the common gene space. The filename should be sct_spatial.h5ad
-    | (default) quepath='./inputQuery/'
-    | Must have the umap information in .obsm['X_umap']
+    visualize_factors_id : list of str
+        Define the factor IDs single or in pairs for visualization in the spatial UMAP.
+        Example: visualize_factors_id=[1, 3]
 
-    | The marker size of selected and NA cell types
-    | (default) ms=5  (chosen)
-    | (default) msna=0.1 (NA)
+    umap_tag : str, optional
+        Slot for UMAP embedding in the AnnData object. Default is 'X_umap'.
 
-    | Define the colormap for visualizing factors
-    | (default) cmap=matplotlib.rcParams["image.cmap"]
+    quepath : str, optional
+        Path to the query spatial count matrix in scTransform-like normalization in the common gene space. The filename should be sct_spatial.h5ad.
+        Default is './inputQuery/'.
 
-    | Save the figures in PDF or PNG format (dpi for PNG format is 300)
-    | (default) saveas='pdf'
+    msna : float, optional
+        Marker size for not selected (NA) cell types. Default is 0.1.
 
-    | Background color of the figures
-    | (default) transparent_mode=False
+    ms : float, optional
+        Marker size for selected cell types. Default is 5.
 
-    | Dimension of the figure size.
-    | (default) figsize=(8,3.5)
+    cmap : str or matplotlib.colors.Colormap, optional
+        Colormap used for visualizing the factor values. Default is matplotlib.rcParams["image.cmap"].
+
+    saveas : str, optional
+        Format to save the figures, either 'pdf' or 'png'. Default is 'pdf'.
+
+    transparent_mode : bool, optional
+        Background color of the figures. If True, the figures have a transparent background. Default is False.
+
+    showit : bool, optional
+        If True, the figures will be displayed. Default is True.
+
+    figsize : tuple of float, optional
+        Dimension of the figure size. Default is (8, 3.5).
 
     Output:
+    -------
+    The output figure will be saved in nico_out/covariations_R*_F*/spatial_factors_in_umap*.
 
-    The output figure will be saved in nico_out/covariations_R*_F*/spatial_factors_in_umap*
 
     """
 
@@ -3678,7 +3872,33 @@ saveas='pdf',transparent_mode=False,showit=True,figsize=(8,3.5)):
 
 def read_LigRecDb(contdb):
     """
-    Read the ligand-receptor database file. The first column is the ligand pair, and the second is the receptor pair.
+    Reads the ligand-receptor database file.
+
+    This function processes a database of ligand-receptor pairs, identifying unique ligands, receptors, and elements that act as both. The input should be a list of strings, where each string represents a line from the database file.
+
+    Parameters:
+    -----------
+    contdb : list of str
+        A list of strings, where each string is a line from the ligand-receptor database file. Each line contains a ligand and a receptor separated by whitespace.
+
+
+    Example:
+    --------
+    >>> contdb = [
+            "LIG1 REC1",
+            "LIG2 REC2",
+            "REC1 LIG1",  # REC1 is both a receptor and a ligand
+            "LIG3 REC3"
+        ]
+    >>> totalLRpairs, ligand, receptor, either = read_LigRecDb(contdb)
+    >>> print(totalLRpairs)
+    [['LIG1', 'REC1'], ['LIG2', 'REC2'], ['REC1', 'LIG1'], ['LIG3', 'REC3']]
+    >>> print(ligand)
+    {'LIG2': 1, 'LIG3': 1}
+    >>> print(receptor)
+    {'REC2': 1, 'REC3': 1}
+    >>> print(either)
+    {'LIG1': 1, 'REC1': 1}
     """
     #f=open('sort_3_db_L_R_high_confident.dat','r')
     totalLRpairs=[]
@@ -3702,7 +3922,25 @@ def read_LigRecDb(contdb):
     return totalLRpairs,ligand,receptor,either
 
 def sort_index_in_right_order(correct,wrong):
-    "Helper function used in visualize cell type annotations."
+    """
+    Sorts the 'wrong' array to match the order of the 'correct' array based on the first column values.
+
+    This function reorders the rows of the 'wrong' array to match the order of the 'correct' array based on the values in the first column. It is a helper function used in visualizing cell type annotations.
+
+    Parameters:
+    -----------
+    correct : ndarray
+        An array with the correct order of elements. The sorting is based on the values in the first column.
+
+    wrong : ndarray
+        An array that needs to be reordered to match the 'correct' array. The sorting is based on the values in the first column.
+
+    Returns:
+    --------
+    right : ndarray
+        The 'wrong' array reordered to match the order of the 'correct' array based on the first column values.
+
+    """
     d={}
     for i in range(len(wrong)):
         d[wrong[i,0]]=i
@@ -3715,37 +3953,60 @@ def sort_index_in_right_order(correct,wrong):
 
 def plot_top_genes_for_a_given_celltype_from_all_three_factors(input,choose_celltypes=[],top_NOG=20,rps_rpl_mt_genes_included=True,correlation_with_spearman=True,saveas='pdf',transparent_mode=False,showit=True,figsize=(12, 10)):
     """
-    Inputs:
+    Visualize top genes associated with given cell types across all three factors.
 
-    The main input is the output from gene_covariation_analysis.
+    This function generates plots of the top N genes associated with specified cell types from the input data.
+    The associations can be visualized using either Spearman correlation coefficient or cosine similarity.
+    Optionally, the visualization can include rps, rpl, and mt genes.
 
-    | Number of genes to visualize
-    | (default) top_NOG=20
+    Parameters:
+    -----------
+    input : dict
+        The main input is the output from gene_covariation_analysis.
 
-    | If True, visualize gene-factor association obtained as Spearman correlation coefficient; otherwise, cosine similarity is displayed.
-    | (default) correlation_with_spearman=True
+    choose_celltypes : list, optional
+        The cell type for which the gene-factor associations should be displayed.
+        If the list is empty, the output will be generated for all the cell types.
+        (default is [])
 
-    | For pathway analysis, decide whether to include rps, rpl, and mt genes. If True, they are included.
-    | (default) rps_rpl_mt_genes_included=True
+    top_NOG : int, optional
+        Number of genes to visualize.
+        (default is 20)
 
-    | The cell type for which the gene-factor associations should be displayed
-    | (default) choose_celltypes=[]
-    | If the list is empty, the output will be generated for all the cell types.
+    rps_rpl_mt_genes_included : bool, optional
+        For pathway analysis, decide whether to include rps, rpl, and mt genes. If True, they are included.
+        (default is True)
 
-    | Save the figures in PDF or PNG format (dpi for PNG format is 300)
-    | (default) saveas='pdf'
+    correlation_with_spearman : bool, optional
+        If True, visualize gene-factor association obtained as Spearman correlation coefficient; otherwise, cosine similarity is displayed.
+        (default is True)
 
-    | Background color of the figures
-    | (default) transparent_mode=False
+    saveas : str, optional
+        Save the figures in PDF or PNG format (dpi for PNG format is 300).
+        (default is 'pdf')
 
-    | Dimension of the figure size.
-    | (default) figsize=(12,10)
+    transparent_mode : bool, optional
+        Background color of the figures.
+        (default is False)
+
+    showit : bool, optional
+        Whether to display the plot or not.
+        (default is True)
+
+    figsize : tuple, optional
+        Dimension of the figure size.
+        (default is (12, 10))
 
     Outputs:
+    --------
+    The gene visualization figures are saved in ./nico_out/covariations_R*_F*/dotplots/*
 
-    | The gene visualization figures are saved in ./nico_out/covariations_R*_F*/dotplots/*
-
+    Example:
+    --------
+    >>> input_data = load_data_from_analysis()  # hypothetical function to load data
+    >>> plot_top_genes_for_a_given_celltype_from_all_three_factors(input_data, choose_celltypes=['CellType1'], top_NOG=10)
     """
+
     savefigdir=input.covariation_dir+ 'dotplots/'
     create_directory(savefigdir)
 
@@ -3879,6 +4140,65 @@ rps_rpl_mt_genes_included=True,correlation_with_spearman=True,
 saveas='pdf',transparent_mode=False,showit=True,figsize=(5, 8)):
 
 
+    """
+    Visualize top genes associated with a pair of cell types from chosen factors.
+
+    This function generates plots of the top 20 genes in the factors associated with specified cell types
+    from the input data, using either Spearman correlation coefficient or cosine similarity.
+    The visualizations include comparisons between the chosen factors for each cell type.
+
+    Parameters:
+    -----------
+    input : object
+        The main input is the output from gene_covariation_analysis, which includes factor and expression data.
+
+    choose_interacting_celltype_pair : list
+        Define the cell type pairs for visualization. The first entry is the central cell type, and the second is the niche cell type.
+
+    visualize_factors_id : list
+        Define the factor IDs for visualization. The first entry is the factor ID of the central cell type, and the second is the factor ID of the niche cell type.
+
+    top_NOG : int, optional
+        Number of genes to visualize.
+        (default is 20)
+
+    rps_rpl_mt_genes_included : bool, optional
+        For pathway analysis, decide whether to include rps, rpl, and mt genes. If True, they are included.
+        (default is True)
+
+    correlation_with_spearman : bool, optional
+        If True, visualize gene-factor association obtained as Spearman correlation coefficient; otherwise, cosine similarity is displayed.
+        (default is True)
+
+    saveas : str, optional
+        Save the figures in PDF or PNG format (dpi for PNG format is 300).
+        (default is 'pdf')
+
+    transparent_mode : bool, optional
+        Background color of the figures.
+        (default is False)
+
+    showit : bool, optional
+        Whether to display the plot or not.
+        (default is True)
+
+    figsize : tuple, optional
+        Dimension of the figure size.
+        (default is (5, 8))
+
+    Outputs:
+    --------
+    The gene visualization figures are saved in ./nico_out/covariations_R*_F*/dotplots/*
+
+    Example:
+    --------
+    >>> scov.plot_top_genes_for_pair_of_celltypes_from_two_chosen_factors(cov_out,
+    choose_interacting_celltype_pair=['Stem/TA','Paneth'],
+    visualize_factors_id=[1,1],
+    top_NOG=20,saveas=saveas,transparent_mode=transparent_mode)
+    """
+
+
     savefigdir=input.covariation_dir+ 'dotplots/'
     create_directory(savefigdir)
 
@@ -3991,6 +4311,38 @@ saveas='pdf',transparent_mode=False,showit=True,figsize=(5, 8)):
 
 
 def find_interest_of_genes(source,pop,mu,rps_rpl_mt_genes_included,CC_gene,top_NOG):
+    """
+    Find genes of interest based on factor values, population expression, and average expression.
+
+    Parameters:
+    -----------
+    source : np.array
+        Factor values associated with genes.
+
+    pop : np.array
+        Population expression values.
+
+    mu : np.array
+        Mean expression values.
+
+    rps_rpl_mt_genes_included : bool
+        Include Rps, Rpl, and mt genes if True.
+
+    CC_gene : np.array
+        List of gene names.
+
+    top_NOG : int
+        Number of genes to select.
+
+    Returns:
+    --------
+    gp1 : list
+        Genes of interest based on factor values.
+
+    vp1 : list
+        Corresponding factor values of the selected genes.
+    """
+
     ind=np.argsort(-source)
     interestofGene=[]
     value_fact=[]
