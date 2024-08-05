@@ -2502,7 +2502,7 @@ def makePCneighboorhoodFeatureMatrix(input):
     -----------
     input : object
         An object containing various attributes required for computation, such as:
-        
+
             - spatialcell_unique_clusterid: Unique cluster IDs for spatial cells.
             - neighbors: List of neighboring cells for each cell.
             - neigh_distances: Distances to neighbors.
@@ -2587,6 +2587,7 @@ def compute_PC_space(input,sct_ad_sc_full):
     ----------
     input : object
         An object containing the following attributes:
+
         - spatialcell_unique_clusterid: list of unique spatial cell cluster IDs.
         - neighbors: list of neighbors for each cell.
         - neigh_distances: list of distances to neighbors for each cell.
@@ -2674,6 +2675,7 @@ def model_linear_regression(input,logistic_predicted_interactions):
     ----------
     input : object
         An object containing the following attributes:
+
         - shap_cluster_cutoff : float, cutoff value for SHAP clustering.
         - outputname : str, the name of the input file containing precomputed neighborhood features.
         - no_of_pc : int, number of principal components.
@@ -2693,6 +2695,7 @@ def model_linear_regression(input,logistic_predicted_interactions):
     -------
     save_coef : dict
         A dictionary where keys are unique cluster IDs and values are lists containing the following elements:
+
         - coef : array, coefficients of the ridge regression model.
         - intercept : array, intercepts of the ridge regression model.
         - alpha : float, regularization parameter of the ridge regression model.
