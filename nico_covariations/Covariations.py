@@ -1471,10 +1471,9 @@ def pathway_analysis(input,NOG_pathway=50, choose_factors_id=[],correlation_with
     Example
     -------
     For other available databases, check for species ‘Human,’ ‘Mouse,’ ‘Yeast,’ ‘Fly,’ ‘Fish,’ and ‘Worm’ in the following way:
-    >>>import gseapy as gp
+    >>> import gseapy as gp
     >>> mouse = gp.get_library_name(organism='Mouse')
     >>> human = gp.get_library_name(organism='Human')
-
     """
 
 
