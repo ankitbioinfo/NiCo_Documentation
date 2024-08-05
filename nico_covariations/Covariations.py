@@ -3134,11 +3134,6 @@ def create_subtitle(fig: plt.Figure, grid: SubplotSpec, title: str):
     title : str
         The title text to be displayed above the subplot.
 
-    Notes:
-    ------
-    - The newline character (`\n`) in the title string is crucial for proper spacing.
-    - The subplot is hidden using `set_frame_on(False)` and `axis('off')`.
-
     """
     row = fig.add_subplot(grid)
     # the '\n' is important
@@ -3327,7 +3322,7 @@ def triangulation_for_triheatmap(M, N):
     --------
     list of matplotlib.tri.Triangulation
     """
-    
+
     xv, yv = np.meshgrid(np.arange(-0.5, M), np.arange(-0.5, N))  # vertices of the little squares
     xc, yc = np.meshgrid(np.arange(0, M), np.arange(0, N))  # centers of the little squares
     x = np.concatenate([xv.ravel(), xc.ravel()])

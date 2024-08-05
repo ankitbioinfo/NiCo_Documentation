@@ -650,7 +650,7 @@ def plot_confusion_matrix(input,saveas='pdf',showit=True,transparent_mode=False,
         plt.close('all')
 
 def plot_coefficient_matrix(input,saveas='pdf',showit=True,transparent_mode=False,figsize=(5,8)):
-     """
+    """
     Generate and save a coefficient matrix plot from the results of ```spatial_neighborhood_analysis```.
 
     Parameters:
