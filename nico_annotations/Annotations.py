@@ -1293,7 +1293,7 @@ def find_unmapped_cells_and_deg(deg,unique_mapped):
         - degvalue : numpy.ndarray
             An array of degree values corresponding to the unmapped cell node identifiers, sorted in descending order.
     """
-    
+
     un_mapped_nodes=[]
     un_mapped_deg=[]
     for node in deg:
@@ -1350,7 +1350,35 @@ def resolved_confused_and_unmapped_mapping_of_cells_distance(confused,G,all_mapp
 
 def resolved_confused_and_unmapped_mapping_of_cells_with_weighted_average_of_inverse_distance_in_neighbors(confused,G,weights,all_mapped,unique_mapped,sp_leiden_barcode2cluid_resolution_wise):
     """
-    This helper function is used for nico_based_annotation to annotate confused anchored and non-anchored spatial cells using weighted average scores from the neighbors.
+    Annotates confused and unmapped spatial cells using a weighted average score from their neighbors.
+
+    This helper function is used in `nico_based_annotation` to resolve the mapping of spatial cells that are either confused or not anchored by utilizing the weighted average of the inverse distance to their neighbors.
+
+    Parameters
+    ----------
+    confused : list
+        List of spatial cell identifiers that are confused and need to be resolved.
+
+    G : networkx.Graph
+        Graph where nodes represent cells and edges represent connections between cells.
+
+    weights : dict
+        A dictionary where keys are edge identifiers (formatted as 'node1#node2') and values are the corresponding weights (inverse of distances).
+
+    all_mapped : dict
+        Dictionary where keys are cell identifiers and values are their mapped cell types.
+
+    unique_mapped : dict
+        Dictionary to be updated where keys are cell identifiers and values are their resolved mapped cell types.
+
+    sp_leiden_barcode2cluid_resolution_wise : dict
+        Dictionary mapping cell identifiers to their cluster IDs based on Leiden clustering resolution.
+
+    Returns
+    -------
+    dict
+        Updated `unique_mapped` dictionary with resolved cell type annotations for the confused and unmapped cells.
+
     """
     for mainkey in confused:
             a=G[mainkey]
@@ -1442,8 +1470,34 @@ def resolved_confused_and_unmapped_mapping_of_cells_with_weighted_average_of_inv
 
 
 def resolved_confused_and_unmapped_mapping_of_cells_with_majority_vote(confused,G,all_mapped,unique_mapped,sp_leiden_barcode2cluid):
+
     """
-    This helper function is used for nico_based_annotation to annotate confused anchored and non-anchored spatial cells using a majority vote scheme across the neighbors.
+    Annotates confused anchored and non-anchored spatial cells using a majority vote scheme across the neighbors.
+
+    This helper function is used in `nico_based_annotation` to resolve the mapping of spatial cells that are either confused or not anchored by utilizing the majority vote of their neighbors' annotations.
+
+    Parameters
+    ----------
+    confused : list
+       List of spatial cell identifiers that are confused and need to be resolved.
+
+    G : networkx.Graph
+       Graph where nodes represent cells and edges represent connections between cells.
+
+    all_mapped : dict
+       Dictionary where keys are cell identifiers and values are their mapped cell types.
+
+    unique_mapped : dict
+       Dictionary to be updated where keys are cell identifiers and values are their resolved mapped cell types.
+
+    sp_leiden_barcode2cluid : dict
+       Dictionary mapping cell identifiers to their cluster IDs based on Leiden clustering.
+
+    Returns
+    -------
+    dict
+       Updated `unique_mapped` dictionary with resolved cell type annotations for the confused and unmapped cells.
+
     """
 
     for mainkey in confused:
@@ -1502,34 +1556,54 @@ spatial_cluster_tag='nico_ct',spatial_coordinate_tag='spatial',umap_tag='X_umap'
 number_of_iteration_to_perform_celltype_annotations=3,cmap=plt.cm.get_cmap('jet'),saveas='pdf',transparent_mode=False,showit=True,figsize=(15,6)):
 
     """
-    Inputs:
+    Visualize UMAP and spatial coordinates with all cell types annotated in a single plot.
 
-    | Queried path for single-cell resolution of spatial data. This directory contains an expression matrix in scTransform-like normalization in the common gene space ('sct_spatial.h5ad').
-    | (default) quepath='./inputQuery/'
+    This function generates visualizations for UMAP projections and spatial coordinates of cells, annotated by cell types. It saves the figures to specified directories and supports customization of various visualization parameters.
 
-    | Save the figures in PDF or PNG format (dpi for PNG format is 300)
-    | (default) saveas='pdf'
+    Parameters:
+    -----------
+    output_annotation_dir : str, optional
+        Directory to save the annotation figures. Default is './nico_out/annotations/'.
 
-    | The position filename of cell coordinates
-    | (default) positionFilename='./inputQuery/tissue_positions_list.csv'
+    output_nico_dir : str, optional
+        Base directory for nico output files. Default is './nico_out/'.
 
-    | The number of iterations performed for the annotations
-    | (default) number_of_iteration_to_perform_celltype_annotations=3
+    anndata_object_name : str, optional
+        Name of the AnnData object file containing cell type annotations. Default is 'nico_celltype_annotation.h5ad'.
 
-    | Colormap used to color the cell types
-    | cmap=plt.cm.get_cmap('jet')
+    spatial_cluster_tag : str, optional
+        Key in AnnData object for spatial cluster annotations slot. Default is 'nico_ct'.
 
-    | Background color in the figures
-    | (default) transparent_mode='False'
+    spatial_coordinate_tag : str, optional
+        Key in AnnData object for spatial coordinates slot. Default is 'spatial'.
 
-    | Dimension of the figure size.
-    | (default) figsize=(15,6)
+    umap_tag : str, optional
+        Key in AnnData object for UMAP embeddings slot. Default is 'X_umap'.
+
+    number_of_iteration_to_perform_celltype_annotations : int, optional
+        Number of iterations performed for cell type annotations. Default is 3.
+
+    cmap : matplotlib.colors.Colormap, optional
+        Colormap used to color the cell types. Default is 'jet'.
+
+    saveas : str, optional
+        Format to save the figures ('pdf' or 'png'). Default is 'pdf'.
+
+    transparent_mode : bool, optional
+        If True, sets the background color of the figures to transparent. Default is False.
+
+    showit : bool, optional
+        If True, displays the figures. Default is True.
+
+    figsize : tuple, optional
+        Dimensions of the figure size. Default is (15, 6).
 
     Outputs:
-
-    The annotation figure will be saved in './inputQuery/MNN_based_annotations/tissue_and_umap_with_all_celltype_annotations*
-
+    --------
+    Saves annotation figures to the following path './nico_out/annotations/*'
     """
+
+
 
     if output_nico_dir==None:
         outputdir='./nico_out/'
@@ -1618,8 +1692,27 @@ number_of_iteration_to_perform_celltype_annotations=3,cmap=plt.cm.get_cmap('jet'
 
 
 def save_annotations_in_spatial_object(inputdict,anndata_object_name='nico_celltype_annotation.h5ad'):
+    """
+    Save NiCo cell type cluster annotations in the AnnData object.
 
-    print("Nico cell type cluster annotations are saved in <anndata>.obs['nico_ct'] slot")
+    This function takes a dictionary containing the necessary data and saves the cell type cluster annotations
+    into the `.obs['nico_ct']` slot of an AnnData object. The updated AnnData object is then saved to a specified file.
+
+    Inputs:
+
+    inputdict : dict
+        A dictionary containing the cell type annotations related objects.
+
+    anndata_object_name : str, optional
+        Name of the AnnData file to save the annotated data.
+        Default is 'nico_celltype_annotation.h5ad'.
+
+    Outputs:
+
+    The function saves the annotated AnnData object in the specified directory ('./nico_out/') with the given file name.
+
+    """
+    print("Nico cell type cluster are saved in following path './nico_out/' as <anndata>.obs['nico_ct'] slot" )
     adata=inputdict.ad_sp_ori
     adata.obs['nico_ct']=inputdict.nico_cluster
     adata.write_h5ad(  inputdict.output_nico_dir+anndata_object_name)
@@ -1633,41 +1726,66 @@ number_of_iteration_to_perform_celltype_annotations=3,choose_celltypes=[],msna=0
 cmap=plt.cm.get_cmap('jet'),saveas='pdf',transparent_mode=False,figsize=(8,3.5)):
 
     """
+    Visualize UMAP and cell coordinates with selected cell types.
+
+    This function visualizes the UMAP embedding and cell coordinates for selected cell types
+    from spatial transcriptomics data.
+
     Inputs:
 
-    | Query path for single-cell resolution spatial transcriptomics data. This directory contains an expression matrix in scTransform-like normalization in the common gene space ('sct_spatial.h5ad').
-    | (default) quepath='./inputQuery/'
+    output_annotation_dir : str, optional
+        Directory path to save the annotation figures. Default is None, which uses './nico_out/annotations/'.
 
-    | The cell type pairs to visualize as annotations in spatial map
-    | (default) choose_celltypes=[]
-    | If the list is empty, the output will show annotation for each cell type independently.
+    output_nico_dir : str, optional
+        Directory path for NiCo outputs. Default is None, which uses './nico_out/'.
 
-    | The position filename of cell coordinates
-    | (default) positionFilename='./inputQuery/tissue_positions_list.csv'
+    anndata_object_name : str, optional
+        Name of the AnnData file containing cell type annotations. Default is 'nico_celltype_annotation.h5ad'.
 
-    | The number of iterations performed for the annotations
-    | (default) number_of_iteration_to_perform_celltype_annotations=3
+    spatial_cluster_tag : str, optional
+        Slot for spatial cluster annotations in the AnnData object. Default is 'nico_ct'.
 
-    | The marker size of selected and non-selected (NA) cell types
-    | (default) ms=0.5  (chosen)
-    | (default) msna=0.1 (NA)
+    spatial_coordinate_tag : str, optional
+        Slot for spatial coordinates in the AnnData object. Default is 'spatial'.
 
-    | Colormap used to color the cell types
-    | cmap=plt.cm.get_cmap('jet')
+    umap_tag : str, optional
+        Slot for UMAP embeddings in the AnnData object. Default is 'X_umap'.
 
-    | Save the figures in PDF or PNG format (dpi for PNG format is 300)
-    | (default) saveas='pdf'
+    number_of_iteration_to_perform_celltype_annotations : int, optional
+        Number of iterations for performing cell type annotations. Default is 3.
 
-    | Background color in the figures
-    | (default) transparent_mode='False'
+    choose_celltypes : list, optional
+        List of cell types to visualize. Default is an empty list, which shows annotations for all cell types.
 
-    | Dimension of the figure size.
-    | (default) figsize=(8,3.5)
+    msna : float, optional
+        Marker size for non-selected (NA) cell types. Default is 0.1.
+
+    ms : float, optional
+        Marker size for selected cell types. Default is 0.5.
+
+    showit : bool, optional
+        Whether to display the figures. Default is True.
+
+    cmap : Colormap, optional
+        Colormap used to color the cell types. Default is plt.cm.get_cmap('jet').
+
+    saveas : str, optional
+        Format to save the figures ('pdf' or 'png'). Default is 'pdf'.
+
+    transparent_mode : bool, optional
+        Whether to use a transparent background for the figures. Default is False.
+
+    figsize : tuple, optional
+        Dimension of the figure size. Default is (8, 3.5).
 
     Outputs:
 
-    The individual celltype annotation figure will be saved in './inputQuery/MNN_based_annotations/fig_individual_annotation'
+    The function saves individual cell type annotation figures in the specified directory.
 
+    Notes:
+
+    - Ensure that the input AnnData object contains the required tags for UMAP, spatial coordinates, and cell type annotations.
+    - The function will save the annotation figures in the specified directory.
     """
 
     #df_cluster=pd.read_csv(deg_annot_cluster_fname)
