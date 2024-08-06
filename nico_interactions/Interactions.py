@@ -1443,7 +1443,7 @@ removed_CTs_before_finding_CT_CT_interactions=[]):
 
     **Outputs:**
 
-    The function saves the output of niche interaction prediction in the specified `output_nico_dir` directory.
+    The function saves the output of niche interaction prediction in the specified "nico_out" directory.
 
     **Notes:**
 
