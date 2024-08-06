@@ -16,19 +16,20 @@ NiCo: Niche analysis of single-cell resolution of spatial cells
 
 
 
-The Niche Covariation (NiCo) package is developed for the integration of single-cell resolution of
-spatial transcriptomics and scRNA-seq data to perform the annotations in the spatial cells using the
-label transfer, predict the niche cell type interactions using the neighborhood, and find the covariation
-relationship in the niche using the latent factors of both modalities. The genes in the latent factors
-are used to find the ligand-receptor and pathway analysis.
+The Niche Covariation (NiCo) package is developed for the integration of single-cell resolution
+spatial transcriptomics and scRNA-seq data to (1) perform cell type annotations in the spatial modality by
+label transfer, (2) predict niche cell type interactions within local neighborhoods, and (3) infer cell state covariation and the
+underlying molecular crosstalk in the niche. NiCo infers factors capturing cell
+state variability in both modalities and identifies genes correlated to these latent factors for the prediction
+of ligand-receptor interactions and factor-associated pathways.
 
 Highlights of NiCo
 ==================
-1. Annotations of spatial cells using label transfer
-2. Prediction of niche using neighborhood analysis
-3. Covariation analysis of the interacted niche in the latent factors
-4. Ligand-receptor analysis in the latent factors
-5. Pathway analysis in the latent factors
+1. Annotations of cell types in spatial data by label transfer
+2. Prediction of niche interactions using neighborhood analysis
+3. Covariation analysis of latent factors across niche cell types
+4. Prediction of ligand-receptor interactions mediating niche crosstalk
+5. Inference of pathways aassociated with covarying cell states
 
 
 Installation
@@ -47,9 +48,10 @@ For more details, follow the python package index guidelines from `nico-sc-sp py
 
 Tutorials
 =====================
-Please prepare the scRNAseq count data, cell type annotation cluster, spatial count data, and spatial
-cell coordinates files to run the complete NiCo tutorials.
-`Nico tutorials are available here <https://github.com/ankitbioinfo/nico_tutorial>`_
+Please prepare the input files with scRNA-seq count data and cell type annotation (cluster partition), spatial count data, and spatial
+cell coordinates to run the complete NiCo tutorials.
+
+`Nico tutorials for Xenium, MERSCOPE, SEQFISH and SlideSeqV2 spatial technologies are available here <https://github.com/ankitbioinfo/nico_tutorial>`_
 
 
 
@@ -57,7 +59,14 @@ cell coordinates files to run the complete NiCo tutorials.
    :maxdepth: 3
    :caption: Contents:
 
+
+   introduction
+   installation
+   examples
    modules
+   api_reference
+   faq
+
 
 Indices and tables
 ==================

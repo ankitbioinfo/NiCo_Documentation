@@ -22,7 +22,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="nico_annotations.utils package" href="nico_annotations.utils.html" />
-    <link rel="prev" title="NiCo_Documentation" href="modules.html" /> 
+    <link rel="prev" title="NiCo_Modules" href="modules.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -47,7 +47,11 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">NiCo_Documentation</a><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html#tutorials">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">NiCo_Modules</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">nico_annotations package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
@@ -60,6 +64,8 @@
 <li class="toctree-l2"><a class="reference internal" href="utils.html">utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions (FAQ)</a></li>
 </ul>
 
         </div>
@@ -76,7 +82,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="modules.html">NiCo_Documentation</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">NiCo_Modules</a></li>
       <li class="breadcrumb-item active">nico_annotations package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/nico_annotations.rst.txt" rel="nofollow"> View page source</a>
@@ -117,7 +123,35 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_annotations.Annotations.create_directory">
 <span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">create_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outputFolder</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#create_directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.create_directory" title="Link to this definition"></a></dt>
-<dd><p>This function create empty directory.</p>
+<dd><p>Create an empty directory.</p>
+<p>This function checks if a specified directory exists, and if not, it creates the directory.</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>outputFolder<span class="classifier">str</span></dt><dd><p>The path of the directory to be created.</p>
+</dd>
+</dl>
+</section>
+<section id="raises">
+<h3>Raises<a class="headerlink" href="#raises" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>OSError</dt><dd><p>If the directory cannot be created due to permission issues or other OS-related errors.</p>
+</dd>
+</dl>
+</section>
+<section id="notes">
+<h3>Notes<a class="headerlink" href="#notes" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>If the directory already exists, no action is taken.</p></li>
+<li><p>This function ensures that the directory path is available for subsequent file operations.</p></li>
+</ul>
+</section>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">create_directory</span><span class="p">(</span><span class="s1">&#39;./new_out/&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
 </dd></dl>
 
 <dl class="py function">
@@ -129,274 +163,740 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_annotations.Annotations.findSpatialCells">
 <span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">findSpatialCells</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">midzoneCells</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mnn</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#findSpatialCells"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.findSpatialCells" title="Link to this definition"></a></dt>
-<dd><p>The helper function is used in find_all_the_spatial_cells_mapped_to_single_cells to find the anchored cells for each cell type.</p>
+<dd><p>Finds the anchored cells for each cell type.</p>
+<p>This helper function is used in <cite>find_all_the_spatial_cells_mapped_to_single_cells</cite> to identify the spatial cells that are anchored to each single-cell RNA sequencing (scRNAseq) cell type.</p>
+<section id="id1">
+<h3>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>midzoneCells<span class="classifier">numpy.ndarray</span></dt><dd><p>An array of barcode IDs representing the single-cell RNA sequencing (scRNAseq) cells belonging to a specific cell type.</p>
+</dd>
+<dt>mnn<span class="classifier">numpy.ndarray</span></dt><dd><p>A 2D array where each row represents a mutual nearest neighbor (MNN) pair. The first column contains spatial cell barcode IDs and the second column contains scRNAseq cell barcode IDs.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>dict</dt><dd><p>A dictionary where keys are spatial cell barcode IDs and values are the counts of how many times each spatial cell is anchored to the scRNAseq cells.</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_annotations.Annotations.find_all_the_spatial_cells_mapped_to_single_cells">
 <span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">find_all_the_spatial_cells_mapped_to_single_cells</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sc_ctype_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sc_clusters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mnn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sc_ctype_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#find_all_the_spatial_cells_mapped_to_single_cells"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.find_all_the_spatial_cells_mapped_to_single_cells" title="Link to this definition"></a></dt>
-<dd><p>The helper function is used in nico_based_annotation to find the mapping of cells from both modalities.</p>
+<dd><p>Maps spatial cells to single-cell RNA sequencing (scRNAseq) cell types.</p>
+<p>This helper function is used in <cite>nico_based_annotation</cite> to find the mapping of cells between spatial and scRNAseq modalities. It identifies the spatial cells that correspond to specific scRNAseq cell types based on mutual nearest neighbor (MNN) pairs.</p>
+<section id="id2">
+<h3>Parameters<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>sc_ctype_id<span class="classifier">numpy.ndarray</span></dt><dd><p>An array of unique identifiers for each scRNAseq cell type.</p>
+</dd>
+<dt>sc_clusters<span class="classifier">numpy.ndarray</span></dt><dd><p>A 2D array where each row contains a barcode ID and a cluster ID representing the clustering of scRNAseq cells.</p>
+</dd>
+<dt>mnn<span class="classifier">numpy.ndarray</span></dt><dd><p>A 2D array where each row represents an MNN pair. The first column contains spatial cell barcode IDs and the second column contains scRNAseq cell barcode IDs.</p>
+</dd>
+<dt>sc_ctype_name<span class="classifier">list of str</span></dt><dd><p>A list of names corresponding to each scRNAseq cell type ID.</p>
+</dd>
+</dl>
+</section>
+<section id="id3">
+<h3>Returns<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>dict</dt><dd><p>A dictionary where keys are spatial cell barcode IDs and values are lists containing the scRNAseq cell type names and their counts, with each spatial cell being mapped to the most frequent scRNAseq cell type if there are ties.</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_annotations.Annotations.find_anchor_cells_between_ref_and_query">
-<span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">find_anchor_cells_between_ref_and_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">refpath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./inputRef/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./inputQuery/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neigh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_of_pc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minkowski_order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#find_anchor_cells_between_ref_and_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.find_anchor_cells_between_ref_and_query" title="Link to this definition"></a></dt>
-<dd><p><strong>This function find all the anchored cells between queried and reference data.</strong></p>
-<p>Inputs:</p>
-<div class="line-block">
-<div class="line">Reference path for scRNAseq. This directory should contain originial count matrix (‘Original_counts.h5ad’), and scTransform-like normalization matrix in the common gene space (‘sct_singleCell.h5ad’).</div>
-<div class="line">(default) refpath=’./inputRef/’</div>
-</div>
-<div class="line-block">
-<div class="line">Queried path for single cell resolution of spatial data. This directory contains an expression matrix in scTransform-like normalization in the common gene space (‘sct_spatial.h5ad’).</div>
-<div class="line">(default) quepath=’./inputQuery/’</div>
-</div>
-<div class="line-block">
-<div class="line">The K-nearest neighbor to find the anchored cells</div>
-<div class="line">(default) neigh=50</div>
-</div>
-<div class="line-block">
-<div class="line">The number of principal components used to transform normalized expression matrix into PCA space.</div>
-<div class="line">This PCA-transformed matrix will be used to find the mutual nearest neighbor using the nearest neighbor distance.</div>
-<div class="line">(default) no_of_pc=50</div>
-</div>
-<div class="line-block">
-<div class="line">Type of distance matrix: 2 means Euclidean distance, 1 means Manhattan distance</div>
-<div class="line">(default) minkowski_order=2</div>
-</div>
-<p>Outputs:</p>
-<div class="line-block">
-<div class="line">The output contains the mapping cell information between two modalities.</div>
-</div>
+<span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">find_anchor_cells_between_ref_and_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">refpath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./inputRef/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./inputQuery/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_annotation_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_nico_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neigh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_of_pc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minkowski_order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#find_anchor_cells_between_ref_and_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.find_anchor_cells_between_ref_and_query" title="Link to this definition"></a></dt>
+<dd><p>Finds all anchor cells between query and reference data.</p>
+<p>This function reads the reference and query data from the specified directories, performs necessary preprocessing, and finds mutual nearest neighbors in the PCA space to map cell types between the two datasets.</p>
+<section id="id4">
+<h3>Parameters<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>refpath<span class="classifier">str, optional</span></dt><dd><p>Path to the directory containing reference scRNAseq data. This directory should contain:
+- ‘Original_counts.h5ad’ : The original count matrix in raw layer.
+- ‘sct_singleCell.h5ad’ : The scTransform-like normalized matrix.
+(default is ‘./inputRef/’)</p>
+</dd>
+<dt>quepath<span class="classifier">str, optional</span></dt><dd><p>Path to the directory containing spatial transcriptomics query data. This directory should contain:
+- ‘sct_spatial.h5ad’ : The scTransform-like normalized matrix.
+(default is ‘./inputQuery/’)</p>
+</dd>
+<dt>output_annotation_dir<span class="classifier">str, optional</span></dt><dd><p>Directory to save output annotations. If None, a default directory is used.
+(default is None)</p>
+</dd>
+<dt>output_nico_dir<span class="classifier">str, optional</span></dt><dd><p>Directory to save output NICOLAE results. If None, ‘./nico_out/’ is used.
+(default is ‘./nico_out/annotations’)</p>
+</dd>
+<dt>neigh<span class="classifier">int, optional</span></dt><dd><p>The number of K-nearest neighbors to find the anchor cells.
+(default is 50)</p>
+</dd>
+<dt>no_of_pc<span class="classifier">int, optional</span></dt><dd><p>The number of principal components used to transform the normalized expression matrix into PCA space.
+(default is 50)</p>
+</dd>
+<dt>minkowski_order<span class="classifier">int, optional</span></dt><dd><p>The type of distance metric used:
+- 2 for Euclidean distance
+- 1 for Manhattan distance
+(default is 2)</p>
+</dd>
+</dl>
+</section>
+<section id="outputs">
+<h3>Outputs<a class="headerlink" href="#outputs" title="Link to this heading"></a></h3>
+<p>The function produces the mapping of cell type information between two modalities and saves the results in the specified output directory.</p>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_annotations.Annotations.find_annotation_index">
 <span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">find_annotation_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">annot_cellname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sct_cellname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#find_annotation_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.find_annotation_index" title="Link to this definition"></a></dt>
-<dd><p>Helper function for find_commnon_MNN to find the correct cell name.</p>
+<dd><p>Helper function for <cite>find_common_MNN</cite> to find the correct cell name.</p>
+<p>This function maps the indices of cell barcodes names to the corresponding indices in the anchored data.</p>
+<section id="id5">
+<h3>Parameters<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>annot_cellname<span class="classifier">list or array-like</span></dt><dd><p>List or array of cell barcode names.</p>
+</dd>
+<dt>sct_cellname<span class="classifier">list or array-like</span></dt><dd><p>List or array of anchored cell barcode names.</p>
+</dd>
+</dl>
+</section>
+<section id="id6">
+<h3>Returns<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>index<span class="classifier">list</span></dt><dd><p>List of indices in <cite>sct_cellname</cite> that corresponds to the position of the cell barcode name in <cite>annot_cellname</cite>.</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_annotations.Annotations.find_commnon_MNN">
 <span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">find_commnon_MNN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#find_commnon_MNN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.find_commnon_MNN" title="Link to this definition"></a></dt>
-<dd><p>The helper function is used in find_anchor_cells_between_ref_and_query to find the anchored cells between two modalities using the mutual nearest neighbors method.</p>
+<dd><p>Helper function used in <cite>find_anchor_cells_between_ref_and_query</cite> to find the anchored cells between
+spatial and sequencing modalities using the mutual nearest neighbors (MNN) method in the PCA space.</p>
+<p>This function reads MNN pairs from a provided file and processes the data to identify mutual nearest neighbors
+between spatial and single-cell datasets.</p>
+<section id="id7">
+<h3>Parameters<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>input<span class="classifier">object</span></dt><dd><p>An object containing various attributes required for the function.</p>
+</dd>
+</dl>
+</section>
+<section id="id8">
+<h3>Returns<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>data<span class="classifier">numpy.ndarray</span></dt><dd><p>After prunning the bad anchors it returen the good anchors.</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_annotations.Annotations.find_index">
 <span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">find_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sp_genename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sc_genename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#find_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.find_index" title="Link to this definition"></a></dt>
-<dd><p>Helper function used in find_anchor_cells_between_ref_and_query to find the common gene space submatrix between two modalities.</p>
+<dd><p>Find the common gene space submatrix between two modalities.</p>
+<p>This helper function is used within the <cite>find_anchor_cells_between_ref_and_query</cite> function to identify the indices of common genes
+between two lists of gene names corresponding to spatial and scRNAseq modalities.</p>
+<section id="id9">
+<h3>Parameters<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>sp_genename<span class="classifier">list</span></dt><dd><p>A list of gene names from the spatial modality.</p>
+</dd>
+<dt>sc_genename<span class="classifier">list</span></dt><dd><p>A list of gene names from the scRNAseq modality.</p>
+</dd>
+</dl>
+</section>
+<section id="id10">
+<h3>Returns<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>list</dt><dd><p>A list of indices corresponding to the common genes found in both <cite>sp_genename</cite> and <cite>sc_genename</cite>.</p>
+</dd>
+</dl>
+</section>
+<section id="id11">
+<h3>Example<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sp_genes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;gene1&#39;</span><span class="p">,</span> <span class="s1">&#39;gene2&#39;</span><span class="p">,</span> <span class="s1">&#39;gene3&#39;</span><span class="p">,</span> <span class="s1">&#39;gene4&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sc_genes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;gene3&#39;</span><span class="p">,</span> <span class="s1">&#39;gene4&#39;</span><span class="p">,</span> <span class="s1">&#39;gene5&#39;</span><span class="p">,</span> <span class="s1">&#39;gene6&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">index_sp</span><span class="p">,</span><span class="n">index_sc</span> <span class="o">=</span> <span class="n">find_index</span><span class="p">(</span><span class="n">sp_genes</span><span class="p">,</span> <span class="n">sc_genes</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">index_sp</span><span class="p">)</span>
+<span class="go">[2, 3]</span>
+</pre></div>
+</div>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_annotations.Annotations.find_match_index_in_dist">
 <span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">find_match_index_in_dist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index_2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#find_match_index_in_dist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.find_match_index_in_dist" title="Link to this definition"></a></dt>
-<dd><p>The helper function used find_mutual_nn to find the correct pairing of cell barcodes.</p>
+<dd><p>Helper function used in <cite>find_mutual_nn</cite> to find the correct pairing of cell barcodes.</p>
+<p>This function takes two lists of cell barcodes and their corresponding indices and returns the matched pair of distances for the specified indices.</p>
+<section id="id12">
+<h3>Parameters<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>t1<span class="classifier">list or numpy.ndarray</span></dt><dd><p>A list or array containing the distances corresponding to the cell barcodes in <cite>s1</cite>.</p>
+</dd>
+<dt>t2<span class="classifier">list or numpy.ndarray</span></dt><dd><p>A list or array containing the distances corresponding to the cell barcodes in <cite>s2</cite>.</p>
+</dd>
+<dt>s1<span class="classifier">list or numpy.ndarray</span></dt><dd><p>A list or array containing the cell barcodes for the first set of distances.</p>
+</dd>
+<dt>s2<span class="classifier">list or numpy.ndarray</span></dt><dd><p>A list or array containing the cell barcodes for the second set of distances.</p>
+</dd>
+<dt>index_1<span class="classifier">int</span></dt><dd><p>The index of the cell barcode in <cite>s1</cite> to be matched.</p>
+</dd>
+<dt>index_2<span class="classifier">int</span></dt><dd><p>The index of the cell barcode in <cite>s2</cite> to be matched.</p>
+</dd>
+</dl>
+</section>
+<section id="id13">
+<h3>Returns<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>tuple</dt><dd><p>A tuple (p1, p2) where p1 is the distance from <cite>t1</cite> corresponding to <cite>index_1</cite> and p2 is the distance from <cite>t2</cite> corresponding to <cite>index_2</cite>.</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_annotations.Annotations.find_mutual_nn">
 <span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">find_mutual_nn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minkowski_order</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp_barcode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sc_barcode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#find_mutual_nn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.find_mutual_nn" title="Link to this definition"></a></dt>
-<dd><p>The helper function used in find_anchor_cells_between_ref_and_query to find mutual nearest neighbors using cKDTree.</p>
+<dd><p>Helper function used in <cite>find_anchor_cells_between_ref_and_query</cite> to find mutual nearest neighbors using cKDTree.</p>
+<p>This function finds mutual nearest neighbors (MNNs) between two datasets using the cKDTree algorithm. The mutual nearest neighbors are those pairs of points that are each other’s nearest neighbors.</p>
+<section id="id14">
+<h3>Parameters<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>minkowski_order<span class="classifier">int</span></dt><dd><p>The order of the Minkowski distance to use. For example, 2 is the Euclidean distance.</p>
+</dd>
+<dt>data1<span class="classifier">numpy.ndarray</span></dt><dd><p>The reference dataset, typically the spatial dataset.</p>
+</dd>
+<dt>data2<span class="classifier">numpy.ndarray</span></dt><dd><p>The query dataset, typically the sequencing dataset.</p>
+</dd>
+<dt>sp_barcode<span class="classifier">numpy.ndarray</span></dt><dd><p>Array of barcodes for the spatial dataset.</p>
+</dd>
+<dt>sc_barcode<span class="classifier">numpy.ndarray</span></dt><dd><p>Array of barcodes for the single-cell dataset.</p>
+</dd>
+<dt>k1<span class="classifier">int</span></dt><dd><p>The number of nearest neighbors to query in the spatial dataset.</p>
+</dd>
+<dt>k2<span class="classifier">int</span></dt><dd><p>The number of nearest neighbors to query in the single-cell dataset.</p>
+</dd>
+</dl>
+</section>
+<section id="id15">
+<h3>Returns<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>An array where each row represents a mutual nearest neighbor pair and their distances. The columns are:
+[sp_barcode of mutual_1, sc_barcode of mutual_2, distance in data1, distance in data2]</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_annotations.Annotations.find_unmapped_cells_and_deg">
 <span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">find_unmapped_cells_and_deg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">deg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique_mapped</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#find_unmapped_cells_and_deg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.find_unmapped_cells_and_deg" title="Link to this definition"></a></dt>
-<dd><p>Helper function for nico_based_annotation to find the unmapped non-anchored cells.</p>
+<dd><p>Identifies unmapped non-anchored cells and their degrees.</p>
+<p>This helper function is used in <cite>nico_based_annotation</cite> to find cells that have not been mapped and their corresponding degree values.
+It returns the cell names and their degree values sorted in descending order of degree.</p>
+<section id="id16">
+<h3>Parameters<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>deg<span class="classifier">dict</span></dt><dd><p>A dictionary where keys are cell node identifiers and values are their corresponding degrees (number of connections).</p>
+</dd>
+<dt>unique_mapped<span class="classifier">dict</span></dt><dd><p>A dictionary where keys are mapped cell node identifiers and values are their corresponding cell type names.</p>
+</dd>
+</dl>
+</section>
+<section id="id17">
+<h3>Returns<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>tuple<span class="classifier">A tuple containing two numpy arrays:</span></dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>cellname<span class="classifier">numpy.ndarray</span></dt><dd><p>An array of unmapped cell node identifiers sorted by their degree values in descending order.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>degvalue<span class="classifier">numpy.ndarray</span></dt><dd><p>An array of degree values corresponding to the unmapped cell node identifiers, sorted in descending order.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_annotations.Annotations.nico_based_annotation">
 <span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">nico_based_annotation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">previous</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_cluster_tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cluster'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">across_spatial_clusters_dispersion_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">guiding_spatial_cluster_resolution_tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'leiden0.5'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_iteration_to_perform_celltype_annotations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolved_tie_issue_with_weighted_nearest_neighbor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'No'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#nico_based_annotation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.nico_based_annotation" title="Link to this definition"></a></dt>
-<dd><div class="line-block">
-<div class="line"><strong>This is the primary function called by the user to perform the NiCo-based annotation in the spatial cells using the label transfer from scRNAseq data. The scRNAseq must have cell type information in the .obs[cluster] tag.</strong></div>
-<div class="line"><strong>This function finds the spatial cell type annotations based on the anchored cells. It chose the method either with the majority vote or weighted nearest distance from the spatial cell neighbors.</strong></div>
-</div>
-<div class="line-block">
-<div class="line">First, it reads the output of find_anchor_cells_between_ref_and_query, and then annotates based on the input arguments.</div>
-</div>
-<p>Inputs:</p>
-<p>The main input (previous) is the output from find_anchor_cells_between_ref_and_query.</p>
-<div class="line-block">
-<div class="line">The tag in reference h5ad file (Original_counts.h5ad) where cluster information is stored</div>
-<div class="line">(default) ref_cluster_tag=’cluster’</div>
-</div>
-<div class="line-block">
-<div class="line">The guiding spatial Leiden cluster resolution, i.e., different resolution parameters of the Leiden cluster, should be stored in the queried file.</div>
-<div class="line">(default) guiding_spatial_cluster_resolution_tag=’leiden0.5’</div>
-<div class="line">sct_spatial.h5ad file should have a different resolution of Leiden clustering to guide the NiCo annotation.</div>
-<div class="line">It is good to have several Leiden clustering resolutions 0.3, 0.4, 0.5, 0.6, 0.7 and 0.8 that can be tagged with ‘leiden0.3’, ‘leiden0.4’, ‘leiden0.5’, ‘leiden0.6’, ‘leiden0.7’ and ‘leiden0.8’ in the adata.obs[].</div>
-</div>
-<div class="line-block">
-<div class="line">The cutoff used to remove the noisy anchors if anchored cells belong to any guiding spatial cluster with less than 0.15 fraction of the population</div>
-<div class="line">(default) across_spatial_clusters_dispersion_cutoff=0.15</div>
-</div>
-<div class="line-block">
-<div class="line">The number of iterations to perform the annotations</div>
-<div class="line">(default) number_of_iteration_to_perform_celltype_annotations=3</div>
-</div>
-<div class="line-block">
-<div class="line">Non-anchored cell uses their neighbors to find the proportion of cell types. The cell type having the highest proportion is assigned to this non-anchored cell.</div>
-<div class="line">If the proportion occurs in a tie between two cell types, then ‘No’ statement is assigned to ‘NM’ (not mapped);</div>
-<div class="line">otherwise, the ‘Yes’ statement uses the scheme inversely proportional to the distance</div>
-<div class="line">to find the cell type that has the best weighted average score.</div>
-<div class="line">(default) resolved_tie_issue_with_weighted_nearest_neighbor=’No’</div>
-</div>
-<p>Outputs:</p>
-<div class="line-block">
-<div class="line">For each iteration, the annotation cluster file (_nico_annotation_cluster.csv) and cluster cell type name file (_nico_annotation_ct_name.csv) will be generated in the following directory.</div>
-<div class="line">(default) ./inputQuery/MNN_based_annotations/</div>
-<div class="line">To find the niche cell type interactions in the spatial_neighborhood_analysis, we used the final iteration of the annotation.</div>
-</div>
+<dd><p><strong>This function performs NiCo-based annotation of spatial cell transcriptomes by using label transfer from scRNAseq data.</strong></p>
+<p>The function utilizes label transfer to annotate spatial transcriptomic data based on cell type information from scRNAseq data. It leverages anchored cells to iteratively annotate non-anchor cells. The annotations are either performed using a majority vote or a weighted vote based on distances in the transformed gene expression space.</p>
+<p>The function starts by reading the output from <cite>find_anchor_cells_between_ref_and_query</cite> and annotates the spatial cells based on the provided parameters.</p>
+<section id="id18">
+<h3>Parameters<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>previous<span class="classifier">object</span></dt><dd><p>The output object from <cite>find_anchor_cells_between_ref_and_query</cite> containing necessary data for annotation.</p>
+</dd>
+<dt>ref_cluster_tag<span class="classifier">str, optional</span></dt><dd><p>The slot in the reference anndata object file (‘Original_counts.h5ad’) where cell type information is stored &lt;anndata&gt;.obs[cluster].
+(default is ‘cluster’)</p>
+</dd>
+<dt>across_spatial_clusters_dispersion_cutoff<span class="classifier">float, optional</span></dt><dd><p>The cutoff used to remove noisy anchors. Anchored cells that belong to any guiding spatial cluster with a frequency lower than this cutoff will be discarded.
+(default is 0.15)</p>
+</dd>
+<dt>guiding_spatial_cluster_resolution_tag<span class="classifier">str, optional</span></dt><dd><p>The guiding spatial Leiden cluster resolution (clustering of spatial data used for anchor pruning). The <cite>sct_spatial.h5ad</cite> file should have required resolution of Leiden clusterings such as  0.3, 0.4, 0.5, 0.6, 0.7 and 0.8 that can be stored in the anndata.obs slot with name ‘leiden0.3’, ‘leiden0.4’, ‘leiden0.5’, ‘leiden0.6’, ‘leiden0.7’ and ‘leiden0.8’.
+(default is ‘leiden0.5’)</p>
+</dd>
+<dt>number_of_iteration_to_perform_celltype_annotations<span class="classifier">int, optional</span></dt><dd><p>The number of iterations to perform the cell type annotations. Higher numbers of iterations may annotate more cells but decrease confidence due to dilution of anchor information.
+(default is 3)</p>
+</dd>
+<dt>resolved_tie_issue_with_weighted_nearest_neighbor<span class="classifier">str, optional</span></dt><dd><p>Whether to resolve tie issues in cell type assignment with a weighted nearest neighbor approach:
+- ‘No’: Assigns ‘NM’ (not mapped) to non-anchor cells in case of a tie.
+- ‘Yes’: Utilizes the weighted average of cell type proportions for resolving ties, with weights inversely proportional to the distance.
+(default is ‘No’)</p>
+</dd>
+</dl>
+</section>
+<section id="id19">
+<h3>Outputs<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<p>For each iteration, the function generates the following files in the specified output directory:
+- <cite>_nico_annotation_cluster.csv</cite>: Contains the annotated cluster information.
+- <cite>_nico_annotation_ct_name.csv</cite>: Contains the cell type names associated with each cluster.</p>
+<p>The default output directory for these files is <cite>./nico_out/annotations/</cite>.</p>
+</section>
+<section id="id20">
+<h3>Notes<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>The niche function uses the final iteration of the annotations for finding niche cell type interactions in the <cite>spatial_neighborhood_analysis</cite>.</p></li>
+</ul>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_annotations.Annotations.plot_all_ct">
 <span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">plot_all_ct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">CTname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cellsinCT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#plot_all_ct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.plot_all_ct" title="Link to this definition"></a></dt>
-<dd><p>Helper function used in visualizing cell type annotations to plot all cell types together.</p>
+<dd><p>Helper function used in visualize_umap_and_cell_coordinates_with_all_celltypes to plot all cell types together.</p>
+<p>This function plots the locations of all cell types together on a single plot, with each cell type assigned a different color. Optionally, it can label each cell type with its index.</p>
+<section id="id21">
+<h3>Parameters<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>CTname<span class="classifier">list of str</span></dt><dd><p>A list of cell type names to be plotted.</p>
+</dd>
+<dt>PP<span class="classifier">numpy.ndarray</span></dt><dd><p>A 2D numpy array of shape (n_cells, 2) containing the coordinates of the cells.</p>
+</dd>
+<dt>cellsinCT<span class="classifier">list of list of int</span></dt><dd><p>A list where each element is a list of indices corresponding to cells of a specific type.</p>
+</dd>
+<dt>ax<span class="classifier">matplotlib.axes.Axes</span></dt><dd><p>The axes object where the plot will be drawn.</p>
+</dd>
+<dt>flag<span class="classifier">bool</span></dt><dd><p>A flag indicating whether to label each cell type with its index on the plot.</p>
+</dd>
+<dt>cmap<span class="classifier">matplotlib.colors.Colormap</span></dt><dd><p>The colormap used to assign colors to different cell types.</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_annotations.Annotations.plot_specific_ct">
 <span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">plot_specific_ct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">CTname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msna</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#plot_specific_ct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.plot_specific_ct" title="Link to this definition"></a></dt>
-<dd><p>Helper function used in visualizing cell type annotations to plot individual cell types.</p>
+<dd><p>Plots individual cell types for visualizing cell type annotations.</p>
+<p>This helper function is used to visualize_umap_and_cell_coordinates_with_selected_celltypes by plotting the locations of cells belonging to specific cell types. Cells not belonging to any specified cell types are also plotted in a different color.</p>
+<section id="id22">
+<h3>Parameters<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>CTname<span class="classifier">list of str</span></dt><dd><p>A list of cell type names to be plotted.</p>
+</dd>
+<dt>PP<span class="classifier">numpy.ndarray</span></dt><dd><p>A 2D numpy array of shape (n_cells, 2) containing the coordinates of the cells.</p>
+</dd>
+<dt>index<span class="classifier">list of list of int</span></dt><dd><p>A list where each element is a list of indices corresponding to cells of a specific type.</p>
+</dd>
+<dt>ax<span class="classifier">matplotlib.axes.Axes</span></dt><dd><p>The axes object where the plot will be drawn.</p>
+</dd>
+<dt>cmap<span class="classifier">matplotlib.colors.Colormap</span></dt><dd><p>The colormap used to assign colors to different cell types.</p>
+</dd>
+<dt>ms<span class="classifier">int or float</span></dt><dd><p>The marker size for plotting the cells of specified types.</p>
+</dd>
+<dt>msna<span class="classifier">int or float</span></dt><dd><p>The marker size for plotting the cells not belonging to any specified types.</p>
+</dd>
+</dl>
+</section>
+<section id="id23">
+<h3>Returns<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>None</dt><dd><p>This function does not return any value. It directly plots on the provided axes object.</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_annotations.Annotations.read_dist_and_nodes_as_graph">
 <span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">read_dist_and_nodes_as_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">knn_dist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">knn_nodes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#read_dist_and_nodes_as_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.read_dist_and_nodes_as_graph" title="Link to this definition"></a></dt>
-<dd><p>The helper function used in nico_based_annotation reads the edges information from k nearest neighbors data that convert into graph G, nodes, and degree.</p>
+<dd><p>Reads edges information from k-nearest neighbors (KNN) data and converts it into a graph representation.</p>
+<p>This helper function is used in the <cite>nico_based_annotation</cite> function to interpret the relationships between nodes (cells) based on their KNN distances. It constructs a graph <cite>G</cite> where nodes represent cells and edges represent the KNN relationships with associated distances as weights. Additionally, it calculates the degree of each node.</p>
+<section id="id24">
+<h3>Parameters<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>knn_dist<span class="classifier">array-like</span></dt><dd><p>A 2D array where each row represents a node and contains the distances to its k-nearest neighbors.</p>
+</dd>
+<dt>knn_nodes<span class="classifier">array-like</span></dt><dd><p>A 2D array where each row represents a node and contains the indices of its k-nearest neighbors.</p>
+</dd>
+</dl>
+</section>
+<section id="id25">
+<h3>Returns<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>deg<span class="classifier">dict</span></dt><dd><p>A dictionary where keys are node indices and values are the degrees (number of edges) of the corresponding nodes.</p>
+</dd>
+<dt>G<span class="classifier">networkx.Graph</span></dt><dd><p>A graph object where nodes represent cells and edges represent KNN relationships between cells.</p>
+</dd>
+<dt>weights<span class="classifier">dict</span></dt><dd><p>A dictionary where keys are edge identifiers (formatted as ‘node1#node2’) and values are the distances between the nodes.</p>
+</dd>
+</dl>
+</section>
+<section id="id26">
+<h3>Notes<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<p>The function assumes that the first element in each row of <cite>knn_nodes</cite> is the node itself, and subsequent elements are its nearest neighbors.</p>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_annotations.Annotations.remove_extra_character_from_name">
 <span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">remove_extra_character_from_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#remove_extra_character_from_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.remove_extra_character_from_name" title="Link to this definition"></a></dt>
-<dd><p>This function remove the special characters from the cell type names so it should not throw error while saving the figures.</p>
+<dd><p>Remove special characters from cell type names to avoid errors while saving figures.</p>
+<p>This function replaces certain special characters in the input <cite>name</cite> with
+underscores or other appropriate characters to ensure the name is safe for use
+as a filename.</p>
+<section id="id27">
+<h3>Parameters<a class="headerlink" href="#id27" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>name<span class="classifier">str</span></dt><dd><p>The original cell type name that may contain special characters.</p>
+</dd>
+</dl>
+</section>
+<section id="id28">
+<h3>Returns<a class="headerlink" href="#id28" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>str</dt><dd><p>The modified cell type name with special characters removed or replaced.</p>
+</dd>
+</dl>
+</section>
+<section id="id29">
+<h3>Example<a class="headerlink" href="#id29" title="Link to this heading"></a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;T-cell (CD4+)/CD8+&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">clean_name</span> <span class="o">=</span> <span class="n">remove_extra_character_from_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">clean_name</span><span class="p">)</span>
+<span class="go">&#39;T-cell_CD4p_CD8p&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="id30">
+<h3>Notes<a class="headerlink" href="#id30" title="Link to this heading"></a></h3>
+<p>The following replacements are made:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>‘/’ is replaced with ‘_’</p></li>
+<li><p>‘ ‘ (space) is replaced with ‘_’</p></li>
+<li><p>‘”’ (double quote) is removed</p></li>
+<li><p>“’” (single quote) is removed</p></li>
+<li><p>‘)’ is removed</p></li>
+<li><p>‘(’ is removed</p></li>
+<li><p>‘+’ is replaced with ‘p’</p></li>
+<li><p>‘-’ is replaced with ‘n’</p></li>
+<li><p>‘.’ (dot) is removed</p></li>
+</ul>
+</div></blockquote>
+<p>These substitutions help in creating filenames that do not contain characters
+that might be problematic for file systems or software.</p>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_annotations.Annotations.resolved_confused_and_unmapped_mapping_of_cells_with_majority_vote">
 <span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">resolved_confused_and_unmapped_mapping_of_cells_with_majority_vote</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">confused</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">G</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_mapped</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique_mapped</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp_leiden_barcode2cluid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#resolved_confused_and_unmapped_mapping_of_cells_with_majority_vote"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.resolved_confused_and_unmapped_mapping_of_cells_with_majority_vote" title="Link to this definition"></a></dt>
-<dd><p>This helper function is used for nico_based_annotation to annotate confused anchored and non-anchored spatial cells using a majority vote scheme from the neighbors.</p>
+<dd><p>Annotates confused anchored and non-anchored spatial cells using a majority vote scheme across the neighbors.</p>
+<p>This helper function is used in <cite>nico_based_annotation</cite> to resolve the mapping of spatial cells that are either confused or not anchored by utilizing the majority vote of their neighbors’ annotations.</p>
+<section id="id31">
+<h3>Parameters<a class="headerlink" href="#id31" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>confused<span class="classifier">list</span></dt><dd><p>List of spatial cell identifiers that are confused and need to be resolved.</p>
+</dd>
+<dt>G<span class="classifier">networkx.Graph</span></dt><dd><p>Graph where nodes represent cells and edges represent connections between cells.</p>
+</dd>
+<dt>all_mapped<span class="classifier">dict</span></dt><dd><p>Dictionary where keys are cell identifiers and values are their mapped cell types.</p>
+</dd>
+<dt>unique_mapped<span class="classifier">dict</span></dt><dd><p>Dictionary to be updated where keys are cell identifiers and values are their resolved mapped cell types.</p>
+</dd>
+<dt>sp_leiden_barcode2cluid<span class="classifier">dict</span></dt><dd><p>Dictionary mapping cell identifiers to their cluster IDs based on Leiden clustering.</p>
+</dd>
+</dl>
+</section>
+<section id="id32">
+<h3>Returns<a class="headerlink" href="#id32" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>dict</dt><dd><p>Updated <cite>unique_mapped</cite> dictionary with resolved cell type annotations for the confused and unmapped cells.</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_annotations.Annotations.resolved_confused_and_unmapped_mapping_of_cells_with_weighted_average_of_inverse_distance_in_neighbors">
 <span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">resolved_confused_and_unmapped_mapping_of_cells_with_weighted_average_of_inverse_distance_in_neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">confused</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">G</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_mapped</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique_mapped</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp_leiden_barcode2cluid_resolution_wise</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#resolved_confused_and_unmapped_mapping_of_cells_with_weighted_average_of_inverse_distance_in_neighbors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.resolved_confused_and_unmapped_mapping_of_cells_with_weighted_average_of_inverse_distance_in_neighbors" title="Link to this definition"></a></dt>
-<dd><p>This helper function is used for nico_based_annotation to annotate confused anchored and non-anchored spatial cells using weighted average scores from the neighbors.</p>
+<dd><p>Annotates confused and unmapped spatial cells using a weighted average score from their neighbors.</p>
+<p>This helper function is used in <cite>nico_based_annotation</cite> to resolve the mapping of spatial cells that are either confused or not anchored by utilizing the weighted average of the inverse distance to their neighbors.</p>
+<section id="id33">
+<h3>Parameters<a class="headerlink" href="#id33" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>confused<span class="classifier">list</span></dt><dd><p>List of spatial cell identifiers that are confused and need to be resolved.</p>
+</dd>
+<dt>G<span class="classifier">networkx.Graph</span></dt><dd><p>Graph where nodes represent cells and edges represent connections between cells.</p>
+</dd>
+<dt>weights<span class="classifier">dict</span></dt><dd><p>A dictionary where keys are edge identifiers (formatted as ‘node1#node2’) and values are the corresponding weights (inverse of distances).</p>
+</dd>
+<dt>all_mapped<span class="classifier">dict</span></dt><dd><p>Dictionary where keys are cell identifiers and values are their mapped cell types.</p>
+</dd>
+<dt>unique_mapped<span class="classifier">dict</span></dt><dd><p>Dictionary to be updated where keys are cell identifiers and values are their resolved mapped cell types.</p>
+</dd>
+<dt>sp_leiden_barcode2cluid_resolution_wise<span class="classifier">dict</span></dt><dd><p>Dictionary mapping cell identifiers to their cluster IDs based on Leiden clustering resolution.</p>
+</dd>
+</dl>
+</section>
+<section id="id34">
+<h3>Returns<a class="headerlink" href="#id34" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>dict</dt><dd><p>Updated <cite>unique_mapped</cite> dictionary with resolved cell type annotations for the confused and unmapped cells.</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_annotations.Annotations.return_singlecells">
 <span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">return_singlecells</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cluster_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">midzone</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#return_singlecells"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.return_singlecells" title="Link to this definition"></a></dt>
-<dd><p>The helper function used in find_all_the_spatial_cells_mapped_to_single_cells to find the scRNAseq cells belonging to specific cell types.</p>
+<dd><p>Finds the scRNAseq cells belonging to a specific cell type.</p>
+<p>This helper function is used in <cite>find_all_the_spatial_cells_mapped_to_single_cells</cite> to identify the single-cell RNA sequencing (scRNAseq) cells that belong to a specified cell type (midzone).</p>
+<section id="id35">
+<h3>Parameters<a class="headerlink" href="#id35" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>cluster_data<span class="classifier">numpy.ndarray</span></dt><dd><p>A 2D array where the first column contains barcode IDs and the second column contains cluster IDs.</p>
+</dd>
+<dt>midzone<span class="classifier">int or str</span></dt><dd><p>The cluster ID representing the specific cell type of interest.</p>
+</dd>
+</dl>
+</section>
+<section id="id36">
+<h3>Returns<a class="headerlink" href="#id36" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>An array of unique barcode IDs corresponding to the cells that belong to the specified cell type (midzone).</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nico_annotations.Annotations.save_annotations_in_spatial_object">
+<span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">save_annotations_in_spatial_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputdict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anndata_object_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nico_celltype_annotation.h5ad'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#save_annotations_in_spatial_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.save_annotations_in_spatial_object" title="Link to this definition"></a></dt>
+<dd><p>Save NiCo cell type cluster annotations in the AnnData object.</p>
+<p>This function takes a dictionary containing the necessary data and saves the cell type cluster annotations
+into the <cite>.obs[‘nico_ct’]</cite> slot of an AnnData object. The updated AnnData object is then saved to a specified file.</p>
+<p>Inputs:</p>
+<dl class="simple">
+<dt>inputdict<span class="classifier">dict</span></dt><dd><p>A dictionary containing the cell type annotations related objects.</p>
+</dd>
+<dt>anndata_object_name<span class="classifier">str, optional</span></dt><dd><p>Name of the AnnData file to save the annotated data.
+Default is ‘nico_celltype_annotation.h5ad’.</p>
+</dd>
+</dl>
+<p>Outputs:</p>
+<p>The function saves the annotated AnnData object in the specified directory (‘./nico_out/’) with the given file name.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_annotations.Annotations.sct_return_sc_sp_in_shared_common_PC_space">
 <span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">sct_return_sc_sp_in_shared_common_PC_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ad_sp1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ad_sc1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_of_pc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#sct_return_sc_sp_in_shared_common_PC_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.sct_return_sc_sp_in_shared_common_PC_space" title="Link to this definition"></a></dt>
-<dd><p>The helper function is used in find_anchor_cells_between_ref_and_query to transform the common gene expression data into PCA space.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="nico_annotations.Annotations.sort_index_in_right_order">
-<span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">sort_index_in_right_order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">correct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wrong</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#sort_index_in_right_order"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.sort_index_in_right_order" title="Link to this definition"></a></dt>
-<dd><p>Helper function used in visualize cell type annotations.</p>
+<dd><p>Helper function used in <cite>find_anchor_cells_between_ref_and_query</cite> to transform the common gene expression data into PCA space.</p>
+<p>This function scales the data, performs PCA on single-cell data, and then projects both spatial and single-cell data into the shared PCA space. The projections are normalized by z-scores.</p>
+<section id="id37">
+<h3>Parameters<a class="headerlink" href="#id37" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>ad_sp1<span class="classifier">AnnData</span></dt><dd><p>AnnData object containing the spatial gene expression data.</p>
+</dd>
+<dt>ad_sc1<span class="classifier">AnnData</span></dt><dd><p>AnnData object containing the sequencing gene expression data.</p>
+</dd>
+<dt>no_of_pc<span class="classifier">int</span></dt><dd><p>Number of principal components to compute.</p>
+</dd>
+<dt>method<span class="classifier">str</span></dt><dd><p>Method used for scaling and PCA.</p>
+</dd>
+</dl>
+</section>
+<section id="id38">
+<h3>Returns<a class="headerlink" href="#id38" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>transfer_sp_com<span class="classifier">numpy.ndarray</span></dt><dd><p>The spatial data projected into the shared PCA space.</p>
+</dd>
+<dt>transfer_sc_com<span class="classifier">numpy.ndarray</span></dt><dd><p>The single-cell data projected into the shared PCA space.</p>
+</dd>
+<dt>sp_barcode<span class="classifier">numpy.ndarray</span></dt><dd><p>Barcodes of the spatial data.</p>
+</dd>
+<dt>sc_barcode<span class="classifier">numpy.ndarray</span></dt><dd><p>Barcodes of the single-cell data.</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_annotations.Annotations.visualize_spatial_anchored_cell_mapped_to_scRNAseq">
 <span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">visualize_spatial_anchored_cell_mapped_to_scRNAseq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparent_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(12,</span> <span class="pre">10)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#visualize_spatial_anchored_cell_mapped_to_scRNAseq"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.visualize_spatial_anchored_cell_mapped_to_scRNAseq" title="Link to this definition"></a></dt>
-<dd><p>This function visualizes the anchored cells mapping between two modalities.</p>
+<dd><p>Visualizes the anchored cells mapping between spatial and sequencing modalities.</p>
+<p>This function generates a heatmap to visualize the mapping of anchored cells between spatial Leiden clusters and scRNAseq clusters.</p>
+<section id="id39">
+<h3>Parameters<a class="headerlink" href="#id39" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>input<span class="classifier">object,</span></dt><dd><p>An object containing various attributes required for the function. Specifically, it must contain:
+- <cite>visualize_anchors</cite> : tuple
+A tuple containing the matrix of anchored cells, and the cluster names for spatial and scRNAseq data.
+Example: (matrix, spatial_cluster_names, scrnaseq_cluster_names)
+- <cite>KNN</cite> : int
+The number of nearest neighbors used in the mutual nearest neighbors (MNN) analysis.
+- <cite>output_annot</cite> : str
+The path where the output figure will be saved.</p>
+</dd>
+<dt>saveas<span class="classifier">str, optional</span></dt><dd><p>The format to save the figure, either ‘pdf’ or ‘png’ (default is ‘pdf’).</p>
+</dd>
+<dt>transparent_mode<span class="classifier">bool, optional</span></dt><dd><p>Whether the background of the figure should be transparent (default is False).</p>
+</dd>
+<dt>showit<span class="classifier">bool, optional</span></dt><dd><p>Whether to display the figure immediately (default is True). If False, the figure is closed after saving.</p>
+</dd>
+<dt>figsize<span class="classifier">tuple, optional</span></dt><dd><p>The size of the figure (default is (12,10)).</p>
+</dd>
+</dl>
+</section>
+<section id="id40">
+<h3>Outputs<a class="headerlink" href="#id40" title="Link to this heading"></a></h3>
+<p>The figure is saved at the location specified by “nico_out/annotations/”.</p>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_annotations.Annotations.visualize_umap_and_cell_coordinates_with_all_celltypes">
-<span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">visualize_umap_and_cell_coordinates_with_all_celltypes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quepath='./inputQuery/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">positionFilename='./inputQuery/tissue_positions_list.csv'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_iteration_to_perform_celltype_annotations=3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap=&lt;matplotlib.colors.LinearSegmentedColormap</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas='pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparent_mode=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showit=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize=(15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">6)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#visualize_umap_and_cell_coordinates_with_all_celltypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.visualize_umap_and_cell_coordinates_with_all_celltypes" title="Link to this definition"></a></dt>
-<dd><p>Inputs:</p>
-<div class="line-block">
-<div class="line">Queried path for single-cell resolution of spatial data. This directory contains an expression matrix in scTransform-like normalization in the common gene space (‘sct_spatial.h5ad’).</div>
-<div class="line">(default) quepath=’./inputQuery/’</div>
-</div>
-<div class="line-block">
-<div class="line">Save the figures in PDF or PNG format (dpi for PNG format is 300)</div>
-<div class="line">(default) saveas=’pdf’</div>
-</div>
-<div class="line-block">
-<div class="line">The position filename of cell coordinates</div>
-<div class="line">(default) positionFilename=’./inputQuery/tissue_positions_list.csv’</div>
-</div>
-<div class="line-block">
-<div class="line">The number of iterations performed in the annotations</div>
-<div class="line">(default) number_of_iteration_to_perform_celltype_annotations=3</div>
-</div>
-<div class="line-block">
-<div class="line">Colormap used to color the cell types</div>
-<div class="line">cmap=plt.cm.get_cmap(‘jet’)</div>
-</div>
-<div class="line-block">
-<div class="line">Background color in the figures</div>
-<div class="line">(default) transparent_mode=’False’</div>
-</div>
-<div class="line-block">
-<div class="line">Dimension of the figure size.</div>
-<div class="line">(default) figsize=(15,6)</div>
-</div>
-<p>Outputs:</p>
-<p>The annotation figure will be saved in ‘./inputQuery/MNN_based_annotations/tissue_and_umap_with_all_celltype_annotations*</p>
+<span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">visualize_umap_and_cell_coordinates_with_all_celltypes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_annotation_dir=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_nico_dir=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anndata_object_name='nico_celltype_annotation.h5ad'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spatial_cluster_tag='nico_ct'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spatial_coordinate_tag='spatial'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">umap_tag='X_umap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_iteration_to_perform_celltype_annotations=3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap=&lt;matplotlib.colors.LinearSegmentedColormap</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas='pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparent_mode=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showit=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize=(15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">6)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#visualize_umap_and_cell_coordinates_with_all_celltypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.visualize_umap_and_cell_coordinates_with_all_celltypes" title="Link to this definition"></a></dt>
+<dd><p>Visualize UMAP and spatial coordinates with all cell types annotated in a single plot.</p>
+<p>This function generates visualizations for UMAP projections and spatial coordinates of cells, annotated by cell types. It saves the figures to specified directories and supports customization of various visualization parameters.</p>
+<section id="id41">
+<h3>Parameters:<a class="headerlink" href="#id41" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>output_annotation_dir<span class="classifier">str, optional</span></dt><dd><p>Directory to save the annotation figures. Default is ‘./nico_out/annotations/’.</p>
+</dd>
+<dt>output_nico_dir<span class="classifier">str, optional</span></dt><dd><p>Base directory for nico output files. Default is ‘./nico_out/’.</p>
+</dd>
+<dt>anndata_object_name<span class="classifier">str, optional</span></dt><dd><p>Name of the AnnData object file containing cell type annotations. Default is ‘nico_celltype_annotation.h5ad’.</p>
+</dd>
+<dt>spatial_cluster_tag<span class="classifier">str, optional</span></dt><dd><p>Key in AnnData object for spatial cluster annotations slot. Default is ‘nico_ct’.</p>
+</dd>
+<dt>spatial_coordinate_tag<span class="classifier">str, optional</span></dt><dd><p>Key in AnnData object for spatial coordinates slot. Default is ‘spatial’.</p>
+</dd>
+<dt>umap_tag<span class="classifier">str, optional</span></dt><dd><p>Key in AnnData object for UMAP embeddings slot. Default is ‘X_umap’.</p>
+</dd>
+<dt>number_of_iteration_to_perform_celltype_annotations<span class="classifier">int, optional</span></dt><dd><p>Number of iterations performed for cell type annotations. Default is 3.</p>
+</dd>
+<dt>cmap<span class="classifier">matplotlib.colors.Colormap, optional</span></dt><dd><p>Colormap used to color the cell types. Default is ‘jet’.</p>
+</dd>
+<dt>saveas<span class="classifier">str, optional</span></dt><dd><p>Format to save the figures (‘pdf’ or ‘png’). Default is ‘pdf’.</p>
+</dd>
+<dt>transparent_mode<span class="classifier">bool, optional</span></dt><dd><p>If True, sets the background color of the figures to transparent. Default is False.</p>
+</dd>
+<dt>showit<span class="classifier">bool, optional</span></dt><dd><p>If True, displays the figures. Default is True.</p>
+</dd>
+<dt>figsize<span class="classifier">tuple, optional</span></dt><dd><p>Dimensions of the figure size. Default is (15, 6).</p>
+</dd>
+</dl>
+</section>
+<section id="id42">
+<h3>Outputs:<a class="headerlink" href="#id42" title="Link to this heading"></a></h3>
+<p>Saves annotation figures to the following path ‘./nico_out/annotations/’</p>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_annotations.Annotations.visualize_umap_and_cell_coordinates_with_selected_celltypes">
-<span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">visualize_umap_and_cell_coordinates_with_selected_celltypes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quepath='./inputQuery/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">positionFilename='./inputQuery/tissue_positions_list.csv'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_iteration_to_perform_celltype_annotations=3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choose_celltypes=[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msna=0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ms=0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showit=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap=&lt;matplotlib.colors.LinearSegmentedColormap</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas='pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparent_mode=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize=(8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">3.5)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#visualize_umap_and_cell_coordinates_with_selected_celltypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.visualize_umap_and_cell_coordinates_with_selected_celltypes" title="Link to this definition"></a></dt>
-<dd><p>Inputs:</p>
-<div class="line-block">
-<div class="line">Queried path for single-cell resolution of spatial data. This directory contains an expression matrix in scTransform-like normalization in the common gene space (‘sct_spatial.h5ad’).</div>
-<div class="line">(default) quepath=’./inputQuery/’</div>
-</div>
-<div class="line-block">
-<div class="line">The cell type pairs that you want to visualize as annotations</div>
-<div class="line">(default) choose_celltypes=[]</div>
-<div class="line">If the list is empty, the output will show for each cell type independently.</div>
-</div>
-<div class="line-block">
-<div class="line">The position filename of cell coordinates</div>
-<div class="line">(default) positionFilename=’./inputQuery/tissue_positions_list.csv’</div>
-</div>
-<div class="line-block">
-<div class="line">The number of iterations performed in the annotations</div>
-<div class="line">(default) number_of_iteration_to_perform_celltype_annotations=3</div>
-</div>
-<div class="line-block">
-<div class="line">The marker size of chosen and NA cell types</div>
-<div class="line">(default) ms=0.5  (chosen)</div>
-<div class="line">(default) msna=0.1 (NA)</div>
-</div>
-<div class="line-block">
-<div class="line">Colormap used to color the cell types</div>
-<div class="line">cmap=plt.cm.get_cmap(‘jet’)</div>
-</div>
-<div class="line-block">
-<div class="line">Save the figures in PDF or PNG format (dpi for PNG format is 300)</div>
-<div class="line">(default) saveas=’pdf’</div>
-</div>
-<div class="line-block">
-<div class="line">Background color in the figures</div>
-<div class="line">(default) transparent_mode=’False’</div>
-</div>
-<div class="line-block">
-<div class="line">Dimension of the figure size.</div>
-<div class="line">(default) figsize=(8,3.5)</div>
-</div>
+<span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">visualize_umap_and_cell_coordinates_with_selected_celltypes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_annotation_dir=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_nico_dir=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anndata_object_name='nico_celltype_annotation.h5ad'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spatial_cluster_tag='nico_ct'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spatial_coordinate_tag='spatial'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">umap_tag='X_umap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_iteration_to_perform_celltype_annotations=3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choose_celltypes=[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msna=0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ms=0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showit=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap=&lt;matplotlib.colors.LinearSegmentedColormap</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas='pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparent_mode=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize=(8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">3.5)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#visualize_umap_and_cell_coordinates_with_selected_celltypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.visualize_umap_and_cell_coordinates_with_selected_celltypes" title="Link to this definition"></a></dt>
+<dd><p>Visualize UMAP and cell coordinates with selected cell types.</p>
+<p>This function visualizes the UMAP embedding and cell coordinates for selected cell types
+from spatial transcriptomics data.</p>
+<p>Inputs:</p>
+<dl class="simple">
+<dt>output_annotation_dir<span class="classifier">str, optional</span></dt><dd><p>Directory path to save the annotation figures. Default is None, which uses ‘./nico_out/annotations/’.</p>
+</dd>
+<dt>output_nico_dir<span class="classifier">str, optional</span></dt><dd><p>Directory path for NiCo outputs. Default is None, which uses ‘./nico_out/’.</p>
+</dd>
+<dt>anndata_object_name<span class="classifier">str, optional</span></dt><dd><p>Name of the AnnData file containing cell type annotations. Default is ‘nico_celltype_annotation.h5ad’.</p>
+</dd>
+<dt>spatial_cluster_tag<span class="classifier">str, optional</span></dt><dd><p>Slot for spatial cluster annotations in the AnnData object. Default is ‘nico_ct’.</p>
+</dd>
+<dt>spatial_coordinate_tag<span class="classifier">str, optional</span></dt><dd><p>Slot for spatial coordinates in the AnnData object. Default is ‘spatial’.</p>
+</dd>
+<dt>umap_tag<span class="classifier">str, optional</span></dt><dd><p>Slot for UMAP embeddings in the AnnData object. Default is ‘X_umap’.</p>
+</dd>
+<dt>number_of_iteration_to_perform_celltype_annotations<span class="classifier">int, optional</span></dt><dd><p>Number of iterations for performing cell type annotations. Default is 3.</p>
+</dd>
+<dt>choose_celltypes<span class="classifier">list, optional</span></dt><dd><p>List of cell types to visualize. Default is an empty list, which shows annotations for all cell types.</p>
+</dd>
+<dt>msna<span class="classifier">float, optional</span></dt><dd><p>Marker size for non-selected (NA) cell types. Default is 0.1.</p>
+</dd>
+<dt>ms<span class="classifier">float, optional</span></dt><dd><p>Marker size for selected cell types. Default is 0.5.</p>
+</dd>
+<dt>showit<span class="classifier">bool, optional</span></dt><dd><p>Whether to display the figures. Default is True.</p>
+</dd>
+<dt>cmap<span class="classifier">Colormap, optional</span></dt><dd><p>Colormap used to color the cell types. Default is plt.cm.get_cmap(‘jet’).</p>
+</dd>
+<dt>saveas<span class="classifier">str, optional</span></dt><dd><p>Format to save the figures (‘pdf’ or ‘png’). Default is ‘pdf’.</p>
+</dd>
+<dt>transparent_mode<span class="classifier">bool, optional</span></dt><dd><p>Whether to use a transparent background for the figures. Default is False.</p>
+</dd>
+<dt>figsize<span class="classifier">tuple, optional</span></dt><dd><p>Dimension of the figure size. Default is (8, 3.5).</p>
+</dd>
+</dl>
 <p>Outputs:</p>
-<p>The individual celltype annotation figure will be saved in ‘./inputQuery/MNN_based_annotations/fig_individual_annotation’</p>
+<p>The function saves individual cell type annotation figures in the specified directory.</p>
+<p>Notes:</p>
+<ul class="simple">
+<li><p>Ensure that the input AnnData object contains the required tags for UMAP, spatial coordinates, and cell type annotations.</p></li>
+<li><p>The function will save the annotation figures in the specified directory.</p></li>
+</ul>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_annotations.Annotations.write_annotation">
 <span class="sig-prename descclassname"><span class="pre">nico_annotations.Annotations.</span></span><span class="sig-name descname"><span class="pre">write_annotation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">deg_annot_cluster_fname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deg_annot_ct_fname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique_mapped</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cellname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_annotations/Annotations.html#write_annotation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_annotations.Annotations.write_annotation" title="Link to this definition"></a></dt>
-<dd><p>The helper function used in nico_based_annotation to generates each iteration’s annotation cluster and cell type name CSV files.</p>
+<dd><p>Generates CSV files for each iteration’s annotation clusters and cell type names.</p>
+<p>This helper function is used in <cite>nico_based_annotation</cite> to create two CSV files:
+one for the cluster annotation and one for the cell type names with their frequencies.</p>
+<section id="id43">
+<h3>Parameters<a class="headerlink" href="#id43" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>deg_annot_cluster_fname<span class="classifier">str</span></dt><dd><p>The filename for the CSV file that will contain the cluster annotations.</p>
+</dd>
+<dt>deg_annot_ct_fname<span class="classifier">str</span></dt><dd><p>The filename for the CSV file that will contain the cell type names and their frequencies.</p>
+</dd>
+<dt>unique_mapped<span class="classifier">dict</span></dt><dd><p>A dictionary where keys are cell barcodes and values are their corresponding cell type names.</p>
+</dd>
+<dt>cellname<span class="classifier">numpy.ndarray</span></dt><dd><p>An array of cell barcode IDs.</p>
+</dd>
+</dl>
+</section>
+<section id="id44">
+<h3>Returns<a class="headerlink" href="#id44" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>An array of cell type names corresponding to each cell barcode ID in the <cite>cellname</cite> array.</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
 </section>
@@ -409,14 +909,14 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="modules.html" class="btn btn-neutral float-left" title="NiCo_Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral float-left" title="NiCo_Modules" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="nico_annotations.utils.html" class="btn btn-neutral float-right" title="nico_annotations.utils package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Grün lab.</p>
+    <p>&#169; Copyright 2024, Grün lab.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

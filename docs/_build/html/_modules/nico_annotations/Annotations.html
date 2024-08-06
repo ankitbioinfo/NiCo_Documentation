@@ -30,8 +30,9 @@
 
           
           
-          <a href="../../index.html" class="icon icon-home">
-            NiCo
+          <a href="../../index.html">
+            
+              <img src="../../_static/nico-logo.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -43,7 +44,13 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">NiCo_Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html#tutorials">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">NiCo_Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions (FAQ)</a></li>
 </ul>
 
         </div>
@@ -84,11 +91,13 @@
 <span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
 <span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">SimpleNamespace</span>
 <span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="kn">import</span> <span class="n">cKDTree</span>
+<span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">scipy_sparse</span>
 
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">snn</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+
 
 <span class="n">fpath</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span><span class="s1">&#39;utils&#39;</span><span class="p">)</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fpath</span><span class="p">)</span>
@@ -102,7 +111,30 @@
 <div class="viewcode-block" id="create_directory">
 <a class="viewcode-back" href="../../nico_annotations.html#nico_annotations.Annotations.create_directory">[docs]</a>
 <span class="k">def</span> <span class="nf">create_directory</span><span class="p">(</span><span class="n">outputFolder</span><span class="p">):</span>
-    <span class="s2">&quot;This function create empty directory.&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create an empty directory.</span>
+
+<span class="sd">    This function checks if a specified directory exists, and if not, it creates the directory.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    outputFolder : str</span>
+<span class="sd">        The path of the directory to be created.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    OSError</span>
+<span class="sd">        If the directory cannot be created due to permission issues or other OS-related errors.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - If the directory already exists, no action is taken.</span>
+<span class="sd">    - This function ensures that the directory path is available for subsequent file operations.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; create_directory(&#39;./new_out/&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">answer</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">outputFolder</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">answer</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
         <span class="k">pass</span>
@@ -114,7 +146,34 @@
 <div class="viewcode-block" id="find_index">
 <a class="viewcode-back" href="../../nico_annotations.html#nico_annotations.Annotations.find_index">[docs]</a>
 <span class="k">def</span> <span class="nf">find_index</span><span class="p">(</span><span class="n">sp_genename</span><span class="p">,</span><span class="n">sc_genename</span><span class="p">):</span>
-    <span class="s2">&quot;Helper function used in find_anchor_cells_between_ref_and_query to find the common gene space submatrix between two modalities.&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the common gene space submatrix between two modalities.</span>
+
+<span class="sd">    This helper function is used within the `find_anchor_cells_between_ref_and_query` function to identify the indices of common genes</span>
+<span class="sd">    between two lists of gene names corresponding to spatial and scRNAseq modalities.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sp_genename : list</span>
+<span class="sd">        A list of gene names from the spatial modality.</span>
+
+<span class="sd">    sc_genename : list</span>
+<span class="sd">        A list of gene names from the scRNAseq modality.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list</span>
+<span class="sd">        A list of indices corresponding to the common genes found in both `sp_genename` and `sc_genename`.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; sp_genes = [&#39;gene1&#39;, &#39;gene2&#39;, &#39;gene3&#39;, &#39;gene4&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; sc_genes = [&#39;gene3&#39;, &#39;gene4&#39;, &#39;gene5&#39;, &#39;gene6&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; index_sp,index_sc = find_index(sp_genes, sc_genes)</span>
+<span class="sd">    &gt;&gt;&gt; print(index_sp)</span>
+<span class="sd">    [2, 3]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">index_sc</span><span class="o">=</span><span class="p">[]</span>
     <span class="n">index_sp</span><span class="o">=</span><span class="p">[]</span>
     <span class="n">d</span><span class="o">=</span><span class="p">{}</span>
@@ -139,7 +198,32 @@
 <div class="viewcode-block" id="find_match_index_in_dist">
 <a class="viewcode-back" href="../../nico_annotations.html#nico_annotations.Annotations.find_match_index_in_dist">[docs]</a>
 <span class="k">def</span> <span class="nf">find_match_index_in_dist</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span><span class="n">t2</span><span class="p">,</span><span class="n">s1</span><span class="p">,</span><span class="n">s2</span><span class="p">,</span><span class="n">index_1</span><span class="p">,</span><span class="n">index_2</span><span class="p">):</span>
-    <span class="s2">&quot;The helper function used find_mutual_nn to find the correct pairing of cell barcodes.&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper function used in `find_mutual_nn` to find the correct pairing of cell barcodes.</span>
+
+<span class="sd">    This function takes two lists of cell barcodes and their corresponding indices and returns the matched pair of distances for the specified indices.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    t1 : list or numpy.ndarray</span>
+<span class="sd">        A list or array containing the distances corresponding to the cell barcodes in `s1`.</span>
+<span class="sd">    t2 : list or numpy.ndarray</span>
+<span class="sd">        A list or array containing the distances corresponding to the cell barcodes in `s2`.</span>
+<span class="sd">    s1 : list or numpy.ndarray</span>
+<span class="sd">        A list or array containing the cell barcodes for the first set of distances.</span>
+<span class="sd">    s2 : list or numpy.ndarray</span>
+<span class="sd">        A list or array containing the cell barcodes for the second set of distances.</span>
+<span class="sd">    index_1 : int</span>
+<span class="sd">        The index of the cell barcode in `s1` to be matched.</span>
+<span class="sd">    index_2 : int</span>
+<span class="sd">        The index of the cell barcode in `s2` to be matched.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple</span>
+<span class="sd">        A tuple (p1, p2) where p1 is the distance from `t1` corresponding to `index_1` and p2 is the distance from `t2` corresponding to `index_2`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">)):</span>
         <span class="k">if</span> <span class="n">s1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="n">index_1</span><span class="p">:</span>
             <span class="n">p1</span><span class="o">=</span><span class="n">t1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
@@ -153,7 +237,35 @@
 <div class="viewcode-block" id="find_mutual_nn">
 <a class="viewcode-back" href="../../nico_annotations.html#nico_annotations.Annotations.find_mutual_nn">[docs]</a>
 <span class="k">def</span> <span class="nf">find_mutual_nn</span><span class="p">(</span><span class="n">minkowski_order</span><span class="p">,</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">,</span> <span class="n">sp_barcode</span><span class="p">,</span><span class="n">sc_barcode</span><span class="p">,</span> <span class="n">k1</span><span class="p">,</span> <span class="n">k2</span><span class="p">):</span>
-    <span class="s2">&quot;The helper function used in find_anchor_cells_between_ref_and_query to find mutual nearest neighbors using cKDTree.&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper function used in `find_anchor_cells_between_ref_and_query` to find mutual nearest neighbors using cKDTree.</span>
+
+<span class="sd">    This function finds mutual nearest neighbors (MNNs) between two datasets using the cKDTree algorithm. The mutual nearest neighbors are those pairs of points that are each other&#39;s nearest neighbors.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    minkowski_order : int</span>
+<span class="sd">        The order of the Minkowski distance to use. For example, 2 is the Euclidean distance.</span>
+<span class="sd">    data1 : numpy.ndarray</span>
+<span class="sd">        The reference dataset, typically the spatial dataset.</span>
+<span class="sd">    data2 : numpy.ndarray</span>
+<span class="sd">        The query dataset, typically the sequencing dataset.</span>
+<span class="sd">    sp_barcode : numpy.ndarray</span>
+<span class="sd">        Array of barcodes for the spatial dataset.</span>
+<span class="sd">    sc_barcode : numpy.ndarray</span>
+<span class="sd">        Array of barcodes for the single-cell dataset.</span>
+<span class="sd">    k1 : int</span>
+<span class="sd">        The number of nearest neighbors to query in the spatial dataset.</span>
+<span class="sd">    k2 : int</span>
+<span class="sd">        The number of nearest neighbors to query in the single-cell dataset.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        An array where each row represents a mutual nearest neighbor pair and their distances. The columns are:</span>
+<span class="sd">        [sp_barcode of mutual_1, sc_barcode of mutual_2, distance in data1, distance in data2]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1">#data1 is spatial</span>
     <span class="c1">#data2 is single</span>
 
@@ -199,7 +311,35 @@
 <div class="viewcode-block" id="sct_return_sc_sp_in_shared_common_PC_space">
 <a class="viewcode-back" href="../../nico_annotations.html#nico_annotations.Annotations.sct_return_sc_sp_in_shared_common_PC_space">[docs]</a>
 <span class="k">def</span> <span class="nf">sct_return_sc_sp_in_shared_common_PC_space</span><span class="p">(</span><span class="n">ad_sp1</span><span class="p">,</span><span class="n">ad_sc1</span><span class="p">,</span><span class="n">no_of_pc</span><span class="p">,</span><span class="n">method</span><span class="p">):</span>
-    <span class="s2">&quot;The helper function is used in find_anchor_cells_between_ref_and_query to transform the common gene expression data into PCA space.&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper function used in `find_anchor_cells_between_ref_and_query` to transform the common gene expression data into PCA space.</span>
+
+<span class="sd">    This function scales the data, performs PCA on single-cell data, and then projects both spatial and single-cell data into the shared PCA space. The projections are normalized by z-scores.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ad_sp1 : AnnData</span>
+<span class="sd">        AnnData object containing the spatial gene expression data.</span>
+<span class="sd">    ad_sc1 : AnnData</span>
+<span class="sd">        AnnData object containing the sequencing gene expression data.</span>
+<span class="sd">    no_of_pc : int</span>
+<span class="sd">        Number of principal components to compute.</span>
+<span class="sd">    method : str</span>
+<span class="sd">        Method used for scaling and PCA.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    transfer_sp_com : numpy.ndarray</span>
+<span class="sd">        The spatial data projected into the shared PCA space.</span>
+<span class="sd">    transfer_sc_com : numpy.ndarray</span>
+<span class="sd">        The single-cell data projected into the shared PCA space.</span>
+<span class="sd">    sp_barcode : numpy.ndarray</span>
+<span class="sd">        Barcodes of the spatial data.</span>
+<span class="sd">    sc_barcode : numpy.ndarray</span>
+<span class="sd">        Barcodes of the single-cell data.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">sct_ad_sc</span><span class="o">=</span><span class="n">ad_sc1</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">sct_ad_sp</span><span class="o">=</span><span class="n">ad_sp1</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
@@ -209,26 +349,20 @@
     <span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">pca</span><span class="p">(</span><span class="n">sct_ad_sc</span><span class="p">,</span><span class="n">zero_center</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">n_comps</span><span class="o">=</span><span class="n">no_of_pc</span><span class="p">)</span>
     <span class="n">sc_com_pc</span><span class="o">=</span><span class="n">sct_ad_sc</span><span class="o">.</span><span class="n">varm</span><span class="p">[</span><span class="s1">&#39;PCs&#39;</span><span class="p">]</span>
 
-    <span class="n">tp_sc</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">sct_ad_sc</span><span class="o">.</span><span class="n">X</span><span class="p">))</span>
-    <span class="n">tp_sp</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">sct_ad_sp</span><span class="o">.</span><span class="n">X</span><span class="p">))</span>
-    <span class="k">if</span> <span class="n">tp_sc</span><span class="o">==</span><span class="s2">&quot;&lt;class &#39;scipy.sparse._csr.csr_matrix&#39;&gt;&quot;</span><span class="p">:</span>
-        <span class="n">msc</span><span class="o">=</span><span class="n">sct_ad_sc</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">scipy_sparse</span><span class="o">.</span><span class="n">issparse</span><span class="p">(</span><span class="n">sct_ad_sc</span><span class="o">.</span><span class="n">X</span><span class="p">):</span>
+       <span class="n">msc</span><span class="o">=</span><span class="n">sct_ad_sc</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">msc</span><span class="o">=</span><span class="n">sct_ad_sc</span><span class="o">.</span><span class="n">X</span>
+       <span class="n">msc</span><span class="o">=</span><span class="n">sct_ad_sc</span><span class="o">.</span><span class="n">X</span>
 
-    <span class="k">if</span> <span class="n">tp_sp</span><span class="o">==</span><span class="s2">&quot;&lt;class &#39;scipy.sparse._csr.csr_matrix&#39;&gt;&quot;</span><span class="p">:</span>
-        <span class="n">msp</span><span class="o">=</span><span class="n">sct_ad_sp</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">scipy_sparse</span><span class="o">.</span><span class="n">issparse</span><span class="p">(</span><span class="n">sct_ad_sp</span><span class="o">.</span><span class="n">X</span><span class="p">):</span>
+       <span class="n">msp</span><span class="o">=</span><span class="n">sct_ad_sp</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">msp</span><span class="o">=</span><span class="n">sct_ad_sp</span><span class="o">.</span><span class="n">X</span>
-
+       <span class="n">msp</span><span class="o">=</span><span class="n">sct_ad_sp</span><span class="o">.</span><span class="n">X</span>
 
     <span class="n">msp</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">msp</span><span class="p">)</span>
     <span class="n">msc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">msc</span><span class="p">)</span>
     <span class="n">transfer_sp_com</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">msp</span><span class="p">,</span> <span class="n">sc_com_pc</span><span class="p">)</span>
     <span class="n">transfer_sc_com</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">msc</span><span class="p">,</span> <span class="n">sc_com_pc</span><span class="p">)</span>
-
-
-
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">transfer_sp_com</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
         <span class="n">mu1</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">transfer_sp_com</span><span class="p">[:,</span><span class="n">i</span><span class="p">])</span>
@@ -258,7 +392,24 @@
 <div class="viewcode-block" id="find_annotation_index">
 <a class="viewcode-back" href="../../nico_annotations.html#nico_annotations.Annotations.find_annotation_index">[docs]</a>
 <span class="k">def</span> <span class="nf">find_annotation_index</span><span class="p">(</span><span class="n">annot_cellname</span><span class="p">,</span><span class="n">sct_cellname</span><span class="p">):</span>
-    <span class="s2">&quot;Helper function for find_commnon_MNN to find the correct cell name.&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper function for `find_common_MNN` to find the correct cell name.</span>
+
+<span class="sd">    This function maps the indices of cell barcodes names to the corresponding indices in the anchored data.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    annot_cellname : list or array-like</span>
+<span class="sd">        List or array of cell barcode names.</span>
+<span class="sd">    sct_cellname : list or array-like</span>
+<span class="sd">        List or array of anchored cell barcode names.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    index : list</span>
+<span class="sd">        List of indices in `sct_cellname` that corresponds to the position of the cell barcode name in `annot_cellname`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">d</span><span class="o">=</span><span class="p">{}</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">annot_cellname</span><span class="p">)):</span>
         <span class="n">d</span><span class="p">[</span><span class="n">annot_cellname</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">=</span><span class="n">i</span>
@@ -277,7 +428,22 @@
 <a class="viewcode-back" href="../../nico_annotations.html#nico_annotations.Annotations.find_commnon_MNN">[docs]</a>
 <span class="k">def</span> <span class="nf">find_commnon_MNN</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The helper function is used in find_anchor_cells_between_ref_and_query to find the anchored cells between two modalities using the mutual nearest neighbors method.</span>
+<span class="sd">    Helper function used in `find_anchor_cells_between_ref_and_query` to find the anchored cells between</span>
+<span class="sd">    spatial and sequencing modalities using the mutual nearest neighbors (MNN) method in the PCA space.</span>
+
+<span class="sd">    This function reads MNN pairs from a provided file and processes the data to identify mutual nearest neighbors</span>
+<span class="sd">    between spatial and single-cell datasets.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    input : object</span>
+<span class="sd">        An object containing various attributes required for the function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : numpy.ndarray</span>
+<span class="sd">        After prunning the bad anchors it returen the good anchors.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1">#df=pd.read_csv(input.fname_mnn_anchors,header=None)</span>
     <span class="c1">#data contains 2 column files of sct_pairing_shared_common_gene_PC.csv</span>
@@ -493,8 +659,35 @@
 <a class="viewcode-back" href="../../nico_annotations.html#nico_annotations.Annotations.visualize_spatial_anchored_cell_mapped_to_scRNAseq">[docs]</a>
 <span class="k">def</span> <span class="nf">visualize_spatial_anchored_cell_mapped_to_scRNAseq</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span><span class="n">saveas</span><span class="o">=</span><span class="s1">&#39;pdf&#39;</span><span class="p">,</span><span class="n">transparent_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">showit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">10</span><span class="p">)):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This function visualizes the anchored cells mapping between two modalities.</span>
+<span class="sd">    Visualizes the anchored cells mapping between spatial and sequencing modalities.</span>
+
+<span class="sd">    This function generates a heatmap to visualize the mapping of anchored cells between spatial Leiden clusters and scRNAseq clusters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    input : object,</span>
+<span class="sd">        An object containing various attributes required for the function. Specifically, it must contain:</span>
+<span class="sd">        - `visualize_anchors` : tuple</span>
+<span class="sd">        A tuple containing the matrix of anchored cells, and the cluster names for spatial and scRNAseq data.</span>
+<span class="sd">        Example: (matrix, spatial_cluster_names, scrnaseq_cluster_names)</span>
+<span class="sd">        - `KNN` : int</span>
+<span class="sd">        The number of nearest neighbors used in the mutual nearest neighbors (MNN) analysis.</span>
+<span class="sd">        - `output_annot` : str</span>
+<span class="sd">        The path where the output figure will be saved.</span>
+<span class="sd">    saveas : str, optional</span>
+<span class="sd">        The format to save the figure, either &#39;pdf&#39; or &#39;png&#39; (default is &#39;pdf&#39;).</span>
+<span class="sd">    transparent_mode : bool, optional</span>
+<span class="sd">        Whether the background of the figure should be transparent (default is False).</span>
+<span class="sd">    showit : bool, optional</span>
+<span class="sd">        Whether to display the figure immediately (default is True). If False, the figure is closed after saving.</span>
+<span class="sd">    figsize : tuple, optional</span>
+<span class="sd">        The size of the figure (default is (12,10)).</span>
+
+<span class="sd">    Outputs</span>
+<span class="sd">    -------</span>
+<span class="sd">    The figure is saved at the location specified by &quot;nico_out/annotations/&quot;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">mat2</span><span class="p">,</span><span class="n">cname1</span><span class="p">,</span><span class="n">cname2</span><span class="o">=</span><span class="nb">input</span><span class="o">.</span><span class="n">visualize_anchors</span>
     <span class="n">fig</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
     <span class="n">snn</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">mat2</span><span class="p">,</span><span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;0.2f&#39;</span><span class="p">,</span><span class="n">xticklabels</span><span class="o">=</span><span class="n">cname2</span><span class="p">,</span> <span class="n">annot_kws</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span><span class="n">yticklabels</span><span class="o">=</span><span class="n">cname1</span><span class="p">)</span>
@@ -502,8 +695,8 @@
     <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;scRNAseq Clusters&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;MNN K = &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">KNN</span><span class="p">),</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The figures are saved: &quot;</span><span class="p">,</span> <span class="nb">input</span><span class="o">.</span><span class="n">savepath</span><span class="o">+</span><span class="s1">&#39;visualize_anchors.&#39;</span><span class="o">+</span><span class="n">saveas</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">savepath</span><span class="o">+</span><span class="s1">&#39;visualize_anchors.&#39;</span><span class="o">+</span><span class="n">saveas</span><span class="p">,</span><span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">,</span><span class="n">transparent</span><span class="o">=</span><span class="n">transparent_mode</span><span class="p">,</span><span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The figures are saved: &quot;</span><span class="p">,</span> <span class="nb">input</span><span class="o">.</span><span class="n">output_annot</span><span class="o">+</span><span class="s1">&#39;visualize_anchors.&#39;</span><span class="o">+</span><span class="n">saveas</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">output_annot</span><span class="o">+</span><span class="s1">&#39;visualize_anchors.&#39;</span><span class="o">+</span><span class="n">saveas</span><span class="p">,</span><span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">,</span><span class="n">transparent</span><span class="o">=</span><span class="n">transparent_mode</span><span class="p">,</span><span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">showit</span><span class="p">:</span>
         <span class="k">pass</span>
     <span class="k">else</span><span class="p">:</span>
@@ -516,35 +709,58 @@
 
 <div class="viewcode-block" id="find_anchor_cells_between_ref_and_query">
 <a class="viewcode-back" href="../../nico_annotations.html#nico_annotations.Annotations.find_anchor_cells_between_ref_and_query">[docs]</a>
-<span class="k">def</span> <span class="nf">find_anchor_cells_between_ref_and_query</span><span class="p">(</span><span class="n">refpath</span><span class="o">=</span><span class="s1">&#39;./inputRef/&#39;</span><span class="p">,</span><span class="n">quepath</span><span class="o">=</span><span class="s1">&#39;./inputQuery/&#39;</span><span class="p">,</span><span class="n">neigh</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="n">no_of_pc</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="n">minkowski_order</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">find_anchor_cells_between_ref_and_query</span><span class="p">(</span><span class="n">refpath</span><span class="o">=</span><span class="s1">&#39;./inputRef/&#39;</span><span class="p">,</span><span class="n">quepath</span><span class="o">=</span><span class="s1">&#39;./inputQuery/&#39;</span><span class="p">,</span>
+<span class="n">output_annotation_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="n">output_nico_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="n">neigh</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="n">no_of_pc</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="n">minkowski_order</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
 
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    **This function find all the anchored cells between queried and reference data.**</span>
+<span class="sd">    Finds all anchor cells between query and reference data.</span>
 
-<span class="sd">    Inputs:</span>
-
-<span class="sd">    | Reference path for scRNAseq. This directory should contain originial count matrix (&#39;Original_counts.h5ad&#39;), and scTransform-like normalization matrix in the common gene space (&#39;sct_singleCell.h5ad&#39;).</span>
-<span class="sd">    | (default) refpath=&#39;./inputRef/&#39;</span>
-
-<span class="sd">    | Queried path for single cell resolution of spatial data. This directory contains an expression matrix in scTransform-like normalization in the common gene space (&#39;sct_spatial.h5ad&#39;).</span>
-<span class="sd">    | (default) quepath=&#39;./inputQuery/&#39;</span>
-
-<span class="sd">    | The K-nearest neighbor to find the anchored cells</span>
-<span class="sd">    | (default) neigh=50</span>
-
-<span class="sd">    | The number of principal components used to transform normalized expression matrix into PCA space.</span>
-<span class="sd">    | This PCA-transformed matrix will be used to find the mutual nearest neighbor using the nearest neighbor distance.</span>
-<span class="sd">    | (default) no_of_pc=50</span>
-
-<span class="sd">    | Type of distance matrix: 2 means Euclidean distance, 1 means Manhattan distance</span>
-<span class="sd">    | (default) minkowski_order=2</span>
+<span class="sd">    This function reads the reference and query data from the specified directories, performs necessary preprocessing, and finds mutual nearest neighbors in the PCA space to map cell types between the two datasets.</span>
 
 
-<span class="sd">    Outputs:</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    refpath : str, optional</span>
+<span class="sd">        Path to the directory containing reference scRNAseq data. This directory should contain:</span>
+<span class="sd">        - &#39;Original_counts.h5ad&#39; : The original count matrix in raw layer.</span>
+<span class="sd">        - &#39;sct_singleCell.h5ad&#39; : The scTransform-like normalized matrix.</span>
+<span class="sd">        (default is &#39;./inputRef/&#39;)</span>
+<span class="sd">    quepath : str, optional</span>
+<span class="sd">        Path to the directory containing spatial transcriptomics query data. This directory should contain:</span>
+<span class="sd">        - &#39;sct_spatial.h5ad&#39; : The scTransform-like normalized matrix.</span>
+<span class="sd">        (default is &#39;./inputQuery/&#39;)</span>
+<span class="sd">    output_annotation_dir : str, optional</span>
+<span class="sd">        Directory to save output annotations. If None, a default directory is used.</span>
+<span class="sd">        (default is None)</span>
+<span class="sd">    output_nico_dir : str, optional</span>
+<span class="sd">        Directory to save output NICOLAE results. If None, &#39;./nico_out/&#39; is used.</span>
+<span class="sd">        (default is &#39;./nico_out/annotations&#39;)</span>
+<span class="sd">    neigh : int, optional</span>
+<span class="sd">        The number of K-nearest neighbors to find the anchor cells.</span>
+<span class="sd">        (default is 50)</span>
+<span class="sd">    no_of_pc : int, optional</span>
+<span class="sd">        The number of principal components used to transform the normalized expression matrix into PCA space.</span>
+<span class="sd">        (default is 50)</span>
+<span class="sd">    minkowski_order : int, optional</span>
+<span class="sd">        The type of distance metric used:</span>
+<span class="sd">        - 2 for Euclidean distance</span>
+<span class="sd">        - 1 for Manhattan distance</span>
+<span class="sd">        (default is 2)</span>
 
-<span class="sd">    | The output contains the mapping cell information between two modalities.</span>
+<span class="sd">    Outputs</span>
+<span class="sd">    -------</span>
+<span class="sd">    The function produces the mapping of cell type information between two modalities and saves the results in the specified output directory.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+
+
+    <span class="k">if</span> <span class="n">output_nico_dir</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+        <span class="n">outputdir</span><span class="o">=</span><span class="s1">&#39;./nico_out/&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">outputdir</span><span class="o">=</span><span class="n">output_nico_dir</span>
+    <span class="n">create_directory</span><span class="p">(</span><span class="n">outputdir</span><span class="p">)</span>
 
     <span class="n">ref_h5ad</span><span class="o">=</span><span class="n">refpath</span><span class="o">+</span><span class="s1">&#39;sct_singleCell.h5ad&#39;</span>
     <span class="n">que_h5ad</span><span class="o">=</span><span class="n">quepath</span><span class="o">+</span><span class="s1">&#39;sct_spatial.h5ad&#39;</span>
@@ -557,8 +773,11 @@
     <span class="c1">#cellname=np.reshape(cellname,(len(cellname),1))</span>
     <span class="c1">#annotation_singlecell_celltypename=np.reshape(annotation_singlecell_celltypename,(len(annotation_singlecell_celltypename),1))</span>
 
-    <span class="n">outputFolder</span><span class="o">=</span><span class="n">quepath</span><span class="o">+</span><span class="s1">&#39;MNN_based_annotations/&#39;</span>
-    <span class="n">create_directory</span><span class="p">(</span><span class="n">outputFolder</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">output_annotation_dir</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+        <span class="n">output_annot</span><span class="o">=</span><span class="n">outputdir</span><span class="o">+</span><span class="s1">&#39;annotations/&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">output_annot</span><span class="o">=</span><span class="n">output_annotation_dir</span>
+    <span class="n">create_directory</span><span class="p">(</span><span class="n">output_annot</span><span class="p">)</span>
     <span class="c1">#method=&#39;gauss&#39;</span>
     <span class="n">method</span><span class="o">=</span><span class="s1">&#39;umap&#39;</span>
     <span class="n">adata_query</span><span class="o">=</span><span class="n">sc</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="n">que_h5ad</span><span class="p">)</span>
@@ -570,18 +789,18 @@
     <span class="n">ad_sp_ori</span><span class="o">=</span><span class="n">sct_ad_sp</span><span class="p">[:,</span><span class="n">index_sp</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">ad_sc_ori</span><span class="o">=</span><span class="n">sct_ad_sc</span><span class="p">[:,</span><span class="n">index_sc</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-    <span class="n">ad_sc_ori</span><span class="o">.</span><span class="n">write_h5ad</span><span class="p">(</span><span class="n">outputFolder</span><span class="o">+</span><span class="s1">&#39;final_sct_sc.h5ad&#39;</span><span class="p">)</span>
-    <span class="n">ad_sp_ori</span><span class="o">.</span><span class="n">write_h5ad</span><span class="p">(</span><span class="n">outputFolder</span><span class="o">+</span><span class="s1">&#39;final_sct_sp.h5ad&#39;</span><span class="p">)</span>
+    <span class="n">ad_sc_ori</span><span class="o">.</span><span class="n">write_h5ad</span><span class="p">(</span><span class="n">output_annot</span><span class="o">+</span><span class="s1">&#39;final_sct_sc.h5ad&#39;</span><span class="p">)</span>
+    <span class="n">ad_sp_ori</span><span class="o">.</span><span class="n">write_h5ad</span><span class="p">(</span><span class="n">output_annot</span><span class="o">+</span><span class="s1">&#39;final_sct_sp.h5ad&#39;</span><span class="p">)</span>
 
-    <span class="n">fmnn</span><span class="o">=</span><span class="n">outputFolder</span><span class="o">+</span><span class="s2">&quot;anchors_data_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">neigh</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.npz&#39;</span>
+    <span class="n">fmnn</span><span class="o">=</span><span class="n">output_annot</span><span class="o">+</span><span class="s2">&quot;anchors_data_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">neigh</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.npz&#39;</span>
 
     <span class="n">flag</span><span class="o">=</span><span class="mi">1</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">fmnn</span><span class="p">):</span>
         <span class="n">filesize</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">fmnn</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">filesize</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
-            <span class="n">flag</span><span class="o">=</span><span class="mi">0</span>
-    <span class="c1">#if flag==1:</span>
-    <span class="k">if</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="c1"># uncomment following part for not rewriting</span>
+        <span class="c1">#if filesize&gt;0:</span>
+        <span class="c1">#    flag=0</span>
+    <span class="k">if</span> <span class="n">flag</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
         <span class="n">input_sp</span><span class="p">,</span><span class="n">input_sc</span><span class="p">,</span><span class="n">sp_barcode</span><span class="p">,</span><span class="n">sc_barcode</span><span class="o">=</span><span class="n">sct_return_sc_sp_in_shared_common_PC_space</span><span class="p">(</span><span class="n">ad_sp_ori</span><span class="p">,</span><span class="n">ad_sc_ori</span><span class="p">,</span><span class="n">no_of_pc</span><span class="p">,</span><span class="n">method</span><span class="p">)</span>
         <span class="c1">#print(&#39;sp&#39;,input_sp.shape,&#39;\nsc&#39;,input_sc.shape)</span>
         <span class="n">corrected</span> <span class="o">=</span> <span class="n">find_mutual_nn</span><span class="p">(</span><span class="n">minkowski_order</span><span class="p">,</span><span class="n">input_sp</span><span class="p">,</span><span class="n">input_sc</span><span class="p">,</span><span class="n">sp_barcode</span><span class="p">,</span><span class="n">sc_barcode</span><span class="p">,</span> <span class="n">k1</span><span class="o">=</span> <span class="n">neigh</span><span class="p">,</span><span class="n">k2</span><span class="o">=</span> <span class="n">neigh</span><span class="p">)</span>
@@ -598,14 +817,15 @@
         <span class="n">knn_neigh</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">knn_neigh</span><span class="p">)</span>
         <span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span><span class="n">fmnn</span><span class="p">,</span><span class="n">anchors</span><span class="o">=</span><span class="n">corrected</span><span class="p">,</span><span class="n">k_dist</span><span class="o">=</span><span class="n">k_dist</span><span class="p">,</span><span class="n">k_index</span><span class="o">=</span><span class="n">knn_neigh</span><span class="p">)</span>
 
-        <span class="n">inputvar</span><span class="o">=</span><span class="p">{}</span>
-        <span class="n">inputvar</span><span class="p">[</span><span class="s1">&#39;savepath&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">outputFolder</span>
-        <span class="n">inputvar</span><span class="p">[</span><span class="s1">&#39;KNN&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">neigh</span>
-        <span class="n">inputvar</span><span class="p">[</span><span class="s1">&#39;ad_sp&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">ad_sp_ori</span>
-        <span class="n">inputvar</span><span class="p">[</span><span class="s1">&#39;original_h5ad&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">original_h5ad</span>
-        <span class="n">inputvar</span><span class="p">[</span><span class="s1">&#39;adata_query&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">adata_query</span>
-        <span class="n">inputvar</span><span class="p">[</span><span class="s1">&#39;fmnn&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">fmnn</span>
-        <span class="n">outputvar</span><span class="o">=</span><span class="n">SimpleNamespace</span><span class="p">(</span><span class="o">**</span><span class="n">inputvar</span><span class="p">)</span>
+    <span class="n">inputvar</span><span class="o">=</span><span class="p">{}</span>
+    <span class="n">inputvar</span><span class="p">[</span><span class="s1">&#39;output_annot&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">output_annot</span>
+    <span class="n">inputvar</span><span class="p">[</span><span class="s1">&#39;KNN&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">neigh</span>
+    <span class="n">inputvar</span><span class="p">[</span><span class="s1">&#39;ad_sp&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">ad_sp_ori</span>
+    <span class="n">inputvar</span><span class="p">[</span><span class="s1">&#39;original_h5ad&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">original_h5ad</span>
+    <span class="n">inputvar</span><span class="p">[</span><span class="s1">&#39;adata_query&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">adata_query</span>
+    <span class="n">inputvar</span><span class="p">[</span><span class="s1">&#39;fmnn&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">fmnn</span>
+    <span class="n">inputvar</span><span class="p">[</span><span class="s1">&#39;output_nico_dir&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">outputdir</span>
+    <span class="n">outputvar</span><span class="o">=</span><span class="n">SimpleNamespace</span><span class="p">(</span><span class="o">**</span><span class="n">inputvar</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">outputvar</span></div>
 
@@ -614,8 +834,8 @@
 <a class="viewcode-back" href="../../nico_annotations.html#nico_annotations.Annotations.delete_files">[docs]</a>
 <span class="k">def</span> <span class="nf">delete_files</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
     <span class="s2">&quot;This function will delete the anchors file and temporary file generated during the annotations.&quot;</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">savepath</span><span class="o">+</span><span class="s1">&#39;final_sct_sc.h5ad&#39;</span><span class="p">)</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">savepath</span><span class="o">+</span><span class="s1">&#39;final_sct_sp.h5ad&#39;</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">output_annot</span><span class="o">+</span><span class="s1">&#39;final_sct_sc.h5ad&#39;</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">output_annot</span><span class="o">+</span><span class="s1">&#39;final_sct_sp.h5ad&#39;</span><span class="p">)</span>
     <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">fmnn</span><span class="p">)</span></div>
 
 
@@ -625,44 +845,50 @@
 <span class="k">def</span> <span class="nf">nico_based_annotation</span><span class="p">(</span><span class="n">previous</span><span class="p">,</span><span class="n">ref_cluster_tag</span><span class="o">=</span><span class="s1">&#39;cluster&#39;</span><span class="p">,</span><span class="n">across_spatial_clusters_dispersion_cutoff</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span><span class="n">guiding_spatial_cluster_resolution_tag</span><span class="o">=</span><span class="s1">&#39;leiden0.5&#39;</span><span class="p">,</span>
 <span class="n">number_of_iteration_to_perform_celltype_annotations</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">resolved_tie_issue_with_weighted_nearest_neighbor</span><span class="o">=</span><span class="s1">&#39;No&#39;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    | **This is the primary function called by the user to perform the NiCo-based annotation in the spatial cells using the label transfer from scRNAseq data. The scRNAseq must have cell type information in the .obs[cluster] tag.**</span>
-<span class="sd">    | **This function finds the spatial cell type annotations based on the anchored cells. It chose the method either with the majority vote or weighted nearest distance from the spatial cell neighbors.**</span>
+<span class="sd">    **This function performs NiCo-based annotation of spatial cell transcriptomes by using label transfer from scRNAseq data.**</span>
 
-<span class="sd">    | First, it reads the output of find_anchor_cells_between_ref_and_query, and then annotates based on the input arguments.</span>
+<span class="sd">    The function utilizes label transfer to annotate spatial transcriptomic data based on cell type information from scRNAseq data. It leverages anchored cells to iteratively annotate non-anchor cells. The annotations are either performed using a majority vote or a weighted vote based on distances in the transformed gene expression space.</span>
 
-<span class="sd">    Inputs:</span>
+<span class="sd">    The function starts by reading the output from `find_anchor_cells_between_ref_and_query` and annotates the spatial cells based on the provided parameters.</span>
 
-<span class="sd">    The main input (previous) is the output from find_anchor_cells_between_ref_and_query.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    previous : object</span>
+<span class="sd">        The output object from `find_anchor_cells_between_ref_and_query` containing necessary data for annotation.</span>
 
-<span class="sd">    | The tag in reference h5ad file (Original_counts.h5ad) where cluster information is stored</span>
-<span class="sd">    | (default) ref_cluster_tag=&#39;cluster&#39;</span>
+<span class="sd">    ref_cluster_tag : str, optional</span>
+<span class="sd">        The slot in the reference anndata object file (&#39;Original_counts.h5ad&#39;) where cell type information is stored &lt;anndata&gt;.obs[cluster].</span>
+<span class="sd">        (default is &#39;cluster&#39;)</span>
 
-<span class="sd">    | The guiding spatial Leiden cluster resolution, i.e., different resolution parameters of the Leiden cluster, should be stored in the queried file.</span>
-<span class="sd">    | (default) guiding_spatial_cluster_resolution_tag=&#39;leiden0.5&#39;</span>
-<span class="sd">    | sct_spatial.h5ad file should have a different resolution of Leiden clustering to guide the NiCo annotation.</span>
-<span class="sd">    | It is good to have several Leiden clustering resolutions 0.3, 0.4, 0.5, 0.6, 0.7 and 0.8 that can be tagged with &#39;leiden0.3&#39;, &#39;leiden0.4&#39;, &#39;leiden0.5&#39;, &#39;leiden0.6&#39;, &#39;leiden0.7&#39; and &#39;leiden0.8&#39; in the adata.obs[].</span>
+<span class="sd">    across_spatial_clusters_dispersion_cutoff : float, optional</span>
+<span class="sd">        The cutoff used to remove noisy anchors. Anchored cells that belong to any guiding spatial cluster with a frequency lower than this cutoff will be discarded.</span>
+<span class="sd">        (default is 0.15)</span>
 
+<span class="sd">    guiding_spatial_cluster_resolution_tag : str, optional</span>
+<span class="sd">        The guiding spatial Leiden cluster resolution (clustering of spatial data used for anchor pruning). The `sct_spatial.h5ad` file should have required resolution of Leiden clusterings such as  0.3, 0.4, 0.5, 0.6, 0.7 and 0.8 that can be stored in the anndata.obs slot with name &#39;leiden0.3&#39;, &#39;leiden0.4&#39;, &#39;leiden0.5&#39;, &#39;leiden0.6&#39;, &#39;leiden0.7&#39; and &#39;leiden0.8&#39;.</span>
+<span class="sd">        (default is &#39;leiden0.5&#39;)</span>
 
-<span class="sd">    | The cutoff used to remove the noisy anchors if anchored cells belong to any guiding spatial cluster with less than 0.15 fraction of the population</span>
-<span class="sd">    | (default) across_spatial_clusters_dispersion_cutoff=0.15</span>
+<span class="sd">    number_of_iteration_to_perform_celltype_annotations : int, optional</span>
+<span class="sd">        The number of iterations to perform the cell type annotations. Higher numbers of iterations may annotate more cells but decrease confidence due to dilution of anchor information.</span>
+<span class="sd">        (default is 3)</span>
 
-<span class="sd">    | The number of iterations to perform the annotations</span>
-<span class="sd">    | (default) number_of_iteration_to_perform_celltype_annotations=3</span>
+<span class="sd">    resolved_tie_issue_with_weighted_nearest_neighbor : str, optional</span>
+<span class="sd">        Whether to resolve tie issues in cell type assignment with a weighted nearest neighbor approach:</span>
+<span class="sd">        - &#39;No&#39;: Assigns &#39;NM&#39; (not mapped) to non-anchor cells in case of a tie.</span>
+<span class="sd">        - &#39;Yes&#39;: Utilizes the weighted average of cell type proportions for resolving ties, with weights inversely proportional to the distance.</span>
+<span class="sd">        (default is &#39;No&#39;)</span>
 
+<span class="sd">    Outputs</span>
+<span class="sd">    -------</span>
+<span class="sd">    For each iteration, the function generates the following files in the specified output directory:</span>
+<span class="sd">    - `_nico_annotation_cluster.csv`: Contains the annotated cluster information.</span>
+<span class="sd">    - `_nico_annotation_ct_name.csv`: Contains the cell type names associated with each cluster.</span>
 
-<span class="sd">    | Non-anchored cell uses their neighbors to find the proportion of cell types. The cell type having the highest proportion is assigned to this non-anchored cell.</span>
-<span class="sd">    | If the proportion occurs in a tie between two cell types, then &#39;No&#39; statement is assigned to &#39;NM&#39; (not mapped);</span>
-<span class="sd">    | otherwise, the &#39;Yes&#39; statement uses the scheme inversely proportional to the distance</span>
-<span class="sd">    | to find the cell type that has the best weighted average score.</span>
-<span class="sd">    | (default) resolved_tie_issue_with_weighted_nearest_neighbor=&#39;No&#39;</span>
+<span class="sd">    The default output directory for these files is `./nico_out/annotations/`.</span>
 
-
-<span class="sd">    Outputs:</span>
-
-<span class="sd">    | For each iteration, the annotation cluster file (_nico_annotation_cluster.csv) and cluster cell type name file (_nico_annotation_ct_name.csv) will be generated in the following directory.</span>
-<span class="sd">    | (default) ./inputQuery/MNN_based_annotations/</span>
-<span class="sd">    | To find the niche cell type interactions in the spatial_neighborhood_analysis, we used the final iteration of the annotation.</span>
-
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - The niche function uses the final iteration of the annotations for finding niche cell type interactions in the `spatial_neighborhood_analysis`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 
@@ -670,8 +896,8 @@
     <span class="n">annotation_singlecell_celltypename</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
     <span class="n">cellname</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
 
-    <span class="n">ad_sc_ori</span><span class="o">=</span><span class="n">sc</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="n">previous</span><span class="o">.</span><span class="n">savepath</span><span class="o">+</span><span class="s1">&#39;final_sct_sc.h5ad&#39;</span><span class="p">)</span>
-    <span class="n">ad_sp_ori</span><span class="o">=</span><span class="n">sc</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="n">previous</span><span class="o">.</span><span class="n">savepath</span><span class="o">+</span><span class="s1">&#39;final_sct_sp.h5ad&#39;</span><span class="p">)</span>
+    <span class="n">ad_sc_ori</span><span class="o">=</span><span class="n">sc</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="n">previous</span><span class="o">.</span><span class="n">output_annot</span><span class="o">+</span><span class="s1">&#39;final_sct_sc.h5ad&#39;</span><span class="p">)</span>
+    <span class="n">ad_sp_ori</span><span class="o">=</span><span class="n">sc</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="n">previous</span><span class="o">.</span><span class="n">output_annot</span><span class="o">+</span><span class="s1">&#39;final_sct_sp.h5ad&#39;</span><span class="p">)</span>
     <span class="n">singlecell_sct_barcode_id</span><span class="o">=</span><span class="n">ad_sc_ori</span><span class="o">.</span><span class="n">obs_names</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
     <span class="n">spatialcell_sct_barcode_id</span><span class="o">=</span><span class="n">ad_sp_ori</span><span class="o">.</span><span class="n">obs_names</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
 
@@ -729,7 +955,8 @@
     <span class="n">inputvar</span><span class="p">[</span><span class="s1">&#39;annotation_spatial_celltypename&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">annotation_spatial_celltypename</span>
     <span class="n">inputvar</span><span class="p">[</span><span class="s1">&#39;annotation_spatial_cluster_id&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">annotation_spatial_cluster_id</span>
     <span class="n">inputvar</span><span class="p">[</span><span class="s1">&#39;lsp&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">spatialcell_unique_clustername</span><span class="p">,</span> <span class="n">spatialcell_unique_clusterid</span><span class="p">]</span>
-    <span class="n">inputvar</span><span class="p">[</span><span class="s1">&#39;savepath&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">previous</span><span class="o">.</span><span class="n">savepath</span>
+    <span class="n">inputvar</span><span class="p">[</span><span class="s1">&#39;output_annot&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">previous</span><span class="o">.</span><span class="n">output_annot</span>
+    <span class="n">inputvar</span><span class="p">[</span><span class="s1">&#39;output_nico_dir&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">previous</span><span class="o">.</span><span class="n">output_nico_dir</span>
     <span class="n">inputvar</span><span class="p">[</span><span class="s1">&#39;KNN&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">previous</span><span class="o">.</span><span class="n">KNN</span>
     <span class="n">inputvar</span><span class="p">[</span><span class="s1">&#39;k_dist&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;k_dist&#39;</span><span class="p">]</span>
     <span class="n">inputvar</span><span class="p">[</span><span class="s1">&#39;k_index&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;k_index&#39;</span><span class="p">]</span>
@@ -843,10 +1070,15 @@
                     <span class="n">availabled_anchors_mapped</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">=</span><span class="n">unique_mapped</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
             <span class="c1">#print(&#39;Iter&#39;,iter,count)</span>
 
-            <span class="n">deg_annot_cluster_fname</span><span class="o">=</span><span class="nb">input</span><span class="o">.</span><span class="n">savepath</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">iter</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">input</span><span class="o">.</span><span class="n">spatial_deg_annotation_output_clustername</span>
-            <span class="n">deg_annot_ct_fname</span><span class="o">=</span><span class="nb">input</span><span class="o">.</span><span class="n">savepath</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">iter</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">input</span><span class="o">.</span><span class="n">spatial_deg_annotation_output_celltypename</span>
+            <span class="n">deg_annot_cluster_fname</span><span class="o">=</span><span class="nb">input</span><span class="o">.</span><span class="n">output_annot</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">iter</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">input</span><span class="o">.</span><span class="n">spatial_deg_annotation_output_clustername</span>
+            <span class="n">deg_annot_ct_fname</span><span class="o">=</span><span class="nb">input</span><span class="o">.</span><span class="n">output_annot</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">iter</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">input</span><span class="o">.</span><span class="n">spatial_deg_annotation_output_celltypename</span>
 
-            <span class="n">write_annotation</span><span class="p">(</span><span class="n">deg_annot_cluster_fname</span><span class="p">,</span><span class="n">deg_annot_ct_fname</span><span class="p">,</span><span class="n">unique_mapped</span><span class="p">,</span><span class="n">cellname</span><span class="p">)</span>
+            <span class="n">nico_cluster</span><span class="o">=</span><span class="n">write_annotation</span><span class="p">(</span><span class="n">deg_annot_cluster_fname</span><span class="p">,</span><span class="n">deg_annot_ct_fname</span><span class="p">,</span><span class="n">unique_mapped</span><span class="p">,</span><span class="n">cellname</span><span class="p">)</span>
+
+    <span class="n">inputvar</span><span class="p">[</span><span class="s1">&#39;nico_cluster&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">nico_cluster</span>
+    <span class="n">inputvar</span><span class="p">[</span><span class="s1">&#39;ad_sp_ori&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">ad_sp_ori</span>
+    <span class="nb">input</span><span class="o">=</span><span class="n">SimpleNamespace</span><span class="p">(</span><span class="o">**</span><span class="n">inputvar</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="nb">input</span></div>
 
 
@@ -854,11 +1086,36 @@
 <div class="viewcode-block" id="read_dist_and_nodes_as_graph">
 <a class="viewcode-back" href="../../nico_annotations.html#nico_annotations.Annotations.read_dist_and_nodes_as_graph">[docs]</a>
 <span class="k">def</span> <span class="nf">read_dist_and_nodes_as_graph</span><span class="p">(</span><span class="n">knn_dist</span><span class="p">,</span><span class="n">knn_nodes</span><span class="p">):</span>
+
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The helper function used in nico_based_annotation reads the edges information from k nearest neighbors data that convert into graph G, nodes, and degree.</span>
+<span class="sd">    Reads edges information from k-nearest neighbors (KNN) data and converts it into a graph representation.</span>
+
+<span class="sd">    This helper function is used in the `nico_based_annotation` function to interpret the relationships between nodes (cells) based on their KNN distances. It constructs a graph `G` where nodes represent cells and edges represent the KNN relationships with associated distances as weights. Additionally, it calculates the degree of each node.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    knn_dist : array-like</span>
+<span class="sd">        A 2D array where each row represents a node and contains the distances to its k-nearest neighbors.</span>
+
+<span class="sd">    knn_nodes : array-like</span>
+<span class="sd">        A 2D array where each row represents a node and contains the indices of its k-nearest neighbors.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    deg : dict</span>
+<span class="sd">        A dictionary where keys are node indices and values are the degrees (number of edges) of the corresponding nodes.</span>
+
+<span class="sd">    G : networkx.Graph</span>
+<span class="sd">        A graph object where nodes represent cells and edges represent KNN relationships between cells.</span>
+
+<span class="sd">    weights : dict</span>
+<span class="sd">        A dictionary where keys are edge identifiers (formatted as &#39;node1#node2&#39;) and values are the distances between the nodes.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The function assumes that the first element in each row of `knn_nodes` is the node itself, and subsequent elements are its nearest neighbors.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-
 
     <span class="n">weights</span><span class="o">=</span><span class="p">{}</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">knn_nodes</span><span class="p">)):</span>
@@ -932,8 +1189,24 @@
 <a class="viewcode-back" href="../../nico_annotations.html#nico_annotations.Annotations.return_singlecells">[docs]</a>
 <span class="k">def</span> <span class="nf">return_singlecells</span><span class="p">(</span><span class="n">cluster_data</span><span class="p">,</span><span class="n">midzone</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The helper function used in find_all_the_spatial_cells_mapped_to_single_cells to find the scRNAseq cells belonging to specific cell types.</span>
+<span class="sd">    Finds the scRNAseq cells belonging to a specific cell type.</span>
+
+<span class="sd">    This helper function is used in `find_all_the_spatial_cells_mapped_to_single_cells` to identify the single-cell RNA sequencing (scRNAseq) cells that belong to a specified cell type (midzone).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    cluster_data : numpy.ndarray</span>
+<span class="sd">        A 2D array where the first column contains barcode IDs and the second column contains cluster IDs.</span>
+
+<span class="sd">    midzone : int or str</span>
+<span class="sd">        The cluster ID representing the specific cell type of interest.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        An array of unique barcode IDs corresponding to the cells that belong to the specified cell type (midzone).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">barcode_id</span><span class="o">=</span> <span class="n">cluster_data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">cluster_id</span><span class="o">=</span> <span class="n">cluster_data</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">index</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">cluster_id</span><span class="o">==</span><span class="n">midzone</span><span class="p">)</span>
@@ -946,7 +1219,24 @@
 <div class="viewcode-block" id="findSpatialCells">
 <a class="viewcode-back" href="../../nico_annotations.html#nico_annotations.Annotations.findSpatialCells">[docs]</a>
 <span class="k">def</span> <span class="nf">findSpatialCells</span><span class="p">(</span><span class="n">midzoneCells</span><span class="p">,</span><span class="n">mnn</span><span class="p">):</span>
-    <span class="s2">&quot;The helper function is used in find_all_the_spatial_cells_mapped_to_single_cells to find the anchored cells for each cell type.&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Finds the anchored cells for each cell type.</span>
+
+<span class="sd">    This helper function is used in `find_all_the_spatial_cells_mapped_to_single_cells` to identify the spatial cells that are anchored to each single-cell RNA sequencing (scRNAseq) cell type.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    midzoneCells : numpy.ndarray</span>
+<span class="sd">        An array of barcode IDs representing the single-cell RNA sequencing (scRNAseq) cells belonging to a specific cell type.</span>
+
+<span class="sd">    mnn : numpy.ndarray</span>
+<span class="sd">        A 2D array where each row represents a mutual nearest neighbor (MNN) pair. The first column contains spatial cell barcode IDs and the second column contains scRNAseq cell barcode IDs.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        A dictionary where keys are spatial cell barcode IDs and values are the counts of how many times each spatial cell is anchored to the scRNAseq cells.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">d</span><span class="o">=</span><span class="p">{}</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">midzoneCells</span><span class="p">)):</span>
         <span class="n">first</span><span class="o">=</span><span class="n">midzoneCells</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
@@ -965,7 +1255,32 @@
 <div class="viewcode-block" id="find_all_the_spatial_cells_mapped_to_single_cells">
 <a class="viewcode-back" href="../../nico_annotations.html#nico_annotations.Annotations.find_all_the_spatial_cells_mapped_to_single_cells">[docs]</a>
 <span class="k">def</span> <span class="nf">find_all_the_spatial_cells_mapped_to_single_cells</span><span class="p">(</span><span class="n">sc_ctype_id</span><span class="p">,</span><span class="n">sc_clusters</span><span class="p">,</span><span class="n">mnn</span><span class="p">,</span><span class="n">sc_ctype_name</span><span class="p">):</span>
-    <span class="s2">&quot;The helper function is used in nico_based_annotation to find the mapping of cells from both modalities.&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Maps spatial cells to single-cell RNA sequencing (scRNAseq) cell types.</span>
+
+<span class="sd">    This helper function is used in `nico_based_annotation` to find the mapping of cells between spatial and scRNAseq modalities. It identifies the spatial cells that correspond to specific scRNAseq cell types based on mutual nearest neighbor (MNN) pairs.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sc_ctype_id : numpy.ndarray</span>
+<span class="sd">        An array of unique identifiers for each scRNAseq cell type.</span>
+
+<span class="sd">    sc_clusters : numpy.ndarray</span>
+<span class="sd">        A 2D array where each row contains a barcode ID and a cluster ID representing the clustering of scRNAseq cells.</span>
+
+<span class="sd">    mnn : numpy.ndarray</span>
+<span class="sd">        A 2D array where each row represents an MNN pair. The first column contains spatial cell barcode IDs and the second column contains scRNAseq cell barcode IDs.</span>
+
+<span class="sd">    sc_ctype_name : list of str</span>
+<span class="sd">        A list of names corresponding to each scRNAseq cell type ID.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        A dictionary where keys are spatial cell barcode IDs and values are lists containing the scRNAseq cell type names and their counts, with each spatial cell being mapped to the most frequent scRNAseq cell type if there are ties.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">spdata</span><span class="o">=</span><span class="p">[]</span>
     <span class="c1"># single cell cluster id sc_ctype_id</span>
     <span class="c1"># single cell cluster name sc_ctype_name</span>
@@ -1017,7 +1332,33 @@
 <div class="viewcode-block" id="write_annotation">
 <a class="viewcode-back" href="../../nico_annotations.html#nico_annotations.Annotations.write_annotation">[docs]</a>
 <span class="k">def</span> <span class="nf">write_annotation</span><span class="p">(</span><span class="n">deg_annot_cluster_fname</span><span class="p">,</span><span class="n">deg_annot_ct_fname</span><span class="p">,</span><span class="n">unique_mapped</span><span class="p">,</span><span class="n">cellname</span><span class="p">):</span>
-    <span class="s2">&quot;The helper function used in nico_based_annotation to generates each iteration&#39;s annotation cluster and cell type name CSV files.&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generates CSV files for each iteration&#39;s annotation clusters and cell type names.</span>
+
+<span class="sd">    This helper function is used in `nico_based_annotation` to create two CSV files:</span>
+<span class="sd">    one for the cluster annotation and one for the cell type names with their frequencies.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    deg_annot_cluster_fname : str</span>
+<span class="sd">        The filename for the CSV file that will contain the cluster annotations.</span>
+
+<span class="sd">    deg_annot_ct_fname : str</span>
+<span class="sd">        The filename for the CSV file that will contain the cell type names and their frequencies.</span>
+
+<span class="sd">    unique_mapped : dict</span>
+<span class="sd">        A dictionary where keys are cell barcodes and values are their corresponding cell type names.</span>
+
+<span class="sd">    cellname : numpy.ndarray</span>
+<span class="sd">        An array of cell barcode IDs.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        An array of cell type names corresponding to each cell barcode ID in the `cellname` array.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">sc_ctype_name</span><span class="o">=</span><span class="p">[]</span>
     <span class="n">d2</span><span class="o">=</span><span class="p">{}</span>
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">unique_mapped</span><span class="p">:</span>
@@ -1041,13 +1382,17 @@
     <span class="n">fw</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
     <span class="c1">#keys=sorted(list(unique_mapped.keys()))</span>
+    <span class="n">nico_cluster</span><span class="o">=</span><span class="p">[]</span>
     <span class="n">fw</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">deg_annot_cluster_fname</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
     <span class="n">fw</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;barcode,mnn_based_annot</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cellname</span><span class="p">)):</span>
         <span class="n">barcodeid</span><span class="o">=</span><span class="n">cellname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         <span class="n">ctname</span><span class="o">=</span><span class="n">unique_mapped</span><span class="p">[</span><span class="n">barcodeid</span><span class="p">]</span>
         <span class="n">fw</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">barcodeid</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">ctname</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="n">fw</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+        <span class="n">nico_cluster</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ctname</span><span class="p">)</span>
+    <span class="n">fw</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">nico_cluster</span><span class="p">)</span></div>
 
 
 
@@ -1055,7 +1400,30 @@
 <div class="viewcode-block" id="find_unmapped_cells_and_deg">
 <a class="viewcode-back" href="../../nico_annotations.html#nico_annotations.Annotations.find_unmapped_cells_and_deg">[docs]</a>
 <span class="k">def</span> <span class="nf">find_unmapped_cells_and_deg</span><span class="p">(</span><span class="n">deg</span><span class="p">,</span><span class="n">unique_mapped</span><span class="p">):</span>
-    <span class="s2">&quot;Helper function for nico_based_annotation to find the unmapped non-anchored cells.&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Identifies unmapped non-anchored cells and their degrees.</span>
+
+<span class="sd">    This helper function is used in `nico_based_annotation` to find cells that have not been mapped and their corresponding degree values.</span>
+<span class="sd">    It returns the cell names and their degree values sorted in descending order of degree.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    deg : dict</span>
+<span class="sd">        A dictionary where keys are cell node identifiers and values are their corresponding degrees (number of connections).</span>
+
+<span class="sd">    unique_mapped : dict</span>
+<span class="sd">        A dictionary where keys are mapped cell node identifiers and values are their corresponding cell type names.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple : A tuple containing two numpy arrays:</span>
+<span class="sd">        - cellname : numpy.ndarray</span>
+<span class="sd">            An array of unmapped cell node identifiers sorted by their degree values in descending order.</span>
+<span class="sd">        - degvalue : numpy.ndarray</span>
+<span class="sd">            An array of degree values corresponding to the unmapped cell node identifiers, sorted in descending order.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">un_mapped_nodes</span><span class="o">=</span><span class="p">[]</span>
     <span class="n">un_mapped_deg</span><span class="o">=</span><span class="p">[]</span>
     <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">deg</span><span class="p">:</span>
@@ -1115,7 +1483,35 @@
 <a class="viewcode-back" href="../../nico_annotations.html#nico_annotations.Annotations.resolved_confused_and_unmapped_mapping_of_cells_with_weighted_average_of_inverse_distance_in_neighbors">[docs]</a>
 <span class="k">def</span> <span class="nf">resolved_confused_and_unmapped_mapping_of_cells_with_weighted_average_of_inverse_distance_in_neighbors</span><span class="p">(</span><span class="n">confused</span><span class="p">,</span><span class="n">G</span><span class="p">,</span><span class="n">weights</span><span class="p">,</span><span class="n">all_mapped</span><span class="p">,</span><span class="n">unique_mapped</span><span class="p">,</span><span class="n">sp_leiden_barcode2cluid_resolution_wise</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This helper function is used for nico_based_annotation to annotate confused anchored and non-anchored spatial cells using weighted average scores from the neighbors.</span>
+<span class="sd">    Annotates confused and unmapped spatial cells using a weighted average score from their neighbors.</span>
+
+<span class="sd">    This helper function is used in `nico_based_annotation` to resolve the mapping of spatial cells that are either confused or not anchored by utilizing the weighted average of the inverse distance to their neighbors.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    confused : list</span>
+<span class="sd">        List of spatial cell identifiers that are confused and need to be resolved.</span>
+
+<span class="sd">    G : networkx.Graph</span>
+<span class="sd">        Graph where nodes represent cells and edges represent connections between cells.</span>
+
+<span class="sd">    weights : dict</span>
+<span class="sd">        A dictionary where keys are edge identifiers (formatted as &#39;node1#node2&#39;) and values are the corresponding weights (inverse of distances).</span>
+
+<span class="sd">    all_mapped : dict</span>
+<span class="sd">        Dictionary where keys are cell identifiers and values are their mapped cell types.</span>
+
+<span class="sd">    unique_mapped : dict</span>
+<span class="sd">        Dictionary to be updated where keys are cell identifiers and values are their resolved mapped cell types.</span>
+
+<span class="sd">    sp_leiden_barcode2cluid_resolution_wise : dict</span>
+<span class="sd">        Dictionary mapping cell identifiers to their cluster IDs based on Leiden clustering resolution.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Updated `unique_mapped` dictionary with resolved cell type annotations for the confused and unmapped cells.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">mainkey</span> <span class="ow">in</span> <span class="n">confused</span><span class="p">:</span>
             <span class="n">a</span><span class="o">=</span><span class="n">G</span><span class="p">[</span><span class="n">mainkey</span><span class="p">]</span>
@@ -1210,8 +1606,34 @@
 <div class="viewcode-block" id="resolved_confused_and_unmapped_mapping_of_cells_with_majority_vote">
 <a class="viewcode-back" href="../../nico_annotations.html#nico_annotations.Annotations.resolved_confused_and_unmapped_mapping_of_cells_with_majority_vote">[docs]</a>
 <span class="k">def</span> <span class="nf">resolved_confused_and_unmapped_mapping_of_cells_with_majority_vote</span><span class="p">(</span><span class="n">confused</span><span class="p">,</span><span class="n">G</span><span class="p">,</span><span class="n">all_mapped</span><span class="p">,</span><span class="n">unique_mapped</span><span class="p">,</span><span class="n">sp_leiden_barcode2cluid</span><span class="p">):</span>
+
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This helper function is used for nico_based_annotation to annotate confused anchored and non-anchored spatial cells using a majority vote scheme from the neighbors.</span>
+<span class="sd">    Annotates confused anchored and non-anchored spatial cells using a majority vote scheme across the neighbors.</span>
+
+<span class="sd">    This helper function is used in `nico_based_annotation` to resolve the mapping of spatial cells that are either confused or not anchored by utilizing the majority vote of their neighbors&#39; annotations.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    confused : list</span>
+<span class="sd">       List of spatial cell identifiers that are confused and need to be resolved.</span>
+
+<span class="sd">    G : networkx.Graph</span>
+<span class="sd">       Graph where nodes represent cells and edges represent connections between cells.</span>
+
+<span class="sd">    all_mapped : dict</span>
+<span class="sd">       Dictionary where keys are cell identifiers and values are their mapped cell types.</span>
+
+<span class="sd">    unique_mapped : dict</span>
+<span class="sd">       Dictionary to be updated where keys are cell identifiers and values are their resolved mapped cell types.</span>
+
+<span class="sd">    sp_leiden_barcode2cluid : dict</span>
+<span class="sd">       Dictionary mapping cell identifiers to their cluster IDs based on Leiden clustering.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">       Updated `unique_mapped` dictionary with resolved cell type annotations for the confused and unmapped cells.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">for</span> <span class="n">mainkey</span> <span class="ow">in</span> <span class="n">confused</span><span class="p">:</span>
@@ -1267,62 +1689,108 @@
 
 <div class="viewcode-block" id="visualize_umap_and_cell_coordinates_with_all_celltypes">
 <a class="viewcode-back" href="../../nico_annotations.html#nico_annotations.Annotations.visualize_umap_and_cell_coordinates_with_all_celltypes">[docs]</a>
-<span class="k">def</span> <span class="nf">visualize_umap_and_cell_coordinates_with_all_celltypes</span><span class="p">(</span><span class="n">quepath</span><span class="o">=</span><span class="s1">&#39;./inputQuery/&#39;</span><span class="p">,</span><span class="n">positionFilename</span><span class="o">=</span><span class="s1">&#39;./inputQuery/tissue_positions_list.csv&#39;</span><span class="p">,</span>
-<span class="n">number_of_iteration_to_perform_celltype_annotations</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-<span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s1">&#39;jet&#39;</span><span class="p">),</span><span class="n">saveas</span><span class="o">=</span><span class="s1">&#39;pdf&#39;</span><span class="p">,</span><span class="n">transparent_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">showit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">6</span><span class="p">)):</span>
+<span class="k">def</span> <span class="nf">visualize_umap_and_cell_coordinates_with_all_celltypes</span><span class="p">(</span><span class="n">output_annotation_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">output_nico_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="n">anndata_object_name</span><span class="o">=</span><span class="s1">&#39;nico_celltype_annotation.h5ad&#39;</span><span class="p">,</span>
+<span class="n">spatial_cluster_tag</span><span class="o">=</span><span class="s1">&#39;nico_ct&#39;</span><span class="p">,</span><span class="n">spatial_coordinate_tag</span><span class="o">=</span><span class="s1">&#39;spatial&#39;</span><span class="p">,</span><span class="n">umap_tag</span><span class="o">=</span><span class="s1">&#39;X_umap&#39;</span><span class="p">,</span>
+<span class="n">number_of_iteration_to_perform_celltype_annotations</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s1">&#39;jet&#39;</span><span class="p">),</span><span class="n">saveas</span><span class="o">=</span><span class="s1">&#39;pdf&#39;</span><span class="p">,</span><span class="n">transparent_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">showit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">6</span><span class="p">)):</span>
 
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Inputs:</span>
+<span class="sd">    Visualize UMAP and spatial coordinates with all cell types annotated in a single plot.</span>
 
-<span class="sd">    | Queried path for single-cell resolution of spatial data. This directory contains an expression matrix in scTransform-like normalization in the common gene space (&#39;sct_spatial.h5ad&#39;).</span>
-<span class="sd">    | (default) quepath=&#39;./inputQuery/&#39;</span>
+<span class="sd">    This function generates visualizations for UMAP projections and spatial coordinates of cells, annotated by cell types. It saves the figures to specified directories and supports customization of various visualization parameters.</span>
 
-<span class="sd">    | Save the figures in PDF or PNG format (dpi for PNG format is 300)</span>
-<span class="sd">    | (default) saveas=&#39;pdf&#39;</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    output_annotation_dir : str, optional</span>
+<span class="sd">        Directory to save the annotation figures. Default is &#39;./nico_out/annotations/&#39;.</span>
 
-<span class="sd">    | The position filename of cell coordinates</span>
-<span class="sd">    | (default) positionFilename=&#39;./inputQuery/tissue_positions_list.csv&#39;</span>
+<span class="sd">    output_nico_dir : str, optional</span>
+<span class="sd">        Base directory for nico output files. Default is &#39;./nico_out/&#39;.</span>
 
-<span class="sd">    | The number of iterations performed in the annotations</span>
-<span class="sd">    | (default) number_of_iteration_to_perform_celltype_annotations=3</span>
+<span class="sd">    anndata_object_name : str, optional</span>
+<span class="sd">        Name of the AnnData object file containing cell type annotations. Default is &#39;nico_celltype_annotation.h5ad&#39;.</span>
 
-<span class="sd">    | Colormap used to color the cell types</span>
-<span class="sd">    | cmap=plt.cm.get_cmap(&#39;jet&#39;)</span>
+<span class="sd">    spatial_cluster_tag : str, optional</span>
+<span class="sd">        Key in AnnData object for spatial cluster annotations slot. Default is &#39;nico_ct&#39;.</span>
 
-<span class="sd">    | Background color in the figures</span>
-<span class="sd">    | (default) transparent_mode=&#39;False&#39;</span>
+<span class="sd">    spatial_coordinate_tag : str, optional</span>
+<span class="sd">        Key in AnnData object for spatial coordinates slot. Default is &#39;spatial&#39;.</span>
 
-<span class="sd">    | Dimension of the figure size.</span>
-<span class="sd">    | (default) figsize=(15,6)</span>
+<span class="sd">    umap_tag : str, optional</span>
+<span class="sd">        Key in AnnData object for UMAP embeddings slot. Default is &#39;X_umap&#39;.</span>
+
+<span class="sd">    number_of_iteration_to_perform_celltype_annotations : int, optional</span>
+<span class="sd">        Number of iterations performed for cell type annotations. Default is 3.</span>
+
+<span class="sd">    cmap : matplotlib.colors.Colormap, optional</span>
+<span class="sd">        Colormap used to color the cell types. Default is &#39;jet&#39;.</span>
+
+<span class="sd">    saveas : str, optional</span>
+<span class="sd">        Format to save the figures (&#39;pdf&#39; or &#39;png&#39;). Default is &#39;pdf&#39;.</span>
+
+<span class="sd">    transparent_mode : bool, optional</span>
+<span class="sd">        If True, sets the background color of the figures to transparent. Default is False.</span>
+
+<span class="sd">    showit : bool, optional</span>
+<span class="sd">        If True, displays the figures. Default is True.</span>
+
+<span class="sd">    figsize : tuple, optional</span>
+<span class="sd">        Dimensions of the figure size. Default is (15, 6).</span>
 
 <span class="sd">    Outputs:</span>
-
-<span class="sd">    The annotation figure will be saved in &#39;./inputQuery/MNN_based_annotations/tissue_and_umap_with_all_celltype_annotations*</span>
+<span class="sd">    --------</span>
+<span class="sd">    Saves annotation figures to the following path &#39;./nico_out/annotations/&#39;</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
 
-    <span class="n">deg_annot_cluster_fname</span><span class="o">=</span><span class="n">quepath</span><span class="o">+</span><span class="s1">&#39;MNN_based_annotations/&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">number_of_iteration_to_perform_celltype_annotations</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_nico_annotation_cluster.csv&#39;</span>
-    <span class="n">deg_annot_ct_fname</span><span class="o">=</span><span class="n">quepath</span><span class="o">+</span><span class="s1">&#39;MNN_based_annotations/&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">number_of_iteration_to_perform_celltype_annotations</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_nico_annotation_ct_name.csv&#39;</span>
-    <span class="n">fig_save_path</span><span class="o">=</span><span class="n">quepath</span><span class="o">+</span><span class="s1">&#39;MNN_based_annotations/&#39;</span>
 
-    <span class="n">df_cluster</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">deg_annot_cluster_fname</span><span class="p">)</span>
-    <span class="n">degbased_cluster</span><span class="o">=</span><span class="n">df_cluster</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-    <span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">deg_annot_ct_fname</span><span class="p">)</span>
-    <span class="n">degbased_ctname</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">output_nico_dir</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+        <span class="n">outputdir</span><span class="o">=</span><span class="s1">&#39;./nico_out/&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">outputdir</span><span class="o">=</span><span class="n">output_nico_dir</span>
+
+    <span class="k">if</span> <span class="n">output_annotation_dir</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+        <span class="n">fig_save_path</span><span class="o">=</span><span class="n">outputdir</span><span class="o">+</span><span class="s1">&#39;annotations/&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fig_save_path</span><span class="o">=</span><span class="n">output_annotation_dir</span>
 
 
-    <span class="n">adata</span><span class="o">=</span><span class="n">sc</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="n">quepath</span><span class="o">+</span><span class="s1">&#39;sct_spatial.h5ad&#39;</span><span class="p">)</span>
-    <span class="n">temp</span><span class="o">=</span><span class="n">adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;X_umap&#39;</span><span class="p">]</span>
+    <span class="c1">#df_cluster=pd.read_csv(deg_annot_cluster_fname)</span>
+    <span class="c1">#degbased_cluster=df_cluster.to_numpy()</span>
+    <span class="c1">#df=pd.read_csv(deg_annot_ct_fname)</span>
+    <span class="c1">#degbased_ctname=df.to_numpy()</span>
+
+
+    <span class="n">adata</span><span class="o">=</span><span class="n">sc</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="n">outputdir</span><span class="o">+</span><span class="n">anndata_object_name</span><span class="p">)</span>
+    <span class="n">temp</span><span class="o">=</span><span class="n">adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="n">umap_tag</span><span class="p">]</span>
     <span class="n">cellname</span><span class="o">=</span><span class="n">adata</span><span class="o">.</span><span class="n">obs_names</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="c1">#df.index.to_numpy()</span>
     <span class="n">cellname</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">cellname</span><span class="p">,(</span><span class="nb">len</span><span class="p">(</span><span class="n">cellname</span><span class="p">),</span><span class="mi">1</span><span class="p">))</span>
-    <span class="n">umap_not_order</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">cellname</span><span class="p">,</span><span class="n">temp</span><span class="p">))</span>
+    <span class="n">umap_data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">cellname</span><span class="p">,</span><span class="n">temp</span><span class="p">))</span>
+
+    <span class="n">annot</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">spatial_cluster_tag</span><span class="p">]</span>
+    <span class="n">ctname</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">annot</span><span class="p">)))</span>
+    <span class="n">degbased_ctname</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">d</span><span class="o">=</span><span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ctname</span><span class="p">)):</span>
+        <span class="n">degbased_ctname</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i</span><span class="p">,</span><span class="n">ctname</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+        <span class="n">d</span><span class="p">[</span><span class="n">ctname</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">=</span><span class="n">i</span>
+    <span class="n">degbased_ctname</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">degbased_ctname</span><span class="p">)</span>
+
+    <span class="n">degbased_cluster</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cellname</span><span class="p">)):</span>
+        <span class="n">degbased_cluster</span><span class="o">.</span><span class="n">append</span><span class="p">([</span>  <span class="n">adata</span><span class="o">.</span><span class="n">obs_names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">d</span><span class="p">[</span><span class="n">annot</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="p">])</span>
+    <span class="n">degbased_cluster</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">degbased_cluster</span><span class="p">)</span>
+
+
     <span class="c1">#sometime if you have less number of spatial cells (due to filtering step) in the analysis than the position coordinate have</span>
     <span class="c1">#then need to find correct pairing.</span>
-    <span class="n">umap_data</span><span class="o">=</span><span class="n">sort_index_in_right_order</span><span class="p">(</span><span class="n">degbased_cluster</span><span class="p">,</span><span class="n">umap_not_order</span><span class="p">)</span>
-    <span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">positionFilename</span><span class="p">)</span>
-    <span class="n">posdata_not_order</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-    <span class="n">posdata</span><span class="o">=</span><span class="n">sort_index_in_right_order</span><span class="p">(</span><span class="n">degbased_cluster</span><span class="p">,</span><span class="n">posdata_not_order</span><span class="p">)</span>
+    <span class="c1">#umap_data=sort_index_in_right_order(degbased_cluster,umap_not_order)\</span>
+
+    <span class="c1">#df=pd.read_csv(positionFilename)</span>
+    <span class="c1">#posdata_not_order=df.to_numpy()</span>
+    <span class="n">posdata</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">cellname</span><span class="p">,</span><span class="n">adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="n">spatial_coordinate_tag</span><span class="p">]))</span>
+    <span class="c1">#posdata=sort_index_in_right_order(degbased_cluster,posdata_not_order)</span>
 
     <span class="n">points</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">posdata</span><span class="p">),</span><span class="mi">2</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="n">location_cellname2int</span><span class="o">=</span><span class="p">{}</span>
@@ -1364,60 +1832,143 @@
 
 
 
+<div class="viewcode-block" id="save_annotations_in_spatial_object">
+<a class="viewcode-back" href="../../nico_annotations.html#nico_annotations.Annotations.save_annotations_in_spatial_object">[docs]</a>
+<span class="k">def</span> <span class="nf">save_annotations_in_spatial_object</span><span class="p">(</span><span class="n">inputdict</span><span class="p">,</span><span class="n">anndata_object_name</span><span class="o">=</span><span class="s1">&#39;nico_celltype_annotation.h5ad&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Save NiCo cell type cluster annotations in the AnnData object.</span>
+
+<span class="sd">    This function takes a dictionary containing the necessary data and saves the cell type cluster annotations</span>
+<span class="sd">    into the `.obs[&#39;nico_ct&#39;]` slot of an AnnData object. The updated AnnData object is then saved to a specified file.</span>
+
+<span class="sd">    Inputs:</span>
+
+<span class="sd">    inputdict : dict</span>
+<span class="sd">        A dictionary containing the cell type annotations related objects.</span>
+
+<span class="sd">    anndata_object_name : str, optional</span>
+<span class="sd">        Name of the AnnData file to save the annotated data.</span>
+<span class="sd">        Default is &#39;nico_celltype_annotation.h5ad&#39;.</span>
+
+<span class="sd">    Outputs:</span>
+
+<span class="sd">    The function saves the annotated AnnData object in the specified directory (&#39;./nico_out/&#39;) with the given file name.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nico cell type cluster are saved in following path &#39;./nico_out/&#39; as &lt;anndata&gt;.obs[&#39;nico_ct&#39;] slot&quot;</span> <span class="p">)</span>
+    <span class="n">adata</span><span class="o">=</span><span class="n">inputdict</span><span class="o">.</span><span class="n">ad_sp_ori</span>
+    <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;nico_ct&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">inputdict</span><span class="o">.</span><span class="n">nico_cluster</span>
+    <span class="n">adata</span><span class="o">.</span><span class="n">write_h5ad</span><span class="p">(</span>  <span class="n">inputdict</span><span class="o">.</span><span class="n">output_nico_dir</span><span class="o">+</span><span class="n">anndata_object_name</span><span class="p">)</span></div>
+
+
+
 <div class="viewcode-block" id="visualize_umap_and_cell_coordinates_with_selected_celltypes">
 <a class="viewcode-back" href="../../nico_annotations.html#nico_annotations.Annotations.visualize_umap_and_cell_coordinates_with_selected_celltypes">[docs]</a>
-<span class="k">def</span> <span class="nf">visualize_umap_and_cell_coordinates_with_selected_celltypes</span><span class="p">(</span><span class="n">quepath</span><span class="o">=</span><span class="s1">&#39;./inputQuery/&#39;</span><span class="p">,</span><span class="n">positionFilename</span><span class="o">=</span><span class="s1">&#39;./inputQuery/tissue_positions_list.csv&#39;</span><span class="p">,</span>
+<span class="k">def</span> <span class="nf">visualize_umap_and_cell_coordinates_with_selected_celltypes</span><span class="p">(</span>
+<span class="n">output_annotation_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">output_nico_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="n">anndata_object_name</span><span class="o">=</span><span class="s1">&#39;nico_celltype_annotation.h5ad&#39;</span><span class="p">,</span>
+<span class="n">spatial_cluster_tag</span><span class="o">=</span><span class="s1">&#39;nico_ct&#39;</span><span class="p">,</span><span class="n">spatial_coordinate_tag</span><span class="o">=</span><span class="s1">&#39;spatial&#39;</span><span class="p">,</span><span class="n">umap_tag</span><span class="o">=</span><span class="s1">&#39;X_umap&#39;</span><span class="p">,</span>
 <span class="n">number_of_iteration_to_perform_celltype_annotations</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">choose_celltypes</span><span class="o">=</span><span class="p">[],</span><span class="n">msna</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span><span class="n">ms</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">showit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s1">&#39;jet&#39;</span><span class="p">),</span><span class="n">saveas</span><span class="o">=</span><span class="s1">&#39;pdf&#39;</span><span class="p">,</span><span class="n">transparent_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mf">3.5</span><span class="p">)):</span>
 
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Visualize UMAP and cell coordinates with selected cell types.</span>
+
+<span class="sd">    This function visualizes the UMAP embedding and cell coordinates for selected cell types</span>
+<span class="sd">    from spatial transcriptomics data.</span>
+
 <span class="sd">    Inputs:</span>
 
-<span class="sd">    | Queried path for single-cell resolution of spatial data. This directory contains an expression matrix in scTransform-like normalization in the common gene space (&#39;sct_spatial.h5ad&#39;).</span>
-<span class="sd">    | (default) quepath=&#39;./inputQuery/&#39;</span>
+<span class="sd">    output_annotation_dir : str, optional</span>
+<span class="sd">        Directory path to save the annotation figures. Default is None, which uses &#39;./nico_out/annotations/&#39;.</span>
 
-<span class="sd">    | The cell type pairs that you want to visualize as annotations</span>
-<span class="sd">    | (default) choose_celltypes=[]</span>
-<span class="sd">    | If the list is empty, the output will show for each cell type independently.</span>
+<span class="sd">    output_nico_dir : str, optional</span>
+<span class="sd">        Directory path for NiCo outputs. Default is None, which uses &#39;./nico_out/&#39;.</span>
 
-<span class="sd">    | The position filename of cell coordinates</span>
-<span class="sd">    | (default) positionFilename=&#39;./inputQuery/tissue_positions_list.csv&#39;</span>
+<span class="sd">    anndata_object_name : str, optional</span>
+<span class="sd">        Name of the AnnData file containing cell type annotations. Default is &#39;nico_celltype_annotation.h5ad&#39;.</span>
 
-<span class="sd">    | The number of iterations performed in the annotations</span>
-<span class="sd">    | (default) number_of_iteration_to_perform_celltype_annotations=3</span>
+<span class="sd">    spatial_cluster_tag : str, optional</span>
+<span class="sd">        Slot for spatial cluster annotations in the AnnData object. Default is &#39;nico_ct&#39;.</span>
 
-<span class="sd">    | The marker size of chosen and NA cell types</span>
-<span class="sd">    | (default) ms=0.5  (chosen)</span>
-<span class="sd">    | (default) msna=0.1 (NA)</span>
+<span class="sd">    spatial_coordinate_tag : str, optional</span>
+<span class="sd">        Slot for spatial coordinates in the AnnData object. Default is &#39;spatial&#39;.</span>
 
-<span class="sd">    | Colormap used to color the cell types</span>
-<span class="sd">    | cmap=plt.cm.get_cmap(&#39;jet&#39;)</span>
+<span class="sd">    umap_tag : str, optional</span>
+<span class="sd">        Slot for UMAP embeddings in the AnnData object. Default is &#39;X_umap&#39;.</span>
 
-<span class="sd">    | Save the figures in PDF or PNG format (dpi for PNG format is 300)</span>
-<span class="sd">    | (default) saveas=&#39;pdf&#39;</span>
+<span class="sd">    number_of_iteration_to_perform_celltype_annotations : int, optional</span>
+<span class="sd">        Number of iterations for performing cell type annotations. Default is 3.</span>
 
-<span class="sd">    | Background color in the figures</span>
-<span class="sd">    | (default) transparent_mode=&#39;False&#39;</span>
+<span class="sd">    choose_celltypes : list, optional</span>
+<span class="sd">        List of cell types to visualize. Default is an empty list, which shows annotations for all cell types.</span>
 
-<span class="sd">    | Dimension of the figure size.</span>
-<span class="sd">    | (default) figsize=(8,3.5)</span>
+<span class="sd">    msna : float, optional</span>
+<span class="sd">        Marker size for non-selected (NA) cell types. Default is 0.1.</span>
+
+<span class="sd">    ms : float, optional</span>
+<span class="sd">        Marker size for selected cell types. Default is 0.5.</span>
+
+<span class="sd">    showit : bool, optional</span>
+<span class="sd">        Whether to display the figures. Default is True.</span>
+
+<span class="sd">    cmap : Colormap, optional</span>
+<span class="sd">        Colormap used to color the cell types. Default is plt.cm.get_cmap(&#39;jet&#39;).</span>
+
+<span class="sd">    saveas : str, optional</span>
+<span class="sd">        Format to save the figures (&#39;pdf&#39; or &#39;png&#39;). Default is &#39;pdf&#39;.</span>
+
+<span class="sd">    transparent_mode : bool, optional</span>
+<span class="sd">        Whether to use a transparent background for the figures. Default is False.</span>
+
+<span class="sd">    figsize : tuple, optional</span>
+<span class="sd">        Dimension of the figure size. Default is (8, 3.5).</span>
 
 <span class="sd">    Outputs:</span>
 
-<span class="sd">    The individual celltype annotation figure will be saved in &#39;./inputQuery/MNN_based_annotations/fig_individual_annotation&#39;</span>
+<span class="sd">    The function saves individual cell type annotation figures in the specified directory.</span>
 
+<span class="sd">    Notes:</span>
+
+<span class="sd">    - Ensure that the input AnnData object contains the required tags for UMAP, spatial coordinates, and cell type annotations.</span>
+<span class="sd">    - The function will save the annotation figures in the specified directory.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="c1">#df_cluster=pd.read_csv(deg_annot_cluster_fname)</span>
+    <span class="c1">#degbased_cluster=df_cluster.to_numpy()</span>
+    <span class="c1">#df=pd.read_csv(deg_annot_ct_fname)</span>
+    <span class="c1">#degbased_ctname=df.to_numpy()</span>
 
-    <span class="n">deg_annot_cluster_fname</span><span class="o">=</span><span class="n">quepath</span><span class="o">+</span><span class="s1">&#39;MNN_based_annotations/&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">number_of_iteration_to_perform_celltype_annotations</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_nico_annotation_cluster.csv&#39;</span>
-    <span class="n">deg_annot_ct_fname</span><span class="o">=</span><span class="n">quepath</span><span class="o">+</span><span class="s1">&#39;MNN_based_annotations/&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">number_of_iteration_to_perform_celltype_annotations</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_nico_annotation_ct_name.csv&#39;</span>
-    <span class="n">fig_save_path</span><span class="o">=</span><span class="n">quepath</span><span class="o">+</span><span class="s1">&#39;MNN_based_annotations/&#39;</span>
+    <span class="k">if</span> <span class="n">output_nico_dir</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+        <span class="n">outputdir</span><span class="o">=</span><span class="s1">&#39;./nico_out/&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">outputdir</span><span class="o">=</span><span class="n">output_nico_dir</span>
 
-    <span class="n">df_cluster</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">deg_annot_cluster_fname</span><span class="p">)</span>
-    <span class="n">degbased_cluster</span><span class="o">=</span><span class="n">df_cluster</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-    <span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">deg_annot_ct_fname</span><span class="p">)</span>
-    <span class="n">degbased_ctname</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">output_annotation_dir</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+        <span class="n">fig_save_path_main</span><span class="o">=</span><span class="n">outputdir</span><span class="o">+</span><span class="s1">&#39;annotations/&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fig_save_path_main</span><span class="o">=</span><span class="n">output_annotation_dir</span>
 
+    <span class="n">adata</span><span class="o">=</span><span class="n">sc</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="n">outputdir</span><span class="o">+</span><span class="n">anndata_object_name</span><span class="p">)</span>
+    <span class="n">temp</span><span class="o">=</span><span class="n">adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="n">umap_tag</span><span class="p">]</span>
+    <span class="n">cellname</span><span class="o">=</span><span class="n">adata</span><span class="o">.</span><span class="n">obs_names</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="c1">#df.index.to_numpy()</span>
+    <span class="n">cellname</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">cellname</span><span class="p">,(</span><span class="nb">len</span><span class="p">(</span><span class="n">cellname</span><span class="p">),</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">umap_data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">cellname</span><span class="p">,</span><span class="n">temp</span><span class="p">))</span>
+    <span class="n">posdata</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">cellname</span><span class="p">,</span><span class="n">adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="n">spatial_coordinate_tag</span><span class="p">]))</span>
+
+    <span class="n">annot</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">spatial_cluster_tag</span><span class="p">]</span>
+    <span class="n">ctname</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">annot</span><span class="p">)))</span>
+    <span class="n">degbased_ctname</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">d</span><span class="o">=</span><span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ctname</span><span class="p">)):</span>
+        <span class="n">degbased_ctname</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i</span><span class="p">,</span><span class="n">ctname</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+        <span class="n">d</span><span class="p">[</span><span class="n">ctname</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">=</span><span class="n">i</span>
+    <span class="n">degbased_ctname</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">degbased_ctname</span><span class="p">)</span>
+
+    <span class="n">degbased_cluster</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cellname</span><span class="p">)):</span>
+        <span class="n">degbased_cluster</span><span class="o">.</span><span class="n">append</span><span class="p">([</span>  <span class="n">adata</span><span class="o">.</span><span class="n">obs_names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">d</span><span class="p">[</span><span class="n">annot</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="p">])</span>
+    <span class="n">degbased_cluster</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">degbased_cluster</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">choose_celltypes</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
         <span class="n">mycluster_interest_all</span><span class="o">=</span><span class="p">[]</span>
@@ -1427,21 +1978,6 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">mycluster_interest_all</span><span class="o">=</span><span class="n">choose_celltypes</span>
 
-
-    <span class="n">adata</span><span class="o">=</span><span class="n">sc</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="n">quepath</span><span class="o">+</span><span class="s1">&#39;sct_spatial.h5ad&#39;</span><span class="p">)</span>
-    <span class="n">temp</span><span class="o">=</span><span class="n">adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;X_umap&#39;</span><span class="p">]</span>
-    <span class="n">cellname</span><span class="o">=</span><span class="n">adata</span><span class="o">.</span><span class="n">obs_names</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="c1">#df.index.to_numpy()</span>
-    <span class="n">cellname</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">cellname</span><span class="p">,(</span><span class="nb">len</span><span class="p">(</span><span class="n">cellname</span><span class="p">),</span><span class="mi">1</span><span class="p">))</span>
-    <span class="n">umap_not_order</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">cellname</span><span class="p">,</span><span class="n">temp</span><span class="p">))</span>
-    <span class="c1">#sometime if you have less number of spatial cells (due to filtering step) in the analysis than the position coordinate have</span>
-    <span class="c1">#then need to find correct pairing.</span>
-    <span class="n">umap_data</span><span class="o">=</span><span class="n">sort_index_in_right_order</span><span class="p">(</span><span class="n">degbased_cluster</span><span class="p">,</span><span class="n">umap_not_order</span><span class="p">)</span>
-    <span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">positionFilename</span><span class="p">)</span>
-    <span class="n">posdata_not_order</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-    <span class="n">posdata</span><span class="o">=</span><span class="n">sort_index_in_right_order</span><span class="p">(</span><span class="n">degbased_cluster</span><span class="p">,</span><span class="n">posdata_not_order</span><span class="p">)</span>
-
-    <span class="c1">#print(&#39;posdata&#39;,posdata_not_order.shape,posdata.shape)</span>
-    <span class="c1">#print(&#39;umapdata&#39;,umap_not_order.shape,umap_data.shape)</span>
 
     <span class="n">mycluster_interest_id</span><span class="o">=</span><span class="p">[]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mycluster_interest_all</span><span class="p">)):</span>
@@ -1454,9 +1990,9 @@
 
 
     <span class="n">CTname</span><span class="o">=</span><span class="n">degbased_ctname</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">fig_save_path</span><span class="o">=</span><span class="n">quepath</span><span class="o">+</span><span class="s1">&#39;MNN_based_annotations/&#39;</span><span class="o">+</span><span class="s1">&#39;fig_individual_annotation/&#39;</span>
+    <span class="n">fig_save_path</span><span class="o">=</span><span class="n">fig_save_path_main</span><span class="o">+</span><span class="s1">&#39;fig_individual_annotation/&#39;</span>
     <span class="n">create_directory</span><span class="p">(</span><span class="n">fig_save_path</span><span class="p">)</span>
-    <span class="n">fig_save_path_leg</span><span class="o">=</span><span class="n">quepath</span><span class="o">+</span><span class="s1">&#39;MNN_based_annotations/&#39;</span><span class="o">+</span><span class="s1">&#39;fig_individual_annotation/&#39;</span><span class="o">+</span><span class="s1">&#39;leg/&#39;</span>
+    <span class="n">fig_save_path_leg</span><span class="o">=</span><span class="n">fig_save_path_main</span><span class="o">+</span><span class="s1">&#39;fig_individual_annotation/&#39;</span><span class="o">+</span><span class="s1">&#39;leg/&#39;</span>
     <span class="n">create_directory</span><span class="p">(</span><span class="n">fig_save_path_leg</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">fi</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mycluster_interest_all</span><span class="p">)):</span>
@@ -1546,7 +2082,45 @@
 <a class="viewcode-back" href="../../nico_annotations.html#nico_annotations.Annotations.remove_extra_character_from_name">[docs]</a>
 <span class="k">def</span> <span class="nf">remove_extra_character_from_name</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This function remove the special characters from the cell type names so it should not throw error while saving the figures.</span>
+<span class="sd">    Remove special characters from cell type names to avoid errors while saving figures.</span>
+
+<span class="sd">    This function replaces certain special characters in the input `name` with</span>
+<span class="sd">    underscores or other appropriate characters to ensure the name is safe for use</span>
+<span class="sd">    as a filename.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name : str</span>
+<span class="sd">        The original cell type name that may contain special characters.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        The modified cell type name with special characters removed or replaced.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; name = &#39;T-cell (CD4+)/CD8+&#39;</span>
+<span class="sd">    &gt;&gt;&gt; clean_name = remove_extra_character_from_name(name)</span>
+<span class="sd">    &gt;&gt;&gt; print(clean_name)</span>
+<span class="sd">    &#39;T-cell_CD4p_CD8p&#39;</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The following replacements are made:</span>
+
+<span class="sd">        - &#39;/&#39; is replaced with &#39;_&#39;</span>
+<span class="sd">        - &#39; &#39; (space) is replaced with &#39;_&#39;</span>
+<span class="sd">        - &#39;&quot;&#39; (double quote) is removed</span>
+<span class="sd">        - &quot;&#39;&quot; (single quote) is removed</span>
+<span class="sd">        - &#39;)&#39; is removed</span>
+<span class="sd">        - &#39;(&#39; is removed</span>
+<span class="sd">        - &#39;+&#39; is replaced with &#39;p&#39;</span>
+<span class="sd">        - &#39;-&#39; is replaced with &#39;n&#39;</span>
+<span class="sd">        - &#39;.&#39; (dot) is removed</span>
+
+<span class="sd">    These substitutions help in creating filenames that do not contain characters</span>
+<span class="sd">    that might be problematic for file systems or software.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span><span class="s1">&#39;_&#39;</span><span class="p">)</span>
     <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="s1">&#39;_&#39;</span><span class="p">)</span>
@@ -1564,7 +2138,27 @@
 <div class="viewcode-block" id="plot_all_ct">
 <a class="viewcode-back" href="../../nico_annotations.html#nico_annotations.Annotations.plot_all_ct">[docs]</a>
 <span class="k">def</span> <span class="nf">plot_all_ct</span><span class="p">(</span><span class="n">CTname</span><span class="p">,</span><span class="n">PP</span><span class="p">,</span><span class="n">cellsinCT</span><span class="p">,</span><span class="n">ax</span><span class="p">,</span><span class="n">flag</span><span class="p">,</span><span class="n">cmap</span><span class="p">):</span>
-    <span class="s2">&quot;Helper function used in visualizing cell type annotations to plot all cell types together.&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper function used in visualize_umap_and_cell_coordinates_with_all_celltypes to plot all cell types together.</span>
+
+<span class="sd">    This function plots the locations of all cell types together on a single plot, with each cell type assigned a different color. Optionally, it can label each cell type with its index.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    CTname : list of str</span>
+<span class="sd">        A list of cell type names to be plotted.</span>
+<span class="sd">    PP : numpy.ndarray</span>
+<span class="sd">        A 2D numpy array of shape (n_cells, 2) containing the coordinates of the cells.</span>
+<span class="sd">    cellsinCT : list of list of int</span>
+<span class="sd">        A list where each element is a list of indices corresponding to cells of a specific type.</span>
+<span class="sd">    ax : matplotlib.axes.Axes</span>
+<span class="sd">        The axes object where the plot will be drawn.</span>
+<span class="sd">    flag : bool</span>
+<span class="sd">        A flag indicating whether to label each cell type with its index on the plot.</span>
+<span class="sd">    cmap : matplotlib.colors.Colormap</span>
+<span class="sd">        The colormap used to assign colors to different cell types.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1">#cmap=plt.cm.get_cmap(&#39;Spectral&#39;)</span>
     <span class="c1">#cmap=plt.cm.get_cmap(&#39;jet&#39;)</span>
 
@@ -1585,7 +2179,34 @@
 <div class="viewcode-block" id="plot_specific_ct">
 <a class="viewcode-back" href="../../nico_annotations.html#nico_annotations.Annotations.plot_specific_ct">[docs]</a>
 <span class="k">def</span> <span class="nf">plot_specific_ct</span><span class="p">(</span><span class="n">CTname</span><span class="p">,</span><span class="n">PP</span><span class="p">,</span><span class="n">index</span><span class="p">,</span><span class="n">ax</span><span class="p">,</span><span class="n">cmap</span><span class="p">,</span><span class="n">ms</span><span class="p">,</span><span class="n">msna</span><span class="p">):</span>
-    <span class="s2">&quot;Helper function used in visualizing cell type annotations to plot individual cell types.&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plots individual cell types for visualizing cell type annotations.</span>
+
+<span class="sd">    This helper function is used to visualize_umap_and_cell_coordinates_with_selected_celltypes by plotting the locations of cells belonging to specific cell types. Cells not belonging to any specified cell types are also plotted in a different color.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    CTname : list of str</span>
+<span class="sd">        A list of cell type names to be plotted.</span>
+<span class="sd">    PP : numpy.ndarray</span>
+<span class="sd">        A 2D numpy array of shape (n_cells, 2) containing the coordinates of the cells.</span>
+<span class="sd">    index : list of list of int</span>
+<span class="sd">        A list where each element is a list of indices corresponding to cells of a specific type.</span>
+<span class="sd">    ax : matplotlib.axes.Axes</span>
+<span class="sd">        The axes object where the plot will be drawn.</span>
+<span class="sd">    cmap : matplotlib.colors.Colormap</span>
+<span class="sd">        The colormap used to assign colors to different cell types.</span>
+<span class="sd">    ms : int or float</span>
+<span class="sd">        The marker size for plotting the cells of specified types.</span>
+<span class="sd">    msna : int or float</span>
+<span class="sd">        The marker size for plotting the cells not belonging to any specified types.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">        This function does not return any value. It directly plots on the provided axes object.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">cumsum</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">CTname</span><span class="p">))</span>
     <span class="n">remaining_index</span><span class="o">=</span><span class="p">[]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">PP</span><span class="p">)):</span>
@@ -1604,19 +2225,41 @@
 
         <span class="c1">#ax.text(x,y,str(j),fontsize=12)</span>
 
-<div class="viewcode-block" id="sort_index_in_right_order">
-<a class="viewcode-back" href="../../nico_annotations.html#nico_annotations.Annotations.sort_index_in_right_order">[docs]</a>
-<span class="k">def</span> <span class="nf">sort_index_in_right_order</span><span class="p">(</span><span class="n">correct</span><span class="p">,</span><span class="n">wrong</span><span class="p">):</span>
-    <span class="s2">&quot;Helper function used in visualize cell type annotations.&quot;</span>
-    <span class="n">d</span><span class="o">=</span><span class="p">{}</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">wrong</span><span class="p">)):</span>
-        <span class="n">d</span><span class="p">[</span><span class="n">wrong</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span><span class="o">=</span><span class="n">i</span>
-    <span class="n">index</span><span class="o">=</span><span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">correct</span><span class="p">)):</span>
-        <span class="n">index</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">correct</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
-    <span class="n">right</span><span class="o">=</span><span class="n">wrong</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">right</span></div>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">def sort_index_in_right_order(correct,wrong):</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    Sorts the &#39;wrong&#39; array to match the order of the &#39;correct&#39; array based on the first column.</span>
 
+<span class="sd">    This helper function is used to visualize cell type annotations by ensuring that the indices in the &#39;wrong&#39; array are ordered to match the &#39;correct&#39; array. The matching is done based on the values in the first column of both arrays.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    correct : numpy.ndarray</span>
+<span class="sd">        A 2D numpy array where the order of elements in the first column is the desired order.</span>
+<span class="sd">    wrong : numpy.ndarray</span>
+<span class="sd">        A 2D numpy array where the elements in the first column need to be reordered to match the &#39;correct&#39; array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        A reordered version of the &#39;wrong&#39; array where the first column matches the order of the &#39;correct&#39; array.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - The function assumes that both &#39;correct&#39; and &#39;wrong&#39; are 2D numpy arrays with the same set of unique values in their first columns.</span>
+<span class="sd">    - The function creates a dictionary to map values from the first column of &#39;wrong&#39; to their indices, and then uses this mapping to reorder &#39;wrong&#39; to match &#39;correct&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    Examples</span>
+<span class="sd">    &quot;Helper function used to visualize cell type annotations.&quot;</span>
+<span class="sd">    d={}</span>
+<span class="sd">    for i in range(len(wrong)):</span>
+<span class="sd">        d[wrong[i,0]]=i</span>
+<span class="sd">    index=[]</span>
+<span class="sd">    for i in range(len(correct)):</span>
+<span class="sd">        index.append(d[correct[i,0]])</span>
+<span class="sd">    right=wrong[index]</span>
+<span class="sd">    return right</span>
+<span class="sd">&#39;&#39;&#39;</span>
 </pre></div>
 
            </div>
@@ -1626,7 +2269,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Grün lab.</p>
+    <p>&#169; Copyright 2024, Grün lab.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

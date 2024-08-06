@@ -391,7 +391,7 @@ def plot_cosine_and_spearman_correlation_to_factors(input,choose_celltypes=[],NO
     Plots cosine and Spearman correlation to factors for given cell types.
 
     Parameters:
-    ----------
+    -----------
     input : object
         The main input object containing the output from gene_covariation_analysis.
 
@@ -421,7 +421,7 @@ def plot_cosine_and_spearman_correlation_to_factors(input,choose_celltypes=[],NO
         Default is (15, 10).
 
     Outputs:
-    -------
+    --------
     The output NMF plots are saved in ./<output_nico_dir>/covariations_R*_F*/NMF_output.
     """
 
@@ -840,8 +840,8 @@ LR_plot_NMF_Fa_thres=0.2, LR_plot_Exp_thres=0.2,number_of_top_genes_to_print=20)
 
     This function processes the output from gene_covariation_analysis to identify significant LR interactions and saves the results in an Excel sheet and a text file.
 
-    Parameters
-    ----------
+    Parameters:
+    -----------
     input : object
         The main input is the output from gene_covariation_analysis.
 
@@ -865,11 +865,11 @@ LR_plot_NMF_Fa_thres=0.2, LR_plot_Exp_thres=0.2,number_of_top_genes_to_print=20)
         The number of top correlating genes to print in the regression summary text file.
         Default is 20.
 
-    Outputs
-    -------
+    Outputs:
+    --------
 
      - An Excel sheet with ligand-receptor interaction information for easy access.
-      The columns are structured as follows in the sheets:
+       The columns are structured as follows in the sheets:
 
         - A. ID of the cell type-cell type interaction
         - BC. Interacting cell types A and B
@@ -893,6 +893,7 @@ LR_plot_NMF_Fa_thres=0.2, LR_plot_Exp_thres=0.2,number_of_top_genes_to_print=20)
     - The ligand can be expressed on cell type A and signal to the receptor detected on cell type B, or vice versa.
     - Both ligand-receptor plots and Excel sheets profile bidirectional cellular crosstalk of ligand and receptor in cell types A and B.
     - Each central cell type is represented in a separate Excel sheet, while the LR enrichment sheet aggregates all interactions across central cell types.
+
     """
 
 
@@ -2117,7 +2118,6 @@ def alignment_score(H,spH,ind_H,ind_spH):
 
 def multiplicative_method(W,H,A,max_iter):
 
-
     """
     Perform conventional Non-negative Matrix Factorization (NMF) using a multiplicative update rule.
 
@@ -2126,49 +2126,41 @@ def multiplicative_method(W,H,A,max_iter):
 
     Parameters
     ----------
-    W : numpy.ndarray
-        Initial matrix representing the basis vectors. Shape: (n_samples, n_components).
-
-    H : numpy.ndarray
-        Initial matrix representing the coefficients. Shape: (n_components, n_features).
-
-    A : numpy.ndarray
-        The input data matrix to be factorized. Shape: (n_samples, n_features).
-
+    W : ndarray
+        Initial matrix representing the basis vectors. Shape(n_samples, n_components).
+    H : ndarray
+        Initial matrix representing the coefficients. Shape(n_components, n_features).
+    A : ndarray
+        The input data matrix to be factorized. Shape(n_samples, n_features).
     max_iter : int
         The maximum number of iterations for the multiplicative update algorithm.
 
     Returns
     -------
-    W : numpy.ndarray
+    W : ndarray
         Updated basis matrix after NMF. Shape: (n_samples, n_components).
-
-    H : numpy.ndarray
+    H : ndarray
         Updated coefficient matrix after NMF. Shape: (n_components, n_features).
-
     norms : list
         List of Frobenius norms of the difference between `A` and `W @ H` for each iteration.
 
-
     Notes
     -----
-    The update rules for `W` and `H` are based on minimizing the Frobenius norm of the difference
-    between `A` and `W @ H`. The update for `H` is performed as:
+    The update rules for `W` and `H` are based on minimizing the Frobenius norm of the difference between `A` and `W @ H`. The update for `H` is performed as:
 
     .. math::
-        H_{ij} = H_{ij} * \frac{(W^T A)_{ij}}{(W^T W H)_{ij} + \epsilon}
+        H_{ij} = H_{ij}  \frac{(W^T A)_{ij}}{(W^T W H)_{ij} + \epsilon}
 
     where `ε` is a small constant to prevent division by zero.
 
-    The update for `W` has been commented out but follows a similar form. Uncomment the lines under
-    "Update W" to perform updates for `W` as well.
+    The update for `W` has been commented out but follows a similar form. Uncomment the lines under "Update W" to perform updates for `W` as well.
 
     .. math::
-        W_{ij} = W_{ij} * \frac{(A H^T)_{ij}}{(W H H^T)_{ij} + \epsilon}
+        W_{ij} = W_{ij}  \frac{(A H^T)_{ij}}{(W H H^T)_{ij} + \epsilon}
 
     This method is sensitive to initializations of `W` and `H`, and the results may vary across runs.
-    """
 
+    """
 
     norms = []
     e = 1.0e-10

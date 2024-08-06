@@ -16,11 +16,11 @@ NiCo: Niche analysis of single-cell resolution of spatial cells
 
 
 
-The Niche Covariation (NiCo) package is developed for the integration of single-cell resolution 
+The Niche Covariation (NiCo) package is developed for the integration of single-cell resolution
 spatial transcriptomics and scRNA-seq data to (1) perform cell type annotations in the spatial modality by
-label transfer, (2) predict niche cell type interactions within local neighborhoods, and (3) infer cell state covariation and the 
+label transfer, (2) predict niche cell type interactions within local neighborhoods, and (3) infer cell state covariation and the
 underlying molecular crosstalk in the niche. NiCo infers factors capturing cell
-state variability in both modalities and identifies genes correlated to these latent factors for the prediction 
+state variability in both modalities and identifies genes correlated to these latent factors for the prediction
 of ligand-receptor interactions and factor-associated pathways.
 
 Highlights of NiCo
@@ -51,7 +51,7 @@ Tutorials
 Please prepare the input files with scRNA-seq count data and cell type annotation (cluster partition), spatial count data, and spatial
 cell coordinates to run the complete NiCo tutorials.
 
-`Nico tutorials are available here <https://github.com/ankitbioinfo/nico_tutorial>`_
+`Nico tutorials for Xenium, MERSCOPE, SEQFISH and SlideSeqV2 spatial technologies are available here <https://github.com/ankitbioinfo/nico_tutorial>`_
 
 
 
@@ -59,7 +59,14 @@ cell coordinates to run the complete NiCo tutorials.
    :maxdepth: 3
    :caption: Contents:
 
+
+   introduction
+   installation
+   examples
    modules
+   api_reference
+   faq
+
 
 Indices and tables
 ==================

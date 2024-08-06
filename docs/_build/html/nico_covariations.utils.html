@@ -47,7 +47,11 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">NiCo_Documentation</a><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html#tutorials">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">NiCo_Modules</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="nico_annotations.html">nico_annotations package</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="nico_covariations.html">nico_covariations package</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="nico_covariations.html#subpackages">Subpackages</a></li>
@@ -60,6 +64,8 @@
 <li class="toctree-l2"><a class="reference internal" href="utils.html">utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions (FAQ)</a></li>
 </ul>
 
         </div>
@@ -76,7 +82,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="modules.html">NiCo_Documentation</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">NiCo_Modules</a></li>
           <li class="breadcrumb-item"><a href="nico_covariations.html">nico_covariations package</a></li>
       <li class="breadcrumb-item active">nico_covariations.utils package</li>
       <li class="wy-breadcrumbs-aside">
@@ -118,30 +124,27 @@
 Solves min ||AX-B||_2^2 s.t. X &gt;= 0 element-wise.
 J. Kim and H. Park, Fast nonnegative matrix factorization: An active-set-like method and comparisons,
 SIAM Journal on Scientific Computing,
-vol. 33, no. 6, pp. 3261-3281, 2011.
-Parameters
-———-
-A : numpy.array, shape (m,n)
-B : numpy.array or scipy.sparse matrix, shape (m,k)
-Optional Parameters
-——————-
-is_input_prod : True/False. -  If True, the A and B arguments are interpreted as</p>
-<blockquote>
-<div><p>AtA and AtB, respectively. Default is False.</p>
-</div></blockquote>
+vol. 33, no. 6, pp. 3261-3281, 2011.</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
+<p>A : numpy.array, shape (m,n)
+B : numpy.array or scipy.sparse matrix, shape (m,k)</p>
+</section>
+<section id="optional-parameters">
+<h3>Optional Parameters<a class="headerlink" href="#optional-parameters" title="Link to this heading"></a></h3>
 <dl class="simple">
+<dt>is_input_prod<span class="classifier">True/False. -  If True, the A and B arguments are interpreted as</span></dt><dd><p>AtA and AtB, respectively. Default is False.</p>
+</dd>
 <dt>init: numpy.array, shape (n,k). - If provided, init is used as an initial value for the algorithm.</dt><dd><p>Default is None.</p>
 </dd>
 </dl>
+</section>
 <section id="returns">
 <h3>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h3>
 <p>X, (success, Y, num_cholesky, num_eq, num_backup)
 X : numpy.array, shape (n,k) - solution
-success : True/False - True if the solution is found. False if the algorithm did not terminate</p>
-<blockquote>
-<div><p>due to numerical errors.</p>
-</div></blockquote>
-<p>Y : numpy.array, shape (n,k) - Y = A.T * A * X - A.T * B
+success : True/False - True if the solution is found. False if the algorithm did not terminate due to numerical errors.
+Y : numpy.array, shape (n,k) - Y = A.T * A * X - A.T * B
 num_cholesky : int - the number of Cholesky factorizations needed
 num_eq : int - the number of linear systems of equations needed to be solved
 num_backup: int - the number of appearances of the back-up rule. See SISC paper for details.</p>
@@ -188,7 +191,7 @@ num_eq: int - the number of systems of linear equations solved</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Grün lab.</p>
+    <p>&#169; Copyright 2024, Grün lab.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

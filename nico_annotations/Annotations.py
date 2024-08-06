@@ -562,15 +562,15 @@ def visualize_spatial_anchored_cell_mapped_to_scRNAseq(input,saveas='pdf',transp
 
     Parameters
     ----------
-    input : object
+    input : object,
         An object containing various attributes required for the function. Specifically, it must contain:
         - `visualize_anchors` : tuple
-            A tuple containing the matrix of anchored cells, and the cluster names for spatial and scRNAseq data.
-            Example: (matrix, spatial_cluster_names, scrnaseq_cluster_names)
+        A tuple containing the matrix of anchored cells, and the cluster names for spatial and scRNAseq data.
+        Example: (matrix, spatial_cluster_names, scrnaseq_cluster_names)
         - `KNN` : int
-            The number of nearest neighbors used in the mutual nearest neighbors (MNN) analysis.
+        The number of nearest neighbors used in the mutual nearest neighbors (MNN) analysis.
         - `output_annot` : str
-            The path where the output figure will be saved.
+        The path where the output figure will be saved.
     saveas : str, optional
         The format to save the figure, either 'pdf' or 'png' (default is 'pdf').
     transparent_mode : bool, optional
@@ -582,7 +582,7 @@ def visualize_spatial_anchored_cell_mapped_to_scRNAseq(input,saveas='pdf',transp
 
     Outputs
     -------
-    The figure is saved at the location specified by "nico_out/annotations/*".
+    The figure is saved at the location specified by "nico_out/annotations/".
     """
 
     mat2,cname1,cname2=input.visualize_anchors
@@ -1286,12 +1286,12 @@ def find_unmapped_cells_and_deg(deg,unique_mapped):
 
     Returns
     -------
-    tuple
-        A tuple containing two numpy arrays:
+    tuple : A tuple containing two numpy arrays:
         - cellname : numpy.ndarray
             An array of unmapped cell node identifiers sorted by their degree values in descending order.
         - degvalue : numpy.ndarray
             An array of degree values corresponding to the unmapped cell node identifiers, sorted in descending order.
+
     """
 
     un_mapped_nodes=[]
@@ -1600,7 +1600,8 @@ number_of_iteration_to_perform_celltype_annotations=3,cmap=plt.cm.get_cmap('jet'
 
     Outputs:
     --------
-    Saves annotation figures to the following path './nico_out/annotations/*'
+    Saves annotation figures to the following path './nico_out/annotations/'
+
     """
 
 

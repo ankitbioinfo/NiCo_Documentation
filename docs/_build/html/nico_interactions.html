@@ -47,7 +47,11 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">NiCo_Documentation</a><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html#tutorials">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">NiCo_Modules</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="nico_annotations.html">nico_annotations package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nico_covariations.html">nico_covariations package</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">nico_interactions package</a><ul>
@@ -59,6 +63,8 @@
 <li class="toctree-l2"><a class="reference internal" href="utils.html">utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions (FAQ)</a></li>
 </ul>
 
         </div>
@@ -75,7 +81,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="modules.html">NiCo_Documentation</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">NiCo_Modules</a></li>
       <li class="breadcrumb-item active">nico_interactions package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/nico_interactions.rst.txt" rel="nofollow"> View page source</a>
@@ -96,13 +102,93 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_interactions.Interactions.create_directory">
 <span class="sig-prename descclassname"><span class="pre">nico_interactions.Interactions.</span></span><span class="sig-name descname"><span class="pre">create_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outputFolder</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_interactions/Interactions.html#create_directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_interactions.Interactions.create_directory" title="Link to this definition"></a></dt>
-<dd><p>This function creates empty directory.</p>
+<dd><p>Create an empty directory.</p>
+<p>This function checks if a specified directory exists, and if not, it creates the directory.</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>outputFolder<span class="classifier">str</span></dt><dd><p>The path of the directory to be created.</p>
+</dd>
+</dl>
+</section>
+<section id="raises">
+<h3>Raises<a class="headerlink" href="#raises" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>OSError</dt><dd><p>If the directory cannot be created due to permission issues or other OS-related errors.</p>
+</dd>
+</dl>
+</section>
+<section id="notes">
+<h3>Notes<a class="headerlink" href="#notes" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>If the directory already exists, no action is taken.</p></li>
+<li><p>This function ensures that the directory path is available for subsequent file operations.</p></li>
+</ul>
+</section>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">create_directory</span><span class="p">(</span><span class="s1">&#39;./new_out/&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_interactions.Interactions.create_spatial_CT_feature_matrix">
-<span class="sig-prename descclassname"><span class="pre">nico_interactions.Interactions.</span></span><span class="sig-name descname"><span class="pre">create_spatial_CT_feature_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">louvain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fraction_CT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveSpatial</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_interactions/Interactions.html#create_spatial_CT_feature_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_interactions.Interactions.create_spatial_CT_feature_matrix" title="Link to this definition"></a></dt>
-<dd><p>Helper function used in spatial_neighborhood_analysis to generate the expected spatial cell type neighborhood matrix.</p>
+<span class="sig-prename descclassname"><span class="pre">nico_interactions.Interactions.</span></span><span class="sig-name descname"><span class="pre">create_spatial_CT_feature_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">louvain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fraction_CT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveSpatial</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilonThreshold</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_interactions/Interactions.html#create_spatial_CT_feature_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_interactions.Interactions.create_spatial_CT_feature_matrix" title="Link to this definition"></a></dt>
+<dd><p>Generate the expected spatial cell type neighborhood matrix.</p>
+<p>This helper function is used in spatial_neighborhood_analysis to create a matrix that represents
+the expected neighborhood cell type composition based on spatial data. It uses either a radius-based
+approach or Delaunay triangulation to determine neighboring cells.</p>
+<section id="id1">
+<h3>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>radius<span class="classifier">float</span></dt><dd><p>Radius within which to find neighbors. If set to 0, Delaunay triangulation is used instead.</p>
+</dd>
+<dt>PP<span class="classifier">np.ndarray</span></dt><dd><p>Array of spatial coordinates of cells. Shape (n_cells, n_dimensions).</p>
+</dd>
+<dt>louvain<span class="classifier">np.ndarray</span></dt><dd><p>Array containing Louvain clustering results for each cell. Shape (n_cells, 1).</p>
+</dd>
+<dt>noct<span class="classifier">int</span></dt><dd><p>Number of cell types.</p>
+</dd>
+<dt>fraction_CT<span class="classifier">list of float</span></dt><dd><p>List representing the fraction of each cell type.</p>
+</dd>
+<dt>saveSpatial<span class="classifier">str</span></dt><dd><p>Path to save the output file containing the normalized spatial neighborhood matrix.</p>
+</dd>
+<dt>epsilonThreshold<span class="classifier">float</span></dt><dd><p>Threshold distance cutoff to limit the distant neighbors when using Delaunay triangulation.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>tuple</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>M<span class="classifier">int</span></dt><dd><p>Placeholder for future calculations (currently always returns 0).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>neighbors<span class="classifier">list of list of int</span></dt><dd><p>List of neighbors for each cell. Each sublist contains indices of neighboring cells.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>distance<span class="classifier">list of list of float</span></dt><dd><p>List of distances to neighbors for each cell. Each sublist contains distances to the neighboring cells.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h3>Notes<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>If radius is set to 0, Delaunay triangulation is used to find the neighbors within the epsilonThreshold distance.</p></li>
+<li><p>The function saves the normalized spatial neighborhood matrix as a .npz file at the specified location.</p></li>
+</ul>
+</section>
 </dd></dl>
 
 <dl class="py function">
@@ -114,321 +200,658 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_interactions.Interactions.findNeighbors_in_given_radius">
 <span class="sig-prename descclassname"><span class="pre">nico_interactions.Interactions.</span></span><span class="sig-name descname"><span class="pre">findNeighbors_in_given_radius</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_interactions/Interactions.html#findNeighbors_in_given_radius"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_interactions.Interactions.findNeighbors_in_given_radius" title="Link to this definition"></a></dt>
-<dd><p>The helper function is used in create_spatial_CT_feature_matrix to find the neighbors for each cell using the radius parameter.</p>
+<dd><p>Find the neighbors for each cell using the given radius.</p>
+<p>This helper function used in <code class="docutils literal notranslate"><span class="pre">create_spatial_CT_feature_matrix</span></code> identifies the neighboring cells for each cell within the specified
+radius and computes the average distance to these neighbors.</p>
+<section id="id3">
+<h3>Parameters:<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>location<span class="classifier">np.ndarray</span></dt><dd><p>An array of shape (n, 3) representing the coordinates of the cells.</p>
+</dd>
+<dt>radius<span class="classifier">float</span></dt><dd><p>The radius within which to search for neighboring cells.
+For immediate neighbors it is 0</p>
+</dd>
+</dl>
+</section>
+<section id="id4">
+<h3>Returns:<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>list</dt><dd><p>A list of lists where each sublist contains the indices of the neighbors for each cell.</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_interactions.Interactions.find_interacting_cell_types">
-<span class="sig-prename descclassname"><span class="pre">nico_interactions.Interactions.</span></span><span class="sig-name descname"><span class="pre">find_interacting_cell_types</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choose_celltypes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coeff_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparent_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(4.0,</span> <span class="pre">2.0)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_interactions/Interactions.html#find_interacting_cell_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_interactions.Interactions.find_interacting_cell_types" title="Link to this definition"></a></dt>
-<dd><p>Inputs:</p>
-<p>The main input is the output from spatial_neighborhood_analysis.</p>
-<div class="line-block">
-<div class="line">The cell type for which you would like to display the the regression coefficients indicating cell type interaction</div>
-<div class="line">(default) choose_celltypes=[]</div>
-<div class="line">If the list is empty, then the output will be shown for all cell types.</div>
-</div>
-<div class="line-block">
-<div class="line">The maximum number of neighborhood cell types shown on the X-axis of the figures for each central cell type</div>
-<div class="line">If there are too many interacting cell types, choosing a more stringet cutoff limits the display to the cell types with the largest positive or negative regression coefficients to avoid crowding of the figure</div>
-<div class="line">(default) coeff_cutoff=20</div>
-</div>
-<div class="line-block">
-<div class="line">Save the figures in PDF or PNG format (dpi for PNG format is 300)</div>
-<div class="line">(default) saveas=’pdf’</div>
-</div>
-<div class="line-block">
-<div class="line">Background color in the figures</div>
-<div class="line">(default) transparent_mode=False</div>
-</div>
-<div class="line-block">
-<div class="line">Dimension of the figure size.</div>
-<div class="line">(default) figsize=(4,2)</div>
-</div>
-<p>Outputs:</p>
-<div class="line-block">
-<div class="line">The figures are saved in ./spatial_ct_ct_interactions/niche_prediction_linear/TopCoeff_R0/*</div>
-</div>
+<span class="sig-prename descclassname"><span class="pre">nico_interactions.Interactions.</span></span><span class="sig-name descname"><span class="pre">find_interacting_cell_types</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choose_celltypes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">celltype_niche_interaction_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coeff_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparent_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(4.0,</span> <span class="pre">2.0)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_interactions/Interactions.html#find_interacting_cell_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_interactions.Interactions.find_interacting_cell_types" title="Link to this definition"></a></dt>
+<dd><p>Display regression coefficients indicating cell type interactions.</p>
+<section id="id5">
+<h3>Parameters:<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>input<span class="classifier">object</span></dt><dd><p>The main input is the output from spatial_neighborhood_analysis.</p>
+</dd>
+<dt>choose_celltypes<span class="classifier">list, optional</span></dt><dd><p>List of cell types to display the regression coefficients for.
+If empty, the output will be shown for all cell types.
+Default is [].</p>
+</dd>
+<dt>celltype_niche_interaction_cutoff<span class="classifier">float, optional</span></dt><dd><p>The cutoff value to consider for cell type niche interactions for normalized coefficients. This is visualized by blue dotted line.
+Default is 0.1.</p>
+</dd>
+<dt>coeff_cutoff<span class="classifier">int, optional</span></dt><dd><p>Maximum number of neighborhood cell types shown on the X-axis of the figures for each central cell type.
+If there are too many interacting cell types, choosing a more stringet cutoff limits the display to the cell types with the largest positive or negative regression coefficients to avoid crowding in the figure.
+Default is 20.</p>
+</dd>
+<dt>saveas<span class="classifier">str, optional</span></dt><dd><p>Format to save the figures in, either ‘pdf’ or ‘png’.
+Default is ‘pdf’.</p>
+</dd>
+<dt>transparent_mode<span class="classifier">bool, optional</span></dt><dd><p>Background color of the figures.
+Default is False.</p>
+</dd>
+<dt>showit<span class="classifier">bool, optional</span></dt><dd><p>Whether to display the figures.
+Default is True.</p>
+</dd>
+<dt>figsize<span class="classifier">tuple, optional</span></dt><dd><p>Dimension of the figure size.
+Default is (4.0, 2.0).</p>
+</dd>
+</dl>
+</section>
+<section id="outputs">
+<h3>Outputs:<a class="headerlink" href="#outputs" title="Link to this heading"></a></h3>
+<p>The figures are saved in ./nico_out/niche_prediction_linear/TopCoeff_R0/*</p>
+</section>
+<section id="id6">
+<h3>Notes:<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>The function normalizes the coefficients by dividing by maximum and then it visualizes by blue dotted line.</p></li>
+</ul>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_interactions.Interactions.find_neighbors">
 <span class="sig-prename descclassname"><span class="pre">nico_interactions.Interactions.</span></span><span class="sig-name descname"><span class="pre">find_neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pindex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">triang</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_interactions/Interactions.html#find_neighbors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_interactions.Interactions.find_neighbors" title="Link to this definition"></a></dt>
-<dd><p>The helper function is used in create_spatial_CT_feature_matrix to find the neighbors for each cell using the Delaunay triangulation.</p>
+<dd><p>Find the neighbors for a given point index using Delaunay triangulation.</p>
+<p>This helper function used in <code class="docutils literal notranslate"><span class="pre">`create_spatial_CT_feature_matrix`</span></code> identifies the neighboring points (cells) for a given point index
+using the Delaunay triangulation.</p>
+<section id="id7">
+<h3>Parameters:<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>pindex<span class="classifier">int</span></dt><dd><p>The index of the point (cell) for which neighbors are to be found.</p>
+</dd>
+<dt>triang<span class="classifier">scipy.spatial.Delaunay</span></dt><dd><p>The Delaunay triangulation of the point set.</p>
+</dd>
+</dl>
+</section>
+<section id="id8">
+<h3>Returns:<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>np.ndarray</dt><dd><p>An array of indices representing the neighbors of the given point.</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_interactions.Interactions.model_log_regression">
 <span class="sig-prename descclassname"><span class="pre">nico_interactions.Interactions.</span></span><span class="sig-name descname"><span class="pre">model_log_regression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">K_fold</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_repeats</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neighborhoodClass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BothLinearAndCrossTerms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_interactions/Interactions.html#model_log_regression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_interactions.Interactions.model_log_regression" title="Link to this definition"></a></dt>
-<dd><p>The helper function used in spatial_neighborhood_analysis to perform the logistic regression classifier to learn the probabilities of each cell type class.</p>
+<dd><p>Perform logistic regression classification to learn the probabilities of each cell type class. This helper function used in spatial_neighborhood_analysis.</p>
+<section id="id9">
+<h3>Parameters:<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>K_fold<span class="classifier">int</span></dt><dd><p>Number of folds for cross-validation.</p>
+</dd>
+<dt>n_repeats<span class="classifier">int</span></dt><dd><p>Number of times the cross-validation is repeated.</p>
+</dd>
+<dt>neighborhoodClass<span class="classifier">numpy.ndarray</span></dt><dd><p>Matrix of neighborhood class features.</p>
+</dd>
+<dt>target<span class="classifier">numpy.ndarray</span></dt><dd><p>Target labels (cell types).</p>
+</dd>
+<dt>lambda_c<span class="classifier">list or numpy.ndarray</span></dt><dd><p>Regularization strength(s) to be tested in the logistic regression.</p>
+</dd>
+<dt>strategy<span class="classifier">str</span></dt><dd><p>The regularization and multi-class strategy. Options include ‘L1_multi’, ‘L1_ovr’, ‘L2_multi’, ‘L2_ovr’, ‘elasticnet_multi’, ‘elasticnet_ovr’.</p>
+</dd>
+<dt>BothLinearAndCrossTerms<span class="classifier">int</span></dt><dd><p>Degree of polynomial features including interaction terms only.</p>
+</dd>
+<dt>seed<span class="classifier">int</span></dt><dd><p>Random seed for reproducibility.</p>
+</dd>
+<dt>n_jobs<span class="classifier">int</span></dt><dd><p>Number of jobs to run in parallel.</p>
+</dd>
+</dl>
+</section>
+<section id="id10">
+<h3>Returns:<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>log_reg_model<span class="classifier">sklearn.linear_model.LogisticRegression</span></dt><dd><p>The logistic regression model with specified parameters.</p>
+</dd>
+<dt>parameters<span class="classifier">dict</span></dt><dd><p>Dictionary of parameters used for model training.</p>
+</dd>
+<dt>hyperparameter_scoring<span class="classifier">dict</span></dt><dd><p>Dictionary of scoring metrics used for hyperparameter tuning.</p>
+</dd>
+</dl>
+</section>
+<section id="id11">
+<h3>Notes:<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>The function uses polynomial features to create interaction terms based on the specified degree.</p></li>
+<li><p>Hyperparameter tuning is performed using cross-validation with f1_weighted scoring metrics.</p></li>
+</ul>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_interactions.Interactions.plot_coefficient_matrix">
 <span class="sig-prename descclassname"><span class="pre">nico_interactions.Interactions.</span></span><span class="sig-name descname"><span class="pre">plot_coefficient_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparent_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(5,</span> <span class="pre">8)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_interactions/Interactions.html#plot_coefficient_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_interactions.Interactions.plot_coefficient_matrix" title="Link to this definition"></a></dt>
-<dd><p>Inputs:</p>
-<p>The primary input is the output from spatial_neighborhood_analysis.</p>
-<div class="line-block">
-<div class="line">Save the figures in PDF or PNG format (dpi for PNG format is 300)</div>
-<div class="line">(default) saveas=’pdf’</div>
-</div>
-<div class="line-block">
-<div class="line">Background color in the figures</div>
-<div class="line">(default) transparent_mode=False</div>
-</div>
-<div class="line-block">
-<div class="line">Dimension of the figure size.</div>
-<div class="line">(default) figsize=(5,8)</div>
-</div>
-<p>Outputs:</p>
-<div class="line-block">
-<div class="line">The figures are saved in ./spatial_ct_ct_interactions/niche_prediction_linear/*</div>
-<div class="line">weight_matrix_* shows the learned coefficient matrix from the logistic regression classifier.</div>
-</div>
+<dd><p>Generate and save a coefficient matrix plot from the results of spatial_neighborhood_analysis.</p>
+<section id="id12">
+<h3>Parameters:<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>input<span class="classifier">dict, or similar object</span></dt><dd><p>The main input is the output from spatial_neighborhood_analysis.</p>
+</dd>
+<dt>saveas<span class="classifier">str, optional, default=’pdf’</span></dt><dd><p>Format to save the figure. Options are ‘pdf’ or ‘png’. If ‘png’, the dpi is set to 300.</p>
+</dd>
+<dt>showit<span class="classifier">bool, optional, default=True</span></dt><dd><p>Whether to display the plot after saving. If False, the plot will be closed after saving.</p>
+</dd>
+<dt>transparent_mode<span class="classifier">bool, optional, default=False</span></dt><dd><p>Whether to save the figure with a transparent background.</p>
+</dd>
+<dt>figsize<span class="classifier">tuple of float, optional, default=(5, 8)</span></dt><dd><p>Size of the figure in inches.</p>
+</dd>
+</dl>
+</section>
+<section id="id13">
+<h3>Outputs:<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<p>The function saves the coefficient matrix plot in the directory specified by ./nico_out/niche_prediction_linear/.
+The filename will be in the format “weight_matrix_R&lt;Radius&gt;.&lt;saveas&gt;”, where &lt;Radius&gt; is the radius value
+from the input and &lt;saveas&gt; is the file format.</p>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_interactions.Interactions.plot_confusion_matrix">
 <span class="sig-prename descclassname"><span class="pre">nico_interactions.Interactions.</span></span><span class="sig-name descname"><span class="pre">plot_confusion_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparent_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(5.5,</span> <span class="pre">5)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_interactions/Interactions.html#plot_confusion_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_interactions.Interactions.plot_confusion_matrix" title="Link to this definition"></a></dt>
-<dd><p>Inputs:</p>
-<p>The primary input is the output from spatial_neighborhood_analysis.</p>
-<div class="line-block">
-<div class="line">Save the figures in PDF or PNG format (dpi for PNG format is 300)</div>
-<div class="line">(default) saveas=’pdf’</div>
-</div>
-<div class="line-block">
-<div class="line">Background color in the figures</div>
-<div class="line">(default) transparent_mode=False</div>
-</div>
-<div class="line-block">
-<div class="line">Dimension of the figure size.</div>
-<div class="line">(default) figsize=(5.5,5),</div>
-</div>
-<p>Outputs:</p>
-<div class="line-block">
-<div class="line">The figures are saved in ./spatial_ct_ct_interactions/niche_prediction_linear/*</div>
-<div class="line">Confusing_matrix_* shows the confusion matrix of the logistic regression classifier.</div>
-</div>
+<dd><p>Generate and save a confusion matrix plot from the results of spatial_neighborhood_analysis.</p>
+<section id="id14">
+<h3>Parameters:<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>input<span class="classifier">dict, or similar object</span></dt><dd><p>The main input is the output from spatial_neighborhood_analysis.</p>
+</dd>
+<dt>saveas<span class="classifier">str, optional, default=’pdf’</span></dt><dd><p>Format to save the figure. Options are ‘pdf’ or ‘png’. If ‘png’, the dpi is set to 300.</p>
+</dd>
+<dt>showit<span class="classifier">bool, optional, default=True</span></dt><dd><p>Whether to display the plot after saving. If False, the plot will be closed after saving.</p>
+</dd>
+<dt>transparent_mode<span class="classifier">bool, optional, default=False</span></dt><dd><p>Whether to save the figure with a transparent background.</p>
+</dd>
+<dt>figsize<span class="classifier">tuple of float, optional, default=(5.5, 5)</span></dt><dd><p>Size of the figure in inches.</p>
+</dd>
+</dl>
+</section>
+<section id="id15">
+<h3>Outputs:<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<p>The function saves the confusion matrix plot in the directory specified by <cite>nico_out/niche_prediction_linear/</cite>.
+The filename will be in the format ‘Confusing_matrix_R&lt;Radius&gt;.&lt;saveas&gt;’, where &lt;Radius&gt; is the radius value
+from the input and &lt;saveas&gt; is the file format.</p>
+</section>
+<section id="id16">
+<h3>Notes:<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>The function loads data from a numpy file specified by <cite>input.fout</cite>, which should contain the confusion matrix
+and related data.</p></li>
+<li><p>The confusion matrix is plotted using seaborn’s heatmap function with annotations.</p></li>
+<li><p>The plot is saved in the specified format and directory, and optionally displayed based on the <cite>showit</cite> parameter.</p></li>
+</ul>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_interactions.Interactions.plot_evaluation_scores">
 <span class="sig-prename descclassname"><span class="pre">nico_interactions.Interactions.</span></span><span class="sig-name descname"><span class="pre">plot_evaluation_scores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparent_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(4,</span> <span class="pre">3)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_interactions/Interactions.html#plot_evaluation_scores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_interactions.Interactions.plot_evaluation_scores" title="Link to this definition"></a></dt>
-<dd><p>Inputs:</p>
-<p>The main input is the output from spatial_neighborhood_analysis.</p>
-<div class="line-block">
-<div class="line">Save the figures in PDF or PNG format (dpi for PNG format is 300)</div>
-<div class="line">(default) saveas=’pdf’</div>
-</div>
-<div class="line-block">
-<div class="line">Background color in the figures</div>
-<div class="line">(default) transparent_mode=False</div>
-</div>
-<div class="line-block">
-<div class="line">Dimension of the figure size.</div>
-<div class="line">(default) figsize=(4,3)</div>
-</div>
-<p>Outputs:</p>
-<div class="line-block">
-<div class="line">The figures are saved in “./spatial_ct_ct_interactions/niche_prediction_linear/scores*”</div>
-</div>
+<dd><p>This function generates and saves plots of evaluation scores obtained from the spatial_neighborhood_analysis.
+The plots can be saved in PDF or PNG format and can be displayed during execution.</p>
+<section id="id17">
+<h3>Parameters<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>input<span class="classifier">dict or similar</span></dt><dd><p>The main input is the output from spatial_neighborhood_analysis. This should contain the evaluation scores to be plotted.</p>
+</dd>
+<dt>saveas<span class="classifier">str, optional</span></dt><dd><p>Format to save the figures. Options are ‘pdf’ or ‘png’. Default is ‘pdf’.</p>
+</dd>
+<dt>transparent_mode<span class="classifier">bool, optional</span></dt><dd><p>If True, the background color of the figures will be transparent. Default is False.</p>
+</dd>
+<dt>showit<span class="classifier">bool, optional</span></dt><dd><p>If True, the figures will be displayed when the function is called. Default is True.</p>
+</dd>
+<dt>figsize<span class="classifier">tuple, optional</span></dt><dd><p>Dimensions of the figure size in inches (width, height). Default is (4, 3).</p>
+</dd>
+</dl>
+</section>
+<section id="id18">
+<h3>Outputs<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>None</dt><dd><p>The function saves the generated figures in the directory “./nico_out/niche_prediction_linear/” with filenames starting with “scores”.</p>
+</dd>
+</dl>
+</section>
+<section id="id19">
+<h3>Notes<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<ul>
+<li><p>The order of scores saved in input.score as follows:</p>
+<blockquote>
+<div><ul class="simple">
+<li><ol class="arabic simple">
+<li><p>accuracy</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="2">
+<li><p>macro F1</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="3">
+<li><p>macro precision</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="4">
+<li><p>macro recall</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="5">
+<li><p>micro F1</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="6">
+<li><p>micro precision</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="7">
+<li><p>micro recall</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="8">
+<li><p>weighted F1</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="9">
+<li><p>weighted precision</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="10">
+<li><p>weighted recall</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="11">
+<li><p>Cohen Kappa</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="12">
+<li><p>cross entropy</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="13">
+<li><p>mathhew correlation coefficient</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="14">
+<li><p>heming loss</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="15">
+<li><p>zeros one loss</p></li>
+</ol>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_interactions.Interactions.plot_multiclass_roc">
 <span class="sig-prename descclassname"><span class="pre">nico_interactions.Interactions.</span></span><span class="sig-name descname"><span class="pre">plot_multiclass_roc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_classes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_interactions/Interactions.html#plot_multiclass_roc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_interactions.Interactions.plot_multiclass_roc" title="Link to this definition"></a></dt>
-<dd><p>Compute the ROC for each cell type prediction and its performance on the test dataset.</p>
+<dd><p>Compute the ROC (Receiver Operating Characteristic) curve for each cell type prediction
+and evaluate its performance on the test dataset.</p>
+<section id="id20">
+<h3>Parameters:<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>clf<span class="classifier">classifier object</span></dt><dd><p>The classifier used for making predictions. It should have a <cite>decision_function</cite> method.</p>
+</dd>
+<dt>X_test<span class="classifier">array-like of shape (n_samples, n_features)</span></dt><dd><p>Test feature set.</p>
+</dd>
+<dt>y_test<span class="classifier">array-like of shape (n_samples,)</span></dt><dd><p>True labels for the test set.</p>
+</dd>
+<dt>n_classes<span class="classifier">int</span></dt><dd><p>Number of unique classes (cell types) in the dataset.</p>
+</dd>
+</dl>
+</section>
+<section id="id21">
+<h3>Returns:<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>fpr<span class="classifier">dict</span></dt><dd><p>A dictionary where the keys are class indices and the values are arrays of false positive rates.</p>
+</dd>
+<dt>tpr<span class="classifier">dict</span></dt><dd><p>A dictionary where the keys are class indices and the values are arrays of true positive rates.</p>
+</dd>
+<dt>roc_auc<span class="classifier">dict</span></dt><dd><p>A dictionary where the keys are class indices and the values are the area under the ROC curve (AUC) scores.</p>
+</dd>
+</dl>
+</section>
+<section id="id22">
+<h3>Notes:<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>This function uses the <cite>decision_function</cite> method of the classifier to get the confidence scores for each class.</p></li>
+<li><p>The true labels <cite>y_test</cite> are converted into a binary format using one-hot encoding.</p></li>
+<li><p>The ROC curve is computed for each class and the AUC score is calculated for each ROC curve.</p></li>
+</ul>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_interactions.Interactions.plot_niche_interactions_with_edge_weight">
 <span class="sig-prename descclassname"><span class="pre">nico_interactions.Interactions.</span></span><span class="sig-name descname"><span class="pre">plot_niche_interactions_with_edge_weight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">niche_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparent_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(10,</span> <span class="pre">7)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_interactions/Interactions.html#plot_niche_interactions_with_edge_weight"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_interactions.Interactions.plot_niche_interactions_with_edge_weight" title="Link to this definition"></a></dt>
-<dd><p>Inputs:</p>
-<p>The main input is the output from spatial_neighborhood_analysis.</p>
-<div class="line-block">
-<div class="line">Cutoff used for plotting the niche interactions map</div>
-<div class="line">(default) niche_cutoff=0.10</div>
-</div>
-<div class="line-block">
-<div class="line">Save the figures in PDF or PNG format (dpi for PNG format is 300)</div>
-<div class="line">(default) saveas=’pdf’</div>
-</div>
-<div class="line-block">
-<div class="line">Background color in the figures</div>
-<div class="line">(default) transparent_mode=False</div>
-</div>
-<div class="line-block">
-<div class="line">Dimension of the figure size.</div>
-<div class="line">(default) figsize=(10,7)</div>
-</div>
-<p>Outputs:</p>
-<div class="line-block">
-<div class="line">The figures are saved in ./spatial_ct_ct_interactions/niche_prediction_linear/Niche_interactions_*</div>
-</div>
+<dd><p>Plot niche interactions map with edge weights.</p>
+<p>This function generates and saves a niche interactions map using the output from spatial_neighborhood_analysis. The edges in the map are weighted based on the interaction strengths. The plot can be saved in PDF or PNG format and can be displayed during execution.</p>
+<section id="id23">
+<h3>Parameters<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>input<span class="classifier">dict or similar</span></dt><dd><p>The main input is the output from spatial_neighborhood_analysis. This should contain the necessary data to plot the niche interactions.</p>
+</dd>
+<dt>niche_cutoff<span class="classifier">float, optional</span></dt><dd><p>Cutoff value for plotting the niche interactions map. Higher values result in fewer connections, while lower values result in more connections. Default is 0.1.</p>
+</dd>
+<dt>saveas<span class="classifier">str, optional</span></dt><dd><p>Format to save the figures. Options are ‘pdf’ or ‘png’. Default is ‘pdf’.</p>
+</dd>
+<dt>transparent_mode<span class="classifier">bool, optional</span></dt><dd><p>If True, the background color of the figures will be transparent. Default is False.</p>
+</dd>
+<dt>showit<span class="classifier">bool, optional</span></dt><dd><p>If True, the figures will be displayed when the function is called. Default is True.</p>
+</dd>
+<dt>figsize<span class="classifier">tuple, optional</span></dt><dd><p>Dimensions of the figure size in inches (width, height). Default is (10, 7).</p>
+</dd>
+</dl>
+</section>
+<section id="id24">
+<h3>Outputs<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>None</dt><dd><p>The function saves the generated figures in the directory “./nico_out/niche_prediction_linear/” with filenames starting with “Niche_interactions_*”.</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_interactions.Interactions.plot_niche_interactions_without_edge_weight">
 <span class="sig-prename descclassname"><span class="pre">nico_interactions.Interactions.</span></span><span class="sig-name descname"><span class="pre">plot_niche_interactions_without_edge_weight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">niche_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparent_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(10,</span> <span class="pre">7)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_interactions/Interactions.html#plot_niche_interactions_without_edge_weight"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_interactions.Interactions.plot_niche_interactions_without_edge_weight" title="Link to this definition"></a></dt>
-<dd><p>Inputs:</p>
-<p>The main input is the output from spatial_neighborhood_analysis.</p>
-<div class="line-block">
-<div class="line">Cutoff used for plotting the niche interactions map</div>
-<div class="line">(default) niche_cutoff=0.10</div>
-</div>
-<div class="line-block">
-<div class="line">Save the figures in PDF or PNG format (dpi for PNG format is 300)</div>
-<div class="line">(default) saveas=’pdf’</div>
-</div>
-<div class="line-block">
-<div class="line">Background color in the figures</div>
-<div class="line">(default) transparent_mode=False</div>
-</div>
-<div class="line-block">
-<div class="line">Dimension of the figure size.</div>
-<div class="line">(default) figsize=(10,7)</div>
-</div>
-<p>Outputs:</p>
-<div class="line-block">
-<div class="line">The figures are saved in ./spatial_ct_ct_interactions/niche_prediction_linear/Niche_interactions_*</div>
-</div>
+<dd><p>Plot niche interactions map without edge weights.</p>
+<p>This function generates and saves a niche interactions map using the output from spatial_neighborhood_analysis.
+The plot can be saved in PDF or PNG format and can be displayed during execution.</p>
+<section id="id25">
+<h3>Parameters<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>input<span class="classifier">dict or similar</span></dt><dd><p>The main input is the output from spatial_neighborhood_analysis. This should contain the necessary data to plot the niche interactions.</p>
+</dd>
+<dt>niche_cutoff<span class="classifier">float, optional</span></dt><dd><p>Cutoff value for plotting the cell type niche interactions map. Default is 0.1.</p>
+</dd>
+<dt>saveas<span class="classifier">str, optional</span></dt><dd><p>Format to save the figures. Options are ‘pdf’ or ‘png’. Default is ‘pdf’.</p>
+</dd>
+<dt>transparent_mode<span class="classifier">bool, optional</span></dt><dd><p>If True, the background color of the figures will be transparent. Default is False.</p>
+</dd>
+<dt>showit<span class="classifier">bool, optional</span></dt><dd><p>If True, the figures will be displayed when the function is called. Default is True.</p>
+</dd>
+<dt>figsize<span class="classifier">tuple, optional</span></dt><dd><p>Dimensions of the figure size in inches (width, height). Default is (10, 7).</p>
+</dd>
+</dl>
+</section>
+<section id="id26">
+<h3>Outputs<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>None</dt><dd><p>The function saves the generated figures in the directory “./nico_out/niche_prediction_linear/” with filenames starting with “Niche_interactions_*”.</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_interactions.Interactions.plot_predicted_probabilities">
 <span class="sig-prename descclassname"><span class="pre">nico_interactions.Interactions.</span></span><span class="sig-name descname"><span class="pre">plot_predicted_probabilities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparent_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(12,</span> <span class="pre">6)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_interactions/Interactions.html#plot_predicted_probabilities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_interactions.Interactions.plot_predicted_probabilities" title="Link to this definition"></a></dt>
-<dd><p>Inputs:</p>
-<p>The primary input is the output from spatial_neighborhood_analysis.</p>
-<div class="line-block">
-<div class="line">Save the figures in PDF or PNG format (dpi for PNG format is 300)</div>
-<div class="line">(default) saveas=’pdf’</div>
-</div>
-<div class="line-block">
-<div class="line">Background color in the figures</div>
-<div class="line">(default) transparent_mode=False</div>
-</div>
-<div class="line-block">
-<div class="line">Dimension of the figure size.</div>
-<div class="line">(default) figsize=(12,6)</div>
-</div>
-<p>Outputs:</p>
-<div class="line-block">
-<div class="line">The figures are saved in ./spatial_ct_ct_interactions/niche_prediction_linear/*</div>
-<div class="line">predicted_probability_* shows the training, testing, and predicted probability used in the logistic regression classifier.</div>
-</div>
+<dd><p>Generate and save a plot of predicted probabilities from the results of spatial_neighborhood_analysis.</p>
+<section id="id27">
+<h3>Parameters:<a class="headerlink" href="#id27" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>input<span class="classifier">dict, or similar object</span></dt><dd><p>The main input is the output from spatial_neighborhood_analysis.</p>
+</dd>
+<dt>saveas<span class="classifier">str, optional, default=’pdf’</span></dt><dd><p>Format to save the figure. Options are ‘pdf’ or ‘png’. If ‘png’, the dpi is set to 300.</p>
+</dd>
+<dt>showit<span class="classifier">bool, optional, default=True</span></dt><dd><p>Whether to display the plot after saving. If False, the plot will be closed after saving.</p>
+</dd>
+<dt>transparent_mode<span class="classifier">bool, optional, default=False</span></dt><dd><p>Whether to save the figure with a transparent background.</p>
+</dd>
+<dt>figsize<span class="classifier">tuple of float, optional, default=(12, 6)</span></dt><dd><p>Size of the figure in inches.</p>
+</dd>
+</dl>
+</section>
+<section id="id28">
+<h3>Outputs:<a class="headerlink" href="#id28" title="Link to this heading"></a></h3>
+<p>The function saves the plot of predicted probabilities in the directory specified by ./nico_out/niche_prediction_linear/.
+The filename will be in the format ‘predicted_probability_R&lt;Radius&gt;.&lt;saveas&gt;’, where &lt;Radius&gt; is the radius value
+from the input and &lt;saveas&gt; is the file format.</p>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_interactions.Interactions.plot_roc_results">
 <span class="sig-prename descclassname"><span class="pre">nico_interactions.Interactions.</span></span><span class="sig-name descname"><span class="pre">plot_roc_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ncols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparent_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(10,</span> <span class="pre">7)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_interactions/Interactions.html#plot_roc_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_interactions.Interactions.plot_roc_results" title="Link to this definition"></a></dt>
-<dd><p>Inputs:</p>
-<p>The primary input is the output from spatial_neighborhood_analysis.</p>
-<div class="line-block">
-<div class="line">The top 16 cell types predictions are shown as an ROC curve. These 16 are plotted as four-by-four subplots</div>
-<div class="line">(default) nrows=4, ncols=4</div>
-</div>
-<div class="line-block">
-<div class="line">Save the figures in PDF or PNG format (dpi for PNG format is 300)</div>
-<div class="line">(default) saveas=’pdf’</div>
-</div>
-<div class="line-block">
-<div class="line">Background color in the figures</div>
-<div class="line">(default) transparent_mode=False</div>
-</div>
-<div class="line-block">
-<div class="line">Dimension of the figure size.</div>
-<div class="line">(default) figsize=(10, 7)</div>
-</div>
-<p>Outputs:</p>
-<div class="line-block">
-<div class="line">The figures are saved in ./spatial_ct_ct_interactions/niche_prediction_linear/*</div>
-<div class="line">ROC_* shows the Receiver operating characteristic for the top 16 cell types.</div>
-</div>
+<dd><p>Generate and save ROC curves for the top 16 cell type predictions from the results of spatial_neighborhood_analysis.</p>
+<section id="id29">
+<h3>Parameters:<a class="headerlink" href="#id29" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>input<span class="classifier">dict, or similar object</span></dt><dd><p>The main input is the output from spatial_neighborhood_analysis.</p>
+</dd>
+<dt>nrows<span class="classifier">int, optional, default=4</span></dt><dd><p>Number of rows in the subplot grid.</p>
+</dd>
+<dt>ncols<span class="classifier">int, optional, default=4</span></dt><dd><p>Number of columns in the subplot grid.</p>
+</dd>
+<dt>saveas<span class="classifier">str, optional, default=’pdf’</span></dt><dd><p>Format to save the figure. Options are ‘pdf’ or ‘png’. If ‘png’, the dpi is set to 300.</p>
+</dd>
+<dt>showit<span class="classifier">bool, optional, default=True</span></dt><dd><p>Whether to display the plot after saving. If False, the plot will be closed after saving.</p>
+</dd>
+<dt>transparent_mode<span class="classifier">bool, optional, default=False</span></dt><dd><p>Whether to save the figure with a transparent background.</p>
+</dd>
+<dt>figsize<span class="classifier">tuple of float, optional, default=(10, 7)</span></dt><dd><p>Size of the figure in inches.</p>
+</dd>
+</dl>
+</section>
+<section id="id30">
+<h3>Outputs:<a class="headerlink" href="#id30" title="Link to this heading"></a></h3>
+<p>The function saves the ROC curves plot in the directory specified by ./nico_out/niche_prediction_linear.
+The filename will be in the format ‘ROC_R&lt;Radius&gt;.&lt;saveas&gt;’, where &lt;Radius&gt; is the radius value
+from the input and &lt;saveas&gt; is the file format.</p>
+</section>
+<section id="id31">
+<h3>Notes:<a class="headerlink" href="#id31" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>The function creates a grid of ROC curves for the top 16 cell types with the highest ROC AUC values.</p></li>
+</ul>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_interactions.Interactions.read_processed_data">
 <span class="sig-prename descclassname"><span class="pre">nico_interactions.Interactions.</span></span><span class="sig-name descname"><span class="pre">read_processed_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputdir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_interactions/Interactions.html#read_processed_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_interactions.Interactions.read_processed_data" title="Link to this definition"></a></dt>
-<dd><p>Helper function used in spatial_neighborhood_analysis to read the neighborhood expected feature matrix.</p>
+<dd><p>Read and process the neighborhood expected feature matrix for spatial_neighborhood_analysis.</p>
+<section id="id32">
+<h3>Parameters:<a class="headerlink" href="#id32" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>radius<span class="classifier">int or float</span></dt><dd><p>The radius value used in the spatial analysis.</p>
+</dd>
+<dt>inputdir<span class="classifier">str</span></dt><dd><p>The directory containing the input data file.</p>
+</dd>
+</dl>
+</section>
+<section id="id33">
+<h3>Returns:<a class="headerlink" href="#id33" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>neighborhoodClass<span class="classifier">numpy.ndarray</span></dt><dd><p>The matrix of neighborhood class features.</p>
+</dd>
+<dt>target<span class="classifier">numpy.ndarray</span></dt><dd><p>The target labels (cell types).</p>
+</dd>
+<dt>inputFeatures<span class="classifier">range</span></dt><dd><p>A range object representing the indices of the input features.</p>
+</dd>
+</dl>
+</section>
+<section id="id34">
+<h3>Notes:<a class="headerlink" href="#id34" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>The function reads a compressed <cite>.npz</cite> file containing the neighborhood expected feature matrix.</p></li>
+<li><p>It filters out rows with NaN values.</p></li>
+<li><p>It calculates the proportion of each cell type in the dataset.</p></li>
+<li><p>The function returns the processed neighborhood class features, target labels, and input feature indices.</p></li>
+</ul>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_interactions.Interactions.reading_data">
-<span class="sig-prename descclassname"><span class="pre">nico_interactions.Interactions.</span></span><span class="sig-name descname"><span class="pre">reading_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">positionFilename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clusterFilename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">celltypeFilename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveSpatial</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delimiter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">removed_CTs_before_finding_CT_CT_interactions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_interactions/Interactions.html#reading_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_interactions.Interactions.reading_data" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">nico_interactions.Interactions.</span></span><span class="sig-name descname"><span class="pre">reading_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coordinates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">louvainFull</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degbased_ctname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveSpatial</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">removed_CTs_before_finding_CT_CT_interactions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_interactions/Interactions.html#reading_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_interactions.Interactions.reading_data" title="Link to this definition"></a></dt>
 <dd><p>Helper function used in spatial_neighborhood_analysis to read the cell coordinate file,
 cluster file, and cluster name file according to the input cell type list provided for the prediction.</p>
+<section id="id35">
+<h3>Parameters:<a class="headerlink" href="#id35" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>coordinates<span class="classifier">str</span></dt><dd><p>Path to the file containing cell coordinates.</p>
+</dd>
+<dt>louvainFull<span class="classifier">str</span></dt><dd><p>Path to the file containing the full louvain clustering information.</p>
+</dd>
+<dt>degbased_ctname<span class="classifier">list of tuples</span></dt><dd><p>A list where each element is a tuple containing the cell type ID and the cell type name.</p>
+</dd>
+<dt>saveSpatial<span class="classifier">str</span></dt><dd><p>Path where the spatial analysis results should be saved.</p>
+</dd>
+<dt>removed_CTs_before_finding_CT_CT_interactions<span class="classifier">list of str</span></dt><dd><p>A list of cell type names that should be excluded from the analysis.</p>
+</dd>
+</dl>
+</section>
+<section id="id36">
+<h3>Returns:<a class="headerlink" href="#id36" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>CTname<span class="classifier">list of str</span></dt><dd><p>A list of cell type names that are included in the analysis after filtering out the removed cell types.</p>
+</dd>
+<dt>CTid<span class="classifier">list of int</span></dt><dd><p>A list of cell type IDs corresponding to the filtered cell type names.</p>
+</dd>
+</dl>
+</section>
+<section id="id37">
+<h3>Notes:<a class="headerlink" href="#id37" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>This function assumes that <cite>degbased_ctname</cite> is a list of tuples where the first element is an integer
+representing the cell type ID and the second element is a string representing the cell type name.</p></li>
+<li><p>The function filters out the cell types listed in <cite>removed_CTs_before_finding_CT_CT_interactions</cite> from the
+<cite>degbased_ctname</cite> list and returns the remaining cell type names and IDs.</p></li>
+</ul>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_interactions.Interactions.remove_extra_character_from_name">
 <span class="sig-prename descclassname"><span class="pre">nico_interactions.Interactions.</span></span><span class="sig-name descname"><span class="pre">remove_extra_character_from_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_interactions/Interactions.html#remove_extra_character_from_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_interactions.Interactions.remove_extra_character_from_name" title="Link to this definition"></a></dt>
-<dd><p>This function removes special characters from the cell type names to avoid throwing an error while saving the figures.</p>
+<dd><p>Remove special characters from cell type names to avoid errors while saving figures.</p>
+<p>This function replaces certain special characters in the input <cite>name</cite> with
+underscores or other appropriate characters to ensure the name is safe for use
+as a filename.</p>
+<section id="id38">
+<h3>Parameters<a class="headerlink" href="#id38" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>name<span class="classifier">str</span></dt><dd><p>The original cell type name that may contain special characters.</p>
+</dd>
+</dl>
+</section>
+<section id="id39">
+<h3>Returns<a class="headerlink" href="#id39" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>str</dt><dd><p>The modified cell type name with special characters removed or replaced.</p>
+</dd>
+</dl>
+</section>
+<section id="id40">
+<h3>Example<a class="headerlink" href="#id40" title="Link to this heading"></a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;T-cell (CD4+)/CD8+&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">clean_name</span> <span class="o">=</span> <span class="n">remove_extra_character_from_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">clean_name</span><span class="p">)</span>
+<span class="go">&#39;T-cell_CD4p_CD8p&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="id41">
+<h3>Notes<a class="headerlink" href="#id41" title="Link to this heading"></a></h3>
+<p>The following replacements are made:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>‘/’ is replaced with ‘_’</p></li>
+<li><p>‘ ‘ (space) is replaced with ‘_’</p></li>
+<li><p>‘”’ (double quote) is removed</p></li>
+<li><p>“’” (single quote) is removed</p></li>
+<li><p>‘)’ is removed</p></li>
+<li><p>‘(’ is removed</p></li>
+<li><p>‘+’ is replaced with ‘p’</p></li>
+<li><p>‘-’ is replaced with ‘n’</p></li>
+<li><p>‘.’ (dot) is removed</p></li>
+</ul>
+</div></blockquote>
+<p>These substitutions help in creating filenames that do not contain characters
+that might be problematic for file systems or software.</p>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nico_interactions.Interactions.spatial_neighborhood_analysis">
-<span class="sig-prename descclassname"><span class="pre">nico_interactions.Interactions.</span></span><span class="sig-name descname"><span class="pre">spatial_neighborhood_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outputdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./spatial_ct_ct_interactions/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">positionFilename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./inputQuery/tissue_positions_list.csv'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clusterFilename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./inputQuery/MNN_based_annotations/3_nico_annotation_cluster.csv'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">','</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">celltypeFilename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./inputQuery/MNN_based_annotations/3_nico_annotation_ct_name.csv'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_repeats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">K_fold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">36851234</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_c_ranges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0.000244140625,</span> <span class="pre">0.00048828125,</span> <span class="pre">0.0009765625,</span> <span class="pre">0.001953125,</span> <span class="pre">0.00390625,</span> <span class="pre">0.0078125,</span> <span class="pre">0.015625,</span> <span class="pre">0.03125,</span> <span class="pre">0.0625,</span> <span class="pre">0.125,</span> <span class="pre">0.25,</span> <span class="pre">0.5,</span> <span class="pre">1.0,</span> <span class="pre">2.0,</span> <span class="pre">4.0,</span> <span class="pre">8.0,</span> <span class="pre">16.0,</span> <span class="pre">32.0,</span> <span class="pre">64.0,</span> <span class="pre">128.0,</span> <span class="pre">256.0,</span> <span class="pre">512.0,</span> <span class="pre">1024.0,</span> <span class="pre">2048.0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">removed_CTs_before_finding_CT_CT_interactions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['NM']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_interactions/Interactions.html#spatial_neighborhood_analysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_interactions.Interactions.spatial_neighborhood_analysis" title="Link to this definition"></a></dt>
-<dd><p><strong>This is the primary function called by the user to perform spatial neighborhood analysis, i.e., reconstruction of the niche.</strong></p>
-<p><strong>Before calling this function, the user must have an annotation of the spatial cell from any method. It can be obtained by NiCo’s annotation module.
-This annotation is expected to comprise two files, clusterFilename that contain cells and cluster-ID information,
-and celltypeFilename that contains cluster-ID and cell type name information.</strong></p>
-<p>call spatial_neighborhood_analysis function from the interaction module.
-Perform spatial neighborhood analysis to find the niche interaction patterns.</p>
-<p>If the user wants to run for multiple radius parameters, then it is good practice to change the outputdir directory name or delete the previously created one.</p>
-<p>If the average number of neighbors is relatively low (&lt;1), increase the radius to perform neighborhood analysis.</p>
-<p>Every input CSV file (positionFilename,clusterFilename,celltypeFilename) must contain the header information.</p>
-<p>Inputs:</p>
-<div class="line-block">
-<div class="line">The position filename of cell coordinates</div>
-<div class="line">(default) positionFilename=’./inputQuery/tissue_positions_list.csv’</div>
-</div>
-<div class="line-block">
-<div class="line">Please change the following two filenames (an paths) if you are using external cell type annotation</div>
-<div class="line">The cluster partition filename from NiCo or any standard clustering method (cell barcode, cluster-ID)</div>
-<div class="line">(default) clusterFilename=’./inputQuery/MNN_based_annotations/3_deg_annotation_spatial_cluster.csv’</div>
-</div>
-<div class="line-block">
-<div class="line">The cell type information filename from NiCo or any standard clustering method (cluster-ID, cell type name)</div>
-<div class="line">(default) celltypeFilename=’./inputQuery/MNN_based_annotations/3_deg_annotation_spatial_ct_name.dat’</div>
-</div>
-<div class="line-block">
-<div class="line">The delimiter used in the celltypeFilename</div>
-<div class="line">delimiter=’,’</div>
-</div>
-<div class="line-block">
-<div class="line">Niche radius to predict the cell type-cell type interactions</div>
-<div class="line">Radius 0 focuses on direct spatial neighbors infered by Delaunay triangulation, and</div>
-<div class="line">nonzero Radius extends the neighborhood to include all cells within a given radius for predicting niche interactions.</div>
-<div class="line">(default) Radius=0</div>
-</div>
-<div class="line-block">
-<div class="line">Number of times to run the logistic regression after finding the hyperparameters</div>
-<div class="line">(default) n_repeats=1</div>
-</div>
-<div class="line-block">
-<div class="line">Number of cross-folds</div>
-<div class="line">(default) K_fold=5</div>
-</div>
-<div class="line-block">
-<div class="line">Random seed used in RepeatedStratifiedKFold</div>
-<div class="line">seed=36851234</div>
-</div>
-<div class="line-block">
-<div class="line">Number of used processors For details, see here <a class="reference external" href="https://scikit-learn.org/stable/glossary.html#term-n_jobs">https://scikit-learn.org/stable/glossary.html#term-n_jobs</a></div>
-<div class="line">n_jobs=-1</div>
-</div>
-<div class="line-block">
-<div class="line">The initial range of the inverse regularization parameter used in the logistic regression to find the optimal parameter</div>
-<div class="line">(default) lambda_c_ranges=list(np.power(2.0, np.arange(-12, 12)))</div>
-</div>
-<div class="line-block">
-<div class="line">Exclude cell types from the niche interactions analysis</div>
-<div class="line">(default) removed_CTs_before_finding_CT_CT_interactions=[‘NM’]</div>
-</div>
-<p>Outputs:</p>
-<div class="line-block">
-<div class="line">The output of niche interaction prediction</div>
-<div class="line">(default) outputdir=’./spatial_ct_ct_interactions/’</div>
-</div>
+<span class="sig-prename descclassname"><span class="pre">nico_interactions.Interactions.</span></span><span class="sig-name descname"><span class="pre">spatial_neighborhood_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_nico_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anndata_object_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nico_celltype_annotation.h5ad'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spatial_cluster_tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nico_ct'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spatial_coordinate_tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'spatial'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_repeats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">K_fold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">36851234</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_c_ranges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0.000244140625,</span> <span class="pre">0.00048828125,</span> <span class="pre">0.0009765625,</span> <span class="pre">0.001953125,</span> <span class="pre">0.00390625,</span> <span class="pre">0.0078125,</span> <span class="pre">0.015625,</span> <span class="pre">0.03125,</span> <span class="pre">0.0625,</span> <span class="pre">0.125,</span> <span class="pre">0.25,</span> <span class="pre">0.5,</span> <span class="pre">1.0,</span> <span class="pre">2.0,</span> <span class="pre">4.0,</span> <span class="pre">8.0,</span> <span class="pre">16.0,</span> <span class="pre">32.0,</span> <span class="pre">64.0,</span> <span class="pre">128.0,</span> <span class="pre">256.0,</span> <span class="pre">512.0,</span> <span class="pre">1024.0,</span> <span class="pre">2048.0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilonThreshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">removed_CTs_before_finding_CT_CT_interactions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nico_interactions/Interactions.html#spatial_neighborhood_analysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nico_interactions.Interactions.spatial_neighborhood_analysis" title="Link to this definition"></a></dt>
+<dd><p>Perform spatial neighborhood analysis to reconstruct the niche interaction patterns.</p>
+<p>This is the primary function called by the user to perform spatial neighborhood analysis, i.e., reconstruction of the niche.</p>
+<p><strong>Prerequisites:</strong>
+Before calling this function, the user must have an annotation of the spatial cell from any method. This annotation is expected to comprise two files:
+<cite>clusterFilename</cite> that contains cells and cluster-ID information, and <cite>celltypeFilename</cite> that contains cluster-ID and cell type name information.</p>
+<p><strong>Inputs:</strong></p>
+<dl class="simple">
+<dt>output_nico_dir<span class="classifier">str, optional</span></dt><dd><p>Directory to save the output of niche interaction prediction.
+Default is ‘./nico_out/’.</p>
+</dd>
+<dt>anndata_object_name<span class="classifier">str, optional</span></dt><dd><p>Name of the AnnData object file containing cell type annotations.
+Default is ‘nico_celltype_annotation.h5ad’.</p>
+</dd>
+<dt>spatial_cluster_tag<span class="classifier">str, optional</span></dt><dd><p>Slot for spatial cluster information.
+Default is ‘nico_ct’ that means it is stored in anndata.obs[‘nico_ct’] slot.</p>
+</dd>
+<dt>spatial_coordinate_tag<span class="classifier">str, optional</span></dt><dd><p>Slot for spatial coordinate information.
+Default is ‘spatial’ that means it is stored in anndata.obsm[‘spatial’] slot.</p>
+</dd>
+<dt>Radius<span class="classifier">int, optional</span></dt><dd><p>Niche radius to predict the cell type-cell type interactions.
+Radius 0 focuses on direct spatial neighbors inferred by Delaunay triangulation, and
+nonzero Radius extends the neighborhood to include all cells within a given radius for predicting niche interactions.
+Default is 0.</p>
+</dd>
+<dt>n_repeats<span class="classifier">int, optional</span></dt><dd><p>Number of times to repeat the logistic regression after finding the hyperparameters.
+Default is 1.</p>
+</dd>
+<dt>K_fold<span class="classifier">int, optional</span></dt><dd><p>Number of cross-folds for the logistic regression.
+Default is 5.</p>
+</dd>
+<dt>seed<span class="classifier">int, optional</span></dt><dd><p>Random seed used in RepeatedStratifiedKFold.
+Default is 36851234.</p>
+</dd>
+<dt>n_jobs<span class="classifier">int, optional</span></dt><dd><p>Number of processors to use. See <a class="reference external" href="https://scikit-learn.org/stable/glossary.html#term-n_jobs">https://scikit-learn.org/stable/glossary.html#term-n_jobs</a> for details.
+Default is -1.</p>
+</dd>
+<dt>lambda_c_ranges<span class="classifier">list, optional</span></dt><dd><p>The initial range of the inverse regularization parameter used in the logistic regression to find the optimal parameter.
+Default is list(np.power(2.0, np.arange(-12, 12))).</p>
+</dd>
+<dt>epsilonThreshold<span class="classifier">int, optional</span></dt><dd><p>Threshold value for neighboring cell during Delaunay Triangulation. This means those cells which are large then this cutoff cannot become neighbor at any cost.
+Default is 100.</p>
+</dd>
+<dt>removed_CTs_before_finding_CT_CT_interactions<span class="classifier">list, optional</span></dt><dd><p>Exclude cell types from the niche interactions analysis.
+Default is [].</p>
+</dd>
+</dl>
+<p><strong>Outputs:</strong></p>
+<p>The function saves the output of niche interaction prediction in the specified “nico_out” directory.</p>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p>Before running this function, ensure you have the cell type annotation files in the anndata object slot.</p></li>
+<li><p>If running for multiple radius parameters, it’s good practice to change the output directory name or delete the previously created one.</p></li>
+<li><p>If the average number of neighbors is relatively low (&lt;1), consider increasing the radius for neighborhood analysis.</p></li>
+<li><p>Every input CSV file (<cite>positionFilename</cite>, <cite>clusterFilename</cite>, <cite>celltypeFilename</cite>) must contain header information.</p></li>
+</ul>
 </dd></dl>
 
 </section>
@@ -448,7 +871,7 @@ Perform spatial neighborhood analysis to find the niche interaction patterns.</p
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Grün lab.</p>
+    <p>&#169; Copyright 2024, Grün lab.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

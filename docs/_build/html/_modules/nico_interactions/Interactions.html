@@ -44,7 +44,13 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">NiCo_Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html#tutorials">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">NiCo_Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions (FAQ)</a></li>
 </ul>
 
         </div>
@@ -73,13 +79,6 @@
              
   <h1>Source code for nico_interactions.Interactions</h1><div class="highlight"><pre>
 <span></span>
-<span class="kn">import</span> <span class="nn">matplotlib</span>
-<span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;pdf.fonttype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
-<span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;ps.fonttype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
-<span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.linewidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="c1">#set the value globally</span>
-
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;font&#39;</span><span class="p">,</span> <span class="n">family</span><span class="o">=</span><span class="s1">&#39;Helvetica&#39;</span><span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="kn">import</span> <span class="n">Voronoi</span><span class="p">,</span> <span class="n">ConvexHull</span><span class="p">,</span><span class="n">voronoi_plot_2d</span><span class="p">,</span> <span class="n">Delaunay</span>
 
@@ -104,6 +103,7 @@
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">snn</span>
+<span class="kn">import</span> <span class="nn">scanpy</span> <span class="k">as</span> <span class="nn">sc</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
@@ -114,8 +114,8 @@
 <span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">ListedColormap</span><span class="p">,</span> <span class="n">LinearSegmentedColormap</span>
 <span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
 <span class="kn">import</span> <span class="nn">pickle</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">SimpleNamespace</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
@@ -129,7 +129,30 @@
 <div class="viewcode-block" id="create_directory">
 <a class="viewcode-back" href="../../nico_interactions.html#nico_interactions.Interactions.create_directory">[docs]</a>
 <span class="k">def</span> <span class="nf">create_directory</span><span class="p">(</span><span class="n">outputFolder</span><span class="p">):</span>
-    <span class="s2">&quot;This function creates empty directory.&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create an empty directory.</span>
+
+<span class="sd">    This function checks if a specified directory exists, and if not, it creates the directory.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    outputFolder : str</span>
+<span class="sd">        The path of the directory to be created.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    OSError</span>
+<span class="sd">        If the directory cannot be created due to permission issues or other OS-related errors.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - If the directory already exists, no action is taken.</span>
+<span class="sd">    - This function ensures that the directory path is available for subsequent file operations.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; create_directory(&#39;./new_out/&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">answer</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">outputFolder</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">answer</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
         <span class="k">pass</span>
@@ -141,14 +164,33 @@
 <a class="viewcode-back" href="../../nico_interactions.html#nico_interactions.Interactions.findNeighbors_in_given_radius">[docs]</a>
 <span class="k">def</span> <span class="nf">findNeighbors_in_given_radius</span><span class="p">(</span><span class="n">location</span><span class="p">,</span><span class="n">radius</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The helper function is used in create_spatial_CT_feature_matrix to find the neighbors for each cell using the radius parameter.</span>
+<span class="sd">    Find the neighbors for each cell using the given radius.</span>
+
+<span class="sd">    This helper function used in ``create_spatial_CT_feature_matrix`` identifies the neighboring cells for each cell within the specified</span>
+<span class="sd">    radius and computes the average distance to these neighbors.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    location : np.ndarray</span>
+<span class="sd">        An array of shape (n, 3) representing the coordinates of the cells.</span>
+<span class="sd">    radius : float</span>
+<span class="sd">        The radius within which to search for neighboring cells.</span>
+<span class="sd">        For immediate neighbors it is 0</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    list</span>
+<span class="sd">        A list of lists where each sublist contains the indices of the neighbors for each cell.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">n</span><span class="o">=</span><span class="n">location</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="c1">#print(&#39;ss&#39;,location.shape)</span>
     <span class="n">neighbor</span><span class="o">=</span><span class="p">{}</span>
+    <span class="n">mydist</span><span class="o">=</span><span class="mi">0</span>
+    <span class="n">mycount</span><span class="o">=</span><span class="mi">0</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
         <span class="n">loc1</span><span class="o">=</span><span class="n">location</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="c1">#print(loc1)</span>
+        <span class="c1">#print(i,loc1)</span>
         <span class="n">t1</span><span class="o">=</span><span class="p">(</span><span class="n">loc1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mf">1.1</span><span class="o">*</span><span class="n">radius</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">location</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">t2</span><span class="o">=</span><span class="n">location</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">loc1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mf">1.1</span><span class="o">*</span><span class="n">radius</span><span class="p">)</span>
         <span class="n">t3</span><span class="o">=</span><span class="p">(</span><span class="n">loc1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mf">1.1</span><span class="o">*</span><span class="n">radius</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">location</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
@@ -165,18 +207,27 @@
                 <span class="n">count</span><span class="o">+=</span><span class="mi">1</span>
                 <span class="n">loc2</span><span class="o">=</span><span class="n">location</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
                 <span class="n">dist</span><span class="o">=</span><span class="n">euclidean_dist</span><span class="p">(</span><span class="n">loc1</span><span class="p">,</span><span class="n">loc2</span><span class="p">)</span>
+                <span class="n">flag</span><span class="o">=</span><span class="mi">0</span>
                 <span class="k">if</span> <span class="n">dist</span><span class="o">&lt;</span><span class="n">radius</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">neighbor</span><span class="p">:</span>
                         <span class="n">neighbor</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                        <span class="n">flag</span><span class="o">=</span><span class="mi">1</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">j</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">neighbor</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
                             <span class="n">neighbor</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                            <span class="n">flag</span><span class="o">=</span><span class="mi">1</span>
 
                     <span class="k">if</span> <span class="n">j</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">neighbor</span><span class="p">:</span>
                         <span class="n">neighbor</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                        <span class="n">flag</span><span class="o">=</span><span class="mi">1</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">neighbor</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
                             <span class="n">neighbor</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                            <span class="n">flag</span><span class="o">=</span><span class="mi">1</span>
+
+                    <span class="k">if</span> <span class="n">flag</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+                        <span class="n">mydist</span><span class="o">=</span><span class="n">mydist</span><span class="o">+</span><span class="n">dist</span>
+                        <span class="n">mycount</span><span class="o">=</span><span class="n">mycount</span><span class="o">+</span><span class="mi">1</span>
 
         <span class="c1">#print(&#39;t&#39;,count,len(index[0]))</span>
 
@@ -193,6 +244,7 @@
         <span class="n">avg_neigh</span><span class="o">+=</span><span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;average neighbors:&#39;</span><span class="p">,</span><span class="n">avg_neigh</span><span class="o">/</span><span class="n">n</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;average distance:&#39;</span><span class="p">,</span><span class="n">mydist</span><span class="o">/</span><span class="n">mycount</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">newneig</span></div>
 
@@ -202,18 +254,71 @@
 <a class="viewcode-back" href="../../nico_interactions.html#nico_interactions.Interactions.find_neighbors">[docs]</a>
 <span class="k">def</span> <span class="nf">find_neighbors</span><span class="p">(</span><span class="n">pindex</span><span class="p">,</span> <span class="n">triang</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The helper function is used in create_spatial_CT_feature_matrix to find the neighbors for each cell using the Delaunay triangulation.</span>
+<span class="sd">    Find the neighbors for a given point index using Delaunay triangulation.</span>
+
+<span class="sd">    This helper function used in ```create_spatial_CT_feature_matrix``` identifies the neighboring points (cells) for a given point index</span>
+<span class="sd">    using the Delaunay triangulation.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    pindex : int</span>
+<span class="sd">        The index of the point (cell) for which neighbors are to be found.</span>
+<span class="sd">    triang : scipy.spatial.Delaunay</span>
+<span class="sd">        The Delaunay triangulation of the point set.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    np.ndarray</span>
+<span class="sd">        An array of indices representing the neighbors of the given point.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">return</span> <span class="n">triang</span><span class="o">.</span><span class="n">vertex_neighbor_vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">triang</span><span class="o">.</span><span class="n">vertex_neighbor_vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">pindex</span><span class="p">]:</span><span class="n">triang</span><span class="o">.</span><span class="n">vertex_neighbor_vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">pindex</span><span class="o">+</span><span class="mi">1</span><span class="p">]]</span></div>
 
 
 
 <div class="viewcode-block" id="create_spatial_CT_feature_matrix">
 <a class="viewcode-back" href="../../nico_interactions.html#nico_interactions.Interactions.create_spatial_CT_feature_matrix">[docs]</a>
-<span class="k">def</span> <span class="nf">create_spatial_CT_feature_matrix</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span><span class="n">PP</span><span class="p">,</span><span class="n">louvain</span><span class="p">,</span><span class="n">noct</span><span class="p">,</span><span class="n">fraction_CT</span><span class="p">,</span><span class="n">saveSpatial</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">create_spatial_CT_feature_matrix</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span><span class="n">PP</span><span class="p">,</span><span class="n">louvain</span><span class="p">,</span><span class="n">noct</span><span class="p">,</span><span class="n">fraction_CT</span><span class="p">,</span><span class="n">saveSpatial</span><span class="p">,</span><span class="n">epsilonThreshold</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Helper function used in spatial_neighborhood_analysis to generate the expected spatial cell type neighborhood matrix.</span>
+<span class="sd">    Generate the expected spatial cell type neighborhood matrix.</span>
+
+<span class="sd">    This helper function is used in spatial_neighborhood_analysis to create a matrix that represents</span>
+<span class="sd">    the expected neighborhood cell type composition based on spatial data. It uses either a radius-based</span>
+<span class="sd">    approach or Delaunay triangulation to determine neighboring cells.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    radius : float</span>
+<span class="sd">        Radius within which to find neighbors. If set to 0, Delaunay triangulation is used instead.</span>
+<span class="sd">    PP : np.ndarray</span>
+<span class="sd">        Array of spatial coordinates of cells. Shape (n_cells, n_dimensions).</span>
+<span class="sd">    louvain : np.ndarray</span>
+<span class="sd">        Array containing Louvain clustering results for each cell. Shape (n_cells, 1).</span>
+<span class="sd">    noct : int</span>
+<span class="sd">        Number of cell types.</span>
+<span class="sd">    fraction_CT : list of float</span>
+<span class="sd">        List representing the fraction of each cell type.</span>
+<span class="sd">    saveSpatial : str</span>
+<span class="sd">        Path to save the output file containing the normalized spatial neighborhood matrix.</span>
+<span class="sd">    epsilonThreshold : float</span>
+<span class="sd">        Threshold distance cutoff to limit the distant neighbors when using Delaunay triangulation.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple</span>
+<span class="sd">        - M : int</span>
+<span class="sd">            Placeholder for future calculations (currently always returns 0).</span>
+<span class="sd">        - neighbors : list of list of int</span>
+<span class="sd">            List of neighbors for each cell. Each sublist contains indices of neighboring cells.</span>
+<span class="sd">        - distance : list of list of float</span>
+<span class="sd">            List of distances to neighbors for each cell. Each sublist contains distances to the neighboring cells.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - If radius is set to 0, Delaunay triangulation is used to find the neighbors within the epsilonThreshold distance.</span>
+<span class="sd">    - The function saves the normalized spatial neighborhood matrix as a .npz file at the specified location.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
 
     <span class="k">if</span> <span class="n">radius</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
         <span class="n">value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">PP</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -222,6 +327,8 @@
         <span class="n">tri</span> <span class="o">=</span> <span class="n">Delaunay</span><span class="p">(</span><span class="n">PP</span><span class="p">)</span>
         <span class="n">newneig</span><span class="o">=</span><span class="p">[]</span>
         <span class="n">avg_neigh</span><span class="o">=</span><span class="mf">0.0</span>
+        <span class="n">mydist</span><span class="o">=</span><span class="mi">0</span>
+        <span class="n">mycount</span><span class="o">=</span><span class="mi">0</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">PP</span><span class="p">)):</span>
             <span class="n">ol</span> <span class="o">=</span> <span class="n">find_neighbors</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">tri</span><span class="p">)</span>
             <span class="n">l</span><span class="o">=</span><span class="p">[]</span>
@@ -229,8 +336,10 @@
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ol</span><span class="p">)):</span>
                 <span class="n">dist</span><span class="o">=</span><span class="n">euclidean_dist</span><span class="p">(</span><span class="n">PP</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">PP</span><span class="p">[</span><span class="n">ol</span><span class="p">[</span><span class="n">j</span><span class="p">]])</span>
                 <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">dist</span><span class="o">&lt;</span><span class="mi">100</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">dist</span><span class="o">&lt;</span><span class="n">epsilonThreshold</span><span class="p">:</span>
                     <span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ol</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+                    <span class="n">mydist</span><span class="o">=</span><span class="n">mydist</span><span class="o">+</span><span class="n">dist</span>
+                    <span class="n">mycount</span><span class="o">=</span><span class="n">mycount</span><span class="o">+</span><span class="mi">1</span>
                 <span class="c1">#print(i,j,dist,PP[i],PP[l[j]])</span>
             <span class="c1">#print(PP[i,l)</span>
             <span class="c1">#if len(l)!=len(ol):</span>
@@ -239,6 +348,7 @@
             <span class="n">avg_neigh</span><span class="o">+=</span><span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
 
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;average neighbors:&#39;</span><span class="p">,</span><span class="n">avg_neigh</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">PP</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;average distance:&#39;</span><span class="p">,</span><span class="n">mydist</span><span class="o">/</span><span class="n">mycount</span><span class="p">)</span>
         <span class="n">neighbors</span><span class="o">=</span><span class="n">newneig</span>
 
     <span class="k">else</span><span class="p">:</span>
@@ -327,29 +437,69 @@
 
 
 
-
 <div class="viewcode-block" id="reading_data">
 <a class="viewcode-back" href="../../nico_interactions.html#nico_interactions.Interactions.reading_data">[docs]</a>
-<span class="k">def</span> <span class="nf">reading_data</span><span class="p">(</span><span class="n">positionFilename</span><span class="p">,</span><span class="n">clusterFilename</span><span class="p">,</span><span class="n">celltypeFilename</span><span class="p">,</span><span class="n">saveSpatial</span><span class="p">,</span><span class="n">delimiter</span><span class="p">,</span><span class="n">removed_CTs_before_finding_CT_CT_interactions</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">reading_data</span><span class="p">(</span><span class="n">coordinates</span><span class="p">,</span><span class="n">louvainFull</span><span class="p">,</span><span class="n">degbased_ctname</span><span class="p">,</span><span class="n">saveSpatial</span><span class="p">,</span><span class="n">removed_CTs_before_finding_CT_CT_interactions</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper function used in spatial_neighborhood_analysis to read the cell coordinate file,</span>
 <span class="sd">    cluster file, and cluster name file according to the input cell type list provided for the prediction.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    coordinates : str</span>
+<span class="sd">        Path to the file containing cell coordinates.</span>
+
+<span class="sd">    louvainFull : str</span>
+<span class="sd">        Path to the file containing the full louvain clustering information.</span>
+
+<span class="sd">    degbased_ctname : list of tuples</span>
+<span class="sd">        A list where each element is a tuple containing the cell type ID and the cell type name.</span>
+
+<span class="sd">    saveSpatial : str</span>
+<span class="sd">        Path where the spatial analysis results should be saved.</span>
+
+<span class="sd">    removed_CTs_before_finding_CT_CT_interactions : list of str</span>
+<span class="sd">        A list of cell type names that should be excluded from the analysis.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    CTname : list of str</span>
+<span class="sd">        A list of cell type names that are included in the analysis after filtering out the removed cell types.</span>
+
+<span class="sd">    CTid : list of int</span>
+<span class="sd">        A list of cell type IDs corresponding to the filtered cell type names.</span>
+
+
+<span class="sd">    Notes:</span>
+<span class="sd">    ------</span>
+<span class="sd">    - This function assumes that `degbased_ctname` is a list of tuples where the first element is an integer</span>
+<span class="sd">      representing the cell type ID and the second element is a string representing the cell type name.</span>
+<span class="sd">    - The function filters out the cell types listed in `removed_CTs_before_finding_CT_CT_interactions` from the</span>
+<span class="sd">      `degbased_ctname` list and returns the remaining cell type names and IDs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1">#df=pd.read_csv(celltypeFilename)</span>
     <span class="c1">#data=df.to_numpy()</span>
 
-
     <span class="n">CTname</span><span class="o">=</span><span class="p">[]</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">celltypeFilename</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-        <span class="n">cont</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-        <span class="n">lines</span><span class="o">=</span><span class="n">cont</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">CTname</span><span class="o">=</span><span class="p">[]</span>
-        <span class="n">CTid</span><span class="o">=</span><span class="p">[]</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)):</span>
-            <span class="n">l</span><span class="o">=</span><span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">delimiter</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
-                <span class="n">name</span><span class="o">=</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-<span class="w">                </span><span class="sd">&#39;&#39;&#39;</span>
+    <span class="n">CTid</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">degbased_ctname</span><span class="p">)):</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">degbased_ctname</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">removed_CTs_before_finding_CT_CT_interactions</span><span class="p">:</span>
+            <span class="n">CTname</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">CTid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">degbased_ctname</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    CTname=[]</span>
+<span class="sd">    with open(celltypeFilename,&#39;r&#39;) as f:</span>
+<span class="sd">        cont = f.read()</span>
+<span class="sd">        lines=cont.split(&#39;\n&#39;)</span>
+<span class="sd">        CTname=[]</span>
+<span class="sd">        CTid=[]</span>
+<span class="sd">        for i in range(1,len(lines)):</span>
+<span class="sd">            l=lines[i].split(delimiter)</span>
+<span class="sd">            if len(l)&gt;1:</span>
+<span class="sd">                name=l[1]</span>
+<span class="sd">                &#39;</span>
 <span class="sd">                name=l[1].replace(&#39;/&#39;,&#39;_&#39;)</span>
 <span class="sd">                name=name.replace(&#39; &#39;,&#39;_&#39;)</span>
 <span class="sd">                name=name.replace(&#39;&quot;&#39;,&#39;&#39;)</span>
@@ -359,17 +509,17 @@
 <span class="sd">                name=name.replace(&#39;+&#39;,&#39;p&#39;)</span>
 <span class="sd">                name=name.replace(&#39;-&#39;,&#39;n&#39;)</span>
 <span class="sd">                name=name.replace(&#39;.&#39;,&#39;&#39;)</span>
-<span class="sd">                &#39;&#39;&#39;</span>
-                <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">removed_CTs_before_finding_CT_CT_interactions</span><span class="p">:</span>
-                    <span class="n">CTname</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-                    <span class="n">CTid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-
+<span class="sd">                &#39;</span>
+<span class="sd">                if name not in removed_CTs_before_finding_CT_CT_interactions:</span>
+<span class="sd">                    CTname.append(name)</span>
+<span class="sd">                    CTid.append(int(l[0]))</span>
+<span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="c1">#CTid=data[:,0]</span>
     <span class="c1">#CTname=data[:,1]</span>
 
-    <span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">clusterFilename</span><span class="p">)</span>
-    <span class="n">louvainFull</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    <span class="c1">#df=pd.read_csv(clusterFilename,sep=delimiter)</span>
+    <span class="c1">#louvainFull=df.to_numpy()</span>
 
     <span class="n">celltype</span><span class="o">=</span><span class="p">{}</span>
     <span class="n">cellsinCT</span><span class="o">=</span><span class="p">{}</span>
@@ -386,9 +536,7 @@
                 <span class="n">cellsinCT</span><span class="p">[</span><span class="n">clu_id</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cel_id</span><span class="p">)</span>
 
     <span class="n">louvain</span><span class="o">=</span><span class="n">louvainFull</span><span class="p">[</span><span class="n">index</span><span class="p">,:]</span>
-
-    <span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">positionFilename</span><span class="p">)</span><span class="c1">#,header=None</span>
-    <span class="n">points</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    <span class="n">points</span><span class="o">=</span><span class="n">coordinates</span>
     <span class="c1">#need to sort the coordinates according to louvain order of cells</span>
     <span class="n">temp</span><span class="o">=</span><span class="p">{}</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)):</span>
@@ -476,18 +624,43 @@
 
 
 
-
-
-
-
-
-
-
 <div class="viewcode-block" id="plot_multiclass_roc">
 <a class="viewcode-back" href="../../nico_interactions.html#nico_interactions.Interactions.plot_multiclass_roc">[docs]</a>
 <span class="k">def</span> <span class="nf">plot_multiclass_roc</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Compute the ROC for each cell type prediction and its performance on the test dataset.</span>
+<span class="sd">    Compute the ROC (Receiver Operating Characteristic) curve for each cell type prediction</span>
+<span class="sd">    and evaluate its performance on the test dataset.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    clf : classifier object</span>
+<span class="sd">        The classifier used for making predictions. It should have a `decision_function` method.</span>
+
+<span class="sd">    X_test : array-like of shape (n_samples, n_features)</span>
+<span class="sd">        Test feature set.</span>
+
+<span class="sd">    y_test : array-like of shape (n_samples,)</span>
+<span class="sd">        True labels for the test set.</span>
+
+<span class="sd">    n_classes : int</span>
+<span class="sd">        Number of unique classes (cell types) in the dataset.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    fpr : dict</span>
+<span class="sd">        A dictionary where the keys are class indices and the values are arrays of false positive rates.</span>
+
+<span class="sd">    tpr : dict</span>
+<span class="sd">        A dictionary where the keys are class indices and the values are arrays of true positive rates.</span>
+
+<span class="sd">    roc_auc : dict</span>
+<span class="sd">        A dictionary where the keys are class indices and the values are the area under the ROC curve (AUC) scores.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">    ------</span>
+<span class="sd">    - This function uses the `decision_function` method of the classifier to get the confidence scores for each class.</span>
+<span class="sd">    - The true labels `y_test` are converted into a binary format using one-hot encoding.</span>
+<span class="sd">    - The ROC curve is computed for each class and the AUC score is calculated for each ROC curve.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">y_score</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">decision_function</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
     <span class="c1"># structures</span>
@@ -507,24 +680,37 @@
 <a class="viewcode-back" href="../../nico_interactions.html#nico_interactions.Interactions.plot_confusion_matrix">[docs]</a>
 <span class="k">def</span> <span class="nf">plot_confusion_matrix</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span><span class="n">saveas</span><span class="o">=</span><span class="s1">&#39;pdf&#39;</span><span class="p">,</span><span class="n">showit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">transparent_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">5.5</span><span class="p">,</span><span class="mi">5</span><span class="p">)):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Inputs:</span>
+<span class="sd">    Generate and save a confusion matrix plot from the results of spatial_neighborhood_analysis.</span>
 
-<span class="sd">    The primary input is the output from spatial_neighborhood_analysis.</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    input : dict, or similar object</span>
+<span class="sd">        The main input is the output from spatial_neighborhood_analysis.</span>
 
-<span class="sd">    | Save the figures in PDF or PNG format (dpi for PNG format is 300)</span>
-<span class="sd">    | (default) saveas=&#39;pdf&#39;</span>
+<span class="sd">    saveas : str, optional, default=&#39;pdf&#39;</span>
+<span class="sd">        Format to save the figure. Options are &#39;pdf&#39; or &#39;png&#39;. If &#39;png&#39;, the dpi is set to 300.</span>
 
-<span class="sd">    | Background color in the figures</span>
-<span class="sd">    | (default) transparent_mode=False</span>
+<span class="sd">    showit : bool, optional, default=True</span>
+<span class="sd">        Whether to display the plot after saving. If False, the plot will be closed after saving.</span>
 
-<span class="sd">    | Dimension of the figure size.</span>
-<span class="sd">    | (default) figsize=(5.5,5),</span>
+<span class="sd">    transparent_mode : bool, optional, default=False</span>
+<span class="sd">        Whether to save the figure with a transparent background.</span>
+
+<span class="sd">    figsize : tuple of float, optional, default=(5.5, 5)</span>
+<span class="sd">        Size of the figure in inches.</span>
 
 <span class="sd">    Outputs:</span>
+<span class="sd">    --------</span>
+<span class="sd">    The function saves the confusion matrix plot in the directory specified by `nico_out/niche_prediction_linear/`.</span>
+<span class="sd">    The filename will be in the format &#39;Confusing_matrix_R&lt;Radius&gt;.&lt;saveas&gt;&#39;, where &lt;Radius&gt; is the radius value</span>
+<span class="sd">    from the input and &lt;saveas&gt; is the file format.</span>
 
-<span class="sd">    | The figures are saved in ./spatial_ct_ct_interactions/niche_prediction_linear/*</span>
-<span class="sd">    | Confusing_matrix_* shows the confusion matrix of the logistic regression classifier.</span>
-
+<span class="sd">    Notes:</span>
+<span class="sd">    ------</span>
+<span class="sd">    - The function loads data from a numpy file specified by `input.fout`, which should contain the confusion matrix</span>
+<span class="sd">      and related data.</span>
+<span class="sd">    - The confusion matrix is plotted using seaborn&#39;s heatmap function with annotations.</span>
+<span class="sd">    - The plot is saved in the specified format and directory, and optionally displayed based on the `showit` parameter.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 
@@ -559,23 +745,30 @@
 <a class="viewcode-back" href="../../nico_interactions.html#nico_interactions.Interactions.plot_coefficient_matrix">[docs]</a>
 <span class="k">def</span> <span class="nf">plot_coefficient_matrix</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span><span class="n">saveas</span><span class="o">=</span><span class="s1">&#39;pdf&#39;</span><span class="p">,</span><span class="n">showit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">transparent_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">)):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Inputs:</span>
+<span class="sd">    Generate and save a coefficient matrix plot from the results of spatial_neighborhood_analysis.</span>
 
-<span class="sd">    The primary input is the output from spatial_neighborhood_analysis.</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    input : dict, or similar object</span>
+<span class="sd">            The main input is the output from spatial_neighborhood_analysis.</span>
 
-<span class="sd">    | Save the figures in PDF or PNG format (dpi for PNG format is 300)</span>
-<span class="sd">    | (default) saveas=&#39;pdf&#39;</span>
+<span class="sd">    saveas : str, optional, default=&#39;pdf&#39;</span>
+<span class="sd">        Format to save the figure. Options are &#39;pdf&#39; or &#39;png&#39;. If &#39;png&#39;, the dpi is set to 300.</span>
 
-<span class="sd">    | Background color in the figures</span>
-<span class="sd">    | (default) transparent_mode=False</span>
+<span class="sd">    showit : bool, optional, default=True</span>
+<span class="sd">        Whether to display the plot after saving. If False, the plot will be closed after saving.</span>
 
-<span class="sd">    | Dimension of the figure size.</span>
-<span class="sd">    | (default) figsize=(5,8)</span>
+<span class="sd">    transparent_mode : bool, optional, default=False</span>
+<span class="sd">        Whether to save the figure with a transparent background.</span>
+
+<span class="sd">    figsize : tuple of float, optional, default=(5, 8)</span>
+<span class="sd">        Size of the figure in inches.</span>
 
 <span class="sd">    Outputs:</span>
-
-<span class="sd">    | The figures are saved in ./spatial_ct_ct_interactions/niche_prediction_linear/*</span>
-<span class="sd">    | weight_matrix_* shows the learned coefficient matrix from the logistic regression classifier.</span>
+<span class="sd">    --------</span>
+<span class="sd">    The function saves the coefficient matrix plot in the directory specified by ./nico_out/niche_prediction_linear/.</span>
+<span class="sd">    The filename will be in the format &quot;weight_matrix_R&lt;Radius&gt;.&lt;saveas&gt;&quot;, where &lt;Radius&gt; is the radius value</span>
+<span class="sd">    from the input and &lt;saveas&gt; is the file format.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -619,25 +812,33 @@
 <a class="viewcode-back" href="../../nico_interactions.html#nico_interactions.Interactions.plot_predicted_probabilities">[docs]</a>
 <span class="k">def</span> <span class="nf">plot_predicted_probabilities</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span><span class="n">saveas</span><span class="o">=</span><span class="s1">&#39;pdf&#39;</span><span class="p">,</span><span class="n">showit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">transparent_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">6</span><span class="p">)):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Inputs:</span>
+<span class="sd">    Generate and save a plot of predicted probabilities from the results of spatial_neighborhood_analysis.</span>
 
-<span class="sd">    The primary input is the output from spatial_neighborhood_analysis.</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    input : dict, or similar object</span>
+<span class="sd">            The main input is the output from spatial_neighborhood_analysis.</span>
 
-<span class="sd">    | Save the figures in PDF or PNG format (dpi for PNG format is 300)</span>
-<span class="sd">    | (default) saveas=&#39;pdf&#39;</span>
+<span class="sd">    saveas : str, optional, default=&#39;pdf&#39;</span>
+<span class="sd">        Format to save the figure. Options are &#39;pdf&#39; or &#39;png&#39;. If &#39;png&#39;, the dpi is set to 300.</span>
 
-<span class="sd">    | Background color in the figures</span>
-<span class="sd">    | (default) transparent_mode=False</span>
+<span class="sd">    showit : bool, optional, default=True</span>
+<span class="sd">        Whether to display the plot after saving. If False, the plot will be closed after saving.</span>
 
-<span class="sd">    | Dimension of the figure size.</span>
-<span class="sd">    | (default) figsize=(12,6)</span>
+<span class="sd">    transparent_mode : bool, optional, default=False</span>
+<span class="sd">        Whether to save the figure with a transparent background.</span>
+
+<span class="sd">    figsize : tuple of float, optional, default=(12, 6)</span>
+<span class="sd">        Size of the figure in inches.</span>
 
 <span class="sd">    Outputs:</span>
-
-<span class="sd">    | The figures are saved in ./spatial_ct_ct_interactions/niche_prediction_linear/*</span>
-<span class="sd">    | predicted_probability_* shows the training, testing, and predicted probability used in the logistic regression classifier.</span>
+<span class="sd">    --------</span>
+<span class="sd">    The function saves the plot of predicted probabilities in the directory specified by ./nico_out/niche_prediction_linear/.</span>
+<span class="sd">    The filename will be in the format &#39;predicted_probability_R&lt;Radius&gt;.&lt;saveas&gt;&#39;, where &lt;Radius&gt; is the radius value</span>
+<span class="sd">    from the input and &lt;saveas&gt; is the file format.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+
 
     <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;R&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">Radius</span><span class="p">)</span>
 
@@ -676,29 +877,41 @@
 <div class="viewcode-block" id="plot_roc_results">
 <a class="viewcode-back" href="../../nico_interactions.html#nico_interactions.Interactions.plot_roc_results">[docs]</a>
 <span class="k">def</span> <span class="nf">plot_roc_results</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span><span class="n">nrows</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">ncols</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">saveas</span><span class="o">=</span><span class="s1">&#39;pdf&#39;</span><span class="p">,</span><span class="n">showit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">transparent_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">),):</span>
-
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Inputs:</span>
+<span class="sd">    Generate and save ROC curves for the top 16 cell type predictions from the results of spatial_neighborhood_analysis.</span>
 
-<span class="sd">    The primary input is the output from spatial_neighborhood_analysis.</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    input : dict, or similar object</span>
+<span class="sd">        The main input is the output from spatial_neighborhood_analysis.</span>
 
-<span class="sd">    | The top 16 cell types predictions are shown as an ROC curve. These 16 are plotted as four-by-four subplots</span>
-<span class="sd">    | (default) nrows=4, ncols=4</span>
+<span class="sd">    nrows : int, optional, default=4</span>
+<span class="sd">        Number of rows in the subplot grid.</span>
 
-<span class="sd">    | Save the figures in PDF or PNG format (dpi for PNG format is 300)</span>
-<span class="sd">    | (default) saveas=&#39;pdf&#39;</span>
+<span class="sd">    ncols : int, optional, default=4</span>
+<span class="sd">        Number of columns in the subplot grid.</span>
 
-<span class="sd">    | Background color in the figures</span>
-<span class="sd">    | (default) transparent_mode=False</span>
+<span class="sd">    saveas : str, optional, default=&#39;pdf&#39;</span>
+<span class="sd">        Format to save the figure. Options are &#39;pdf&#39; or &#39;png&#39;. If &#39;png&#39;, the dpi is set to 300.</span>
 
-<span class="sd">    | Dimension of the figure size.</span>
-<span class="sd">    | (default) figsize=(10, 7)</span>
+<span class="sd">    showit : bool, optional, default=True</span>
+<span class="sd">        Whether to display the plot after saving. If False, the plot will be closed after saving.</span>
+
+<span class="sd">    transparent_mode : bool, optional, default=False</span>
+<span class="sd">        Whether to save the figure with a transparent background.</span>
+
+<span class="sd">    figsize : tuple of float, optional, default=(10, 7)</span>
+<span class="sd">        Size of the figure in inches.</span>
 
 <span class="sd">    Outputs:</span>
+<span class="sd">    --------</span>
+<span class="sd">    The function saves the ROC curves plot in the directory specified by ./nico_out/niche_prediction_linear.</span>
+<span class="sd">    The filename will be in the format &#39;ROC_R&lt;Radius&gt;.&lt;saveas&gt;&#39;, where &lt;Radius&gt; is the radius value</span>
+<span class="sd">    from the input and &lt;saveas&gt; is the file format.</span>
 
-<span class="sd">    | The figures are saved in ./spatial_ct_ct_interactions/niche_prediction_linear/*</span>
-<span class="sd">    | ROC_* shows the Receiver operating characteristic for the top 16 cell types.</span>
-
+<span class="sd">    Notes:</span>
+<span class="sd">    ------</span>
+<span class="sd">    - The function creates a grid of ROC curves for the top 16 cell types with the highest ROC AUC values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;R&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">Radius</span><span class="p">)</span>
@@ -744,21 +957,41 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s1">&#39;all&#39;</span><span class="p">)</span></div>
 
-    <span class="c1">#&#39;&#39;&#39;</span>
-
-
-
-
-
-
 
 
 
 <div class="viewcode-block" id="read_processed_data">
 <a class="viewcode-back" href="../../nico_interactions.html#nico_interactions.Interactions.read_processed_data">[docs]</a>
 <span class="k">def</span> <span class="nf">read_processed_data</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span><span class="n">inputdir</span><span class="p">):</span>
+
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Helper function used in spatial_neighborhood_analysis to read the neighborhood expected feature matrix.</span>
+<span class="sd">    Read and process the neighborhood expected feature matrix for spatial_neighborhood_analysis.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    radius : int or float</span>
+<span class="sd">        The radius value used in the spatial analysis.</span>
+
+<span class="sd">    inputdir : str</span>
+<span class="sd">        The directory containing the input data file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    neighborhoodClass : numpy.ndarray</span>
+<span class="sd">        The matrix of neighborhood class features.</span>
+
+<span class="sd">    target : numpy.ndarray</span>
+<span class="sd">        The target labels (cell types).</span>
+
+<span class="sd">    inputFeatures : range</span>
+<span class="sd">        A range object representing the indices of the input features.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">    ------</span>
+<span class="sd">    - The function reads a compressed `.npz` file containing the neighborhood expected feature matrix.</span>
+<span class="sd">    - It filters out rows with NaN values.</span>
+<span class="sd">    - It calculates the proportion of each cell type in the dataset.</span>
+<span class="sd">    - The function returns the processed neighborhood class features, target labels, and input feature indices.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1">#name=inputdir+&#39;normalized_spatial_neighbors_&#39;+str(radius)+&#39;.dat&#39;</span>
@@ -780,17 +1013,12 @@
     <span class="c1">#print(&#39;cell type proportion&#39;)</span>
     <span class="n">total</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">prop</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
     <span class="n">keys</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span> <span class="nb">list</span><span class="p">(</span> <span class="n">prop</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>  <span class="p">)</span>
-
     <span class="n">nct</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">prop</span><span class="p">)</span>
     <span class="n">featureVector</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="o">+</span><span class="n">nct</span><span class="p">)</span> <span class="c1"># #just neighborhood</span>
     <span class="n">neighborhoodClass</span><span class="o">=</span> <span class="n">data</span><span class="p">[:,</span><span class="n">featureVector</span><span class="p">]</span>
-
-
     <span class="n">target</span><span class="o">=</span> <span class="n">data</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;data shape&#39;</span><span class="p">,</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">target</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="s2">&quot;neighbor shape&quot;</span><span class="p">,</span><span class="n">neighborhoodClass</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
     <span class="n">inputFeatures</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="n">nct</span><span class="p">)</span>
-
-
     <span class="k">return</span> <span class="n">neighborhoodClass</span><span class="p">,</span><span class="n">target</span><span class="p">,</span><span class="n">inputFeatures</span></div>
 
 
@@ -800,8 +1028,54 @@
 <a class="viewcode-back" href="../../nico_interactions.html#nico_interactions.Interactions.model_log_regression">[docs]</a>
 <span class="k">def</span> <span class="nf">model_log_regression</span><span class="p">(</span><span class="n">K_fold</span><span class="p">,</span><span class="n">n_repeats</span><span class="p">,</span><span class="n">neighborhoodClass</span><span class="p">,</span><span class="n">target</span><span class="p">,</span><span class="n">lambda_c</span><span class="p">,</span><span class="n">strategy</span><span class="p">,</span><span class="n">BothLinearAndCrossTerms</span><span class="p">,</span><span class="n">seed</span><span class="p">,</span><span class="n">n_jobs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The helper function used in spatial_neighborhood_analysis to perform the logistic regression classifier to learn the probabilities of each cell type class.</span>
+<span class="sd">    Perform logistic regression classification to learn the probabilities of each cell type class. This helper function used in spatial_neighborhood_analysis.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    K_fold : int</span>
+<span class="sd">        Number of folds for cross-validation.</span>
+
+<span class="sd">    n_repeats : int</span>
+<span class="sd">        Number of times the cross-validation is repeated.</span>
+
+<span class="sd">    neighborhoodClass : numpy.ndarray</span>
+<span class="sd">        Matrix of neighborhood class features.</span>
+
+<span class="sd">    target : numpy.ndarray</span>
+<span class="sd">        Target labels (cell types).</span>
+
+<span class="sd">    lambda_c : list or numpy.ndarray</span>
+<span class="sd">        Regularization strength(s) to be tested in the logistic regression.</span>
+
+<span class="sd">    strategy : str</span>
+<span class="sd">        The regularization and multi-class strategy. Options include &#39;L1_multi&#39;, &#39;L1_ovr&#39;, &#39;L2_multi&#39;, &#39;L2_ovr&#39;, &#39;elasticnet_multi&#39;, &#39;elasticnet_ovr&#39;.</span>
+
+<span class="sd">    BothLinearAndCrossTerms : int</span>
+<span class="sd">        Degree of polynomial features including interaction terms only.</span>
+
+<span class="sd">    seed : int</span>
+<span class="sd">        Random seed for reproducibility.</span>
+
+<span class="sd">    n_jobs : int</span>
+<span class="sd">        Number of jobs to run in parallel.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    log_reg_model : sklearn.linear_model.LogisticRegression</span>
+<span class="sd">        The logistic regression model with specified parameters.</span>
+
+<span class="sd">    parameters : dict</span>
+<span class="sd">        Dictionary of parameters used for model training.</span>
+
+<span class="sd">    hyperparameter_scoring : dict</span>
+<span class="sd">        Dictionary of scoring metrics used for hyperparameter tuning.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">    ------</span>
+<span class="sd">    - The function uses polynomial features to create interaction terms based on the specified degree.</span>
+<span class="sd">    - Hyperparameter tuning is performed using cross-validation with f1_weighted scoring metrics.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
 
     <span class="n">polynomial</span> <span class="o">=</span> <span class="n">PolynomialFeatures</span><span class="p">(</span><span class="n">degree</span> <span class="o">=</span> <span class="n">BothLinearAndCrossTerms</span><span class="p">,</span> <span class="n">interaction_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">include_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
@@ -985,33 +1259,53 @@
 
 <div class="viewcode-block" id="find_interacting_cell_types">
 <a class="viewcode-back" href="../../nico_interactions.html#nico_interactions.Interactions.find_interacting_cell_types">[docs]</a>
-<span class="k">def</span> <span class="nf">find_interacting_cell_types</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span><span class="n">choose_celltypes</span><span class="o">=</span><span class="p">[],</span><span class="n">coeff_cutoff</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">saveas</span><span class="o">=</span><span class="s1">&#39;pdf&#39;</span><span class="p">,</span><span class="n">transparent_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">showit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">)):</span>
+<span class="k">def</span> <span class="nf">find_interacting_cell_types</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span><span class="n">choose_celltypes</span><span class="o">=</span><span class="p">[],</span><span class="n">celltype_niche_interaction_cutoff</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+<span class="n">coeff_cutoff</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">saveas</span><span class="o">=</span><span class="s1">&#39;pdf&#39;</span><span class="p">,</span><span class="n">transparent_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">showit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">)):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Inputs:</span>
+<span class="sd">    Display regression coefficients indicating cell type interactions.</span>
 
-<span class="sd">    The main input is the output from spatial_neighborhood_analysis.</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    input : object</span>
+<span class="sd">        The main input is the output from spatial_neighborhood_analysis.</span>
 
-<span class="sd">    | The cell type for which you would like to display the the regression coefficients indicating cell type interaction</span>
-<span class="sd">    | (default) choose_celltypes=[]</span>
-<span class="sd">    | If the list is empty, then the output will be shown for all cell types.</span>
+<span class="sd">    choose_celltypes : list, optional</span>
+<span class="sd">        List of cell types to display the regression coefficients for.</span>
+<span class="sd">        If empty, the output will be shown for all cell types.</span>
+<span class="sd">        Default is [].</span>
 
-<span class="sd">    | The maximum number of neighborhood cell types shown on the X-axis of the figures for each central cell type</span>
-<span class="sd">    | If there are too many interacting cell types, choosing a more stringet cutoff limits the display to the cell types with the largest positive or negative regression coefficients to avoid crowding of the figure</span>
-<span class="sd">    | (default) coeff_cutoff=20</span>
+<span class="sd">    celltype_niche_interaction_cutoff : float, optional</span>
+<span class="sd">        The cutoff value to consider for cell type niche interactions for normalized coefficients. This is visualized by blue dotted line.</span>
+<span class="sd">        Default is 0.1.</span>
 
-<span class="sd">    | Save the figures in PDF or PNG format (dpi for PNG format is 300)</span>
-<span class="sd">    | (default) saveas=&#39;pdf&#39;</span>
+<span class="sd">    coeff_cutoff : int, optional</span>
+<span class="sd">        Maximum number of neighborhood cell types shown on the X-axis of the figures for each central cell type.</span>
+<span class="sd">        If there are too many interacting cell types, choosing a more stringet cutoff limits the display to the cell types with the largest positive or negative regression coefficients to avoid crowding in the figure.</span>
+<span class="sd">        Default is 20.</span>
 
-<span class="sd">    | Background color in the figures</span>
-<span class="sd">    | (default) transparent_mode=False</span>
+<span class="sd">    saveas : str, optional</span>
+<span class="sd">        Format to save the figures in, either &#39;pdf&#39; or &#39;png&#39;.</span>
+<span class="sd">        Default is &#39;pdf&#39;.</span>
 
-<span class="sd">    | Dimension of the figure size.</span>
-<span class="sd">    | (default) figsize=(4,2)</span>
+<span class="sd">    transparent_mode : bool, optional</span>
+<span class="sd">        Background color of the figures.</span>
+<span class="sd">        Default is False.</span>
+
+<span class="sd">    showit : bool, optional</span>
+<span class="sd">        Whether to display the figures.</span>
+<span class="sd">        Default is True.</span>
+
+<span class="sd">    figsize : tuple, optional</span>
+<span class="sd">        Dimension of the figure size.</span>
+<span class="sd">        Default is (4.0, 2.0).</span>
 
 <span class="sd">    Outputs:</span>
+<span class="sd">    --------</span>
+<span class="sd">    The figures are saved in ./nico_out/niche_prediction_linear/TopCoeff_R0/*</span>
 
-<span class="sd">    | The figures are saved in ./spatial_ct_ct_interactions/niche_prediction_linear/TopCoeff_R0/*</span>
-
+<span class="sd">    Notes:</span>
+<span class="sd">    ------</span>
+<span class="sd">    - The function normalizes the coefficients by dividing by maximum and then it visualizes by blue dotted line.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 
@@ -1026,7 +1320,7 @@
     <span class="n">cmn_std</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;cmn_std&#39;</span><span class="p">]</span>
     <span class="n">coef_std</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;coef_std&#39;</span><span class="p">]</span>
     <span class="n">CTFeatures</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;CTFeatures&#39;</span><span class="p">]</span>
-
+    <span class="n">coef</span><span class="o">=</span><span class="n">coef</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">coef</span><span class="p">))</span>
     <span class="n">a</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">cmn</span><span class="p">)</span>
     <span class="n">b</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">cmn_std</span><span class="p">)</span>
     <span class="n">goodPredictedCellType</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="o">-</span><span class="n">a</span><span class="p">)</span>
@@ -1074,8 +1368,10 @@
                 <span class="n">fig</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span> <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
                 <span class="n">xx</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">coeff_of_CT</span><span class="p">))</span>
                 <span class="n">yy</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">coeff_of_CT</span><span class="p">)))</span>
+                <span class="n">zz</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">coeff_of_CT</span><span class="p">))</span><span class="o">*</span><span class="n">celltype_niche_interaction_cutoff</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">coeff_of_CT</span><span class="p">,</span> <span class="n">yerr</span><span class="o">=</span><span class="n">std_of_coeff</span><span class="p">,</span><span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span><span class="n">markeredgewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">markerfacecolor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">markeredgecolor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">capsize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">markersize</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">elinewidth</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span><span class="n">capthick</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span><span class="c1">#markeredgecolor=&#39;blue&#39;,markerfacecolor=&#39;blue&#39;,</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span><span class="n">yy</span><span class="p">,</span><span class="s1">&#39;k-&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span><span class="n">zz</span><span class="p">,</span><span class="s1">&#39;b:&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
                 <span class="c1">#ax.set_ylabel(&#39;value of coeff.&#39;)</span>
                 <span class="c1">#ax.set_xlabel(&#39;name of the coeff.&#39;)</span>
                 <span class="c1">#titlename=nameOfCellType[goodPredictedCellType[k]]+&#39;, conf score = {0:.3f}&#39;.format(a[goodPredictedCellType[k]]) +&#39;$\pm$&#39;+str(&#39;%0.3f&#39;%b[goodPredictedCellType[k]])</span>
@@ -1143,8 +1439,47 @@
 <a class="viewcode-back" href="../../nico_interactions.html#nico_interactions.Interactions.remove_extra_character_from_name">[docs]</a>
 <span class="k">def</span> <span class="nf">remove_extra_character_from_name</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This function removes special characters from the cell type names to avoid throwing an error while saving the figures.</span>
+<span class="sd">    Remove special characters from cell type names to avoid errors while saving figures.</span>
+
+<span class="sd">    This function replaces certain special characters in the input `name` with</span>
+<span class="sd">    underscores or other appropriate characters to ensure the name is safe for use</span>
+<span class="sd">    as a filename.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name : str</span>
+<span class="sd">        The original cell type name that may contain special characters.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        The modified cell type name with special characters removed or replaced.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; name = &#39;T-cell (CD4+)/CD8+&#39;</span>
+<span class="sd">    &gt;&gt;&gt; clean_name = remove_extra_character_from_name(name)</span>
+<span class="sd">    &gt;&gt;&gt; print(clean_name)</span>
+<span class="sd">    &#39;T-cell_CD4p_CD8p&#39;</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The following replacements are made:</span>
+
+<span class="sd">        - &#39;/&#39; is replaced with &#39;_&#39;</span>
+<span class="sd">        - &#39; &#39; (space) is replaced with &#39;_&#39;</span>
+<span class="sd">        - &#39;&quot;&#39; (double quote) is removed</span>
+<span class="sd">        - &quot;&#39;&quot; (single quote) is removed</span>
+<span class="sd">        - &#39;)&#39; is removed</span>
+<span class="sd">        - &#39;(&#39; is removed</span>
+<span class="sd">        - &#39;+&#39; is replaced with &#39;p&#39;</span>
+<span class="sd">        - &#39;-&#39; is replaced with &#39;n&#39;</span>
+<span class="sd">        - &#39;.&#39; (dot) is removed</span>
+
+<span class="sd">    These substitutions help in creating filenames that do not contain characters</span>
+<span class="sd">    that might be problematic for file systems or software.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span><span class="s1">&#39;_&#39;</span><span class="p">)</span>
     <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="s1">&#39;_&#39;</span><span class="p">)</span>
     <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
@@ -1160,141 +1495,185 @@
 
 <div class="viewcode-block" id="spatial_neighborhood_analysis">
 <a class="viewcode-back" href="../../nico_interactions.html#nico_interactions.Interactions.spatial_neighborhood_analysis">[docs]</a>
-<span class="k">def</span> <span class="nf">spatial_neighborhood_analysis</span><span class="p">(</span><span class="n">outputdir</span><span class="o">=</span><span class="s1">&#39;./spatial_ct_ct_interactions/&#39;</span><span class="p">,</span>
-<span class="n">positionFilename</span><span class="o">=</span><span class="s1">&#39;./inputQuery/tissue_positions_list.csv&#39;</span><span class="p">,</span>
-<span class="n">clusterFilename</span><span class="o">=</span><span class="s1">&#39;./inputQuery/MNN_based_annotations/3_nico_annotation_cluster.csv&#39;</span><span class="p">,</span><span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span>
-<span class="n">celltypeFilename</span><span class="o">=</span><span class="s1">&#39;./inputQuery/MNN_based_annotations/3_nico_annotation_ct_name.csv&#39;</span><span class="p">,</span><span class="n">Radius</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">n_repeats</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">K_fold</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">seed</span><span class="o">=</span><span class="mi">36851234</span><span class="p">,</span>
-<span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span><span class="n">lambda_c_ranges</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))),</span>
-<span class="n">removed_CTs_before_finding_CT_CT_interactions</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;NM&#39;</span><span class="p">]):</span>
+<span class="k">def</span> <span class="nf">spatial_neighborhood_analysis</span><span class="p">(</span>
+<span class="n">output_nico_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="n">anndata_object_name</span><span class="o">=</span><span class="s1">&#39;nico_celltype_annotation.h5ad&#39;</span><span class="p">,</span>
+<span class="n">spatial_cluster_tag</span><span class="o">=</span><span class="s1">&#39;nico_ct&#39;</span><span class="p">,</span><span class="n">spatial_coordinate_tag</span><span class="o">=</span><span class="s1">&#39;spatial&#39;</span><span class="p">,</span>
+<span class="n">Radius</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="n">n_repeats</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="n">K_fold</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+<span class="n">seed</span><span class="o">=</span><span class="mi">36851234</span><span class="p">,</span>
+<span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+<span class="n">lambda_c_ranges</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))),</span>
+<span class="n">epsilonThreshold</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+<span class="n">removed_CTs_before_finding_CT_CT_interactions</span><span class="o">=</span><span class="p">[]):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform spatial neighborhood analysis to reconstruct the niche interaction patterns.</span>
+
+<span class="sd">    This is the primary function called by the user to perform spatial neighborhood analysis, i.e., reconstruction of the niche.</span>
+
+<span class="sd">    **Prerequisites:**</span>
+<span class="sd">    Before calling this function, the user must have an annotation of the spatial cell from any method. This annotation is expected to comprise two files:</span>
+<span class="sd">    `clusterFilename` that contains cells and cluster-ID information, and `celltypeFilename` that contains cluster-ID and cell type name information.</span>
+
+<span class="sd">    **Inputs:**</span>
+
+<span class="sd">    output_nico_dir : str, optional</span>
+<span class="sd">        Directory to save the output of niche interaction prediction.</span>
+<span class="sd">        Default is &#39;./nico_out/&#39;.</span>
+
+<span class="sd">    anndata_object_name : str, optional</span>
+<span class="sd">        Name of the AnnData object file containing cell type annotations.</span>
+<span class="sd">        Default is &#39;nico_celltype_annotation.h5ad&#39;.</span>
+
+<span class="sd">    spatial_cluster_tag : str, optional</span>
+<span class="sd">        Slot for spatial cluster information.</span>
+<span class="sd">        Default is &#39;nico_ct&#39; that means it is stored in anndata.obs[&#39;nico_ct&#39;] slot.</span>
+
+<span class="sd">    spatial_coordinate_tag : str, optional</span>
+<span class="sd">        Slot for spatial coordinate information.</span>
+<span class="sd">        Default is &#39;spatial&#39; that means it is stored in anndata.obsm[&#39;spatial&#39;] slot.</span>
+
+<span class="sd">    Radius : int, optional</span>
+<span class="sd">        Niche radius to predict the cell type-cell type interactions.</span>
+<span class="sd">        Radius 0 focuses on direct spatial neighbors inferred by Delaunay triangulation, and</span>
+<span class="sd">        nonzero Radius extends the neighborhood to include all cells within a given radius for predicting niche interactions.</span>
+<span class="sd">        Default is 0.</span>
+
+<span class="sd">    n_repeats : int, optional</span>
+<span class="sd">        Number of times to repeat the logistic regression after finding the hyperparameters.</span>
+<span class="sd">        Default is 1.</span>
+
+<span class="sd">    K_fold : int, optional</span>
+<span class="sd">        Number of cross-folds for the logistic regression.</span>
+<span class="sd">        Default is 5.</span>
+
+<span class="sd">    seed : int, optional</span>
+<span class="sd">        Random seed used in RepeatedStratifiedKFold.</span>
+<span class="sd">        Default is 36851234.</span>
+
+<span class="sd">    n_jobs : int, optional</span>
+<span class="sd">        Number of processors to use. See https://scikit-learn.org/stable/glossary.html#term-n_jobs for details.</span>
+<span class="sd">        Default is -1.</span>
+
+<span class="sd">    lambda_c_ranges : list, optional</span>
+<span class="sd">        The initial range of the inverse regularization parameter used in the logistic regression to find the optimal parameter.</span>
+<span class="sd">        Default is list(np.power(2.0, np.arange(-12, 12))).</span>
+
+<span class="sd">    epsilonThreshold : int, optional</span>
+<span class="sd">        Threshold value for neighboring cell during Delaunay Triangulation. This means those cells which are large then this cutoff cannot become neighbor at any cost.</span>
+<span class="sd">        Default is 100.</span>
+
+<span class="sd">    removed_CTs_before_finding_CT_CT_interactions : list, optional</span>
+<span class="sd">        Exclude cell types from the niche interactions analysis.</span>
+<span class="sd">        Default is [].</span>
+
+<span class="sd">    **Outputs:**</span>
+
+<span class="sd">    The function saves the output of niche interaction prediction in the specified &quot;nico_out&quot; directory.</span>
+
+<span class="sd">    **Notes:**</span>
+
+<span class="sd">    - Before running this function, ensure you have the cell type annotation files in the anndata object slot.</span>
+<span class="sd">    - If running for multiple radius parameters, it&#39;s good practice to change the output directory name or delete the previously created one.</span>
+<span class="sd">    - If the average number of neighbors is relatively low (&lt;1), consider increasing the radius for neighborhood analysis.</span>
+<span class="sd">    - Every input CSV file (`positionFilename`, `clusterFilename`, `celltypeFilename`) must contain header information.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">output_nico_dir</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+        <span class="n">output_nico_dir</span><span class="o">=</span><span class="s1">&#39;./nico_out/&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">output_nico_dir</span><span class="o">=</span><span class="n">output_nico_dir</span>
+
+    <span class="n">BothLinearAndCrossTerms</span><span class="o">=</span><span class="mi">1</span><span class="c1"># If only linear terms then put 1; For both linear and crossterms use 2</span>
+    <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;L2_multi&#39;</span> <span class="c1">#Name of the strategy you want to compute the interactions options are [L1_multi, L1_ovr, L2_multi, L2_ovr, elasticnet_multi, elasticnet_ovr]</span>
+    <span class="c1">#strategy=&#39;L1_ovr&#39;</span>
+    <span class="c1">#strategy=&#39;elasticnet_multi&#39;</span>
+    <span class="n">removed_CTs_before_finding_CT_CT_interactions</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;NM&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">removed_CTs_before_finding_CT_CT_interactions</span>
+
+    <span class="n">adata</span><span class="o">=</span><span class="n">sc</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="n">output_nico_dir</span><span class="o">+</span><span class="n">anndata_object_name</span><span class="p">)</span>
+    <span class="n">cellname</span><span class="o">=</span><span class="n">adata</span><span class="o">.</span><span class="n">obs_names</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="c1">#df.index.to_numpy()</span>
+    <span class="n">cellname</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">cellname</span><span class="p">,(</span><span class="nb">len</span><span class="p">(</span><span class="n">cellname</span><span class="p">),</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="n">posdata</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">cellname</span><span class="p">,</span><span class="n">adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="n">spatial_coordinate_tag</span><span class="p">]))</span>
+    <span class="c1">#batch=np.vstack((cellname0,adata.obs[&#39;batch&#39;])).T</span>
+
+    <span class="n">annot</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">spatial_cluster_tag</span><span class="p">]</span>
+    <span class="n">ctname</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">annot</span><span class="p">)))</span>
+    <span class="n">degbased_ctname</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">d</span><span class="o">=</span><span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ctname</span><span class="p">)):</span>
+        <span class="n">degbased_ctname</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i</span><span class="p">,</span><span class="n">ctname</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+        <span class="n">d</span><span class="p">[</span><span class="n">ctname</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">=</span><span class="n">i</span>
+    <span class="n">degbased_ctname</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">degbased_ctname</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
+    <span class="c1">#degbased_ctname[:,0]=degbased_ctname[:,0].astype(int)</span>
+
+    <span class="n">degbased_cluster</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cellname</span><span class="p">)):</span>
+        <span class="n">degbased_cluster</span><span class="o">.</span><span class="n">append</span><span class="p">([</span>  <span class="n">adata</span><span class="o">.</span><span class="n">obs_names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">d</span><span class="p">[</span><span class="n">annot</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="p">])</span>
+    <span class="n">degbased_cluster</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">degbased_cluster</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
 
 
-<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        **This is the primary function called by the user to perform spatial neighborhood analysis, i.e., reconstruction of the niche.**</span>
+    <span class="k">if</span> <span class="n">BothLinearAndCrossTerms</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">niche_pred_outdir</span><span class="o">=</span><span class="n">output_nico_dir</span><span class="o">+</span><span class="s1">&#39;niche_prediction_linear/&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">niche_pred_outdir</span><span class="o">=</span><span class="n">output_nico_dir</span><span class="o">+</span><span class="s1">&#39;niche_prediction_cross/&#39;</span>
+    <span class="n">create_directory</span><span class="p">(</span><span class="n">niche_pred_outdir</span><span class="p">)</span>
 
-<span class="sd">        **Before calling this function, the user must have an annotation of the spatial cell from any method. It can be obtained by NiCo&#39;s annotation module.</span>
-<span class="sd">        This annotation is expected to comprise two files, clusterFilename that contain cells and cluster-ID information,</span>
-<span class="sd">        and celltypeFilename that contains cluster-ID and cell type name information.**</span>
 
-<span class="sd">        call spatial_neighborhood_analysis function from the interaction module.</span>
-<span class="sd">        Perform spatial neighborhood analysis to find the niche interaction patterns.</span>
+    <span class="n">PP</span><span class="p">,</span><span class="n">cluster</span><span class="p">,</span><span class="n">noct</span><span class="p">,</span><span class="n">fraction_CT</span><span class="p">,</span><span class="n">clusterWithBarcodeId</span><span class="o">=</span> <span class="n">reading_data</span><span class="p">(</span><span class="n">posdata</span><span class="p">,</span><span class="n">degbased_cluster</span><span class="p">,</span><span class="n">degbased_ctname</span><span class="p">,</span><span class="n">output_nico_dir</span><span class="p">,</span><span class="n">removed_CTs_before_finding_CT_CT_interactions</span><span class="p">)</span>
+    <span class="n">M</span><span class="p">,</span> <span class="n">neighbors</span><span class="p">,</span><span class="n">distance</span><span class="o">=</span><span class="n">create_spatial_CT_feature_matrix</span><span class="p">(</span><span class="n">Radius</span><span class="p">,</span><span class="n">PP</span><span class="p">,</span><span class="n">cluster</span><span class="p">,</span><span class="n">noct</span><span class="p">,</span><span class="n">fraction_CT</span><span class="p">,</span><span class="n">niche_pred_outdir</span><span class="p">,</span><span class="n">epsilonThreshold</span><span class="p">)</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">neighbors</span><span class="p">,</span><span class="nb">open</span><span class="p">(</span><span class="n">output_nico_dir</span><span class="o">+</span><span class="s1">&#39;neighbors_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">Radius</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.p&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">))</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span><span class="nb">open</span><span class="p">(</span><span class="n">output_nico_dir</span><span class="o">+</span><span class="s1">&#39;distances_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">Radius</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.p&#39;</span><span class="p">,</span><span class="s1">&#39;wb&#39;</span><span class="p">))</span>
+    <span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">clusterWithBarcodeId</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_nico_dir</span><span class="o">+</span><span class="s1">&#39;used_Clusters&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">Radius</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.csv&#39;</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-<span class="sd">        If the user wants to run for multiple radius parameters, then it is good practice to change the outputdir directory name or delete the previously created one.</span>
-
-<span class="sd">        If the average number of neighbors is relatively low (&lt;1), increase the radius to perform neighborhood analysis.</span>
-
-<span class="sd">        Every input CSV file (positionFilename,clusterFilename,celltypeFilename) must contain the header information.</span>
-
-<span class="sd">        Inputs:</span>
-
-<span class="sd">        | The position filename of cell coordinates</span>
-<span class="sd">        | (default) positionFilename=&#39;./inputQuery/tissue_positions_list.csv&#39;</span>
-
-<span class="sd">        | Please change the following two filenames (an paths) if you are using external cell type annotation</span>
-<span class="sd">        | The cluster partition filename from NiCo or any standard clustering method (cell barcode, cluster-ID)</span>
-<span class="sd">        | (default) clusterFilename=&#39;./inputQuery/MNN_based_annotations/3_deg_annotation_spatial_cluster.csv&#39;</span>
-
-<span class="sd">        | The cell type information filename from NiCo or any standard clustering method (cluster-ID, cell type name)</span>
-<span class="sd">        | (default) celltypeFilename=&#39;./inputQuery/MNN_based_annotations/3_deg_annotation_spatial_ct_name.dat&#39;</span>
+    <span class="n">f</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">output_nico_dir</span><span class="o">+</span><span class="s1">&#39;used_CT.txt&#39;</span><span class="p">)</span>
+    <span class="n">nameOfCellType</span><span class="o">=</span><span class="p">{}</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">l</span><span class="o">=</span><span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">nameOfCellType</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span><span class="o">=</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
 
 
-<span class="sd">        | The delimiter used in the celltypeFilename</span>
-<span class="sd">        | delimiter=&#39;,&#39;</span>
+    <span class="c1">#fw=open(mainoutputdir+&#39;prediction_R&#39;+str(Radius)+&#39;.dat&#39;,&#39;w&#39;)</span>
+    <span class="c1">#fw.write(&#39;\nRadius = &#39;+ str(Radius)  + &#39;\n&#39;)</span>
+    <span class="n">fout</span><span class="o">=</span><span class="n">niche_pred_outdir</span><span class="o">+</span><span class="s1">&#39;classifier_matrices_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">Radius</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.npz&#39;</span>
 
-<span class="sd">        | Niche radius to predict the cell type-cell type interactions</span>
-<span class="sd">        | Radius 0 focuses on direct spatial neighbors infered by Delaunay triangulation, and</span>
-<span class="sd">        | nonzero Radius extends the neighborhood to include all cells within a given radius for predicting niche interactions.</span>
-<span class="sd">        | (default) Radius=0</span>
-
-<span class="sd">        | Number of times to run the logistic regression after finding the hyperparameters</span>
-<span class="sd">        | (default) n_repeats=1</span>
-
-<span class="sd">        | Number of cross-folds</span>
-<span class="sd">        | (default) K_fold=5</span>
-
-<span class="sd">        | Random seed used in RepeatedStratifiedKFold</span>
-<span class="sd">        | seed=36851234</span>
-
-<span class="sd">        | Number of used processors For details, see here https://scikit-learn.org/stable/glossary.html#term-n_jobs</span>
-<span class="sd">        | n_jobs=-1</span>
-
-<span class="sd">        | The initial range of the inverse regularization parameter used in the logistic regression to find the optimal parameter</span>
-<span class="sd">        | (default) lambda_c_ranges=list(np.power(2.0, np.arange(-12, 12)))</span>
-
-<span class="sd">        | Exclude cell types from the niche interactions analysis</span>
-<span class="sd">        | (default) removed_CTs_before_finding_CT_CT_interactions=[&#39;NM&#39;]</span>
-
-<span class="sd">        Outputs:</span>
-
-<span class="sd">        | The output of niche interaction prediction</span>
-<span class="sd">        | (default) outputdir=&#39;./spatial_ct_ct_interactions/&#39;</span>
+    <span class="n">inputdata</span><span class="o">=</span><span class="p">{}</span>
+    <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;outputdir&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">output_nico_dir</span>
+    <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;fout&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">fout</span>
+    <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;niche_pred_outdir&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">niche_pred_outdir</span>
+    <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;nameOfCellType&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">nameOfCellType</span>
+    <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;Radius&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">Radius</span>
+    <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;BothLinearAndCrossTerms&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">BothLinearAndCrossTerms</span>
 
 
-<span class="sd">        &#39;&#39;&#39;</span>
+    <span class="n">neighborhoodClass</span><span class="p">,</span><span class="n">target</span><span class="p">,</span><span class="n">inputFeatures</span><span class="o">=</span><span class="n">read_processed_data</span><span class="p">(</span><span class="n">Radius</span><span class="p">,</span><span class="n">niche_pred_outdir</span><span class="p">)</span>
+    <span class="n">cmn</span><span class="p">,</span><span class="n">coef</span><span class="p">,</span><span class="n">comp_score</span><span class="p">,</span><span class="n">cmn_std</span><span class="p">,</span><span class="n">coef_std</span><span class="p">,</span><span class="n">comp_score_std</span><span class="p">,</span><span class="n">classes</span><span class="p">,</span><span class="n">lambda_c</span><span class="p">,</span><span class="n">CTFeatures</span><span class="p">,</span><span class="n">x_test</span><span class="p">,</span><span class="n">x_train</span><span class="p">,</span><span class="n">predicted_probs</span><span class="p">,</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">roc_auc</span><span class="o">=</span><span class="n">model_log_regression</span><span class="p">(</span><span class="n">K_fold</span><span class="p">,</span> <span class="n">n_repeats</span><span class="p">,</span><span class="n">neighborhoodClass</span><span class="p">,</span><span class="n">target</span><span class="p">,</span><span class="n">lambda_c_ranges</span><span class="p">,</span><span class="n">strategy</span><span class="p">,</span><span class="n">BothLinearAndCrossTerms</span><span class="p">,</span><span class="n">seed</span><span class="p">,</span><span class="n">n_jobs</span><span class="p">)</span>
+    <span class="n">score</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">comp_score</span><span class="p">,</span> <span class="n">comp_score_std</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span><span class="n">fout</span><span class="p">,</span><span class="n">cmn</span><span class="o">=</span><span class="n">cmn</span><span class="p">,</span><span class="n">coef</span><span class="o">=</span><span class="n">coef</span><span class="p">,</span><span class="n">cmn_std</span><span class="o">=</span><span class="n">cmn_std</span><span class="p">,</span><span class="n">coef_std</span><span class="o">=</span><span class="n">coef_std</span><span class="p">,</span><span class="n">CTFeatures</span><span class="o">=</span><span class="n">CTFeatures</span><span class="p">)</span>
 
-        <span class="n">BothLinearAndCrossTerms</span><span class="o">=</span><span class="mi">1</span><span class="c1"># If only linear terms then put 1; For both linear and crossterms use 2</span>
-        <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;L2_multi&#39;</span> <span class="c1">#Name of the strategy you want to compute the interactions options are [L1_multi, L1_ovr, L2_multi, L2_ovr, elasticnet_multi, elasticnet_ovr]</span>
-        <span class="c1">#strategy=&#39;L1_ovr&#39;</span>
-        <span class="c1">#strategy=&#39;elasticnet_multi&#39;</span>
+    <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;classes&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">classes</span>
+    <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;lambda_c&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">lambda_c</span>
+    <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;fpr&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">fpr</span>
+    <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;tpr&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">tpr</span>
+    <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;roc_auc&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">roc_auc</span>
+    <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;x_test&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">x_test</span>
+    <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;x_train&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">x_train</span>
+    <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;predicted_probs&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">predicted_probs</span>
+    <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;inputFeatures&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">inputFeatures</span>
+    <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">score</span>
+    <span class="n">output</span><span class="o">=</span><span class="n">SimpleNamespace</span><span class="p">(</span><span class="o">**</span><span class="n">inputdata</span><span class="p">)</span>
 
-
-        <span class="n">create_directory</span><span class="p">(</span><span class="n">outputdir</span><span class="p">)</span>
-
-
-        <span class="n">PP</span><span class="p">,</span><span class="n">cluster</span><span class="p">,</span><span class="n">noct</span><span class="p">,</span><span class="n">fraction_CT</span><span class="p">,</span><span class="n">clusterWithBarcodeId</span><span class="o">=</span> <span class="n">reading_data</span><span class="p">(</span><span class="n">positionFilename</span><span class="p">,</span><span class="n">clusterFilename</span><span class="p">,</span><span class="n">celltypeFilename</span><span class="p">,</span><span class="n">outputdir</span><span class="p">,</span><span class="n">delimiter</span><span class="p">,</span><span class="n">removed_CTs_before_finding_CT_CT_interactions</span><span class="p">)</span>
-        <span class="n">M</span><span class="p">,</span> <span class="n">neighbors</span><span class="p">,</span><span class="n">distance</span><span class="o">=</span><span class="n">create_spatial_CT_feature_matrix</span><span class="p">(</span><span class="n">Radius</span><span class="p">,</span><span class="n">PP</span><span class="p">,</span><span class="n">cluster</span><span class="p">,</span><span class="n">noct</span><span class="p">,</span><span class="n">fraction_CT</span><span class="p">,</span><span class="n">outputdir</span><span class="p">)</span>
-        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">neighbors</span><span class="p">,</span><span class="nb">open</span><span class="p">(</span><span class="n">outputdir</span><span class="o">+</span><span class="s1">&#39;neighbors_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">Radius</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.p&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">))</span>
-        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span><span class="nb">open</span><span class="p">(</span><span class="n">outputdir</span><span class="o">+</span><span class="s1">&#39;distances_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">Radius</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.p&#39;</span><span class="p">,</span><span class="s1">&#39;wb&#39;</span><span class="p">))</span>
-        <span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">clusterWithBarcodeId</span><span class="p">)</span>
-        <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">outputdir</span><span class="o">+</span><span class="s1">&#39;used_Clusters&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">Radius</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.csv&#39;</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output</span></div>
 
 
 
 
-        <span class="n">f</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">outputdir</span><span class="o">+</span><span class="s1">&#39;used_CT.txt&#39;</span><span class="p">)</span>
-        <span class="n">nameOfCellType</span><span class="o">=</span><span class="p">{}</span>
-        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">l</span><span class="o">=</span><span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
-            <span class="n">nameOfCellType</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span><span class="o">=</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-
-        <span class="k">if</span> <span class="n">BothLinearAndCrossTerms</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
-            <span class="n">niche_pred_outdir</span><span class="o">=</span><span class="n">outputdir</span><span class="o">+</span><span class="s1">&#39;niche_prediction_linear/&#39;</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">niche_pred_outdir</span><span class="o">=</span><span class="n">outputdir</span><span class="o">+</span><span class="s1">&#39;niche_prediction_cross/&#39;</span>
-
-        <span class="n">create_directory</span><span class="p">(</span><span class="n">niche_pred_outdir</span><span class="p">)</span>
-
-        <span class="c1">#fw=open(mainoutputdir+&#39;prediction_R&#39;+str(Radius)+&#39;.dat&#39;,&#39;w&#39;)</span>
-        <span class="c1">#fw.write(&#39;\nRadius = &#39;+ str(Radius)  + &#39;\n&#39;)</span>
-        <span class="n">fout</span><span class="o">=</span><span class="n">niche_pred_outdir</span><span class="o">+</span><span class="s1">&#39;classifier_matrices_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">Radius</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.npz&#39;</span>
-
-        <span class="n">inputdata</span><span class="o">=</span><span class="p">{}</span>
-        <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;outputdir&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">outputdir</span>
-        <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;fout&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">fout</span>
-        <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;niche_pred_outdir&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">niche_pred_outdir</span>
-        <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;nameOfCellType&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">nameOfCellType</span>
-        <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;Radius&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">Radius</span>
-        <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;BothLinearAndCrossTerms&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">BothLinearAndCrossTerms</span>
-
-
-        <span class="n">neighborhoodClass</span><span class="p">,</span><span class="n">target</span><span class="p">,</span><span class="n">inputFeatures</span><span class="o">=</span><span class="n">read_processed_data</span><span class="p">(</span><span class="n">Radius</span><span class="p">,</span><span class="n">outputdir</span><span class="p">)</span>
-        <span class="n">cmn</span><span class="p">,</span><span class="n">coef</span><span class="p">,</span><span class="n">comp_score</span><span class="p">,</span><span class="n">cmn_std</span><span class="p">,</span><span class="n">coef_std</span><span class="p">,</span><span class="n">comp_score_std</span><span class="p">,</span><span class="n">classes</span><span class="p">,</span><span class="n">lambda_c</span><span class="p">,</span><span class="n">CTFeatures</span><span class="p">,</span><span class="n">x_test</span><span class="p">,</span><span class="n">x_train</span><span class="p">,</span><span class="n">predicted_probs</span><span class="p">,</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">roc_auc</span><span class="o">=</span><span class="n">model_log_regression</span><span class="p">(</span><span class="n">K_fold</span><span class="p">,</span> <span class="n">n_repeats</span><span class="p">,</span><span class="n">neighborhoodClass</span><span class="p">,</span><span class="n">target</span><span class="p">,</span><span class="n">lambda_c_ranges</span><span class="p">,</span><span class="n">strategy</span><span class="p">,</span><span class="n">BothLinearAndCrossTerms</span><span class="p">,</span><span class="n">seed</span><span class="p">,</span><span class="n">n_jobs</span><span class="p">)</span>
-        <span class="n">score</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">comp_score</span><span class="p">,</span> <span class="n">comp_score_std</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span><span class="n">fout</span><span class="p">,</span><span class="n">cmn</span><span class="o">=</span><span class="n">cmn</span><span class="p">,</span><span class="n">coef</span><span class="o">=</span><span class="n">coef</span><span class="p">,</span><span class="n">cmn_std</span><span class="o">=</span><span class="n">cmn_std</span><span class="p">,</span><span class="n">coef_std</span><span class="o">=</span><span class="n">coef_std</span><span class="p">,</span><span class="n">CTFeatures</span><span class="o">=</span><span class="n">CTFeatures</span><span class="p">)</span>
-
-        <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;classes&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">classes</span>
-        <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;lambda_c&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">lambda_c</span>
-        <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;fpr&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">fpr</span>
-        <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;tpr&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">tpr</span>
-        <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;roc_auc&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">roc_auc</span>
-        <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;x_test&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">x_test</span>
-        <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;x_train&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">x_train</span>
-        <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;predicted_probs&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">predicted_probs</span>
-        <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;inputFeatures&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">inputFeatures</span>
-        <span class="n">inputdata</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">score</span>
-        <span class="n">output</span><span class="o">=</span><span class="n">SimpleNamespace</span><span class="p">(</span><span class="o">**</span><span class="n">inputdata</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">output</span></div>
 
 
 
@@ -1308,30 +1687,49 @@
 <span class="k">def</span> <span class="nf">plot_evaluation_scores</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span><span class="n">saveas</span><span class="o">=</span><span class="s1">&#39;pdf&#39;</span><span class="p">,</span><span class="n">transparent_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">showit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">)):</span>
 
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Inputs:</span>
+<span class="sd">    This function generates and saves plots of evaluation scores obtained from the spatial_neighborhood_analysis.</span>
+<span class="sd">    The plots can be saved in PDF or PNG format and can be displayed during execution.</span>
 
-<span class="sd">    The main input is the output from spatial_neighborhood_analysis.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    input : dict or similar</span>
+<span class="sd">        The main input is the output from spatial_neighborhood_analysis. This should contain the evaluation scores to be plotted.</span>
+<span class="sd">    saveas : str, optional</span>
+<span class="sd">        Format to save the figures. Options are &#39;pdf&#39; or &#39;png&#39;. Default is &#39;pdf&#39;.</span>
+<span class="sd">    transparent_mode : bool, optional</span>
+<span class="sd">        If True, the background color of the figures will be transparent. Default is False.</span>
+<span class="sd">    showit : bool, optional</span>
+<span class="sd">        If True, the figures will be displayed when the function is called. Default is True.</span>
+<span class="sd">    figsize : tuple, optional</span>
+<span class="sd">        Dimensions of the figure size in inches (width, height). Default is (4, 3).</span>
 
-<span class="sd">    | Save the figures in PDF or PNG format (dpi for PNG format is 300)</span>
-<span class="sd">    | (default) saveas=&#39;pdf&#39;</span>
+<span class="sd">    Outputs</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">        The function saves the generated figures in the directory &quot;./nico_out/niche_prediction_linear/&quot; with filenames starting with &quot;scores&quot;.</span>
 
-<span class="sd">    | Background color in the figures</span>
-<span class="sd">    | (default) transparent_mode=False</span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - The order of scores saved in input.score as follows:</span>
 
-<span class="sd">    | Dimension of the figure size.</span>
-<span class="sd">    | (default) figsize=(4,3)</span>
-
-<span class="sd">    Outputs:</span>
-
-<span class="sd">    | The figures are saved in &quot;./spatial_ct_ct_interactions/niche_prediction_linear/scores*&quot;</span>
+<span class="sd">        - 1. accuracy</span>
+<span class="sd">        - 2. macro F1</span>
+<span class="sd">        - 3. macro precision</span>
+<span class="sd">        - 4. macro recall</span>
+<span class="sd">        - 5. micro F1</span>
+<span class="sd">        - 6. micro precision</span>
+<span class="sd">        - 7. micro recall</span>
+<span class="sd">        - 8. weighted F1</span>
+<span class="sd">        - 9. weighted precision</span>
+<span class="sd">        - 10. weighted recall</span>
+<span class="sd">        - 11. Cohen Kappa</span>
+<span class="sd">        - 12. cross entropy</span>
+<span class="sd">        - 13. mathhew correlation coefficient</span>
+<span class="sd">        - 14. heming loss</span>
+<span class="sd">        - 15. zeros one loss</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1">## The order of all 15 scores are following</span>
-    <span class="c1">#1-4 &#39;accuracy&#39;,&#39;macro F1&#39;,&#39;macro precision&#39;,&#39;macro recall&#39;,</span>
-    <span class="c1">#5-7 &#39;micro [all]&#39;,</span>
-    <span class="c1">#8-11 &#39;weighted F1&#39;,&#39;weighted precision&#39;,&#39;weighted recall&#39;,&#39;cohen kappa&#39;,</span>
-    <span class="c1">#12=15 &#39;cross entropy&#39;, &#39;matthew correlation coefficient&#39;,&#39;heming loss&#39;, &#39;zero one loss&#39;</span>
 
     <span class="n">xlabels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">,</span><span class="s1">&#39;macro F1&#39;</span><span class="p">,</span><span class="s1">&#39;macro precision&#39;</span><span class="p">,</span><span class="s1">&#39;macro recall&#39;</span><span class="p">,</span><span class="s1">&#39;micro [all]&#39;</span><span class="p">,</span><span class="s1">&#39;weighted F1&#39;</span><span class="p">,</span><span class="s1">&#39;weighted precision&#39;</span><span class="p">,</span><span class="s1">&#39;weighted recall&#39;</span><span class="p">,</span><span class="s1">&#39;cohen kappa&#39;</span><span class="p">,</span><span class="s1">&#39;mcc&#39;</span><span class="p">]</span>
     <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">12</span><span class="p">]</span>
@@ -1435,26 +1833,30 @@
 <span class="k">def</span> <span class="nf">plot_niche_interactions_without_edge_weight</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span><span class="n">niche_cutoff</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span><span class="n">saveas</span><span class="o">=</span><span class="s1">&#39;pdf&#39;</span><span class="p">,</span><span class="n">transparent_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">showit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">7</span><span class="p">)):</span>
 
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Inputs:</span>
+<span class="sd">    Plot niche interactions map without edge weights.</span>
 
-<span class="sd">    The main input is the output from spatial_neighborhood_analysis.</span>
+<span class="sd">    This function generates and saves a niche interactions map using the output from spatial_neighborhood_analysis.</span>
+<span class="sd">    The plot can be saved in PDF or PNG format and can be displayed during execution.</span>
 
-<span class="sd">    | Cutoff used for plotting the niche interactions map</span>
-<span class="sd">    | (default) niche_cutoff=0.10</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    input : dict or similar</span>
+<span class="sd">        The main input is the output from spatial_neighborhood_analysis. This should contain the necessary data to plot the niche interactions.</span>
+<span class="sd">    niche_cutoff : float, optional</span>
+<span class="sd">        Cutoff value for plotting the cell type niche interactions map. Default is 0.1.</span>
+<span class="sd">    saveas : str, optional</span>
+<span class="sd">        Format to save the figures. Options are &#39;pdf&#39; or &#39;png&#39;. Default is &#39;pdf&#39;.</span>
+<span class="sd">    transparent_mode : bool, optional</span>
+<span class="sd">        If True, the background color of the figures will be transparent. Default is False.</span>
+<span class="sd">    showit : bool, optional</span>
+<span class="sd">        If True, the figures will be displayed when the function is called. Default is True.</span>
+<span class="sd">    figsize : tuple, optional</span>
+<span class="sd">        Dimensions of the figure size in inches (width, height). Default is (10, 7).</span>
 
-<span class="sd">    | Save the figures in PDF or PNG format (dpi for PNG format is 300)</span>
-<span class="sd">    | (default) saveas=&#39;pdf&#39;</span>
-
-<span class="sd">    | Background color in the figures</span>
-<span class="sd">    | (default) transparent_mode=False</span>
-
-<span class="sd">    | Dimension of the figure size.</span>
-<span class="sd">    | (default) figsize=(10,7)</span>
-
-<span class="sd">    Outputs:</span>
-
-<span class="sd">    | The figures are saved in ./spatial_ct_ct_interactions/niche_prediction_linear/Niche_interactions_*</span>
-
+<span class="sd">    Outputs</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">        The function saves the generated figures in the directory &quot;./nico_out/niche_prediction_linear/&quot; with filenames starting with &quot;Niche_interactions_*&quot;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">fout</span><span class="p">,</span><span class="n">allow_pickle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1465,8 +1867,10 @@
     <span class="n">CTFeatures</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;CTFeatures&#39;</span><span class="p">]</span>
 
     <span class="n">n</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">nameOfCellType</span><span class="p">)</span>
-    <span class="n">top</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s1">&#39;jet&#39;</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
-    <span class="n">newcmp</span><span class="o">=</span><span class="n">ListedColormap</span><span class="p">(</span><span class="n">top</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span><span class="mf">0.15</span><span class="p">,</span><span class="n">n</span><span class="p">)),</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;OrangeBlue&quot;</span><span class="p">)</span>
+    <span class="n">top</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s1">&#39;jet&#39;</span><span class="p">)</span>
+    <span class="n">cumsum</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">newcmp</span><span class="o">=</span><span class="n">ListedColormap</span><span class="p">(</span><span class="n">top</span><span class="p">(</span><span class="n">cumsum</span><span class="p">))</span>
+    <span class="c1">#newcmp=ListedColormap(top(np.linspace(0.95,0.15,n)),name=&quot;OrangeBlue&quot;)</span>
     <span class="n">gradientColor</span><span class="o">=</span><span class="n">newcmp</span><span class="o">.</span><span class="n">colors</span>
     <span class="c1">#print(len(gradientColor),len(top))</span>
     <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
@@ -1499,7 +1903,7 @@
     <span class="n">pos</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">nx_pydot</span><span class="o">.</span><span class="n">graphviz_layout</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
 
     <span class="n">fig</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span> <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
-    <span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">pos</span><span class="p">,</span><span class="n">labels</span><span class="o">=</span><span class="n">labeldict</span><span class="p">,</span><span class="n">with_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">node_size</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span><span class="n">linewidths</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">font_family</span><span class="o">=</span><span class="s1">&#39;Helvetica&#39;</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span><span class="n">node_color</span><span class="o">=</span><span class="n">gradientColor</span><span class="p">)</span>
+    <span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">pos</span><span class="p">,</span><span class="n">labels</span><span class="o">=</span><span class="n">labeldict</span><span class="p">,</span><span class="n">with_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">node_size</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span><span class="n">linewidths</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span><span class="n">node_color</span><span class="o">=</span><span class="n">gradientColor</span><span class="p">)</span>
     <span class="c1">#labels=nx.draw_networkx_labels(G,pos=pos,**options)</span>
     <span class="c1">#nx.draw(G,pos=pos,**options)</span>
     <span class="c1">#nx.draw_networkx_edge_labels(G, pos,edge_labels=edge_labels,label_pos=0.35, font_size=3  )</span>
@@ -1518,29 +1922,31 @@
 <span class="k">def</span> <span class="nf">plot_niche_interactions_with_edge_weight</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span><span class="n">niche_cutoff</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span><span class="n">saveas</span><span class="o">=</span><span class="s1">&#39;pdf&#39;</span><span class="p">,</span><span class="n">transparent_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">showit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">7</span><span class="p">)):</span>
         <span class="c1">#niche_cutoff it is normalized large value has fewer connections and small value has larger connections</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Inputs:</span>
+<span class="sd">        Plot niche interactions map with edge weights.</span>
 
-<span class="sd">        The main input is the output from spatial_neighborhood_analysis.</span>
+<span class="sd">        This function generates and saves a niche interactions map using the output from spatial_neighborhood_analysis. The edges in the map are weighted based on the interaction strengths. The plot can be saved in PDF or PNG format and can be displayed during execution.</span>
 
-<span class="sd">        | Cutoff used for plotting the niche interactions map</span>
-<span class="sd">        | (default) niche_cutoff=0.10</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        input : dict or similar</span>
+<span class="sd">            The main input is the output from spatial_neighborhood_analysis. This should contain the necessary data to plot the niche interactions.</span>
+<span class="sd">        niche_cutoff : float, optional</span>
+<span class="sd">            Cutoff value for plotting the niche interactions map. Higher values result in fewer connections, while lower values result in more connections. Default is 0.1.</span>
+<span class="sd">        saveas : str, optional</span>
+<span class="sd">            Format to save the figures. Options are &#39;pdf&#39; or &#39;png&#39;. Default is &#39;pdf&#39;.</span>
+<span class="sd">        transparent_mode : bool, optional</span>
+<span class="sd">            If True, the background color of the figures will be transparent. Default is False.</span>
+<span class="sd">        showit : bool, optional</span>
+<span class="sd">            If True, the figures will be displayed when the function is called. Default is True.</span>
+<span class="sd">        figsize : tuple, optional</span>
+<span class="sd">            Dimensions of the figure size in inches (width, height). Default is (10, 7).</span>
 
-<span class="sd">        | Save the figures in PDF or PNG format (dpi for PNG format is 300)</span>
-<span class="sd">        | (default) saveas=&#39;pdf&#39;</span>
-
-<span class="sd">        | Background color in the figures</span>
-<span class="sd">        | (default) transparent_mode=False</span>
-
-<span class="sd">        | Dimension of the figure size.</span>
-<span class="sd">        | (default) figsize=(10,7)</span>
-
-<span class="sd">        Outputs:</span>
-
-<span class="sd">        | The figures are saved in ./spatial_ct_ct_interactions/niche_prediction_linear/Niche_interactions_*</span>
+<span class="sd">        Outputs</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">            The function saves the generated figures in the directory &quot;./nico_out/niche_prediction_linear/&quot; with filenames starting with &quot;Niche_interactions_*&quot;.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-
-
 
         <span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">fout</span><span class="p">,</span><span class="n">allow_pickle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">coef</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;coef&#39;</span><span class="p">]</span>
@@ -1592,8 +1998,10 @@
 <span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="n">n</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">nameOfCellType</span><span class="p">)</span>
-        <span class="n">top</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s1">&#39;jet&#39;</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
-        <span class="n">newcmp</span><span class="o">=</span><span class="n">ListedColormap</span><span class="p">(</span><span class="n">top</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span><span class="mf">0.15</span><span class="p">,</span><span class="n">n</span><span class="p">)),</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;OrangeBlue&quot;</span><span class="p">)</span>
+        <span class="n">top</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s1">&#39;jet&#39;</span><span class="p">)</span>
+        <span class="n">cumsum</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+        <span class="n">newcmp</span><span class="o">=</span><span class="n">ListedColormap</span><span class="p">(</span><span class="n">top</span><span class="p">(</span><span class="n">cumsum</span><span class="p">))</span>
+        <span class="c1">#newcmp=ListedColormap(top(np.linspace(0.95,0.15,n)),name=&quot;OrangeBlue&quot;)</span>
         <span class="n">gradientColor</span><span class="o">=</span><span class="n">newcmp</span><span class="o">.</span><span class="n">colors</span>
         <span class="c1">#print(len(gradientColor),len(top))</span>
         <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
@@ -1665,7 +2073,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Grün lab.</p>
+    <p>&#169; Copyright 2024, Grün lab.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

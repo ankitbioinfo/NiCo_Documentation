@@ -268,31 +268,36 @@ def _update_V_HALS(A, B, W, V, value_lambda):
     return V
 """
 def nnlsm_blockpivot(A, B, is_input_prod=False, init=None):
-    """ Nonnegativity-constrained least squares with block principal pivoting method and column grouping
+
+    """
+    Nonnegativity-constrained least squares with block principal pivoting method and column grouping
     Solves min ||AX-B||_2^2 s.t. X >= 0 element-wise.
     J. Kim and H. Park, Fast nonnegative matrix factorization: An active-set-like method and comparisons,
     SIAM Journal on Scientific Computing,
     vol. 33, no. 6, pp. 3261-3281, 2011.
+
     Parameters
     ----------
     A : numpy.array, shape (m,n)
     B : numpy.array or scipy.sparse matrix, shape (m,k)
+
     Optional Parameters
     -------------------
     is_input_prod : True/False. -  If True, the A and B arguments are interpreted as
             AtA and AtB, respectively. Default is False.
     init: numpy.array, shape (n,k). - If provided, init is used as an initial value for the algorithm.
             Default is None.
+
     Returns
     -------
     X, (success, Y, num_cholesky, num_eq, num_backup)
     X : numpy.array, shape (n,k) - solution
-    success : True/False - True if the solution is found. False if the algorithm did not terminate
-            due to numerical errors.
+    success : True/False - True if the solution is found. False if the algorithm did not terminate due to numerical errors.
     Y : numpy.array, shape (n,k) - Y = A.T * A * X - A.T * B
     num_cholesky : int - the number of Cholesky factorizations needed
     num_eq : int - the number of linear systems of equations needed to be solved
     num_backup: int - the number of appearances of the back-up rule. See SISC paper for details.
+
     """
     if is_input_prod:
         AtA = A

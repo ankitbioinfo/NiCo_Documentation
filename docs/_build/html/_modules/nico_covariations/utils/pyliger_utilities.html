@@ -30,8 +30,9 @@
 
           
           
-          <a href="../../../index.html" class="icon icon-home">
-            NiCo
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/nico-logo.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -43,7 +44,13 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">NiCo_Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html#tutorials">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">NiCo_Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Frequently Asked Questions (FAQ)</a></li>
 </ul>
 
         </div>
@@ -352,31 +359,36 @@
 <div class="viewcode-block" id="nnlsm_blockpivot">
 <a class="viewcode-back" href="../../../nico_covariations.utils.html#nico_covariations.utils.pyliger_utilities.nnlsm_blockpivot">[docs]</a>
 <span class="k">def</span> <span class="nf">nnlsm_blockpivot</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">is_input_prod</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Nonnegativity-constrained least squares with block principal pivoting method and column grouping</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Nonnegativity-constrained least squares with block principal pivoting method and column grouping</span>
 <span class="sd">    Solves min ||AX-B||_2^2 s.t. X &gt;= 0 element-wise.</span>
 <span class="sd">    J. Kim and H. Park, Fast nonnegative matrix factorization: An active-set-like method and comparisons,</span>
 <span class="sd">    SIAM Journal on Scientific Computing,</span>
 <span class="sd">    vol. 33, no. 6, pp. 3261-3281, 2011.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    A : numpy.array, shape (m,n)</span>
 <span class="sd">    B : numpy.array or scipy.sparse matrix, shape (m,k)</span>
+
 <span class="sd">    Optional Parameters</span>
 <span class="sd">    -------------------</span>
 <span class="sd">    is_input_prod : True/False. -  If True, the A and B arguments are interpreted as</span>
 <span class="sd">            AtA and AtB, respectively. Default is False.</span>
 <span class="sd">    init: numpy.array, shape (n,k). - If provided, init is used as an initial value for the algorithm.</span>
 <span class="sd">            Default is None.</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    X, (success, Y, num_cholesky, num_eq, num_backup)</span>
 <span class="sd">    X : numpy.array, shape (n,k) - solution</span>
-<span class="sd">    success : True/False - True if the solution is found. False if the algorithm did not terminate</span>
-<span class="sd">            due to numerical errors.</span>
+<span class="sd">    success : True/False - True if the solution is found. False if the algorithm did not terminate due to numerical errors.</span>
 <span class="sd">    Y : numpy.array, shape (n,k) - Y = A.T * A * X - A.T * B</span>
 <span class="sd">    num_cholesky : int - the number of Cholesky factorizations needed</span>
 <span class="sd">    num_eq : int - the number of linear systems of equations needed to be solved</span>
 <span class="sd">    num_backup: int - the number of appearances of the back-up rule. See SISC paper for details.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">is_input_prod</span><span class="p">:</span>
         <span class="n">AtA</span> <span class="o">=</span> <span class="n">A</span>
@@ -577,7 +589,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Grün lab.</p>
+    <p>&#169; Copyright 2024, Grün lab.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

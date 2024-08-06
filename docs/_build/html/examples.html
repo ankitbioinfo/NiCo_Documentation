@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Examples &mdash; NiCo 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=8d563738"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="NiCo_Modules" href="modules.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/nico-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#tutorials">Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#basic-usage">Basic Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">NiCo_Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions (FAQ)</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">NiCo</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/examples.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="examples">
+<h1>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h1>
+<p>This section provides examples of how to use the Nico SC-SP library for spatial cell type annotation, niche interaction inference, and covariation analysis.</p>
+</section>
+<section id="tutorials">
+<h1>Tutorials<a class="headerlink" href="#tutorials" title="Link to this heading"></a></h1>
+<p>Please prepare the input files with scRNA-seq count data and cell type annotation (cluster partition), spatial count data, and spatial
+cell coordinates to run the complete NiCo tutorials.</p>
+<p><a class="reference external" href="https://github.com/ankitbioinfo/nico_tutorial">Nico tutorials for Xenium, MERSCOPE, SEQFISH and SlideSeqV2 spatial technologies are available here</a></p>
+<section id="basic-usage">
+<h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading"></a></h2>
+<p>Below is a complete example demonstrating the usage of the main steps (modules) in NiCo.</p>
+<p>### Importing Modules and Setting Up</p>
+<p>import Annotations as sann
+import Interactions as sint
+import Covariations as scov
+import scanpy as sc
+import numpy as np
+import matplotlib.pyplot as plt</p>
+<p># Configure matplotlib for publication-quality plots
+plt.rcParams[‘font.family’] = ‘sans-serif’
+plt.rcParams[‘font.sans-serif’] = [‘Helvetica’, ‘Tahoma’, ‘DejaVu Sans’, ‘Lucida Grande’, ‘Verdana’]
+plt.rcParams[‘pdf.fonttype’] = 42  # Embed fonts in PDF files</p>
+<p>import warnings
+warnings.filterwarnings(“ignore”)</p>
+<p># Parameters for saving plots
+saveas = ‘png’
+transparent_mode = False</p>
+<p>ref_datapath = ‘./inputRef/’
+query_datapath = ‘./inputQuery/’
+output_nico_dir = ‘./nico_analysis/’
+output_annotation_dir = None
+annotation_save_fname = ‘nico_celltype_annotation.h5ad’
+inputRadius = 0
+ref_cluster_tag = ‘cluster’  # scRNAseq cell type slot
+annotation_slot = ‘nico_ct’  # spatial cell type slot</p>
+<p>Module A: Perform Cell Type Annotation of Spatial Data</p>
+<p># Find anchor cells between reference and query datasets</p>
+<p>anchors_and_neighbors_info = sann.find_anchor_cells_between_ref_and_query(
+refpath=ref_datapath,
+quepath=query_datapath,
+output_nico_dir=output_nico_dir,
+output_annotation_dir=output_annotation_dir
+)</p>
+<p># Perform NiCo-based annotation
+output_info = sann.nico_based_annotation(
+anchors_and_neighbors_info,
+guiding_spatial_cluster_resolution_tag=’leiden0.4’,
+across_spatial_clusters_dispersion_cutoff=0.15,
+resolved_tie_issue_with_weighted_nearest_neighbor=’No’
+)</p>
+<p># Clean up temporary files
+sann.delete_files(output_info)</p>
+<p># Save annotations to the spatial object
+sann.save_annotations_in_spatial_object(output_info, anndata_object_name=annotation_save_fname)</p>
+<p>Module A: Cell Type Annotation Visualization</p>
+<p>print(’nnModule A visualization’)
+# Visualize UMAP and cell coordinates with all cell types
+sann.visualize_umap_and_cell_coordinates_with_all_celltypes(
+output_nico_dir=output_nico_dir,
+output_annotation_dir=output_annotation_dir,
+anndata_object_name=annotation_save_fname,
+spatial_cluster_tag=annotation_slot,
+spatial_coordinate_tag=’spatial’,
+umap_tag=’X_umap’,
+saveas=saveas,
+transparent_mode=transparent_mode
+)</p>
+<p># Visualize UMAP and cell coordinates with selected cell types
+sann.visualize_umap_and_cell_coordinates_with_selected_celltypes(
+output_nico_dir=output_nico_dir,
+output_annotation_dir=output_annotation_dir,
+anndata_object_name=annotation_save_fname,
+spatial_cluster_tag=annotation_slot,
+spatial_coordinate_tag=’spatial’,
+umap_tag=’X_umap’,
+choose_celltypes=[],
+saveas=saveas,
+transparent_mode=transparent_mode
+)</p>
+<p>Module B: Infer Significant Niche Cell Type Interactions
+print(’nnModule B’)
+do_not_use_following_CT_in_niche = [‘Basophils’, ‘Cycling/GC B cell’, ‘pDC’]</p>
+<p>niche_pred_output = sint.spatial_neighborhood_analysis(
+Radius=inputRadius,
+output_nico_dir=output_nico_dir,
+anndata_object_name=annotation_save_fname,
+spatial_cluster_tag=annotation_slot,
+removed_CTs_before_finding_CT_CT_interactions=do_not_use_following_CT_in_niche
+)</p>
+<p>celltype_niche_interaction_cutoff = 0.1</p>
+<p>sint.plot_niche_interactions_with_edge_weight(
+niche_pred_output,
+niche_cutoff=celltype_niche_interaction_cutoff,
+saveas=saveas,
+transparent_mode=transparent_mode
+)</p>
+<p>sint.plot_niche_interactions_without_edge_weight(
+niche_pred_output,
+niche_cutoff=celltype_niche_interaction_cutoff,
+saveas=saveas,
+transparent_mode=transparent_mode
+)</p>
+<p>sint.find_interacting_cell_types(
+niche_pred_output,
+choose_celltypes=[],
+celltype_niche_interaction_cutoff=celltype_niche_interaction_cutoff,
+coeff_cutoff=30,
+saveas=saveas,
+transparent_mode=transparent_mode,
+figsize=(4.0, 2.0)
+)</p>
+<p>sint.plot_confusion_matrix(
+niche_pred_output,
+saveas=saveas,
+transparent_mode=transparent_mode
+)</p>
+<p>sint.plot_coefficient_matrix(
+niche_pred_output,
+saveas=saveas,
+transparent_mode=transparent_mode
+)</p>
+<p>sint.plot_evaluation_scores(
+niche_pred_output,
+saveas=saveas,
+transparent_mode=transparent_mode,
+figsize=(4, 3)
+)</p>
+<p>Module C: Perform Niche Cell State Covariation Analysis Using Latent Factors
+print(’nnModule C’)
+cov_out = scov.gene_covariation_analysis(
+iNMFmode=True,
+Radius=inputRadius,
+no_of_factors=3,
+spatial_integration_modality=’double’,
+refpath=ref_datapath,
+quepath=query_datapath,
+output_niche_prediction_dir=output_nico_dir,
+ref_cluster_tag=ref_cluster_tag
+)</p>
+<p># Visualize the correlation of genes from NMF
+scov.plot_cosine_and_spearman_correlation_to_factors(
+cov_out,
+choose_celltypes=[],
+NOG_Fa=30,
+saveas=saveas,
+transparent_mode=transparent_mode,
+figsize=(15, 10)
+)</p>
+<p>scov.make_excel_sheet_for_gene_correlation(cov_out)</p>
+<p>Module D: Cell Type Covariation Visualization
+print(’nnModule D’)
+scov.plot_significant_regression_covariations_as_circleplot(
+cov_out,
+choose_celltypes=[],
+pvalue_cutoff=0.05,
+mention_pvalue=True,
+saveas=saveas,
+transparent_mode=transparent_mode,
+figsize=(6, 1.25)
+)</p>
+<p>Module E: Analysis of Ligand-Receptor Interactions Within the Cell Type Covariation State
+print(’nnModule E’)
+scov.save_LR_interactions_in_excelsheet_and_regression_summary_in_textfile_for_interacting_cell_types(
+cov_out,
+pvalueCutoff=0.05,
+correlation_with_spearman=True,
+LR_plot_NMF_Fa_thres=0.1,
+LR_plot_Exp_thres=0.1,
+number_of_top_genes_to_print=5
+)</p>
+<p>scov.find_LR_interactions_in_interacting_cell_types(
+cov_out,
+choose_interacting_celltype_pair=[],
+choose_factors_id=[],
+pvalueCutoff=0.05,
+LR_plot_NMF_Fa_thres=0.2,
+LR_plot_Exp_thres=0.2,
+saveas=saveas,
+transparent_mode=transparent_mode,
+figsize=(12, 10)
+)</p>
+<p>Module F: Perform Functional Enrichment Analysis for Genes Associated with Latent Factors
+print(’nnModule F’)
+scov.pathway_analysis(
+cov_out,
+choose_celltypes=[],
+NOG_pathway=50,
+choose_factors_id=[],
+savefigure=True,
+positively_correlated=True,
+saveas=’pdf’,
+rps_rpl_mt_genes_included=False
+)</p>
+<p>Module G: Visualization of Top Genes Across Cell Type and Factors as Dotplot
+print(’nnModule G’)
+scov.plot_top_genes_for_a_given_celltype_from_all_three_factors(
+cov_out,
+choose_celltypes=[],
+top_NOG=20,
+saveas=saveas,
+transparent_mode=transparent_mode
+)</p>
+<p>scov.plot_top_genes_for_pair_of_celltypes_from_two_chosen_factors(
+cov_out,
+choose_interacting_celltype_pair=[‘Stem/TA’, ‘Paneth’],
+visualize_factors_id=[1, 1],
+top_NOG=20,
+saveas=saveas,
+transparent_mode=transparent_mode
+)</p>
+<p>Module H: Visualize Factor Values in the UMAP
+print(’nnModule H’)</p>
+<p>scov.visualize_factors_in_spatial_umap(
+cov_out,
+visualize_factors_id=[1, 1],
+choose_interacting_celltype_pair=[‘Stem/TA’, ‘Paneth’],
+saveas=saveas,
+transparent_mode=transparent_mode,
+figsize=(8, 3.5)
+)</p>
+<p>scov.visualize_factors_in_scRNAseq_umap(
+cov_out,
+choose_interacting_celltype_pair=[‘Stem/TA’, ‘Paneth’],
+visualize_factors_id=[1, 1],
+saveas=saveas,
+transparent_mode=transparent_mode,
+figsize=(8, 3.5)
+)</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral float-right" title="NiCo_Modules" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Grün lab.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

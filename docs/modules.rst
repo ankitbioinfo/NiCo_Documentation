@@ -1,4 +1,4 @@
-NiCo_Documentation
+NiCo_Modules 
 ==================
 
 .. toctree::

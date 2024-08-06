@@ -660,9 +660,10 @@ def plot_coefficient_matrix(input,saveas='pdf',showit=True,transparent_mode=Fals
 
     Outputs:
     --------
-    The function saves the coefficient matrix plot in the directory specified by ./nico_out/niche_prediction_linear/*.
-    The filename will be in the format 'weight_matrix_R<Radius>.<saveas>', where <Radius> is the radius value
+    The function saves the coefficient matrix plot in the directory specified by ./nico_out/niche_prediction_linear/.
+    The filename will be in the format "weight_matrix_R<Radius>.<saveas>", where <Radius> is the radius value
     from the input and <saveas> is the file format.
+
     """
 
 
