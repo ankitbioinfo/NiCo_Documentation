@@ -19,7 +19,7 @@ Below is a complete example demonstrating the usage of the main steps (modules) 
 
 ### Importing Modules and Setting Up
 
-
+```console
 import Annotations as sann
 import Interactions as sint
 import Covariations as scov
@@ -47,7 +47,7 @@ annotation_save_fname = 'nico_celltype_annotation.h5ad'
 inputRadius = 0
 ref_cluster_tag = 'cluster'  # scRNAseq cell type slot
 annotation_slot = 'nico_ct'  # spatial cell type slot
-
+```
 
 Module A: Perform Cell Type Annotation of Spatial Data
 
