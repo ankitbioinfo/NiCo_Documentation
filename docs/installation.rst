@@ -18,23 +18,23 @@ The recommended way to install NiCo is via Pip. Follow these steps:
 
 1. Create a new Conda environment:
 
-```
-conda create -n nicoUser python=3.11
-```
+.. code-block:: console
+  conda create -n nicoUser python=3.11
+
 
 2. Activate the environment:
 
-```
-conda activate nicoUser
-```
+.. code-block:: console
+  conda activate nicoUser
+
 
 3. Install the required dependencies and NiCo:
 
-```
-conda install -c conda-forge pygraphviz
-pip install nico-sc-sp
-pip install jupyterlab
-```
+.. code-block:: console
+  conda install -c conda-forge pygraphviz
+  pip install nico-sc-sp
+  pip install jupyterlab
+
 
 
 Verifying the Installation
@@ -42,10 +42,10 @@ Verifying the Installation
 
 To verify that NiCo is installed correctly, run the following command:
 
-```
->>>import nico
->>>
-```
+.. code-block:: console
+  >>>import nico
+  >>>
+
 
 If the installation is successful, you should see a blank >>> prompt.
 
