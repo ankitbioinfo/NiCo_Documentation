@@ -31,9 +31,10 @@ The recommended way to install NiCo is via Pip. Follow these steps:
 3. Install the required dependencies and NiCo:
 
 .. code-block:: console
-  conda install -c conda-forge pygraphviz
-  pip install nico-sc-sp
-  pip install jupyterlab
+
+   conda install -c conda-forge pygraphviz
+   pip install nico-sc-sp
+   pip install jupyterlab
 
 
 
