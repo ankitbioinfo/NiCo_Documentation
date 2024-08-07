@@ -7,6 +7,7 @@
   <title>Examples &mdash; NiCo 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
 
   
   <!--[if lt IE 9]>
@@ -18,6 +19,8 @@
         <script src="_static/documentation_options.js?v=8d563738"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -50,7 +53,7 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#tutorials">Tutorials</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="#tutorials-with-visualization">Tutorials with visualization</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#basic-usage">Basic Usage</a></li>
 </ul>
 </li>
@@ -85,233 +88,275 @@
              
   <section id="examples">
 <h1>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h1>
-<p>This section provides examples of how to use the Nico SC-SP library for spatial cell type annotation, niche interaction inference, and covariation analysis.</p>
+<p>This section provides examples of how to use the NiCo tool for spatial cell type annotation, niche interaction inference, and covariation analysis.</p>
 </section>
-<section id="tutorials">
-<h1>Tutorials<a class="headerlink" href="#tutorials" title="Link to this heading"></a></h1>
+<section id="tutorials-with-visualization">
+<h1>Tutorials with visualization<a class="headerlink" href="#tutorials-with-visualization" title="Link to this heading"></a></h1>
 <p>Please prepare the input files with scRNA-seq count data and cell type annotation (cluster partition), spatial count data, and spatial
 cell coordinates to run the complete NiCo tutorials.</p>
-<p><a class="reference external" href="https://github.com/ankitbioinfo/nico_tutorial">Nico tutorials for Xenium, MERSCOPE, SEQFISH and SlideSeqV2 spatial technologies are available here</a></p>
+<p>NiCo tutorials for Xenium, MERSCOPE, SEQFISH and SlideSeqV2 spatial technologies via Jupyter lab are <a class="reference external" href="https://github.com/ankitbioinfo/nico_tutorial">available here</a></p>
 <section id="basic-usage">
 <h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading"></a></h2>
 <p>Below is a complete example demonstrating the usage of the main steps (modules) in NiCo.</p>
 <p>### Importing Modules and Setting Up</p>
-<p>import Annotations as sann
-import Interactions as sint
-import Covariations as scov
-import scanpy as sc
-import numpy as np
-import matplotlib.pyplot as plt</p>
-<p># Configure matplotlib for publication-quality plots
-plt.rcParams[‘font.family’] = ‘sans-serif’
-plt.rcParams[‘font.sans-serif’] = [‘Helvetica’, ‘Tahoma’, ‘DejaVu Sans’, ‘Lucida Grande’, ‘Verdana’]
-plt.rcParams[‘pdf.fonttype’] = 42  # Embed fonts in PDF files</p>
-<p>import warnings
-warnings.filterwarnings(“ignore”)</p>
-<p># Parameters for saving plots
-saveas = ‘png’
-transparent_mode = False</p>
-<p>ref_datapath = ‘./inputRef/’
-query_datapath = ‘./inputQuery/’
-output_nico_dir = ‘./nico_analysis/’
-output_annotation_dir = None
-annotation_save_fname = ‘nico_celltype_annotation.h5ad’
-inputRadius = 0
-ref_cluster_tag = ‘cluster’  # scRNAseq cell type slot
-annotation_slot = ‘nico_ct’  # spatial cell type slot</p>
-<p>Module A: Perform Cell Type Annotation of Spatial Data</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nico</span> <span class="kn">import</span> <span class="n">NicoAnalysis</span>
+<span class="kn">import</span> <span class="nn">Annotations</span> <span class="k">as</span> <span class="nn">sann</span>
+<span class="kn">import</span> <span class="nn">Interactions</span> <span class="k">as</span> <span class="nn">sint</span>
+<span class="kn">import</span> <span class="nn">Covariations</span> <span class="k">as</span> <span class="nn">scov</span>
+<span class="kn">import</span> <span class="nn">scanpy</span> <span class="k">as</span> <span class="nn">sc</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Configure matplotlib for publication-quality plots</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.family&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;sans-serif&#39;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.sans-serif&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Helvetica&#39;</span><span class="p">,</span> <span class="s1">&#39;Tahoma&#39;</span><span class="p">,</span> <span class="s1">&#39;DejaVu Sans&#39;</span><span class="p">,</span> <span class="s1">&#39;Lucida Grande&#39;</span><span class="p">,</span> <span class="s1">&#39;Verdana&#39;</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;pdf.fonttype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>  <span class="c1"># Embed fonts in PDF files</span>
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+
+<span class="c1"># Parameters for saving plots</span>
+<span class="n">saveas</span> <span class="o">=</span> <span class="s1">&#39;png&#39;</span>
+<span class="n">transparent_mode</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="n">ref_datapath</span> <span class="o">=</span> <span class="s1">&#39;./inputRef/&#39;</span>
+<span class="n">query_datapath</span> <span class="o">=</span> <span class="s1">&#39;./inputQuery/&#39;</span>
+<span class="n">output_nico_dir</span> <span class="o">=</span> <span class="s1">&#39;./nico_analysis/&#39;</span>
+<span class="n">output_annotation_dir</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">annotation_save_fname</span> <span class="o">=</span> <span class="s1">&#39;nico_celltype_annotation.h5ad&#39;</span>
+<span class="n">inputRadius</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">ref_cluster_tag</span> <span class="o">=</span> <span class="s1">&#39;cluster&#39;</span>  <span class="c1"># scRNAseq cell type slot</span>
+<span class="n">annotation_slot</span> <span class="o">=</span> <span class="s1">&#39;nico_ct&#39;</span>  <span class="c1"># spatial cell type slot</span>
+</pre></div>
+</div>
+<p><strong>A1: Perform Cell Type Annotation of Spatial Data</strong></p>
 <p># Find anchor cells between reference and query datasets</p>
-<p>anchors_and_neighbors_info = sann.find_anchor_cells_between_ref_and_query(
-refpath=ref_datapath,
-quepath=query_datapath,
-output_nico_dir=output_nico_dir,
-output_annotation_dir=output_annotation_dir
-)</p>
-<p># Perform NiCo-based annotation
-output_info = sann.nico_based_annotation(
-anchors_and_neighbors_info,
-guiding_spatial_cluster_resolution_tag=’leiden0.4’,
-across_spatial_clusters_dispersion_cutoff=0.15,
-resolved_tie_issue_with_weighted_nearest_neighbor=’No’
-)</p>
-<p># Clean up temporary files
-sann.delete_files(output_info)</p>
-<p># Save annotations to the spatial object
-sann.save_annotations_in_spatial_object(output_info, anndata_object_name=annotation_save_fname)</p>
-<p>Module A: Cell Type Annotation Visualization</p>
-<p>print(’nnModule A visualization’)
-# Visualize UMAP and cell coordinates with all cell types
-sann.visualize_umap_and_cell_coordinates_with_all_celltypes(
-output_nico_dir=output_nico_dir,
-output_annotation_dir=output_annotation_dir,
-anndata_object_name=annotation_save_fname,
-spatial_cluster_tag=annotation_slot,
-spatial_coordinate_tag=’spatial’,
-umap_tag=’X_umap’,
-saveas=saveas,
-transparent_mode=transparent_mode
-)</p>
-<p># Visualize UMAP and cell coordinates with selected cell types
-sann.visualize_umap_and_cell_coordinates_with_selected_celltypes(
-output_nico_dir=output_nico_dir,
-output_annotation_dir=output_annotation_dir,
-anndata_object_name=annotation_save_fname,
-spatial_cluster_tag=annotation_slot,
-spatial_coordinate_tag=’spatial’,
-umap_tag=’X_umap’,
-choose_celltypes=[],
-saveas=saveas,
-transparent_mode=transparent_mode
-)</p>
-<p>Module B: Infer Significant Niche Cell Type Interactions
-print(’nnModule B’)
-do_not_use_following_CT_in_niche = [‘Basophils’, ‘Cycling/GC B cell’, ‘pDC’]</p>
-<p>niche_pred_output = sint.spatial_neighborhood_analysis(
-Radius=inputRadius,
-output_nico_dir=output_nico_dir,
-anndata_object_name=annotation_save_fname,
-spatial_cluster_tag=annotation_slot,
-removed_CTs_before_finding_CT_CT_interactions=do_not_use_following_CT_in_niche
-)</p>
-<p>celltype_niche_interaction_cutoff = 0.1</p>
-<p>sint.plot_niche_interactions_with_edge_weight(
-niche_pred_output,
-niche_cutoff=celltype_niche_interaction_cutoff,
-saveas=saveas,
-transparent_mode=transparent_mode
-)</p>
-<p>sint.plot_niche_interactions_without_edge_weight(
-niche_pred_output,
-niche_cutoff=celltype_niche_interaction_cutoff,
-saveas=saveas,
-transparent_mode=transparent_mode
-)</p>
-<p>sint.find_interacting_cell_types(
-niche_pred_output,
-choose_celltypes=[],
-celltype_niche_interaction_cutoff=celltype_niche_interaction_cutoff,
-coeff_cutoff=30,
-saveas=saveas,
-transparent_mode=transparent_mode,
-figsize=(4.0, 2.0)
-)</p>
-<p>sint.plot_confusion_matrix(
-niche_pred_output,
-saveas=saveas,
-transparent_mode=transparent_mode
-)</p>
-<p>sint.plot_coefficient_matrix(
-niche_pred_output,
-saveas=saveas,
-transparent_mode=transparent_mode
-)</p>
-<p>sint.plot_evaluation_scores(
-niche_pred_output,
-saveas=saveas,
-transparent_mode=transparent_mode,
-figsize=(4, 3)
-)</p>
-<p>Module C: Perform Niche Cell State Covariation Analysis Using Latent Factors
-print(’nnModule C’)
-cov_out = scov.gene_covariation_analysis(
-iNMFmode=True,
-Radius=inputRadius,
-no_of_factors=3,
-spatial_integration_modality=’double’,
-refpath=ref_datapath,
-quepath=query_datapath,
-output_niche_prediction_dir=output_nico_dir,
-ref_cluster_tag=ref_cluster_tag
-)</p>
-<p># Visualize the correlation of genes from NMF
-scov.plot_cosine_and_spearman_correlation_to_factors(
-cov_out,
-choose_celltypes=[],
-NOG_Fa=30,
-saveas=saveas,
-transparent_mode=transparent_mode,
-figsize=(15, 10)
-)</p>
-<p>scov.make_excel_sheet_for_gene_correlation(cov_out)</p>
-<p>Module D: Cell Type Covariation Visualization
-print(’nnModule D’)
-scov.plot_significant_regression_covariations_as_circleplot(
-cov_out,
-choose_celltypes=[],
-pvalue_cutoff=0.05,
-mention_pvalue=True,
-saveas=saveas,
-transparent_mode=transparent_mode,
-figsize=(6, 1.25)
-)</p>
-<p>Module E: Analysis of Ligand-Receptor Interactions Within the Cell Type Covariation State
-print(’nnModule E’)
-scov.save_LR_interactions_in_excelsheet_and_regression_summary_in_textfile_for_interacting_cell_types(
-cov_out,
-pvalueCutoff=0.05,
-correlation_with_spearman=True,
-LR_plot_NMF_Fa_thres=0.1,
-LR_plot_Exp_thres=0.1,
-number_of_top_genes_to_print=5
-)</p>
-<p>scov.find_LR_interactions_in_interacting_cell_types(
-cov_out,
-choose_interacting_celltype_pair=[],
-choose_factors_id=[],
-pvalueCutoff=0.05,
-LR_plot_NMF_Fa_thres=0.2,
-LR_plot_Exp_thres=0.2,
-saveas=saveas,
-transparent_mode=transparent_mode,
-figsize=(12, 10)
-)</p>
-<p>Module F: Perform Functional Enrichment Analysis for Genes Associated with Latent Factors
-print(’nnModule F’)
-scov.pathway_analysis(
-cov_out,
-choose_celltypes=[],
-NOG_pathway=50,
-choose_factors_id=[],
-savefigure=True,
-positively_correlated=True,
-saveas=’pdf’,
-rps_rpl_mt_genes_included=False
-)</p>
-<p>Module G: Visualization of Top Genes Across Cell Type and Factors as Dotplot
-print(’nnModule G’)
-scov.plot_top_genes_for_a_given_celltype_from_all_three_factors(
-cov_out,
-choose_celltypes=[],
-top_NOG=20,
-saveas=saveas,
-transparent_mode=transparent_mode
-)</p>
-<p>scov.plot_top_genes_for_pair_of_celltypes_from_two_chosen_factors(
-cov_out,
-choose_interacting_celltype_pair=[‘Stem/TA’, ‘Paneth’],
-visualize_factors_id=[1, 1],
-top_NOG=20,
-saveas=saveas,
-transparent_mode=transparent_mode
-)</p>
-<p>Module H: Visualize Factor Values in the UMAP
-print(’nnModule H’)</p>
-<p>scov.visualize_factors_in_spatial_umap(
-cov_out,
-visualize_factors_id=[1, 1],
-choose_interacting_celltype_pair=[‘Stem/TA’, ‘Paneth’],
-saveas=saveas,
-transparent_mode=transparent_mode,
-figsize=(8, 3.5)
-)</p>
-<p>scov.visualize_factors_in_scRNAseq_umap(
-cov_out,
-choose_interacting_celltype_pair=[‘Stem/TA’, ‘Paneth’],
-visualize_factors_id=[1, 1],
-saveas=saveas,
-transparent_mode=transparent_mode,
-figsize=(8, 3.5)
-)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">anchors_and_neighbors_info</span> <span class="o">=</span> <span class="n">sann</span><span class="o">.</span><span class="n">find_anchor_cells_between_ref_and_query</span><span class="p">(</span>
+<span class="n">refpath</span><span class="o">=</span><span class="n">ref_datapath</span><span class="p">,</span>
+<span class="n">quepath</span><span class="o">=</span><span class="n">query_datapath</span><span class="p">,</span>
+<span class="n">output_nico_dir</span><span class="o">=</span><span class="n">output_nico_dir</span><span class="p">,</span>
+<span class="n">output_annotation_dir</span><span class="o">=</span><span class="n">output_annotation_dir</span>
+<span class="p">)</span>
+
+<span class="c1"># Perform NiCo-based annotation</span>
+<span class="n">output_info</span> <span class="o">=</span> <span class="n">sann</span><span class="o">.</span><span class="n">nico_based_annotation</span><span class="p">(</span>
+<span class="n">anchors_and_neighbors_info</span><span class="p">,</span>
+<span class="n">guiding_spatial_cluster_resolution_tag</span><span class="o">=</span><span class="s1">&#39;leiden0.4&#39;</span><span class="p">,</span>
+<span class="n">across_spatial_clusters_dispersion_cutoff</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span>
+<span class="n">resolved_tie_issue_with_weighted_nearest_neighbor</span><span class="o">=</span><span class="s1">&#39;No&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Clean up temporary files</span>
+<span class="n">sann</span><span class="o">.</span><span class="n">delete_files</span><span class="p">(</span><span class="n">output_info</span><span class="p">)</span>
+
+<span class="c1"># Save annotations to the spatial object</span>
+<span class="n">sann</span><span class="o">.</span><span class="n">save_annotations_in_spatial_object</span><span class="p">(</span><span class="n">output_info</span><span class="p">,</span> <span class="n">anndata_object_name</span><span class="o">=</span><span class="n">annotation_save_fname</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>A2: Cell Type Annotation Visualization</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">Module A visualization&#39;</span><span class="p">)</span>
+<span class="c1"># Visualize UMAP and cell coordinates with all cell types</span>
+<span class="n">sann</span><span class="o">.</span><span class="n">visualize_umap_and_cell_coordinates_with_all_celltypes</span><span class="p">(</span>
+<span class="n">output_nico_dir</span><span class="o">=</span><span class="n">output_nico_dir</span><span class="p">,</span>
+<span class="n">output_annotation_dir</span><span class="o">=</span><span class="n">output_annotation_dir</span><span class="p">,</span>
+<span class="n">anndata_object_name</span><span class="o">=</span><span class="n">annotation_save_fname</span><span class="p">,</span>
+<span class="n">spatial_cluster_tag</span><span class="o">=</span><span class="n">annotation_slot</span><span class="p">,</span>
+<span class="n">spatial_coordinate_tag</span><span class="o">=</span><span class="s1">&#39;spatial&#39;</span><span class="p">,</span>
+<span class="n">umap_tag</span><span class="o">=</span><span class="s1">&#39;X_umap&#39;</span><span class="p">,</span>
+<span class="n">saveas</span><span class="o">=</span><span class="n">saveas</span><span class="p">,</span>
+<span class="n">transparent_mode</span><span class="o">=</span><span class="n">transparent_mode</span>
+<span class="p">)</span>
+
+<span class="c1"># Visualize UMAP and cell coordinates with selected cell types</span>
+<span class="n">sann</span><span class="o">.</span><span class="n">visualize_umap_and_cell_coordinates_with_selected_celltypes</span><span class="p">(</span>
+<span class="n">output_nico_dir</span><span class="o">=</span><span class="n">output_nico_dir</span><span class="p">,</span>
+<span class="n">output_annotation_dir</span><span class="o">=</span><span class="n">output_annotation_dir</span><span class="p">,</span>
+<span class="n">anndata_object_name</span><span class="o">=</span><span class="n">annotation_save_fname</span><span class="p">,</span>
+<span class="n">spatial_cluster_tag</span><span class="o">=</span><span class="n">annotation_slot</span><span class="p">,</span>
+<span class="n">spatial_coordinate_tag</span><span class="o">=</span><span class="s1">&#39;spatial&#39;</span><span class="p">,</span>
+<span class="n">umap_tag</span><span class="o">=</span><span class="s1">&#39;X_umap&#39;</span><span class="p">,</span>
+<span class="n">choose_celltypes</span><span class="o">=</span><span class="p">[],</span>
+<span class="n">saveas</span><span class="o">=</span><span class="n">saveas</span><span class="p">,</span>
+<span class="n">transparent_mode</span><span class="o">=</span><span class="n">transparent_mode</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>B: Infer Significant Niche Cell Type Interactions</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">Module B&#39;</span><span class="p">)</span>
+<span class="n">do_not_use_following_CT_in_niche</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Basophils&#39;</span><span class="p">,</span> <span class="s1">&#39;Cycling/GC B cell&#39;</span><span class="p">,</span> <span class="s1">&#39;pDC&#39;</span><span class="p">]</span>
+
+<span class="n">niche_pred_output</span> <span class="o">=</span> <span class="n">sint</span><span class="o">.</span><span class="n">spatial_neighborhood_analysis</span><span class="p">(</span>
+<span class="n">Radius</span><span class="o">=</span><span class="n">inputRadius</span><span class="p">,</span>
+<span class="n">output_nico_dir</span><span class="o">=</span><span class="n">output_nico_dir</span><span class="p">,</span>
+<span class="n">anndata_object_name</span><span class="o">=</span><span class="n">annotation_save_fname</span><span class="p">,</span>
+<span class="n">spatial_cluster_tag</span><span class="o">=</span><span class="n">annotation_slot</span><span class="p">,</span>
+<span class="n">removed_CTs_before_finding_CT_CT_interactions</span><span class="o">=</span><span class="n">do_not_use_following_CT_in_niche</span>
+<span class="p">)</span>
+
+<span class="n">celltype_niche_interaction_cutoff</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+<span class="n">sint</span><span class="o">.</span><span class="n">plot_niche_interactions_with_edge_weight</span><span class="p">(</span>
+<span class="n">niche_pred_output</span><span class="p">,</span>
+<span class="n">niche_cutoff</span><span class="o">=</span><span class="n">celltype_niche_interaction_cutoff</span><span class="p">,</span>
+<span class="n">saveas</span><span class="o">=</span><span class="n">saveas</span><span class="p">,</span>
+<span class="n">transparent_mode</span><span class="o">=</span><span class="n">transparent_mode</span>
+<span class="p">)</span>
+
+<span class="n">sint</span><span class="o">.</span><span class="n">plot_niche_interactions_without_edge_weight</span><span class="p">(</span>
+<span class="n">niche_pred_output</span><span class="p">,</span>
+<span class="n">niche_cutoff</span><span class="o">=</span><span class="n">celltype_niche_interaction_cutoff</span><span class="p">,</span>
+<span class="n">saveas</span><span class="o">=</span><span class="n">saveas</span><span class="p">,</span>
+<span class="n">transparent_mode</span><span class="o">=</span><span class="n">transparent_mode</span>
+<span class="p">)</span>
+
+<span class="n">sint</span><span class="o">.</span><span class="n">find_interacting_cell_types</span><span class="p">(</span>
+<span class="n">niche_pred_output</span><span class="p">,</span>
+<span class="n">choose_celltypes</span><span class="o">=</span><span class="p">[],</span>
+<span class="n">celltype_niche_interaction_cutoff</span><span class="o">=</span><span class="n">celltype_niche_interaction_cutoff</span><span class="p">,</span>
+<span class="n">coeff_cutoff</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+<span class="n">saveas</span><span class="o">=</span><span class="n">saveas</span><span class="p">,</span>
+<span class="n">transparent_mode</span><span class="o">=</span><span class="n">transparent_mode</span><span class="p">,</span>
+<span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">sint</span><span class="o">.</span><span class="n">plot_confusion_matrix</span><span class="p">(</span>
+<span class="n">niche_pred_output</span><span class="p">,</span>
+<span class="n">saveas</span><span class="o">=</span><span class="n">saveas</span><span class="p">,</span>
+<span class="n">transparent_mode</span><span class="o">=</span><span class="n">transparent_mode</span>
+<span class="p">)</span>
+
+<span class="n">sint</span><span class="o">.</span><span class="n">plot_coefficient_matrix</span><span class="p">(</span>
+<span class="n">niche_pred_output</span><span class="p">,</span>
+<span class="n">saveas</span><span class="o">=</span><span class="n">saveas</span><span class="p">,</span>
+<span class="n">transparent_mode</span><span class="o">=</span><span class="n">transparent_mode</span>
+<span class="p">)</span>
+
+<span class="n">sint</span><span class="o">.</span><span class="n">plot_evaluation_scores</span><span class="p">(</span>
+<span class="n">niche_pred_output</span><span class="p">,</span>
+<span class="n">saveas</span><span class="o">=</span><span class="n">saveas</span><span class="p">,</span>
+<span class="n">transparent_mode</span><span class="o">=</span><span class="n">transparent_mode</span><span class="p">,</span>
+<span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Module C: Perform Niche Cell State Covariation Analysis Using Latent Factors</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">Module C&#39;</span><span class="p">)</span>
+<span class="n">cov_out</span> <span class="o">=</span> <span class="n">scov</span><span class="o">.</span><span class="n">gene_covariation_analysis</span><span class="p">(</span>
+<span class="n">iNMFmode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="n">Radius</span><span class="o">=</span><span class="n">inputRadius</span><span class="p">,</span>
+<span class="n">no_of_factors</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<span class="n">spatial_integration_modality</span><span class="o">=</span><span class="s1">&#39;double&#39;</span><span class="p">,</span>
+<span class="n">refpath</span><span class="o">=</span><span class="n">ref_datapath</span><span class="p">,</span>
+<span class="n">quepath</span><span class="o">=</span><span class="n">query_datapath</span><span class="p">,</span>
+<span class="n">output_niche_prediction_dir</span><span class="o">=</span><span class="n">output_nico_dir</span><span class="p">,</span>
+<span class="n">ref_cluster_tag</span><span class="o">=</span><span class="n">ref_cluster_tag</span>
+<span class="p">)</span>
+
+<span class="c1"># Visualize the correlation of genes from NMF</span>
+<span class="n">scov</span><span class="o">.</span><span class="n">plot_cosine_and_spearman_correlation_to_factors</span><span class="p">(</span>
+<span class="n">cov_out</span><span class="p">,</span>
+<span class="n">choose_celltypes</span><span class="o">=</span><span class="p">[],</span>
+<span class="n">NOG_Fa</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+<span class="n">saveas</span><span class="o">=</span><span class="n">saveas</span><span class="p">,</span>
+<span class="n">transparent_mode</span><span class="o">=</span><span class="n">transparent_mode</span><span class="p">,</span>
+<span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">scov</span><span class="o">.</span><span class="n">make_excel_sheet_for_gene_correlation</span><span class="p">(</span><span class="n">cov_out</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Module D: Cell Type Covariation Visualization</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">Module D&#39;</span><span class="p">)</span>
+<span class="n">scov</span><span class="o">.</span><span class="n">plot_significant_regression_covariations_as_circleplot</span><span class="p">(</span>
+<span class="n">cov_out</span><span class="p">,</span>
+<span class="n">choose_celltypes</span><span class="o">=</span><span class="p">[],</span>
+<span class="n">pvalue_cutoff</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+<span class="n">mention_pvalue</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="n">saveas</span><span class="o">=</span><span class="n">saveas</span><span class="p">,</span>
+<span class="n">transparent_mode</span><span class="o">=</span><span class="n">transparent_mode</span><span class="p">,</span>
+<span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mf">1.25</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Module E: Analysis of Ligand-Receptor Interactions Within the Cell Type Covariation State</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">Module E&#39;</span><span class="p">)</span>
+<span class="n">scov</span><span class="o">.</span><span class="n">save_LR_interactions_in_excelsheet_and_regression_summary_in_textfile_for_interacting_cell_types</span><span class="p">(</span>
+<span class="n">cov_out</span><span class="p">,</span>
+<span class="n">pvalueCutoff</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+<span class="n">correlation_with_spearman</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="n">LR_plot_NMF_Fa_thres</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+<span class="n">LR_plot_Exp_thres</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+<span class="n">number_of_top_genes_to_print</span><span class="o">=</span><span class="mi">5</span>
+<span class="p">)</span>
+
+<span class="n">scov</span><span class="o">.</span><span class="n">find_LR_interactions_in_interacting_cell_types</span><span class="p">(</span>
+<span class="n">cov_out</span><span class="p">,</span>
+<span class="n">choose_interacting_celltype_pair</span><span class="o">=</span><span class="p">[],</span>
+<span class="n">choose_factors_id</span><span class="o">=</span><span class="p">[],</span>
+<span class="n">pvalueCutoff</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+<span class="n">LR_plot_NMF_Fa_thres</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+<span class="n">LR_plot_Exp_thres</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+<span class="n">saveas</span><span class="o">=</span><span class="n">saveas</span><span class="p">,</span>
+<span class="n">transparent_mode</span><span class="o">=</span><span class="n">transparent_mode</span><span class="p">,</span>
+<span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Module F: Perform Functional Enrichment Analysis for Genes Associated with Latent Factors</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">Module F&#39;</span><span class="p">)</span>
+<span class="n">scov</span><span class="o">.</span><span class="n">pathway_analysis</span><span class="p">(</span>
+<span class="n">cov_out</span><span class="p">,</span>
+<span class="n">choose_celltypes</span><span class="o">=</span><span class="p">[],</span>
+<span class="n">NOG_pathway</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+<span class="n">choose_factors_id</span><span class="o">=</span><span class="p">[],</span>
+<span class="n">savefigure</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="n">positively_correlated</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="n">saveas</span><span class="o">=</span><span class="s1">&#39;pdf&#39;</span><span class="p">,</span>
+<span class="n">rps_rpl_mt_genes_included</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Module G: Visualization of Top Genes Across Cell Type and Factors as Dotplot</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">Module G&#39;</span><span class="p">)</span>
+<span class="n">scov</span><span class="o">.</span><span class="n">plot_top_genes_for_a_given_celltype_from_all_three_factors</span><span class="p">(</span>
+<span class="n">cov_out</span><span class="p">,</span>
+<span class="n">choose_celltypes</span><span class="o">=</span><span class="p">[],</span>
+<span class="n">top_NOG</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+<span class="n">saveas</span><span class="o">=</span><span class="n">saveas</span><span class="p">,</span>
+<span class="n">transparent_mode</span><span class="o">=</span><span class="n">transparent_mode</span>
+<span class="p">)</span>
+
+<span class="n">scov</span><span class="o">.</span><span class="n">plot_top_genes_for_pair_of_celltypes_from_two_chosen_factors</span><span class="p">(</span>
+<span class="n">cov_out</span><span class="p">,</span>
+<span class="n">choose_interacting_celltype_pair</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Stem/TA&#39;</span><span class="p">,</span> <span class="s1">&#39;Paneth&#39;</span><span class="p">],</span>
+<span class="n">visualize_factors_id</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="n">top_NOG</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+<span class="n">saveas</span><span class="o">=</span><span class="n">saveas</span><span class="p">,</span>
+<span class="n">transparent_mode</span><span class="o">=</span><span class="n">transparent_mode</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Module H: Visualize Factor Values in the UMAP</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">Module H&#39;</span><span class="p">)</span>
+<span class="n">scov</span><span class="o">.</span><span class="n">visualize_factors_in_spatial_umap</span><span class="p">(</span>
+<span class="n">cov_out</span><span class="p">,</span>
+<span class="n">visualize_factors_id</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="n">choose_interacting_celltype_pair</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Stem/TA&#39;</span><span class="p">,</span> <span class="s1">&#39;Paneth&#39;</span><span class="p">],</span>
+<span class="n">saveas</span><span class="o">=</span><span class="n">saveas</span><span class="p">,</span>
+<span class="n">transparent_mode</span><span class="o">=</span><span class="n">transparent_mode</span><span class="p">,</span>
+<span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">scov</span><span class="o">.</span><span class="n">visualize_factors_in_scRNAseq_umap</span><span class="p">(</span>
+<span class="n">cov_out</span><span class="p">,</span>
+<span class="n">choose_interacting_celltype_pair</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Stem/TA&#39;</span><span class="p">,</span> <span class="s1">&#39;Paneth&#39;</span><span class="p">],</span>
+<span class="n">visualize_factors_id</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="n">saveas</span><span class="o">=</span><span class="n">saveas</span><span class="p">,</span>
+<span class="n">transparent_mode</span><span class="o">=</span><span class="n">transparent_mode</span><span class="p">,</span>
+<span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
 </section>
 </section>
 

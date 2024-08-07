@@ -7,6 +7,7 @@
   <title>Installation &mdash; NiCo 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
 
   
   <!--[if lt IE 9]>
@@ -18,6 +19,8 @@
         <script src="_static/documentation_options.js?v=8d563738"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -50,14 +53,14 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#installing-via-conda">Installing via Conda</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-via-pip">Installing via Pip</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#verifying-the-installation">Verifying the Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#updating-nico-sc-sp">Updating Nico SC-SP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#updating-nico">Updating NiCo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html#tutorials">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html#tutorials-with-visualization">Tutorials with visualization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">NiCo_Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions (FAQ)</a></li>
@@ -89,7 +92,7 @@
              
   <section id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
-<p>This section provides instructions on how to install Nico SC-SP on your system.</p>
+<p>This section provides instructions on how to install NiCo on your system.</p>
 <section id="prerequisites">
 <h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
 <p>Before installing NiCo, ensure you have the following dependencies installed:</p>
@@ -98,26 +101,41 @@
 <li><p>Anaconda or Miniconda</p></li>
 </ul>
 </section>
-<section id="installing-via-conda">
-<h2>Installing via Conda<a class="headerlink" href="#installing-via-conda" title="Link to this heading"></a></h2>
-<p>The recommended way to install Nico SC-SP is via Conda. Follow these steps:</p>
-<p>1. Create a new Conda environment:
-conda create -n nicoUser python=3.11</p>
-<p>2. Activate the environment:
-conda activate nicoUser</p>
-<p>3. Install the required dependencies and NiCo:
-pip install nico-sc-sp
-pip install jupyterlab</p>
+<section id="installing-via-pip">
+<h2>Installing via Pip<a class="headerlink" href="#installing-via-pip" title="Link to this heading"></a></h2>
+<p>The recommended way to install NiCo is via Pip. Follow these steps:</p>
+<ol class="arabic simple">
+<li><p>Create a new Conda environment:</p></li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">conda create -n nicoUser python=3.11</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Activate the environment:</p></li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">conda activate nicoUser</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Install the required dependencies and NiCo:</p></li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">conda install -c conda-forge pygraphviz</span>
+<span class="go">pip install nico-sc-sp</span>
+<span class="go">pip install jupyterlab</span>
+</pre></div>
+</div>
 </section>
 <section id="verifying-the-installation">
 <h2>Verifying the Installation<a class="headerlink" href="#verifying-the-installation" title="Link to this heading"></a></h2>
-<p>To verify that NiCo is installed correctly, run the following command:
-&gt;&gt;&gt;import nico
-&gt;&gt;&gt;</p>
-<p>If the installation is successful, you should see a blank &gt;&gt;&gt; prompt.</p>
+<p>To verify that NiCo is installed correctly, run the following command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;import nico</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>If the installation is successful, you should see a blank <code class="docutils literal notranslate"><span class="pre">`&gt;&gt;&gt;`</span></code> prompt.</p>
 </section>
-<section id="updating-nico-sc-sp">
-<h2>Updating Nico SC-SP<a class="headerlink" href="#updating-nico-sc-sp" title="Link to this heading"></a></h2>
+<section id="updating-nico">
+<h2>Updating NiCo<a class="headerlink" href="#updating-nico" title="Link to this heading"></a></h2>
 <p>To update NiCo to the latest version, navigate to the cloned directory and pull the latest changes:</p>
 </section>
 <section id="troubleshooting">
