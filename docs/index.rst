@@ -63,7 +63,8 @@ cell coordinates to run the complete NiCo tutorials.
    introduction
    installation
    examples
-   modules
+   tutorial1
+   tutorial2
    api_reference
    faq
 
