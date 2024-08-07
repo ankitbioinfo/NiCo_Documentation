@@ -3,7 +3,7 @@ Introduction
 
 Welcome to the Nico Documentation!
 
-NiCo (**Ni**che **Co**variation) is a tool designed for the comprehensive analysis of imaging and sequencing based spatial transcriptomics data. This documentation provides detailed instructions on how to use the tool, including installation, usage examples, and API references.
+NiCo ( **Ni** che **Co** variation) is a tool designed for the comprehensive analysis of imaging and sequencing based spatial transcriptomics data. This documentation provides detailed instructions on how to use the tool, including installation, usage examples, and API references.
 
 Key Features:
 -------------
