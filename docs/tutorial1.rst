@@ -110,7 +110,9 @@ this slot cell type annotation of scRNAseq data is stored
     ref_cluster_tag='cluster' #scRNAseq cell type slot
     annotation_slot='nico_ct' #spatial cell type slot
 
-**A: Perform cell type annotation of spatial data**
+A: Perform cell type annotation of spatial data
+--------------------------------------------------
+
 
 First find anchored cells between two modalities
 
@@ -274,10 +276,11 @@ Left side: tissue map, Right side: UMAP
     #sann.visualize_umap_and_cell_coordinates_with_selected_celltypes(choose_celltypes=[])
 
 
-**B: Infer significant niche cell type interactions**
+B: Infer significant niche cell type interactions
+-------------------------------------------------
 
-Radius definition
-~~~~~~~~~~~~~~~~~
+**Radius definition**
+
 
 The radius R=0 in NiCo incorporates the neighboring cells that are in
 immediate contact with the central cell to construct the expected
@@ -492,8 +495,8 @@ Plot the evaluation score of the classifier for different metrics
 
 
 
-**C: Perform niche cell state covariation analysis using latent factors**
-============================================================================
+C: Perform niche cell state covariation analysis using latent factors
+---------------------------------------------------------------------
 
 Note: From module C onwards, Jupyter cells are independent of previous
 steps. Therefore, if you want to try different settings, you do not need
@@ -844,8 +847,8 @@ similarity.
 
     scov.make_excel_sheet_for_gene_correlation(cov_out)
 
-Module D: Cell type covariation visualization
----------------------------------------------
+D: Cell type covariation visualization
+--------------------------------------
 
 Plot covariations between niche cell types (x-axis) and central cell
 type (y-axis, defined by list argument choose_celltypes).
