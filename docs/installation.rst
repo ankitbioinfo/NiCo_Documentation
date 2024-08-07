@@ -19,13 +19,15 @@ The recommended way to install NiCo is via Pip. Follow these steps:
 1. Create a new Conda environment:
 
 .. code-block:: console
-  conda create -n nicoUser python=3.11
+
+   conda create -n nicoUser python=3.11
 
 
 2. Activate the environment:
 
 .. code-block:: console
-  conda activate nicoUser
+
+   conda activate nicoUser
 
 
 3. Install the required dependencies and NiCo:
@@ -44,11 +46,12 @@ Verifying the Installation
 To verify that NiCo is installed correctly, run the following command:
 
 .. code-block:: console
-  >>>import nico
-  >>>
+
+   >>>import nico
+   >>>
 
 
-If the installation is successful, you should see a blank >>> prompt.
+If the installation is successful, you should see a blank ```>>>``` prompt.
 
 Updating NiCo
 -------------------
