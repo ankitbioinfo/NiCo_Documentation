@@ -99,7 +99,7 @@ count matrix
     inputRadius=0
     annotation_slot='rctd_first_type' #spatial cell type slot
 
-A: Visualize cell type annotation of spatial data
+A2: Visualize cell type annotation of spatial data
 -------------------------------------------------
 
 .. code:: ipython3
