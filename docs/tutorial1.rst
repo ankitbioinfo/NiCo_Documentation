@@ -1,5 +1,5 @@
-tutorial1
-========
+tutorial 1: seqFISH, Xenium, or MERSCOPE
+=========================================
 
 This tutorial analyze the single cell resolution imaging based spatial transcriptomics data such as seqFISH, Xenium, and MERSCOPE.
 Please prepare the input files of scRNA-seq count data and spatial transcriptomics data mentioned `here.
@@ -110,7 +110,7 @@ this slot cell type annotation of scRNAseq data is stored
     ref_cluster_tag='cluster' #scRNAseq cell type slot
     annotation_slot='nico_ct' #spatial cell type slot
 
-A: Perform cell type annotation of spatial data
+A1: Perform cell type annotation of spatial data
 --------------------------------------------------
 
 
@@ -176,8 +176,8 @@ of time.
     # sann.visualize_spatial_anchored_cell_mapped_to_scRNAseq(output_info)
 
 
-**Save the annotation file into AnnData object**
-
+Save the annotation file into AnnData object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Save the annotation file into AnnData object (annotation_save_fname)
 along with given expression matrix in “output_nico_dir” directory.
@@ -194,7 +194,8 @@ along with given expression matrix in “output_nico_dir” directory.
 
 
 
-**Annotations from different computational methods such cell2location or TACCO**
+A2: Annotations from different computational methods such cell2location or TACCO
+--------------------------------------------------------------------------------
 
 If user have an AnnData object with cell type annotations from different
 methods, you can skip the previous steps.
@@ -212,7 +213,9 @@ This will ensure compatibility with the NiCo pipeline.
 
 
 
-**Visualize the spatial annotations of all cell types**
+Visualize the spatial annotations of all cell types
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 Left side: tissue map, Right side: UMAP
 
@@ -238,7 +241,8 @@ Left side: tissue map, Right side: UMAP
 .. image:: tutorial1_files/tutorial1_23_1.png
 
 
-**Visualize spatial annotations of selected pairs (or larger sets) of cell types**
+Visualize spatial annotations of selected pairs (or larger sets) of cell types
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Left side: tissue map, Right side: UMAP
 
@@ -397,7 +401,8 @@ work.
 
 
 
-**Cell type niche plot individually**
+Cell type niche plot individually
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Order niche cell types by magnitude of regression coefficients, add
 celltype names to the list argument choose_celltypes, e.g., for the
@@ -574,7 +579,9 @@ and put into local directory from where this notebook is getting run.
     neurons/enteroendocrine alpha, H size, W size, spH size: 2 (3, 26) (103, 3) (3, 250)
 
 
-**Visualize the cosine similarity and Spearman correlation between genes and latent factors**
+Visualize the cosine similarity and Spearman correlation between genes and latent factors
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 Following function generates output for the top 30 genes based on cosine
 similarity (left) or Spearman correlation (right)
@@ -651,7 +658,10 @@ correlation (correlation_with_spearman=True) for cell type Stem/TA
 .. image:: tutorial1_files/tutorial1_62_1.png
 
 
-**Visualize the latent factor values and proportion of population expressed that gene**
+Visualize the latent factor values and proportion of population expressed that gene
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 
 inspect the top genes in the given factor as in table
 proportion_of_population_expressed: proportion of cells expressing a
@@ -905,7 +915,8 @@ circels.
 
 
 
-**Visualize as heatmap instead of circle plot**
+Visualize as heatmap instead of circle plot
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Plot covariations between niche cell types (x-axis) and central cell
 type (y-axis, defined by list argument choose_celltypes) as heatmap.
@@ -956,7 +967,7 @@ interactions in a text file.
 
 
 
-**Usage for ligand receptor visualizations**
+Usage for ligand receptor visualizations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Perform ligand-receptors analysis In this example, output is generated
