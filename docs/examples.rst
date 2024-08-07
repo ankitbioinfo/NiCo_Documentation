@@ -5,7 +5,7 @@ This section provides examples of how to use the NiCo tool for spatial cell type
 
 
 Tutorials with visualization
-============================
+----------------------------
 Please prepare the input files with scRNA-seq count data and cell type annotation (cluster partition), spatial count data, and spatial
 cell coordinates to run the complete NiCo tutorials.
 
