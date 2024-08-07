@@ -19,7 +19,7 @@ Key Features:
 Getting Started:
 ----------------
 
-To get started with NiCo, follow the [installation instructions] and refer to the [Examples] for detailed examples and tutorials.
+To get started with NiCo, follow the installation instructions and refer to the Examples for detailed examples and tutorials.
 
 Contributing:
 -------------
