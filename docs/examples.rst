@@ -1,15 +1,16 @@
 Examples
 ========
 
-This section provides examples of how to use the Nico SC-SP library for spatial cell type annotation, niche interaction inference, and covariation analysis.
+This section provides examples of how to use the NiCo tool for spatial cell type annotation, niche interaction inference, and covariation analysis.
 
 
-Tutorials
-=====================
+Tutorials with visualization
+============================
 Please prepare the input files with scRNA-seq count data and cell type annotation (cluster partition), spatial count data, and spatial
 cell coordinates to run the complete NiCo tutorials.
 
-`Nico tutorials for Xenium, MERSCOPE, SEQFISH and SlideSeqV2 spatial technologies are available here <https://github.com/ankitbioinfo/nico_tutorial>`_
+NiCo tutorials for Xenium, MERSCOPE, SEQFISH and SlideSeqV2 spatial technologies via Jupyter lab are `available here
+<https://github.com/ankitbioinfo/nico_tutorial>`_
 
 
 Basic Usage
@@ -52,7 +53,7 @@ Below is a complete example demonstrating the usage of the main steps (modules) 
 
 
 
-Module A: Perform Cell Type Annotation of Spatial Data
+**A1: Perform Cell Type Annotation of Spatial Data**
 
 
 # Find anchor cells between reference and query datasets
@@ -83,7 +84,7 @@ Module A: Perform Cell Type Annotation of Spatial Data
 
 
 
-Module A: Cell Type Annotation Visualization
+**A2: Cell Type Annotation Visualization**
 
 .. code-block:: python
 
@@ -115,7 +116,7 @@ Module A: Cell Type Annotation Visualization
 
 
 
-Module B: Infer Significant Niche Cell Type Interactions
+**B: Infer Significant Niche Cell Type Interactions**
 
 .. code-block:: python
 
@@ -305,8 +306,8 @@ Module G: Visualization of Top Genes Across Cell Type and Factors as Dotplot
 Module H: Visualize Factor Values in the UMAP
 
 .. code-block:: python
-   print('\n\nModule H')
 
+   print('\n\nModule H')
    scov.visualize_factors_in_spatial_umap(
    cov_out,
    visualize_factors_id=[1, 1],
