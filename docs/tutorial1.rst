@@ -1,24 +1,32 @@
+tutorial1
+========
+
+This tutorial analyze the single cell resolution imaging based spatial transcriptomics data such as seqFISH, Xenium, and MERSCOPE.
+Please prepare the input files of scRNA-seq count data and spatial transcriptomics data mentioned `here.
+<https://github.com/ankitbioinfo/nico_tutorial>`_
+
+
 .. code:: ipython3
 
-    # if you installed the nico package then uncomment and load the respective modules 
-    
+    # if you installed the nico package then uncomment and load the respective modules
+
     #from nico import Annotations as sann
     #from nico import Interactions as sint
     #from nico import Covariations as scov
-    
+
     import Annotations as sann
     import Interactions as sint
     import Covariations as scov
-    
+
     #import scanpy as sc
     #import gseapy
     #import xlsxwriter
-    
+
     #import numpy as np
     #import time
     #import os
-    
-    import matplotlib as plt 
+
+    import matplotlib as plt
 
 
 .. code:: ipython3
@@ -26,21 +34,20 @@
     plt.rcParams['pdf.fonttype'] = 42
     plt.rcParams['ps.fonttype'] = 42
     plt.rcParams['axes.linewidth'] = 0.1 #set the value globally
-    
-    # please use Helvetica font according to your OS to make compatible with Adobe Illustrator. 
+
+    # please use Helvetica font according to your OS to make compatible with Adobe Illustrator.
     plt.rcParams['font.family'] = 'Helvetica'
     plt.rcParams['font.sans-serif'] = ['Helvetica']
-    
-    # Use the default font for all the figures 
+
+    # Use the default font for all the figures
     plt.rcParams['font.family'] = 'sans-serif'
     plt.rcParams['font.sans-serif'] = ['Tahoma', 'DejaVu Sans','Lucida Grande', 'Verdana']
-    
+
     import warnings
     warnings.filterwarnings("ignore")
 
 
-Usage introduction
-~~~~~~~~~~~~~~~~~~
+**Usage introduction**
 
 For details of the function usage and input parameters either refer to
 the documentation or just write the function and add .__doc_\_ to
@@ -83,15 +90,15 @@ the following commands can be executed to run a complete NiCo aanlysis.
 
     ref_datapath='./inputRef/'
     query_datapath='./inputQuery/'
-    
-    
-    
+
+
+
     output_nico_dir='./nico_out/'
     output_annotation_dir=None #uses default location
     #output_annotation_dir=output_nico_dir+'annotations/'
     annotation_save_fname= 'nico_celltype_annotation.h5ad'
     inputRadius=0
-    
+
 
 
 The cell type cluster slot in scRNAseq data is ``ref_cluster_tag`` For
@@ -100,11 +107,10 @@ this slot cell type annotation of scRNAseq data is stored
 
 .. code:: ipython3
 
-    ref_cluster_tag='cluster' #scRNAseq cell type slot 
-    annotation_slot='nico_ct' #spatial cell type slot 
+    ref_cluster_tag='cluster' #scRNAseq cell type slot
+    annotation_slot='nico_ct' #spatial cell type slot
 
-Module A: Perform cell type annotation of spatial data
-======================================================
+**A: Perform cell type annotation of spatial data**
 
 First find anchored cells between two modalities
 
@@ -164,11 +170,12 @@ of time.
 
 .. code:: ipython3
 
-    # Visualize the anchor cells between two modalities. 
+    # Visualize the anchor cells between two modalities.
     # sann.visualize_spatial_anchored_cell_mapped_to_scRNAseq(output_info)
 
-Save the annotation file into AnnData object
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Save the annotation file into AnnData object**
+
 
 Save the annotation file into AnnData object (annotation_save_fname)
 along with given expression matrix in “output_nico_dir” directory.
@@ -185,8 +192,7 @@ along with given expression matrix in “output_nico_dir” directory.
 
 
 
-Annotations from different computational methods such cell2location or TACCO
-----------------------------------------------------------------------------
+**Annotations from different computational methods such cell2location or TACCO**
 
 If user have an AnnData object with cell type annotations from different
 methods, you can skip the previous steps.
@@ -204,19 +210,18 @@ This will ensure compatibility with the NiCo pipeline.
 
 
 
-Visualize the spatial annotations of all cell types
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Visualize the spatial annotations of all cell types**
 
 Left side: tissue map, Right side: UMAP
 
 .. code:: ipython3
 
-    sann.visualize_umap_and_cell_coordinates_with_all_celltypes( 
+    sann.visualize_umap_and_cell_coordinates_with_all_celltypes(
     output_nico_dir=output_nico_dir,
     output_annotation_dir=output_annotation_dir,
     anndata_object_name=annotation_save_fname,
     #spatial_cluster_tag='nico_ct',
-    spatial_cluster_tag=annotation_slot,    
+    spatial_cluster_tag=annotation_slot,
     spatial_coordinate_tag='spatial',
     umap_tag='X_umap',
     saveas=saveas,transparent_mode=transparent_mode)
@@ -231,17 +236,16 @@ Left side: tissue map, Right side: UMAP
 .. image:: tutorial1_files/tutorial1_23_1.png
 
 
-Visualize spatial annotations of selected pairs (or larger sets) of cell types
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Visualize spatial annotations of selected pairs (or larger sets) of cell types**
 
 Left side: tissue map, Right side: UMAP
 
 .. code:: ipython3
 
     choose_celltypes=[['Stem/TA','Paneth'],['Paneth','Goblet']]
-    
+
     sann.visualize_umap_and_cell_coordinates_with_selected_celltypes(
-    choose_celltypes=choose_celltypes,    
+    choose_celltypes=choose_celltypes,
     output_nico_dir=output_nico_dir,
     output_annotation_dir=output_annotation_dir,
     anndata_object_name=annotation_save_fname,
@@ -266,12 +270,11 @@ Left side: tissue map, Right side: UMAP
 
 .. code:: ipython3
 
-    # For visualizing every cell type individually, leave list choose_celltypes list empty.  
+    # For visualizing every cell type individually, leave list choose_celltypes list empty.
     #sann.visualize_umap_and_cell_coordinates_with_selected_celltypes(choose_celltypes=[])
 
 
-Module B: Infer significant niche cell type interactions
-========================================================
+**B: Infer significant niche cell type interactions**
 
 Radius definition
 ~~~~~~~~~~~~~~~~~
@@ -307,7 +310,7 @@ low abundance.
 .. code:: ipython3
 
     do_not_use_following_CT_in_niche=['Basophils','Cycling/GC B cell','pDC']
-    
+
     niche_pred_output=sint.spatial_neighborhood_analysis(
     Radius=inputRadius,
     output_nico_dir=output_nico_dir,
@@ -332,7 +335,7 @@ low abundance.
 
 .. code:: ipython3
 
-    # this cutoff is use for the visualization of cell type interactions network 
+    # this cutoff is use for the visualization of cell type interactions network
     celltype_niche_interaction_cutoff=0.1
 
 
@@ -354,8 +357,8 @@ work.
 
 .. code:: ipython3
 
-    # Plot the niche interaction network without any edge weight details for cutoff 0.1 
-    
+    # Plot the niche interaction network without any edge weight details for cutoff 0.1
+
     sint.plot_niche_interactions_without_edge_weight(niche_pred_output,
     niche_cutoff=celltype_niche_interaction_cutoff,
     saveas=saveas,transparent_mode=transparent_mode)
@@ -374,7 +377,7 @@ work.
 .. code:: ipython3
 
     # Plot the niche interaction network with edge weight details for cutoff 0.1
-    
+
     sint.plot_niche_interactions_with_edge_weight(niche_pred_output,
     niche_cutoff=celltype_niche_interaction_cutoff,
     saveas=saveas,transparent_mode=transparent_mode)
@@ -391,8 +394,7 @@ work.
 
 
 
-Cell type niche plot individually
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Cell type niche plot individually**
 
 Order niche cell types by magnitude of regression coefficients, add
 celltype names to the list argument choose_celltypes, e.g., for the
@@ -401,7 +403,7 @@ Stem/TA and Paneth cell niche.
 .. code:: ipython3
 
     # Blue dotted line in following plot is celltype_niche_interaction_cutoff
-    
+
     sint.find_interacting_cell_types(niche_pred_output,
     choose_celltypes=['Stem/TA','Paneth'],
     celltype_niche_interaction_cutoff=celltype_niche_interaction_cutoff,
@@ -432,7 +434,7 @@ argument empty.
 
 .. code:: ipython3
 
-    # Plot the ROC curve of the classifier prediction for one of the crossfolds. 
+    # Plot the ROC curve of the classifier prediction for one of the crossfolds.
     # sint.plot_roc_results(niche_pred_output,saveas=saveas,transparent_mode=transparent_mode))
     # sint.plot_predicted_probabilities(niche_pred_output)
 
@@ -475,7 +477,7 @@ Plot the evaluation score of the classifier for different metrics
 
 .. code:: ipython3
 
-    sint.plot_evaluation_scores(niche_pred_output, 
+    sint.plot_evaluation_scores(niche_pred_output,
     saveas=saveas, transparent_mode=transparent_mode,
     figsize=(4,3))
 
@@ -490,7 +492,7 @@ Plot the evaluation score of the classifier for different metrics
 
 
 
-Module C: Perform niche cell state covariation analysis using latent factors
+**C: Perform niche cell state covariation analysis using latent factors**
 ============================================================================
 
 Note: From module C onwards, Jupyter cells are independent of previous
@@ -525,9 +527,9 @@ and put into local directory from where this notebook is getting run.
 
 .. code:: ipython3
 
-    # By default, it run in spatial_integration_modality='double' that means 
-    # it integrates spatial transcriptomics with scRNAseq data modalities 
-    
+    # By default, it run in spatial_integration_modality='double' that means
+    # it integrates spatial transcriptomics with scRNAseq data modalities
+
     cov_out=scov.gene_covariation_analysis(iNMFmode=True,
             Radius=inputRadius,
             no_of_factors=3,
@@ -541,16 +543,16 @@ and put into local directory from where this notebook is getting run.
 .. parsed-literal::
 
     common genes between sc and sp 203 203
-    
-    
+
+
      Spatial and scRNA-seq number of clusters, respectively  17 19
     Common cell types between spatial and scRNA-seq data   17 {'cDC/monocyte', 'neurons/enteroendocrine', 'Lymphatic', 'Plasma', 'Stroma', 'Tuft', 'Macrophage', 'Goblet', 'Glial', 'Blood vasc.', 'Paneth', 'MZE', 'T cell', 'TZE', 'Rest B', 'BZE', 'Stem/TA'}
-    
+
     The spatial cluster name does not match the scRNA-seq cluster name  set()
-    If the above answer is Null, then everything is okay. However, if any spatial cell type does not exist in the scRNA-seq data, please correct this manually; otherwise, NiCo will not run. 
-    
-    
-    
+    If the above answer is Null, then everything is okay. However, if any spatial cell type does not exist in the scRNA-seq data, please correct this manually; otherwise, NiCo will not run.
+
+
+
     BZE alpha, H size, W size, spH size: 30 (3, 325) (120, 3) (3, 1639)
     Blood vasc. alpha, H size, W size, spH size: 28 (3, 33) (58, 3) (3, 148)
     Glial alpha, H size, W size, spH size: 4 (3, 10) (44, 3) (3, 96)
@@ -569,8 +571,7 @@ and put into local directory from where this notebook is getting run.
     neurons/enteroendocrine alpha, H size, W size, spH size: 2 (3, 26) (103, 3) (3, 250)
 
 
-Visualize the cosine similarity and Spearman correlation between genes and latent factors
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Visualize the cosine similarity and Spearman correlation between genes and latent factors**
 
 Following function generates output for the top 30 genes based on cosine
 similarity (left) or Spearman correlation (right)
@@ -615,8 +616,7 @@ leave empty for generating output for all cell types
 .. image:: tutorial1_files/tutorial1_60_1.png
 
 
-Visualize genes in the latent factors along with average expression
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*Visualize genes in the latent factors along with average expression*
 
 Call following function
 (scov.extract_and_plot_top_genes_from_chosen_factor_in_celltype) to
@@ -648,8 +648,7 @@ correlation (correlation_with_spearman=True) for cell type Stem/TA
 .. image:: tutorial1_files/tutorial1_62_1.png
 
 
-Visualize the latent factor values and proportion of population expressed that gene
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Visualize the latent factor values and proportion of population expressed that gene**
 
 inspect the top genes in the given factor as in table
 proportion_of_population_expressed: proportion of cells expressing a
@@ -669,11 +668,11 @@ gene in the respective cluster
         .dataframe tbody tr th:only-of-type {
             vertical-align: middle;
         }
-    
+
         .dataframe tbody tr th {
             vertical-align: top;
         }
-    
+
         .dataframe thead th {
             text-align: right;
         }
@@ -836,7 +835,6 @@ gene in the respective cluster
 
 
 Save the latent factors into excel sheet
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 save data in an Excel sheet for each cell type, including latent factor
 associations of all genes according to Spearman correlation and cosine
@@ -847,7 +845,7 @@ similarity.
     scov.make_excel_sheet_for_gene_correlation(cov_out)
 
 Module D: Cell type covariation visualization
-=============================================
+---------------------------------------------
 
 Plot covariations between niche cell types (x-axis) and central cell
 type (y-axis, defined by list argument choose_celltypes).
@@ -860,7 +858,7 @@ choose_celltypes empty.
 
     choose_celltypes=['Stem/TA']
     scov.plot_significant_regression_covariations_as_circleplot(cov_out,
-    choose_celltypes=choose_celltypes, 
+    choose_celltypes=choose_celltypes,
     mention_pvalue=True,
     saveas=saveas,transparent_mode=transparent_mode,
     figsize=(6,1.25))
@@ -884,7 +882,7 @@ circels.
 .. code:: ipython3
 
     choose_celltypes=['Stem/TA']
-    
+
     scov.plot_significant_regression_covariations_as_circleplot(cov_out,
     choose_celltypes=choose_celltypes,
     pvalue_cutoff=0.05,mention_pvalue=False,
@@ -904,8 +902,7 @@ circels.
 
 
 
-Visualize as heatmap instead of circle plot
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Visualize as heatmap instead of circle plot**
 
 Plot covariations between niche cell types (x-axis) and central cell
 type (y-axis, defined by list argument choose_celltypes) as heatmap.
@@ -931,8 +928,8 @@ shows the -log10 p-value.
 .. image:: tutorial1_files/tutorial1_73_1.png
 
 
-Module E: Analysis of ligand-receptor interactions within the cell type covariation state
-=========================================================================================
+E: Analysis of ligand-receptor interactions within the cell type covariation state
+----------------------------------------------------------------------------------
 
 Save excelsheets and summary in text file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -956,7 +953,7 @@ interactions in a text file.
 
 
 
-Usage for ligand receptor visualizations
+**Usage for ligand receptor visualizations**
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Perform ligand-receptors analysis In this example, output is generated
@@ -1029,7 +1026,7 @@ empty, generate plots for all significantly covarying factors
 
     scov.find_LR_interactions_in_interacting_cell_types(cov_out,
     choose_interacting_celltype_pair=['Paneth'],
-    choose_factors_id=[], 
+    choose_factors_id=[],
     LR_plot_NMF_Fa_thres=0.2,
     LR_plot_Exp_thres=0.2,
     saveas=saveas,transparent_mode=transparent_mode,figsize=(12, 10))
@@ -1053,8 +1050,8 @@ empty, generate plots for all significantly covarying factors
 
 
 
-Module F: Perform functional enrichment analysis for genes associated with latent factors
-=========================================================================================
+F: Perform functional enrichment analysis for genes associated with latent factors
+----------------------------------------------------------------------------------
 
 Perform pathway enrichment analysis for factor-associated genes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1208,8 +1205,8 @@ folder.
 
 
 
-Module G: Visualization of top genes across cell type and factors as dotplot
-============================================================================
+G: Visualization of top genes across cell type and factors as dotplot
+---------------------------------------------------------------------
 
 Show the top 20 positively and negatively correlated genes (top_NOG=20)
 for all latent factors and the average expression of these genes on a
@@ -1224,7 +1221,7 @@ types.
     scov.plot_top_genes_for_a_given_celltype_from_all_three_factors(
     cov_out,choose_celltypes=['Paneth','Stem/TA'],
     top_NOG=20,saveas=saveas,transparent_mode=transparent_mode)
-                            
+
 
 
 .. parsed-literal::
@@ -1259,8 +1256,8 @@ types.
 .. image:: tutorial1_files/tutorial1_96_1.png
 
 
-Module H: Visualize factor values in the UMAP
-=============================================
+H: Visualize factor values in the UMAP
+---------------------------------------
 
 Visualize factor values for select cell types, e.g., Stem/TA and Paneth
 cells (choose_interacting_celltype_pair=[‘Stem/TA’,‘Paneth’]) in
@@ -1328,14 +1325,14 @@ Select factors for each cell type (visualize_factors_id=[1,1]). List entries cor
 
 .. code:: ipython3
 
-    #For visualization of one cell type at a time only 
-    
-    
-    scov.visualize_factors_in_spatial_umap(cov_out, 
+    #For visualization of one cell type at a time only
+
+
+    scov.visualize_factors_in_spatial_umap(cov_out,
     visualize_factors_id=[2],
     choose_interacting_celltype_pair=['Stem/TA'],
     saveas=saveas,transparent_mode=transparent_mode,figsize=(4,3.5))
-    
+
     scov.visualize_factors_in_scRNAseq_umap(cov_out,
     #refpath=ref_datapath,
     choose_interacting_celltype_pair=['Stem/TA'],
@@ -1364,5 +1361,3 @@ Select factors for each cell type (visualize_factors_id=[1,1]). List entries cor
 
 
 .. image:: tutorial1_files/tutorial1_102_3.png
-
-
