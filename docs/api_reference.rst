@@ -26,10 +26,3 @@ Module 3: nico_covariations
    :members:
    :undoc-members:
    :show-inheritance:
-
-
-.. toctree::
-   :maxdepth: 4
-   :caption: API Reference:
-
-   utils
