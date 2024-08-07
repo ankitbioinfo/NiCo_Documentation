@@ -19,35 +19,38 @@ Below is a complete example demonstrating the usage of the main steps (modules) 
 
 ### Importing Modules and Setting Up
 
-```console
-import Annotations as sann
-import Interactions as sint
-import Covariations as scov
-import scanpy as sc
-import numpy as np
-import matplotlib.pyplot as plt
+.. code-block:: python
 
-# Configure matplotlib for publication-quality plots
-plt.rcParams['font.family'] = 'sans-serif'
-plt.rcParams['font.sans-serif'] = ['Helvetica', 'Tahoma', 'DejaVu Sans', 'Lucida Grande', 'Verdana']
-plt.rcParams['pdf.fonttype'] = 42  # Embed fonts in PDF files
+   from nico import NicoAnalysis
+   import Annotations as sann
+   import Interactions as sint
+   import Covariations as scov
+   import scanpy as sc
+   import numpy as np
+   import matplotlib.pyplot as plt
 
-import warnings
-warnings.filterwarnings("ignore")
+   # Configure matplotlib for publication-quality plots
+   plt.rcParams['font.family'] = 'sans-serif'
+   plt.rcParams['font.sans-serif'] = ['Helvetica', 'Tahoma', 'DejaVu Sans', 'Lucida Grande', 'Verdana']
+   plt.rcParams['pdf.fonttype'] = 42  # Embed fonts in PDF files
 
-# Parameters for saving plots
-saveas = 'png'
-transparent_mode = False
+   import warnings
+   warnings.filterwarnings("ignore")
 
-ref_datapath = './inputRef/'
-query_datapath = './inputQuery/'
-output_nico_dir = './nico_analysis/'
-output_annotation_dir = None
-annotation_save_fname = 'nico_celltype_annotation.h5ad'
-inputRadius = 0
-ref_cluster_tag = 'cluster'  # scRNAseq cell type slot
-annotation_slot = 'nico_ct'  # spatial cell type slot
-```
+   # Parameters for saving plots
+   saveas = 'png'
+   transparent_mode = False
+
+   ref_datapath = './inputRef/'
+   query_datapath = './inputQuery/'
+   output_nico_dir = './nico_analysis/'
+   output_annotation_dir = None
+   annotation_save_fname = 'nico_celltype_annotation.h5ad'
+   inputRadius = 0
+   ref_cluster_tag = 'cluster'  # scRNAseq cell type slot
+   annotation_slot = 'nico_ct'  # spatial cell type slot
+
+
 
 Module A: Perform Cell Type Annotation of Spatial Data
 
