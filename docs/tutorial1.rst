@@ -228,7 +228,7 @@ Left side: tissue map, Right side: UMAP
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_23_1.png
+.. image:: tutorial1_files/tutorial1_23_1.png
 
 
 Visualize spatial annotations of selected pairs (or larger sets) of cell types
@@ -257,11 +257,11 @@ Left side: tissue map, Right side: UMAP
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_25_1.png
+.. image:: tutorial1_files/tutorial1_25_1.png
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_25_2.png
+.. image:: tutorial1_files/tutorial1_25_2.png
 
 
 .. code:: ipython3
@@ -368,7 +368,7 @@ work.
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_36_1.png
+.. image:: tutorial1_files/tutorial1_36_1.png
 
 
 .. code:: ipython3
@@ -387,7 +387,7 @@ work.
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_37_1.png
+.. image:: tutorial1_files/tutorial1_37_1.png
 
 
 
@@ -415,11 +415,11 @@ Stem/TA and Paneth cell niche.
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_41_1.png
+.. image:: tutorial1_files/tutorial1_41_1.png
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_41_2.png
+.. image:: tutorial1_files/tutorial1_41_2.png
 
 
 If niche cell types from the niche neighborhood of all central cell
@@ -451,7 +451,7 @@ Plot the average confusion matrix of the classifier from cross-folds
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_46_1.png
+.. image:: tutorial1_files/tutorial1_46_1.png
 
 
 Plot the average coefficient matrix of the classifier from cross-folds
@@ -468,7 +468,7 @@ Plot the average coefficient matrix of the classifier from cross-folds
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_48_1.png
+.. image:: tutorial1_files/tutorial1_48_1.png
 
 
 Plot the evaluation score of the classifier for different metrics
@@ -486,7 +486,7 @@ Plot the evaluation score of the classifier for different metrics
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_50_1.png
+.. image:: tutorial1_files/tutorial1_50_1.png
 
 
 
@@ -593,7 +593,7 @@ leave empty for generating output for all cell types
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_59_1.png
+.. image:: tutorial1_files/tutorial1_59_1.png
 
 
 .. code:: ipython3
@@ -612,7 +612,7 @@ leave empty for generating output for all cell types
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_60_1.png
+.. image:: tutorial1_files/tutorial1_60_1.png
 
 
 Visualize genes in the latent factors along with average expression
@@ -645,7 +645,7 @@ correlation (correlation_with_spearman=True) for cell type Stem/TA
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_62_1.png
+.. image:: tutorial1_files/tutorial1_62_1.png
 
 
 Visualize the latent factor values and proportion of population expressed that gene
@@ -874,7 +874,7 @@ choose_celltypes empty.
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_68_1.png
+.. image:: tutorial1_files/tutorial1_68_1.png
 
 
 In the following example, a p-value cutoff is explicitely defined by the
@@ -900,7 +900,7 @@ circels.
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_70_1.png
+.. image:: tutorial1_files/tutorial1_70_1.png
 
 
 
@@ -928,7 +928,7 @@ shows the -log10 p-value.
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_73_1.png
+.. image:: tutorial1_files/tutorial1_73_1.png
 
 
 Module E: Analysis of ligand-receptor interactions within the cell type covariation state
@@ -1008,15 +1008,15 @@ the stringency of the output filtering can be controled.
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_79_2.png
+.. image:: tutorial1_files/tutorial1_79_2.png
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_79_3.png
+.. image:: tutorial1_files/tutorial1_79_3.png
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_79_4.png
+.. image:: tutorial1_files/tutorial1_79_4.png
 
 
 Perform ligand-receptors analysis of the Paneth cell niche including all
@@ -1086,7 +1086,7 @@ folder.
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_86_1.png
+.. image:: tutorial1_files/tutorial1_86_1.png
 
 
 In this example, pathway analysis is performed for top 50
@@ -1116,7 +1116,7 @@ folder.
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_88_1.png
+.. image:: tutorial1_files/tutorial1_88_1.png
 
 
 In this example, pathway analyses are performed for top 50
@@ -1147,35 +1147,35 @@ pathways from three databases
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_90_1.png
+.. image:: tutorial1_files/tutorial1_90_1.png
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_90_2.png
+.. image:: tutorial1_files/tutorial1_90_2.png
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_90_3.png
+.. image:: tutorial1_files/tutorial1_90_3.png
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_90_4.png
+.. image:: tutorial1_files/tutorial1_90_4.png
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_90_5.png
+.. image:: tutorial1_files/tutorial1_90_5.png
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_90_6.png
+.. image:: tutorial1_files/tutorial1_90_6.png
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_90_7.png
+.. image:: tutorial1_files/tutorial1_90_7.png
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_90_8.png
+.. image:: tutorial1_files/tutorial1_90_8.png
 
 
 In this example, pathway analysis is performed for top 50
@@ -1204,7 +1204,7 @@ folder.
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_92_1.png
+.. image:: tutorial1_files/tutorial1_92_1.png
 
 
 
@@ -1235,11 +1235,11 @@ types.
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_95_1.png
+.. image:: tutorial1_files/tutorial1_95_1.png
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_95_2.png
+.. image:: tutorial1_files/tutorial1_95_2.png
 
 
 .. code:: ipython3
@@ -1256,7 +1256,7 @@ types.
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_96_1.png
+.. image:: tutorial1_files/tutorial1_96_1.png
 
 
 Module H: Visualize factor values in the UMAP
@@ -1292,7 +1292,7 @@ choose_interacting_celltype_pair.
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_99_2.png
+.. image:: tutorial1_files/tutorial1_99_2.png
 
 
 Visualize factor values for select cell types, e.g., Stem/TA and Paneth cells (choose_interacting_celltype_pair=['Stem/TA','Paneth']) in spatial transcriptomics data umap.
@@ -1323,7 +1323,7 @@ Select factors for each cell type (visualize_factors_id=[1,1]). List entries cor
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_101_2.png
+.. image:: tutorial1_files/tutorial1_101_2.png
 
 
 .. code:: ipython3
@@ -1359,10 +1359,10 @@ Select factors for each cell type (visualize_factors_id=[1,1]). List entries cor
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_102_2.png
+.. image:: tutorial1_files/tutorial1_102_2.png
 
 
 
-.. image:: nico_analysis_highres_image_tech_files/nico_analysis_highres_image_tech_102_3.png
+.. image:: tutorial1_files/tutorial1_102_3.png
 
 
