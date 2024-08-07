@@ -11,20 +11,21 @@ Before installing NiCo, ensure you have the following dependencies installed:
 - Python 3.11 or later
 - Anaconda or Miniconda
 
-Installing via Conda
+Installing via Pip
 --------------------
 
-The recommended way to install Nico SC-SP is via Conda. Follow these steps:
+The recommended way to install NiCo is via Pip. Follow these steps:
 
 1. Create a new Conda environment:
-conda create -n nicoUser python=3.11
+`conda create -n nicoUser python=3.11`
 
 2. Activate the environment:
-conda activate nicoUser
+`conda activate nicoUser`
 
 3. Install the required dependencies and NiCo:
-pip install nico-sc-sp
-pip install jupyterlab
+`conda install -c conda-forge pygraphviz`
+`pip install nico-sc-sp`
+`pip install jupyterlab`
 
 
 Verifying the Installation
