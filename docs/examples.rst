@@ -178,7 +178,7 @@ Below is a complete example demonstrating the usage of the main steps (modules) 
 
 
 
-Module C: Perform Niche Cell State Covariation Analysis Using Latent Factors
+**C: Perform Niche Cell State Covariation Analysis Using Latent Factors**
 
 .. code-block:: python
 
@@ -210,7 +210,7 @@ Module C: Perform Niche Cell State Covariation Analysis Using Latent Factors
 
 
 
-Module D: Cell Type Covariation Visualization
+**D: Cell Type Covariation Visualization**
 
 .. code-block:: python
 
@@ -229,7 +229,7 @@ Module D: Cell Type Covariation Visualization
 
 
 
-Module E: Analysis of Ligand-Receptor Interactions Within the Cell Type Covariation State
+**E: Analysis of Ligand-Receptor Interactions Within the Cell Type Covariation State**
 
 .. code-block:: python
 
@@ -258,7 +258,7 @@ Module E: Analysis of Ligand-Receptor Interactions Within the Cell Type Covariat
 
 
 
-Module F: Perform Functional Enrichment Analysis for Genes Associated with Latent Factors
+**F: Perform Functional Enrichment Analysis for Genes Associated with Latent Factors**
 
 .. code-block:: python
 
@@ -278,7 +278,7 @@ Module F: Perform Functional Enrichment Analysis for Genes Associated with Laten
 
 
 
-Module G: Visualization of Top Genes Across Cell Type and Factors as Dotplot
+**G: Visualization of Top Genes Across Cell Type and Factors as Dotplot**
 
 .. code-block:: python
 
@@ -303,7 +303,7 @@ Module G: Visualization of Top Genes Across Cell Type and Factors as Dotplot
 
 
 
-Module H: Visualize Factor Values in the UMAP
+**H: Visualize Factor Values in the UMAP**
 
 .. code-block:: python
 

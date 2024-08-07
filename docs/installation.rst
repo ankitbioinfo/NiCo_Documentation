@@ -63,4 +63,4 @@ To update NiCo to the latest version, navigate to the cloned directory and pull 
 Troubleshooting
 ---------------
 
-If you encounter any issues during installation, please refer to the [FAQ](faq.html) section or contact support at ankitplusplus at gmail.com.
+If you encounter any issues during installation, please refer to the FAQ section or contact support at ankitplusplus at gmail.com.
