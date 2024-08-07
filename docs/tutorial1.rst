@@ -1,4 +1,4 @@
-tutorial 1: seqFISH, Xenium, or MERSCOPE
+Tutorial 1: seqFISH, Xenium, or MERSCOPE
 =========================================
 
 This tutorial analyze the single cell resolution imaging based spatial transcriptomics data such as seqFISH, Xenium, and MERSCOPE.
