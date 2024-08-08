@@ -203,6 +203,23 @@ methods, you can skip the previous steps.
 To use your own annotations, provide the following files:
 annotation_save_fname= ‘nico_celltype_annotation.h5ad’
 
+The content of the AnnData object is as follows. The necessary slots are 'nico_ct', 'X_umap', and 'adata.raw.X', which contains the count data.
+
+.. code-block:: console
+
+   >>> adata
+       AnnData object with n_obs × n_vars = 7416 × 203
+           obs: 'umi_sct', 'log_umi_sct', 'gene_sct', 'log_gene_sct', 'umi_per_gene_sct', 'log_umi_per_gene_sct', 'leiden0.4', 'leiden0.5', 'nico_ct'
+           var: 'Intercept_sct', 'log_umi_sct', 'theta_sct', 'Intercept_step1_sct', 'log_umi_step1_sct', 'dispersion_step1_sct', 'genes_step1_sct', 'log10_gmean_sct'
+           uns: 'leiden', 'leiden0.5_colors', 'neighbors', 'pca', 'umap'
+           obsm: 'X_pca', 'X_umap', 'spatial'
+           varm: 'PCs'
+           obsp: 'connectivities', 'distances'
+   >>>
+
+
+
+
 Replace the annotation_save_fname AnnData object with your own AnnData
 object containing the annotations. Ensure that the annotation slot name
 in your AnnData object is adjusted to match the following:
@@ -210,6 +227,7 @@ in your AnnData object is adjusted to match the following:
 annotation_slot=‘nico_ct’
 
 This will ensure compatibility with the NiCo pipeline.
+
 
 
 
