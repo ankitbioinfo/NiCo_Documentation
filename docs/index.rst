@@ -21,7 +21,7 @@ spatial transcriptomics and scRNA-seq data to (1) perform cell type annotations 
 label transfer, (2) predict niche cell type interactions within local neighborhoods, and (3) infer cell state covariation and the
 underlying molecular crosstalk in the niche. NiCo infers factors capturing cell
 state variability in both modalities and identifies genes correlated to these latent factors for the prediction
-of ligand-receptor interactions and factor-associated pathways. hello 
+of ligand-receptor interactions and factor-associated pathways.
 
 Highlights of NiCo
 ==================
@@ -63,6 +63,7 @@ cell coordinates to run the complete NiCo tutorials.
    introduction
    installation
    examples
+   tutorial0
    tutorial1
    tutorial2
    api_reference
