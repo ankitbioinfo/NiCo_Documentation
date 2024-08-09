@@ -203,7 +203,7 @@ methods, you can skip the previous steps.
 To use your own annotations, provide the following files:
 annotation_save_fname= ‘nico_celltype_annotation.h5ad’
 
-The content of the AnnData object is as follows. The necessary slots are 'nico_ct', 'spatial', 'X_umap', and 'adata.raw.X', which contains the raw count data to finish the whole tutorial.
+The content of the AnnData object is as follows. The necessary slots are 'nico_ct' or any other slot for cell types, 'spatial' for spatial coordinate, 'X_umap' for projecting in 2d map, and 'adata.raw.X' for raw count data to finish the whole tutorial.
 
 .. code-block:: console
 
