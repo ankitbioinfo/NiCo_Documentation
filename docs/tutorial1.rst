@@ -110,7 +110,7 @@ this slot cell type annotation of scRNAseq data is stored
     ref_cluster_tag='cluster' #scRNAseq cell type slot
     annotation_slot='nico_ct' #spatial cell type slot
 
-A1: Perform cell type annotation of spatial data
+A: Perform cell type annotation of spatial data
 --------------------------------------------------
 
 
@@ -194,7 +194,7 @@ along with given expression matrix in “output_nico_dir” directory.
 
 
 
-A2: Annotations from different computational methods such cell2location or TACCO
+B: Annotations from different computational methods such cell2location or TACCO
 --------------------------------------------------------------------------------
 
 If user have an AnnData object with cell type annotations from different
@@ -215,7 +215,28 @@ The content of the AnnData object is as follows. The necessary slots are 'nico_c
            obsm: 'X_pca', 'X_umap', 'spatial'
            varm: 'PCs'
            obsp: 'connectivities', 'distances'
-   >>>
+   >>> adata.raw.X
+       array([[ 0.,  0.,  0., ...,  0.,  0.,  9.],
+              [ 0., 39.,  0., ...,  0.,  0.,  5.],
+              [ 0., 49.,  0., ...,  0.,  0.,  4.],
+              ...,
+              [ 0.,  0.,  0., ...,  1.,  0.,  0.],
+              [ 0.,  0.,  0., ...,  0.,  0.,  0.],
+              [ 0.,  0.,  0., ...,  0.,  0.,  0.]], dtype=float32)
+   >>> adata.X.toarray()
+       array([[ 0.        ,  0.        ,  0.        , ...,  0.        ,
+                   0.        ,  5.1008253 ],
+              [ 0.        ,  8.992419  ,  0.        , ...,  0.        ,
+                   0.        ,  1.5530139 ],
+              [ 0.        , 11.429277  ,  0.        , ...,  0.        ,
+                   0.        ,  1.1400297 ],
+                 ...,
+              [ 0.        ,  0.        ,  0.        , ...,  0.47980395,
+                   0.        ,  0.        ],
+              [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+                   0.        ,  0.        ],
+              [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+                   0.        ,  0.        ]], dtype=float32)
 
 
 
@@ -298,7 +319,7 @@ Left side: tissue map, Right side: UMAP
     #sann.visualize_umap_and_cell_coordinates_with_selected_celltypes(choose_celltypes=[])
 
 
-B: Infer significant niche cell type interactions
+C: Infer significant niche cell type interactions
 -------------------------------------------------
 
 **Radius definition**
@@ -518,7 +539,7 @@ Plot the evaluation score of the classifier for different metrics
 
 
 
-C: Perform niche cell state covariation analysis using latent factors
+D: Perform niche cell state covariation analysis using latent factors
 ---------------------------------------------------------------------
 
 Note: From module C onwards, Jupyter cells are independent of previous
@@ -875,7 +896,7 @@ similarity.
 
     scov.make_excel_sheet_for_gene_correlation(cov_out)
 
-D: Cell type covariation visualization
+E: Cell type covariation visualization
 --------------------------------------
 
 Plot covariations between niche cell types (x-axis) and central cell
@@ -960,7 +981,7 @@ shows the -log10 p-value.
 .. image:: tutorial1_files/tutorial1_73_1.png
 
 
-E: Analysis of ligand-receptor interactions within the cell type covariation state
+F: Analysis of ligand-receptor interactions within the cell type covariation state
 ----------------------------------------------------------------------------------
 
 Save excelsheets and summary in text file
@@ -1082,7 +1103,7 @@ empty, generate plots for all significantly covarying factors
 
 
 
-F: Perform functional enrichment analysis for genes associated with latent factors
+G: Perform functional enrichment analysis for genes associated with latent factors
 ----------------------------------------------------------------------------------
 
 Perform pathway enrichment analysis for factor-associated genes
@@ -1237,7 +1258,7 @@ folder.
 
 
 
-G: Visualization of top genes across cell type and factors as dotplot
+H: Visualization of top genes across cell type and factors as dotplot
 ---------------------------------------------------------------------
 
 Show the top 20 positively and negatively correlated genes (top_NOG=20)
@@ -1288,7 +1309,7 @@ types.
 .. image:: tutorial1_files/tutorial1_96_1.png
 
 
-H: Visualize factor values in the UMAP
+I: Visualize factor values in the UMAP
 ---------------------------------------
 
 Visualize factor values for select cell types, e.g., Stem/TA and Paneth

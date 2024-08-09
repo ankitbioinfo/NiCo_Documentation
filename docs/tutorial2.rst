@@ -99,7 +99,7 @@ count matrix
     inputRadius=0
     annotation_slot='rctd_first_type' #spatial cell type slot
 
-A2: Visualize cell type annotation of spatial data
+B: Visualize cell type annotation of spatial data
 -------------------------------------------------
 
 .. code:: ipython3
@@ -153,7 +153,7 @@ Left side: tissue map, Right side: UMAP
 .. image:: tutorial2_files/tutorial2_10_1.png
 
 
-B: Infer significant niche cell type interactions
+C: Infer significant niche cell type interactions
 -------------------------------------------------
 
 **Radius definition**
@@ -363,7 +363,7 @@ Plot the evaluation score of the classifier for different metrics
 .. image:: tutorial2_files/tutorial2_32_1.png
 
 
-C: Perform niche cell state covariation analysis using latent factors
+D: Perform niche cell state covariation analysis using latent factors
 ---------------------------------------------------------------------
 
 Note: From module C onwards, Jupyter cells are independent of previous
@@ -703,7 +703,7 @@ similarity.
 
     scov.make_excel_sheet_for_gene_correlation(cov_out)
 
-D: Cell type covariation visualization
+E: Cell type covariation visualization
 --------------------------------------
 
 Plot covariations between niche cell types (x-axis) and central cell
@@ -770,7 +770,7 @@ shows the -log10(p-value).
 .. image:: tutorial2_files/tutorial2_53_1.png
 
 
-E: Analysis of ligand-receptor interactions within the cell type covariation state
+F: Analysis of ligand-receptor interactions within the cell type covariation state
 ----------------------------------------------------------------------------------
 
 Save excelsheets and summary in text file
@@ -877,7 +877,7 @@ covarying factors
 
 
 
-F: Perform functional enrichment analysis for genes associated with latent factors
+G: Perform functional enrichment analysis for genes associated with latent factors
 ----------------------------------------------------------------------------------
 
 Perform pathway enrichment analysis for factor-associated genes
@@ -942,7 +942,7 @@ folder.
 
 
 
-G: Visualization of top genes across cell type and factors as dotplot
+H: Visualization of top genes across cell type and factors as dotplot
 ---------------------------------------------------------------------
 
 Show the top 20 positively and negatively correlated genes (top_NOG=20)
@@ -997,7 +997,7 @@ types.
 .. image:: tutorial2_files/tutorial2_75_2.png
 
 
-H: Visualize factor values in the UMAP
+I: Visualize factor values in the UMAP
 --------------------------------------
 
 Visualize factor values for select cell types, e.g., Bergmann and

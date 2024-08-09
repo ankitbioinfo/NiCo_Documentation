@@ -53,7 +53,7 @@ Below is a complete example demonstrating the usage of the main steps (modules) 
 
 
 
-**A1: Perform Cell Type Annotation of Spatial Data**
+**A: Perform Cell Type Annotation of Spatial Data**
 
 
 # Find anchor cells between reference and query datasets
@@ -84,7 +84,7 @@ Below is a complete example demonstrating the usage of the main steps (modules) 
 
 
 
-**A2: Cell Type Annotation Visualization**
+**B: Cell Type Annotation Visualization**
 
 .. code-block:: python
 
@@ -116,7 +116,7 @@ Below is a complete example demonstrating the usage of the main steps (modules) 
 
 
 
-**B: Infer Significant Niche Cell Type Interactions**
+**C: Infer Significant Niche Cell Type Interactions**
 
 .. code-block:: python
 
@@ -178,7 +178,7 @@ Below is a complete example demonstrating the usage of the main steps (modules) 
 
 
 
-**C: Perform Niche Cell State Covariation Analysis Using Latent Factors**
+**D: Perform Niche Cell State Covariation Analysis Using Latent Factors**
 
 .. code-block:: python
 
@@ -210,7 +210,7 @@ Below is a complete example demonstrating the usage of the main steps (modules) 
 
 
 
-**D: Cell Type Covariation Visualization**
+**E: Cell Type Covariation Visualization**
 
 .. code-block:: python
 
@@ -229,7 +229,7 @@ Below is a complete example demonstrating the usage of the main steps (modules) 
 
 
 
-**E: Analysis of Ligand-Receptor Interactions Within the Cell Type Covariation State**
+**F: Analysis of Ligand-Receptor Interactions Within the Cell Type Covariation State**
 
 .. code-block:: python
 
@@ -258,7 +258,7 @@ Below is a complete example demonstrating the usage of the main steps (modules) 
 
 
 
-**F: Perform Functional Enrichment Analysis for Genes Associated with Latent Factors**
+**G: Perform Functional Enrichment Analysis for Genes Associated with Latent Factors**
 
 .. code-block:: python
 
@@ -278,7 +278,7 @@ Below is a complete example demonstrating the usage of the main steps (modules) 
 
 
 
-**G: Visualization of Top Genes Across Cell Type and Factors as Dotplot**
+**H: Visualization of Top Genes Across Cell Type and Factors as Dotplot**
 
 .. code-block:: python
 
@@ -303,7 +303,7 @@ Below is a complete example demonstrating the usage of the main steps (modules) 
 
 
 
-**H: Visualize Factor Values in the UMAP**
+**I: Visualize Factor Values in the UMAP**
 
 .. code-block:: python
 
