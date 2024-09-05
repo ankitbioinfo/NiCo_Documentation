@@ -8,7 +8,7 @@ Please prepare the input files of scRNA-seq reference data and spatial transcrip
 
 .. code:: ipython3
 
-    # if you installed the nico package 
+    # if you installed the nico package
 
     from nico import Annotations as sann
     from nico import Interactions as sint
@@ -58,7 +58,9 @@ the documentation or just write the function and add .__doc_\_ to
 retrieve information on all relelvant parameters.
 
 print(sann.find_anchor_cells_between_ref_and_query.__doc__)
+
 print(sint.spatial_neighborhood_analysis.__doc__)
+
 print(scov.gene_covariation_analysis.__doc__)
 
 All the figures will be saved in ``saveas=pdf`` format as vector
@@ -67,19 +69,21 @@ following default parameters are used: transparent_mode=False,
 saveas=‘pdf’,showit=True, dpi=300.
 
 For saving figures in png format, set saveas=‘png’ For generating images
-without background, set transparent_mode=True. 
+without background, set transparent_mode=True.
 If figure output within the Jupyter Notebook is not desired, set showit=False.
 
-Please download the sample data and python notebookds from the git repository
-https://github.com/ankitbioinfo/nico_tutorial and keep all the files and
+Please download the sample data and python notebookds from the `git repository
+<https://github.com/ankitbioinfo/nico_tutorial>`_ and keep all the files and
 folders in the same directory to run the tutorial. Unzip inputRef.zip and inputQuery.zip.
 
 inputRef (single-cell RNA-sequencing data)
+
 inputQuery (single-cell resolution spatial transcriptomics data)
+
 NiCoLRdb.txt (Ligand-receptor database file)
 
 Before running the nico_analysis_highres_image_tech.ipynb notebook for the NiCo analysis, input data
-need to be prepared by running the Start_Data_prep.ipynb notebook. 
+need to be prepared by running the Start_Data_prep.ipynb notebook.
 Once all the steps of Start_Data_prep.ipynb are completed,
 the following commands can be executed to run a complete NiCo aanlysis.
 
@@ -130,13 +134,13 @@ The first step is finding anchor cells between two modalities:
 Selection of parameters
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-NiCo's cell type annotation relies on spatial Leiden cluster for guidance. 
+NiCo's cell type annotation relies on spatial Leiden cluster for guidance.
 These clusters can be inferred as demonstrated in the Start_Data_prep.ipynb notebook,
 e.g., with Leiden resolution parameter 0.4.
 
 If you have a large number of cells (>200,000) and want to inspect cell
 type annotation using spatial Leiden clusters obtained with different Leiden resolution
-parameters (or any other parameter variations), save to the output_annotation_dir directory 
+parameters (or any other parameter variations), save to the output_annotation_dir directory
 with a different name for each run.
 
 MNN (Mutual Nearest Neighbors) alignment takes a considerable amount of
@@ -148,7 +152,7 @@ The annotation slot in the scRNA-seq data and initial cluster slot in the spatia
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ref_cluster_tag=‘cluster’ #### ref_cluster_tag defines the cell type slot
-in the scRNA-seq data. Example .obs[‘cluster’]. If the cell type annotation is stored in 
+in the scRNA-seq data. Example .obs[‘cluster’]. If the cell type annotation is stored in
 another slot please change the slot name.
 
 guiding_spatial_cluster_resolution_tag=‘leiden0.4’ #### guiding_spatial_cluster_resolution_tag
@@ -160,6 +164,7 @@ clusters are stored in another slot please change the slot name.
     output_info=sann.nico_based_annotation(anchors_and_neighbors_info,
     guiding_spatial_cluster_resolution_tag='leiden0.4',
     across_spatial_clusters_dispersion_cutoff=0.15,
+    ref_cluster_tag=ref_cluster_tag,
     resolved_tie_issue_with_weighted_nearest_neighbor='No')
 
 The function ``sann.delete_files`` deletes the file with the anchor information
@@ -202,12 +207,20 @@ Note: Annotations from different computational methods such cell2location or TAC
 If you would like to use an available AnnData object with cell type annotations obtained
 with a different method, you can skip the previous steps.
 
-To use your own annotations, provide the following fileå:
+To use your own annotations, replace the following file:
 annotation_save_fname= ‘nico_celltype_annotation.h5ad’
+with
+annotation_save_fname= 'other_method_celltype_annotations.h5ad'
 
-The content of the AnnData object is as follows: The necessary slots are 'nico_ct' or any other slot for cell type annotation,
-'spatial' for spatial coordinates, 'X_umap' for 2D umap coordinates, and 'adata.raw.X' for raw count data.
+The content of the AnnData object is as follows:
+The necessary slots are adata.obs['nico_ct'] or any other slot for cell type annotation,
+adata.obsm['spatial'] for spatial coordinates,
+adata.obsm['X_umap'] for 2D umap coordinates,
+adata.X is normalized count data, and
+adata.raw.X for raw count data.
+
 With this file the remaining tutorial can be finished.
+
 
 .. code-block:: console
 
@@ -329,7 +342,7 @@ B: Infer significant niche cell type interactions
 **Radius definition**
 
 
-If the radius in NiCo is set to R=0, NiCo incorporates the neighboring cells 
+If the radius in NiCo is set to R=0, NiCo incorporates the neighboring cells
 that are in immediate contact with the central cell to construct the expected
 neighborhood composition matrix. We envision NiCo as a method to explore
 direct interactions with physical neighbors (R=0), but in principle
@@ -340,7 +353,7 @@ R=0.
 It may be helpful to explore a larger radius if it is expected that cell
 types interact through long-range interactions. However, during the
 covariation task, immediate neighbors typically capture the strongest
-signal, while a larger radius averages the signal from a bigger number of cells, 
+signal, while a larger radius averages the signal from a bigger number of cells,
 potentially diluting the signal. Therefore, we recommend running NiCo with R=0.
 
 Perform neighborhood analysis across direct neighbors (juxtacrine
@@ -443,11 +456,11 @@ work.
 
 
 
-Individual cell type niche plot 
+Individual cell type niche plot
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To plot regression coefficients of niche cell types for given central cell types, ordered by magnitude,
-add cell type names for the desired central cell types to the list argument choose_celltypes (e.g. Stem/TA 
+add cell type names for the desired central cell types to the list argument choose_celltypes (e.g. Stem/TA
 and Paneth).
 
 .. code:: ipython3
@@ -577,7 +590,7 @@ and saved in the local directory from where this notebook is run.
 
 .. code:: ipython3
 
-    # By default, the function is run with spatial_integration_modality='double', i.e. 
+    # By default, the function is run with spatial_integration_modality='double', i.e.
     # it integrates spatial transcriptomics with scRNAseq data
 
     cov_out=scov.gene_covariation_analysis(iNMFmode=True,
@@ -705,7 +718,7 @@ Inspect genes associated with a latent factor
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-Inspect the top genes associated with a the given factor. The table summarizes the 
+Inspect the top genes associated with a the given factor. The table summarizes the
 positive or negative spearman correlation or cosine similarity with the factor, the mean
 expression and the proportion of cells expressing the gene for the respective cell type.
 
@@ -904,7 +917,7 @@ similarity.
 D: Cell type covariation visualization
 --------------------------------------
 
-Plot linear regression coefficients between factors of the central cell type (y-axis, 
+Plot linear regression coefficients between factors of the central cell type (y-axis,
 defined by list argument choose_celltypes) and factors of niche cell types (x-axis).
 
 Circle size scales with -log10(p-value) (indicated as number on top of
@@ -1079,7 +1092,7 @@ Perform ligand-receptors analysis of the Paneth cell niche including all
 significant interaction partners.
 
 choose_interacting_celltype_pair=[‘Paneth’] generates plots for all cell
-types interacting sigificantly with Paneth cells. 
+types interacting sigificantly with Paneth cells.
 
 choose_factors_id=[] if empty, generate plots for all significantly covarying factors.
 
