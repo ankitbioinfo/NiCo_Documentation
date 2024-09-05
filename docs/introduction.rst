@@ -24,7 +24,7 @@ To get started with NiCo, follow the installation instructions and refer to the 
 Github Tutorials:
 ----------------
 
-The tutorials in jupyter notebook format is `available here <https://github.com/ankitbioinfo/nico_tutorial>`_
+The tutorials in jupyter notebook format is `available here. <https://github.com/ankitbioinfo/nico_tutorial>`_
 
 Contributing:
 -------------
