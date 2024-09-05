@@ -151,8 +151,8 @@ information is independent of the resolution parameter.
 The annotation slot in the scRNA-seq data and initial cluster slot in the spatial data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-ref_cluster_tag=‘cluster’ #### ref_cluster_tag defines the cell type slot
-in the scRNA-seq data. Example .obs[‘cluster’]. If the cell type annotation is stored in
+ref_cluster_tag=‘cluster’ ### ref_cluster_tag defines the cell type slot
+in the scRNA-seq data. Example adata.obs[‘cluster’]. If the cell type annotation is stored in
 another slot please change the slot name.
 
 guiding_spatial_cluster_resolution_tag=‘leiden0.4’ #### guiding_spatial_cluster_resolution_tag
@@ -218,8 +218,6 @@ adata.obsm['spatial'] for spatial coordinates,
 adata.obsm['X_umap'] for 2D umap coordinates,
 adata.X is normalized count data, and
 adata.raw.X for raw count data.
-
-With this file the remaining tutorial can be finished.
 
 
 .. code-block:: console
