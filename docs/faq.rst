@@ -13,7 +13,7 @@ A. You can install NiCo using pip or just keep the python scripts available at g
 
 Q. What types of data does NiCo support?
 
-A. NiCo supports imaging or sequencing based spatial transcriptomics data. It requires an expression matrix in scTransform-like normalization, typically stored in an AnnData object.
+A. NiCo supports imaging- or sequencing-based spatial transcriptomics data. It requires an expression matrix in scTransform-like normalization, typically stored in an AnnData object.
 
 Q. How can I annotate cell types in my spatial data?
 
@@ -21,7 +21,7 @@ A. You can use the `Annotations` module provided by NiCo. The `find_anchor_cells
 
 Q. How do I visualize cell type annotations?
 
-A. NiCo offers several visualization functions in the `Annotations` module, such as `visualize_umap_and_cell_coordinates_with_all_celltypes` and `visualize_umap_and_cell_coordinates_with_selected_celltypes`. These functions help visualize UMAP and cell coordinates with the annotated cell types.
+A. NiCo offers several visualization functions in the `Annotations` module, such as `visualize_umap_and_cell_coordinates_with_all_celltypes` and `visualize_umap_and_cell_coordinates_with_selected_celltypes`. These functions help visualize expression UMAP and cell coordinates for the annotated cell types.
 
 Q. Can NiCo infer niche interactions?
 
@@ -29,11 +29,11 @@ A. Yes, the `Interactions` module of NiCo provides functions for inferring signi
 
 Q. What is the purpose of covariation analysis?
 
-A. Covariation analysis helps identify significance of niche cell state covariations with central cell type using latent factors. The `Covariations` module in NiCo offers tools like `gene_covariation_analysis` and `plot_cosine_and_spearman_correlation_to_factors` for this purpose.
+A. Covariation analysis identifies significance cell state covariations between a central cell type and its niche cell types using latent factors. The `Covariations` module in NiCo offers tools like `gene_covariation_analysis` and `plot_cosine_and_spearman_correlation_to_factors` for this purpose.
 
 Q. How can I perform ligand-receptor interaction analysis?
 
-A. The `Covariations` module provides functions like `save_LR_interactions_in_excelsheet_and_regression_summary_in_textfile_for_interacting_cell_types` and `find_LR_interactions_in_interacting_cell_types` for analyzing ligand-receptor interactions within the cell type covariation state.
+A. The `Covariations` module provides functions like `save_LR_interactions_in_excelsheet_and_regression_summary_in_textfile_for_interacting_cell_types` and `find_LR_interactions_in_interacting_cell_types` for analyzing ligand-receptor interactions between covarying cell types.
 
 Q. Where can I find detailed usage examples and tutorials?
 

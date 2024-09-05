@@ -9,7 +9,7 @@ Tutorials with visualization
 Please prepare the input files with scRNA-seq count data and cell type annotation (cluster partition), spatial count data, and spatial
 cell coordinates to run the complete NiCo tutorials.
 
-NiCo tutorials for Xenium, MERSCOPE, SEQFISH and SlideSeqV2 spatial technologies via Jupyter lab are `available here
+NiCo tutorials for Xenium, MERSCOPE, SEQFISH and Slide-seqV2 spatial technologies via Jupyter lab are `available here
 <https://github.com/ankitbioinfo/nico_tutorial>`_
 
 
@@ -22,10 +22,18 @@ Below is a complete example demonstrating the usage of the main steps (modules) 
 
 .. code-block:: python
 
+   # if you installed the nico package 
    from nico import NicoAnalysis
-   import Annotations as sann
-   import Interactions as sint
-   import Covariations as scov
+   from nico import Annotations as sann
+   from nico import Interactions as sint
+   from nico import Covariations as scov
+   
+   # if you did not install the nico package and downloaded the nico files into the current directory
+   #import Annotations as sann
+   #import Interactions as sint
+   #import Covariations as scov
+   
+   
    import scanpy as sc
    import numpy as np
    import matplotlib.pyplot as plt
@@ -229,7 +237,7 @@ Below is a complete example demonstrating the usage of the main steps (modules) 
 
 
 
-**F: Analysis of Ligand-Receptor Interactions Within the Cell Type Covariation State**
+**F: Analysis of Ligand-Receptor Interactions Associated with Covarying Latent Factors of Niche Cell Types**
 
 .. code-block:: python
 
@@ -278,7 +286,7 @@ Below is a complete example demonstrating the usage of the main steps (modules) 
 
 
 
-**H: Visualization of Top Genes Across Cell Type and Factors as Dotplot**
+**H: Visualization of Top Genes Associated with Latent Factors Across Cell Types and Factors as Dotplot**
 
 .. code-block:: python
 
@@ -303,7 +311,7 @@ Below is a complete example demonstrating the usage of the main steps (modules) 
 
 
 
-**I: Visualize Factor Values in the UMAP**
+**I: Visualization of Factor Values in the UMAP**
 
 .. code-block:: python
 

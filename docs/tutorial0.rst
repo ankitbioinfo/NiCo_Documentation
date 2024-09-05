@@ -1,7 +1,8 @@
 Tutorial 0: Data Preparation
 ============================
 
-This tutorial prepare the data for tutorial 1. For the jupyter notebook file please follow the following `link
+This tutorial guides through data preparation for tutorial 1. For the input data and the 
+jupyter notebook file please use the following `link
 <https://github.com/ankitbioinfo/nico_tutorial/blob/main/Start_Data_prep.ipynb>`_
 
 .. code:: ipython3
@@ -15,9 +16,12 @@ This tutorial prepare the data for tutorial 1. For the jupyter notebook file ple
     #from scipy.spatial import cKDTree
     #from SCTransform import SCTransform
 
-
-    #from nico import Annotations as sann
-    import Annotations as sann
+    # if you installed the nico package
+    import nico 
+    from nico import Annotations as sann
+    
+    # if you did not install the nico package and downloaded the nico files into the current directory
+    # import Annotations as sann
 
 
     import warnings
@@ -31,27 +35,30 @@ This tutorial prepare the data for tutorial 1. For the jupyter notebook file ple
 Usage introduction
 ~~~~~~~~~~~~~~~~~~
 
-Please download the sample data from the git repository nico_tutorial
+Please download the sample data from the git repository `nico_tutorial
+<https://github.com/ankitbioinfo/nico_tutorial/>`_
 and keep all the files and folders in the same directory to complete the
-tutorial.
+tutorial. Unzip inputRef.zip and inputQuery.zip.
 
-inputRef (single-cell RNA-sequencing data) inputQuery (single-cell
-resolution spatial transcriptomics data) NiCoLRdb.txt (Ligand-receptor
-database file)
+inputRef (single-cell RNA-sequencing data) 
+
+inputQuery (single-cell resolution spatial transcriptomics data) 
+
+NiCoLRdb.txt (Ligand-receptor database file)
 
 The following notebook normalizes the count data and computes the
-initial Leiden clustering on the spatial transcriptomics data to perform
+initial Leiden clustering for the spatial transcriptomics data to perform
 the cell type annotation using NiCo:
-Start_Data_preparation_for_niche_analysis.ipynb
+Start_Data_prep.ipynb
 
 Once all the steps of the data preparation notebook are finalized, run
 the core notebook to perform the full NiCo analysis:
-Perform_spatial_analysis.ipynb
+nico_analysis_highres_image_tech.ipynb
 
 
 .. code:: ipython3
 
-    # This is input data path for the scRNA-seq and spatial data
+    # These are the input data paths for the scRNA-seq and spatial data
     # If the data is not in h5ad or csv format then please adjust following the standard scanpy routine.
 
     scdatapath='./inputRef/'
@@ -68,7 +75,7 @@ Perform_spatial_analysis.ipynb
 .. code:: ipython3
 
     # make sure that the order of cells in the count matrix and in the cell location
-    #matrix are identical (command should return TRUE); otherwise correct the order
+    # matrix are identical (command should return TRUE); otherwise correct the order
 
     np.array_equal(coordinate[:,0],ad_spatial_ori.obs_names)
 
@@ -85,12 +92,11 @@ Perform_spatial_analysis.ipynb
 
     ad_spatial_ori.obsm['spatial']=coordinate[:,1:].astype(float)
 
-If spatial h5ad object is already available
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+If a spatial h5ad object is already available:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If the user already has spatial data in h5ad format with coordinate
-information tagged as spatial (.obsm[‘spatial’]), they can skip the
-above command and directly load the spatial data as follows.
+If spatial data in h5ad format with coordinate information tagged as spatial (.obsm[‘spatial’])
+is already available, the previous commands can be skipped and the spatial data directly loaded:
 
 ad_spatial_ori=sc.read_h5ad(spdatapath+‘input_query_spatial_data.h5ad’)
 
@@ -136,10 +142,10 @@ ad_spatial_ori=sc.read_h5ad(spdatapath+‘input_query_spatial_data.h5ad’)
         var: 'n_cells'
 
 
-Original scRNAseq data
-~~~~~~~~~~~~~~~~~~~~~~
+Reference scRNA-seq data
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-Copy the scRNA-seq data into new variables as well as into the raw layer
+Copy the scRNA-seq data into a new variable as well as into the raw layer.
 The Original_count count matrix will be used to derive the UMAP for the
 scRNA-seq data. The raw layer count matrix will be used to find the
 Spearman and Cosine similarity of genes with the latent factors.
@@ -177,8 +183,8 @@ Spearman and Cosine similarity of genes with the latent factors.
     # save the data
     Original_counts.write_h5ad(scdatapath+'Original_counts.h5ad')
 
-Find shared genes
-~~~~~~~~~~~~~~~~~
+Find shared genes between scRNA-seq and spatial data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Now find the shared genes between two modalities and subset the matrix
 to retain only common genes.
@@ -203,13 +209,13 @@ to retain only common genes.
     203
 
 
-Perform scTransform like normalization with two different alternative stratgies
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Perform scTransform-normalization (Pearson residuals) with two different alternative stratgies
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: ipython3
 
     # Alternative 1
-    # The sctransform normalization function used from scanpy
+    # The sctransform normalization function from scanpy
 
     '''
     ad_seq_common.raw=ad_seq_common.copy()
@@ -234,8 +240,8 @@ Perform scTransform like normalization with two different alternative stratgies
 .. code:: ipython3
 
     # Alternative 2
-    # The normalization function used from external functions
-    # In the paper this functions was used
+    # The normalization using an external functions
+    # In the manuscript, this functions was used
 
     temp_spatial=ad_spatial_common.copy()
     temp_seq=ad_seq_common.copy()
@@ -260,7 +266,7 @@ Perform scTransform like normalization with two different alternative stratgies
 
 
 
-Perform Leiden clustering on spatial transcriptomics data to guide the NiCo annotations
+Perform Leiden clustering on spatial transcriptomics data to guide cell type annotation
 ---------------------------------------------------------------------------------------
 
 .. code:: ipython3

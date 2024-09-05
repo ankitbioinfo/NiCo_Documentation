@@ -12,7 +12,7 @@ Before installing NiCo, ensure you have the following dependencies installed:
 - Anaconda or Miniconda
 
 Installing via Pip
---------------------
+------------------
 
 The recommended way to install NiCo is via Pip. Follow these steps:
 
@@ -56,7 +56,7 @@ If the installation is successful, you should see a blank ```>>>``` prompt.
 Updating NiCo
 -------------------
 
-To update NiCo to the latest version, navigate to the cloned directory and pull the latest changes:
+To update NiCo to the latest version, navigate to the cloned directory and pull the latest changes.
 
 
 

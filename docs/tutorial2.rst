@@ -1,20 +1,24 @@
 Tutorial 2: Slide-seqV2, Slide-tags, or Stereo-seq
 ==================================================
 
-This tutorial analyze the low resolution spatial transcriptomics data such as Slide-seqV2, Slide-tags, or Stereo-seq or any other similar technologies.
-This tutorial do not require scRNA-seq and assume that the cells are already annotated by method like RCTD.
+This tutorial guides through analysis of sequencing-based spatial transcriptomics data such as Slide-seqV2, Slide-tags, or Stereo-seq 
+or any other similar technology.
+This tutorial do not require scRNA-seq reference data for integration, and assumes that cells were already annotated by another method (e.g. RCTD).
 
 .. code:: ipython3
 
-    # if you installed the nico package then uncomment and load the respective modules
+    # if you installed the nico package 
 
-    #from nico import Annotations as sann
-    #from nico import Interactions as sint
-    #from nico import Covariations as scov
+    from nico import Annotations as sann
+    from nico import Interactions as sint
+    from nico import Covariations as scov
 
-    import Annotations as sann
-    import Interactions as sint
-    import Covariations as scov
+    import matplotlib as plt
+
+    # if you did not install the nico package and downloaded the nico files into the current directory
+    #import Annotations as sann
+    #import Interactions as sint
+    #import Covariations as scov
 
     #import scanpy as sc
     #import gseapy
@@ -24,7 +28,7 @@ This tutorial do not require scRNA-seq and assume that the cells are already ann
     #import time
     #import os
 
-    import matplotlib as plt
+    #import matplotlib as plt
 
 
 .. code:: ipython3
@@ -33,7 +37,7 @@ This tutorial do not require scRNA-seq and assume that the cells are already ann
     plt.rcParams['ps.fonttype'] = 42
     plt.rcParams['axes.linewidth'] = 0.1 #set the value globally
 
-    # please use Helvetica font according to your OS to make compatible with Adobe Illustrator.
+    # please use Helvetica font according to your OS to ensure compatibility with Adobe Illustrator.
     #plt.rcParams['font.family'] = 'Helvetica'
     #plt.rcParams['font.sans-serif'] = ['Helvetica']
 
@@ -49,21 +53,21 @@ Usage introduction
 ~~~~~~~~~~~~~~~~~~
 
 For details of the function usage and input parameters either refer to
-the documentation or just write the function and add .__doc_\_ to
+the documentation or just write the function and add .doc to
 retrieve infromation on all relelvant parameters.
 
-print(sann.find_anchor_cells_between_ref_and_query.__doc__)
-print(sint.spatial_neighborhood_analysis.__doc__)
-print(scov.gene_covariation_analysis.__doc__)
+print(sann.find_anchor_cells_between_ref_and_query.doc)
+print(sint.spatial_neighborhood_analysis.doc)
+print(scov.gene_covariation_analysis.doc)
 
 All the figures will be saved in ``saveas=pdf`` format as vector
 graphics by default. For every function that generates figures, the
 following default parameters are used: transparent_mode=False,
-saveas=‘pdf’,showit=True, dpi=300
+saveas=‘pdf’,showit=True, dpi=300.
 
 For saving figures in png format, set saveas=‘png’ For generating images
-without background, set transparent_mode=True If figure outputs within
-the Jupyter Notebook is not desired, set showit=False
+without background, set transparent_mode=True. If figure outputs within
+the Jupyter Notebook are not desired, set showit=False.
 
 Please download the sample data from the git repository
 https://github.com/ankitbioinfo/nico_tutorial and keep all the files and
@@ -71,10 +75,13 @@ folders in the same directory to complete the tutorial.
 
 NiCoLRdb.txt (Ligand-receptor database file)
 
+Download the data from https://www.dropbox.com/scl/fi/6hxyp2pxpxalw9rfirby6/nico\_cerebellum.zip?rlkey=9ye6rsk92uj9648ogjw5ypcum\&st=lvc8e366\&dl=0
+and place the data in the following path to complete the tutorial: `nico_cerebellum/cerebellum.h5ad`
+ 
 annotation_save_fname= ‘cerebellum.h5ad’ is the low resolution
-sequencing based spatial transcriptomics file. In this anndata object .X
-slot contains the normalize matrix and in the .raw.X slot contains the
-count matrix
+sequencing-based spatial transcriptomics file. In this anndata object, the .X
+slot contains the normalized expression matrix and the .raw.X slot contains the
+count matrix.
 
 .. code:: ipython3
 
@@ -99,7 +106,7 @@ count matrix
     inputRadius=0
     annotation_slot='rctd_first_type' #spatial cell type slot
 
-B: Visualize cell type annotation of spatial data
+A: Visualize cell type annotation of spatial data
 -------------------------------------------------
 
 .. code:: ipython3
@@ -153,13 +160,13 @@ Left side: tissue map, Right side: UMAP
 .. image:: tutorial2_files/tutorial2_10_1.png
 
 
-C: Infer significant niche cell type interactions
+B: Infer significant niche cell type interactions
 -------------------------------------------------
 
 **Radius definition**
 
-The radius R=0 in NiCo incorporates the neighboring cells that are in
-immediate contact with the central cell to construct the expected
+If the radius in NiCo is set to R=0, NiCo incorporates the neighboring cells 
+that are in immediate contact with the central cell to construct the expected
 neighborhood composition matrix. We envision NiCo as a method to explore
 direct interactions with physical neighbors (R=0), but in principle
 finite distance interactions mediated by diffusive factors could be
@@ -168,13 +175,12 @@ R=0.
 
 It may be helpful to explore a larger radius if it is expected that cell
 types interact through long-range interactions. However, during the
-covariation task immediate neighbors typically capture the strongest
-signal, while a larger radius averages the signal from a more
-significant number of cells, potentially diluting the signal. Therefore,
-we recommend running NiCo with R=0.
+covariation task, immediate neighbors typically capture the strongest
+signal, while a larger radius averages the signal from a bigger number of cells, 
+potentially diluting the signal. Therefore, we recommend running NiCo with R=0.
 
 Perform neighborhood analysis across direct neighbors (juxtacrine
-signaling, R=0) of the central niche cell type.
+signaling, R=0) of the central niche cell type by setting inputRadius=0.
 
 To exclude cell types from the neighborhood analysis, add celltype names
 to the list removed_CTs_before_finding_CT_CT_interactions. In the
@@ -213,8 +219,8 @@ example below, the cell types ``nan``, would not be included.
     celltype_niche_interaction_cutoff=0.08
 
 
-In some computing machine pygraphviz is not able to load the neato
-package automatically. In such case please define the location of the
+In some computing environments pygraphviz is not able to load the neato
+package automatically. In such cases, please define the location of the
 neato package. If you install pygraphviz through conda
 ``conda install -c conda-forge pygraphviz`` then most likely it should
 work.
@@ -263,12 +269,12 @@ work.
 .. image:: tutorial2_files/tutorial2_19_1.png
 
 
-Cell type niche plot individually
----------------------------------
+Individual cell type niche plot
+-------------------------------
 
-Order niche cell types by magnitude of regression coefficients, add
-celltype names to the list argument choose_celltypes, e.g., for the
-Purkinje and Bergmann cell type niche.
+To plot regression coefficients of niche cell types for given central cell types, ordered by magnitude,
+add cell type names for the desired central cell types to the list argument choose_celltypes (e.g. Purkinje 
+and Bergmann cells).
 
 .. code:: ipython3
 
@@ -296,7 +302,7 @@ Purkinje and Bergmann cell type niche.
 
 
 If niche cell types from the niche neighborhood of all central cell
-types should be plotted or saved, then leave choose_celltypes list
+types should be plotted or saved, then leave the choose_celltypes list
 argument empty.
 
 .. code:: ipython3
@@ -305,10 +311,10 @@ argument empty.
 
 .. code:: ipython3
 
-    # Plot the ROC curve of the classifier prediction for one of the crossfolds.
+    # Plot the ROC curve of the classifier prediction for one of the cross-folds.
     # sint.plot_roc_results(niche_pred_output,saveas=saveas,transparent_mode=transparent_mode)
 
-Plot the average confusion matrix of the classifier from cross-folds
+Plot the average confusion matrix of the classifier from cross-folds:
 
 .. code:: ipython3
 
@@ -325,7 +331,7 @@ Plot the average confusion matrix of the classifier from cross-folds
 .. image:: tutorial2_files/tutorial2_27_1.png
 
 
-Plot the average coefficient matrix of the classifier from cross-folds
+Plot the average coefficient matrix of the classifier from cross-folds:
 
 .. code:: ipython3
 
@@ -346,7 +352,7 @@ Plot the average coefficient matrix of the classifier from cross-folds
 
     #st.plot_predicted_probabilities(niche_pred_output)
 
-Plot the evaluation score of the classifier for different metrics
+Plot the evaluation score of the classifier for different metrics:
 
 .. code:: ipython3
 
@@ -363,18 +369,18 @@ Plot the evaluation score of the classifier for different metrics
 .. image:: tutorial2_files/tutorial2_32_1.png
 
 
-D: Perform niche cell state covariation analysis using latent factors
+C: Perform niche cell state covariation analysis using latent factors
 ---------------------------------------------------------------------
 
 Note: From module C onwards, Jupyter cells are independent of previous
 steps. Therefore, if you want to try different settings, you do not need
 to run the previous Jupyter cells.
 
-Covariations parameters settings
+Covariation parameter settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Infer desired number of latent factors (e.g., no_of_factors=3) for each
-cell type. Here we use only one modalities using conventional
+cell type. Here, we consider only the spatial modality and thus use conventional
 non-negative matrix factorization.
 
 Set spatial_integration_modality=‘single’ for applying the conventional
@@ -391,14 +397,14 @@ NiCoLRdb.txt is the name of the ligand-receptor database file. Users can
 use databases of similar format from any resource.
 
 NiCoLRdb.txt was created by merging ligand-receptor pairs from NATMI,
-OMNIPATH, and CellPhoneDB. User can download this database from github
-and put into local directory from where this notebook is getting run.
+OMNIPATH, and CellPhoneDB. It can be downloaded from github
+and saved in the local directory from where this notebook is run.
 
 .. code:: ipython3
 
-    # By default, it run in spatial_integration_modality='double'
-    # it integrates spatial transcriptomics with scRNAseq data modalities
-    # For running in only spatial transcriptomics mode must specify the
+    # By default, the function is run with spatial_integration_modality='double', i.e. 
+    # it integrates spatial transcriptomics with scRNAseq data
+    # For running it only on spatial transcriptomics data, specify 
     # spatial_integration_modality='single'
 
     cov_out=scov.gene_covariation_analysis(Radius=inputRadius,
@@ -449,11 +455,11 @@ and put into local directory from where this notebook is getting run.
 Visualize the cosine similarity and Spearman correlation between genes and latent factors
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Following function generates output for the top 30 genes based on cosine
-similarity (left) or Spearman correlation (right)
+The following function generates output for the top 30 genes based on cosine
+similarity (left) or Spearman correlation (right) with latent factors.
 
-Select cell types by adding IDs to list argument choose_celltypes, or
-leave empty for generating output for all cell types
+Select cell types by adding IDs to the list argument choose_celltypes, or
+leave empty for generating output for all cell types.
 
 .. code:: ipython3
 
@@ -475,17 +481,18 @@ leave empty for generating output for all cell types
 
 
 
-Visualize genes in the latent factors along with average expression
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Visualizes genes associated with the latent factors along with average expression
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Call following function
+
+Call the following function
 (scov.extract_and_plot_top_genes_from_chosen_factor_in_celltype) to
 visualize correlation and expression of genes associated with factors
 
 For example, visualize and extract the top 20 genes (top_NOG=20)
 correlating negatively (positively_correlated=False) by Spearman
 correlation (correlation_with_spearman=True) for cell type Purkinje
-(choose_celltype=‘Purkinje’) in factor 1 (choose_factor_id=1)
+(choose_celltype=‘Purkinje’) to factor 1 (choose_factor_id=1)
 
 .. code:: ipython3
 
@@ -504,13 +511,14 @@ correlation (correlation_with_spearman=True) for cell type Purkinje
 
 .. image:: tutorial2_files/tutorial2_42_1.png
 
+Inspect genes associated with a latent factor
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Visualize the latent factor values and proportion of population expressed that gene
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-inspect the top genes in the given factor as in table
-proportion_of_population_expressed: proportion of cells expressing a
-gene in the respective cluster
+Inspect the top genes associated with a the given factor. The table summarizes the 
+positive or negative spearman correlation or cosine similarity with the factor, the mean
+expression and the proportion of cells expressing the gene for the respective cell type.
+
 
 .. code:: ipython3
 
@@ -692,10 +700,10 @@ gene in the respective cluster
 
 
 
-Save the latent factors into excel sheet
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Save the latent factors into an excel sheet
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-save data in an Excel sheet for each cell type, including latent factor
+Save data in an excel sheet for each cell type, including latent factor
 associations of all genes according to Spearman correlation and cosine
 similarity.
 
@@ -703,11 +711,11 @@ similarity.
 
     scov.make_excel_sheet_for_gene_correlation(cov_out)
 
-E: Cell type covariation visualization
+D: Cell type covariation visualization
 --------------------------------------
 
-Plot covariations between niche cell types (x-axis) and central cell
-type (y-axis, defined by list argument choose_celltypes).
+Plot linear regression coefficients between factors of the central cell type (y-axis, 
+defined by list argument choose_celltypes) and factors of niche cell types (x-axis).
 
 Circle size scales with -log10(p-value) (indicated as number on top of
 each circle). To generate plots for all cell types, leave list argument
@@ -722,7 +730,7 @@ choose_celltypes empty.
     saveas=saveas,transparent_mode=transparent_mode,
     figsize=(6,1.25))
 
-    #In the following example, a p-value cutoff is explicitely defined by the pvalue_cutoff argument.
+    # In the following example, a p-value cutoff is explicitely defined by the pvalue_cutoff argument.
     # p-value is printed as the -log10(p-value) on top of circle.
     # circle color is the regression coefficients
 
@@ -745,12 +753,12 @@ choose_celltypes empty.
 Visualize as heatmap instead of circle plot
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Plot covariations between niche cell types (x-axis) and central cell
+Plot regression coefficients between niche cell types (x-axis) and central cell
 type (y-axis, defined by list argument choose_celltypes) as heatmap.
 
 Leave list argument choose_celltypes empty to generate plots for all
-cell types. The top subfigure shows the coefficient and bottom subfigure
-shows the -log10(p-value).
+cell types. The top subfigure shows the coefficients and bottom subfigure
+shows the -log10 p-values.
 
 .. code:: ipython3
 
@@ -770,15 +778,16 @@ shows the -log10(p-value).
 .. image:: tutorial2_files/tutorial2_53_1.png
 
 
-F: Analysis of ligand-receptor interactions within the cell type covariation state
-----------------------------------------------------------------------------------
+E: Analysis of ligand-receptor interactions between covarying niche cell types
+------------------------------------------------------------------------------
 
-Save excelsheets and summary in text file
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Save excel sheets and summary in text file
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Save all ligand-receptor interactions infered for each cell type niche
-in an Excel sheet, and a summary of significant niche interactions in a
-text file.
+Save all ligand-receptor interactions infered for the niche of each cell
+type in an excel sheet, and a summary of significant niche
+interactions in a text file.
+
 
 .. code:: ipython3
 
@@ -797,17 +806,18 @@ text file.
 
 
 
-Usage for ligand receptor visualizations
+Usage for ligand-receptor visualizations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Perform ligand-receptors analysis In this example, output is generated
 for the ligand-receptor pairs associated with the intercting factor 1 of
-Stem/TA cells and factor 1 of Paneth cells.
+Bergmann cells and factor 1 of Purkinje cells.
 
 choose_interacting_celltype_pair=[‘Bergmann’,‘Purkinje’]
+
 choose_factors_id=[1,1] entries correspond to cell types in
-choose_interacting_celltype_pai, i.e., first factor ID corresponds to
-Bergmann and second factor ID corresponds to Purkinje
+choose_interacting_celltype_pair, i.e., first factor ID corresponds to
+Bergmann and second factor ID corresponds to Purkinje.
 
 By default, the analysis is saved in 3 separate figures (bidirectional,
 CC to NC and NC to CC). CC: central cell NC: niche cell
@@ -862,28 +872,30 @@ the stringency of the output filtering can be controled.
 
 Perform ligand-receptors analysis of the Bergmann cell niche including
 all significant interaction partners.
-choose_interacting_celltype_pair=[‘Bergmann’] generate plots for all
+
+choose_interacting_celltype_pair=[‘Bergmann’] generates plots for all
 cell types interacting sigificantly with Bergmann cells.
-choose_factors_id=[] if empty, generate plots for all significantly
+
+choose_factors_id=[] if empty, generates plots for all significantly
 covarying factors
 
 .. code:: ipython3
 
-    #scov.find_LR_interactions_in_interacting_cell_types(all_output_data,choose_interacting_celltype_pair=['Bergmann'],
-     #   choose_factors_id=[], LR_plot_NMF_Fa_thres=0.2,LR_plot_Exp_thres=0.2,saveas=saveas,transparent_mode=transparent_mode)
+    # scov.find_LR_interactions_in_interacting_cell_types(all_output_data,choose_interacting_celltype_pair=['Bergmann'],
+    #   choose_factors_id=[], LR_plot_NMF_Fa_thres=0.2,LR_plot_Exp_thres=0.2,saveas=saveas,transparent_mode=transparent_mode)
 
 
 
 
 
 
-G: Perform functional enrichment analysis for genes associated with latent factors
+F: Perform functional enrichment analysis for genes associated with latent factors
 ----------------------------------------------------------------------------------
 
 Perform pathway enrichment analysis for factor-associated genes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In this example, pathway analysis is performed for top 50
+In this example, pathway analysis is performed for the top 50
 (NOG_pathway=50) genes, positively correlated
 (positively_correlated=True) with factor 1 (choose_factors_id=[1]) of
 Bergmann cells (choose_celltypes=[‘Bergmann’]) testing for enrichment of
@@ -912,11 +924,11 @@ folder.
 .. image:: tutorial2_files/tutorial2_68_1.png
 
 
-In this example, pathway analysis is performed for top 50
-(NOG_pathway=50) genes, negatively correlated
-(positively_correlated=False) with factor 1 (choose_factors_id=[2]) of
-Stem/TA cells (choose_celltypes=[‘Stem/TA’]) testing for enrichment of
-GO Biological Processes (database=[‘GO_Biological_Process_2021’]).
+In this example, pathway analysis is performed for the top 50
+(NOG_pathway=50) genes, postively correlated
+(positively_correlated=True) with factor 1 (choose_factors_id=[1]) of
+Purkinje cells (choose_celltypes=[‘Purkinje']) testing for enrichment of
+GO Biological Processes (database=[‘BioPlanet_2019’]).
 
 If savefigure=True, then the figures will be saved in the respective
 folder.
@@ -942,16 +954,16 @@ folder.
 
 
 
-H: Visualization of top genes across cell type and factors as dotplot
+G: Visualization of top genes across cell types and factors as dotplot
 ---------------------------------------------------------------------
 
-Show the top 20 positively and negatively correlated genes (top_NOG=20)
-for all latent factors and the average expression of these genes on a
-log scale in a single plot. In this example, plots are generated for
-Purkinje and Bergmann cells.
+Show the top 20 positively and negatively correlated genes (top_NOG=20) to 
+the factors in visualize_factors_id and their average expression on a log scale for 
+corresponding cell types indicated in choose_interacting_celltype_pair. 
+In this example, plots are generated for factor 1 for Purkinje cells and factor 1
+for Bergmann cells.
 
-If the choose_celltypes=[], the plot will be generated for all cell
-types.
+If the choose_celltypes=[], the plot will be generated for all cell types. 
 
 .. code:: ipython3
 
@@ -997,16 +1009,13 @@ types.
 .. image:: tutorial2_files/tutorial2_75_2.png
 
 
-I: Visualize factor values in the UMAP
---------------------------------------
+H: Visualize factor values in the UMAP
+---------------------------------------
 
-Visualize factor values for select cell types, e.g., Bergmann and
-Purkinje cells
-(choose_interacting_celltype_pair=[‘Bergmann’,‘Purkinje’]) in spatial
-data umap. Select factors for each cell type
+Visualize factor values for select cell types, e.g., Bergmann and Purkinje
+cells (choose_interacting_celltype_pair=[['Bergmann','Purkinje']) in
+scRNA-seq data umap. Select factors for each cell type
 (visualize_factors_id=[1,1]).
-
-
 
 
 

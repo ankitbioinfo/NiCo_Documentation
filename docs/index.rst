@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-NiCo: Niche analysis of single-cell resolution of spatial cells
+NiCo: Niche covariation analysis of spatial transcriptomics data
 ================================================================
 
 
@@ -12,16 +12,17 @@ NiCo: Niche analysis of single-cell resolution of spatial cells
     :align: center
     :alt: NiCo spatial analysis
 
-    Infer cellular crosstalk from imaging-based spatial transcriptomics and scRNAseq data
+    Infer cellular crosstalk from spatial transcriptomics and scRNAseq data
 
 
 
 The Niche Covariation (NiCo) package is developed for the integration of single-cell resolution
-spatial transcriptomics and scRNA-seq data to (1) perform cell type annotations in the spatial modality by
-label transfer, (2) predict niche cell type interactions within local neighborhoods, and (3) infer cell state covariation and the
-underlying molecular crosstalk in the niche. NiCo infers factors capturing cell
-state variability in both modalities and identifies genes correlated to these latent factors for the prediction
-of ligand-receptor interactions and factor-associated pathways.
+spatial transcriptomics and scRNA-seq data (or from sequencing-based spatial transcriptomics data alone)
+to (1) perform cell type annotations in the spatial modality by label transfer, (2) predict niche cell type 
+interactions within local neighborhoods, and (3) infer cell state covariation and the underlying molecular 
+crosstalk in the niche. NiCo infers factors capturing cell state variability in both modalities and 
+identifies genes correlated to these latent factors for the prediction of ligand-receptor interactions 
+and factor-associated pathways.
 
 Highlights of NiCo
 ==================
@@ -51,7 +52,7 @@ Tutorials
 Please prepare the input files with scRNA-seq count data and cell type annotation (cluster partition), spatial count data, and spatial
 cell coordinates to run the complete NiCo tutorials.
 
-`Nico tutorials for Xenium, MERSCOPE, SEQFISH and SlideSeqV2 spatial technologies are available here <https://github.com/ankitbioinfo/nico_tutorial>`_
+`Nico tutorials for imaging-based spatial transcriptomics (Xenium, MERSCOPE, seqFISH) or sequencing-based methods, e.g., Slide-seqV2, are available here <https://github.com/ankitbioinfo/nico_tutorial>`_
 
 
 
