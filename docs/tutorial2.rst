@@ -1,13 +1,13 @@
 Tutorial 2: Slide-seqV2, Slide-tags, or Stereo-seq
 ==================================================
 
-This tutorial guides through analysis of sequencing-based spatial transcriptomics data such as Slide-seqV2, Slide-tags, or Stereo-seq 
+This tutorial guides through analysis of sequencing-based spatial transcriptomics data such as Slide-seqV2, Slide-tags, or Stereo-seq
 or any other similar technology.
 This tutorial do not require scRNA-seq reference data for integration, and assumes that cells were already annotated by another method (e.g. RCTD).
 
 .. code:: ipython3
 
-    # if you installed the nico package 
+    # if you installed the nico package
 
     from nico import Annotations as sann
     from nico import Interactions as sint
@@ -53,12 +53,12 @@ Usage introduction
 ~~~~~~~~~~~~~~~~~~
 
 For details of the function usage and input parameters either refer to
-the documentation or just write the function and add .doc to
+the documentation or just write the function and add .__doc__ to
 retrieve infromation on all relelvant parameters.
 
-print(sann.find_anchor_cells_between_ref_and_query.doc)
-print(sint.spatial_neighborhood_analysis.doc)
-print(scov.gene_covariation_analysis.doc)
+print(sann.find_anchor_cells_between_ref_and_query.__doc__)
+print(sint.spatial_neighborhood_analysis.__doc__)
+print(scov.gene_covariation_analysis.__doc__)
 
 All the figures will be saved in ``saveas=pdf`` format as vector
 graphics by default. For every function that generates figures, the
@@ -69,19 +69,19 @@ For saving figures in png format, set saveas=‘png’ For generating images
 without background, set transparent_mode=True. If figure outputs within
 the Jupyter Notebook are not desired, set showit=False.
 
-Please download the sample data from the git repository
-https://github.com/ankitbioinfo/nico_tutorial and keep all the files and
-folders in the same directory to complete the tutorial.
+Please download the sample data from the `dropbox link <https://www.dropbox.com/scl/fi/6hxyp2pxpxalw9rfirby6/nico\_cerebellum.zip?rlkey=9ye6rsk92uj9648ogjw5ypcum\&st=lvc8e366\&dl=0>`_
+and place the data in the following path to complete the tutorial: `nico_cerebellum/cerebellum.h5ad`
 
 NiCoLRdb.txt (Ligand-receptor database file)
 
-Download the data from https://www.dropbox.com/scl/fi/6hxyp2pxpxalw9rfirby6/nico\_cerebellum.zip?rlkey=9ye6rsk92uj9648ogjw5ypcum\&st=lvc8e366\&dl=0
-and place the data in the following path to complete the tutorial: `nico_cerebellum/cerebellum.h5ad`
- 
-annotation_save_fname= ‘cerebellum.h5ad’ is the low resolution
-sequencing-based spatial transcriptomics file. In this anndata object, the .X
-slot contains the normalized expression matrix and the .raw.X slot contains the
-count matrix.
+annotation_save_fname= 'cerebellum.h5ad' is the low resolution sequencing-based spatial transcriptomics file.
+In this anndata object, the adata.X contains the normalize count data,
+adata.obsm['spatial'] for spatial coordinates,
+adata.obsm['X_umap'] for 2D umap coordinates,
+adata.obs['rctd_first_type'] contains the slot for cell type annotations,
+and in the adata.raw.X slot contains the raw count matrix.
+
+
 
 .. code:: ipython3
 
@@ -165,7 +165,7 @@ B: Infer significant niche cell type interactions
 
 **Radius definition**
 
-If the radius in NiCo is set to R=0, NiCo incorporates the neighboring cells 
+If the radius in NiCo is set to R=0, NiCo incorporates the neighboring cells
 that are in immediate contact with the central cell to construct the expected
 neighborhood composition matrix. We envision NiCo as a method to explore
 direct interactions with physical neighbors (R=0), but in principle
@@ -176,7 +176,7 @@ R=0.
 It may be helpful to explore a larger radius if it is expected that cell
 types interact through long-range interactions. However, during the
 covariation task, immediate neighbors typically capture the strongest
-signal, while a larger radius averages the signal from a bigger number of cells, 
+signal, while a larger radius averages the signal from a bigger number of cells,
 potentially diluting the signal. Therefore, we recommend running NiCo with R=0.
 
 Perform neighborhood analysis across direct neighbors (juxtacrine
@@ -273,7 +273,7 @@ Individual cell type niche plot
 -------------------------------
 
 To plot regression coefficients of niche cell types for given central cell types, ordered by magnitude,
-add cell type names for the desired central cell types to the list argument choose_celltypes (e.g. Purkinje 
+add cell type names for the desired central cell types to the list argument choose_celltypes (e.g. Purkinje
 and Bergmann cells).
 
 .. code:: ipython3
@@ -402,9 +402,9 @@ and saved in the local directory from where this notebook is run.
 
 .. code:: ipython3
 
-    # By default, the function is run with spatial_integration_modality='double', i.e. 
+    # By default, the function is run with spatial_integration_modality='double', i.e.
     # it integrates spatial transcriptomics with scRNAseq data
-    # For running it only on spatial transcriptomics data, specify 
+    # For running it only on spatial transcriptomics data, specify
     # spatial_integration_modality='single'
 
     cov_out=scov.gene_covariation_analysis(Radius=inputRadius,
@@ -515,7 +515,7 @@ Inspect genes associated with a latent factor
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-Inspect the top genes associated with a the given factor. The table summarizes the 
+Inspect the top genes associated with a the given factor. The table summarizes the
 positive or negative spearman correlation or cosine similarity with the factor, the mean
 expression and the proportion of cells expressing the gene for the respective cell type.
 
@@ -714,7 +714,7 @@ similarity.
 D: Cell type covariation visualization
 --------------------------------------
 
-Plot linear regression coefficients between factors of the central cell type (y-axis, 
+Plot linear regression coefficients between factors of the central cell type (y-axis,
 defined by list argument choose_celltypes) and factors of niche cell types (x-axis).
 
 Circle size scales with -log10(p-value) (indicated as number on top of
@@ -957,13 +957,13 @@ folder.
 G: Visualization of top genes across cell types and factors as dotplot
 ---------------------------------------------------------------------
 
-Show the top 20 positively and negatively correlated genes (top_NOG=20) to 
-the factors in visualize_factors_id and their average expression on a log scale for 
-corresponding cell types indicated in choose_interacting_celltype_pair. 
+Show the top 20 positively and negatively correlated genes (top_NOG=20) to
+the factors in visualize_factors_id and their average expression on a log scale for
+corresponding cell types indicated in choose_interacting_celltype_pair.
 In this example, plots are generated for factor 1 for Purkinje cells and factor 1
 for Bergmann cells.
 
-If the choose_celltypes=[], the plot will be generated for all cell types. 
+If the choose_celltypes=[], the plot will be generated for all cell types.
 
 .. code:: ipython3
 
