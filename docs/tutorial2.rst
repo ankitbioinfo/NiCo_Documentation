@@ -57,7 +57,9 @@ the documentation or just write the function and add .__doc__ to
 retrieve infromation on all relelvant parameters.
 
 print(sann.find_anchor_cells_between_ref_and_query.__doc__)
+
 print(sint.spatial_neighborhood_analysis.__doc__)
+
 print(scov.gene_covariation_analysis.__doc__)
 
 All the figures will be saved in ``saveas=pdf`` format as vector
@@ -76,9 +78,13 @@ NiCoLRdb.txt (Ligand-receptor database file)
 
 annotation_save_fname= 'cerebellum.h5ad' is the low resolution sequencing-based spatial transcriptomics file.
 In this anndata object, the adata.X contains the normalize count data,
+
 adata.obsm['spatial'] for spatial coordinates,
+
 adata.obsm['X_umap'] for 2D umap coordinates,
+
 adata.obs['rctd_first_type'] contains the slot for cell type annotations,
+
 and in the adata.raw.X slot contains the raw count matrix.
 
 
