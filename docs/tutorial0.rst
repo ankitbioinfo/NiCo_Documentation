@@ -1,7 +1,7 @@
 Tutorial 0: Data Preparation
 ============================
 
-This tutorial guides through data preparation for tutorial 1. For the input data and the 
+This tutorial guides through data preparation for tutorial 1. For the input data and the
 jupyter notebook file please use the following `link
 <https://github.com/ankitbioinfo/nico_tutorial/blob/main/Start_Data_prep.ipynb>`_
 
@@ -17,9 +17,9 @@ jupyter notebook file please use the following `link
     #from SCTransform import SCTransform
 
     # if you installed the nico package
-    import nico 
+    import nico
     from nico import Annotations as sann
-    
+
     # if you did not install the nico package and downloaded the nico files into the current directory
     # import Annotations as sann
 
@@ -40,9 +40,9 @@ Please download the sample data from the git repository `nico_tutorial
 and keep all the files and folders in the same directory to complete the
 tutorial. Unzip inputRef.zip and inputQuery.zip.
 
-inputRef (single-cell RNA-sequencing data) 
+inputRef (single-cell RNA-sequencing data)
 
-inputQuery (single-cell resolution spatial transcriptomics data) 
+inputQuery (single-cell resolution spatial transcriptomics data)
 
 NiCoLRdb.txt (Ligand-receptor database file)
 
@@ -54,6 +54,16 @@ Start_Data_prep.ipynb
 Once all the steps of the data preparation notebook are finalized, run
 the core notebook to perform the full NiCo analysis:
 nico_analysis_highres_image_tech.ipynb
+
+
+.. code:: ipython3
+
+    print(nico.__version__)
+
+
+.. parsed-literal::
+
+    1.3.0
 
 
 .. code:: ipython3

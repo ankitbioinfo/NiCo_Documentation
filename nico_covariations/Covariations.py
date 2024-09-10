@@ -3937,7 +3937,7 @@ def sort_index_in_right_order(correct,wrong):
     return right
 
 
-def plot_top_genes_for_a_given_celltype_from_all_three_factors(input,choose_celltypes=[],top_NOG=20,rps_rpl_mt_genes_included=True,correlation_with_spearman=True,saveas='pdf',transparent_mode=False,showit=True,figsize=(12, 10)):
+def plot_top_genes_for_a_given_celltype_from_all_factors(input,choose_celltypes=[],top_NOG=20,rps_rpl_mt_genes_included=True,correlation_with_spearman=True,saveas='pdf',transparent_mode=False,showit=True,figsize=(12, 10)):
     """
     Visualize top genes associated with given cell types across all three factors.
 
@@ -3990,7 +3990,7 @@ def plot_top_genes_for_a_given_celltype_from_all_three_factors(input,choose_cell
     Example:
     --------
     >>> input_data = load_data_from_analysis()  # hypothetical function to load data
-    >>> plot_top_genes_for_a_given_celltype_from_all_three_factors(input_data, choose_celltypes=['CellType1'], top_NOG=10)
+    >>> plot_top_genes_for_a_given_celltype_from_all_factors(input_data, choose_celltypes=['CellType1'], top_NOG=10)
     """
 
     savefigdir=input.covariation_dir+ 'dotplots/'

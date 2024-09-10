@@ -49,18 +49,28 @@ This tutorial do not require scRNA-seq reference data for integration, and assum
     warnings.filterwarnings("ignore")
 
 
+.. code:: ipython3
+
+    print(nico.__version__)
+
+
+.. parsed-literal::
+
+   1.3.0
+
+
 Usage introduction
 ~~~~~~~~~~~~~~~~~~
 
 For details of the function usage and input parameters either refer to
-the documentation or just write the function and add .__doc__ to
+the documentation or just write the function and add ``.__doc__`` to
 retrieve infromation on all relelvant parameters.
 
-print(sann.find_anchor_cells_between_ref_and_query.__doc__)
+``print(sann.find_anchor_cells_between_ref_and_query.__doc__)``
 
-print(sint.spatial_neighborhood_analysis.__doc__)
+``print(sint.spatial_neighborhood_analysis.__doc__)``
 
-print(scov.gene_covariation_analysis.__doc__)
+``print(scov.gene_covariation_analysis.__doc__)``
 
 All the figures will be saved in ``saveas=pdf`` format as vector
 graphics by default. For every function that generates figures, the
@@ -993,7 +1003,7 @@ If the choose_celltypes=[], the plot will be generated for all cell types.
 
 
 
-    scov.plot_top_genes_for_a_given_celltype_from_all_three_factors(cov_out,
+    scov.plot_top_genes_for_a_given_celltype_from_all_factors(cov_out,
     choose_celltypes=['Bergmann','Purkinje'],
     top_NOG=20,saveas=saveas,transparent_mode=transparent_mode)
 
@@ -1019,7 +1029,7 @@ H: Visualize factor values in the UMAP
 ---------------------------------------
 
 Visualize factor values for select cell types, e.g., Bergmann and Purkinje
-cells (choose_interacting_celltype_pair=[['Bergmann','Purkinje']) in
+cells (choose_interacting_celltype_pair=['Bergmann','Purkinje']) in
 scRNA-seq data umap. Select factors for each cell type
 (visualize_factors_id=[1,1]).
 
@@ -1042,12 +1052,6 @@ scRNA-seq data umap. Select factors for each cell type
 
 
 
-.. parsed-literal::
-
-    0
-
-
-
 
 .. image:: tutorial2_files/tutorial2_80_2.png
 
@@ -1066,11 +1070,6 @@ scRNA-seq data umap. Select factors for each cell type
     The figures are saved:  ./nico_cerebellum/covariations_R0_F3/spatial_factors_in_umap.png
 
 
-
-
-.. parsed-literal::
-
-    0
 
 
 

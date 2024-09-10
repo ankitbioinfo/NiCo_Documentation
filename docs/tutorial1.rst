@@ -51,17 +51,27 @@ Please prepare the input files of scRNA-seq reference data and spatial transcrip
     warnings.filterwarnings("ignore")
 
 
+.. code:: ipython3
+
+    print(nico.__version__)
+
+
+.. parsed-literal::
+
+    1.3.0
+
+
 **Usage introduction**
 
 For details of the function usage and input parameters either refer to
-the documentation or just write the function and add .__doc_\_ to
+the documentation or just write the function and add ``.__doc_\_`` to
 retrieve information on all relelvant parameters.
 
-print(sann.find_anchor_cells_between_ref_and_query.__doc__)
+``print(sann.find_anchor_cells_between_ref_and_query.__doc__)``
 
-print(sint.spatial_neighborhood_analysis.__doc__)
+``print(sint.spatial_neighborhood_analysis.__doc__)``
 
-print(scov.gene_covariation_analysis.__doc__)
+``print(scov.gene_covariation_analysis.__doc__)``
 
 All the figures will be saved in ``saveas=pdf`` format as vector
 graphics by default. For every function that generates figures, the
@@ -197,7 +207,7 @@ along with the spatial expression matrix in the “output_nico_dir” directory.
 
 .. parsed-literal::
 
-    Cell type annotations infered by NiCo are saved in the .obs['nico_ct'] slot
+    Nico cell type cluster are saved in following path './nico_out/' as <anndata>.obs['nico_ct'] slot
 
 
 
@@ -1288,7 +1298,7 @@ types.
 
 .. code:: ipython3
 
-    scov.plot_top_genes_for_a_given_celltype_from_all_three_factors(
+    scov.plot_top_genes_for_a_given_celltype_from_all_factors(
     cov_out,choose_celltypes=['Paneth','Stem/TA'],
     top_NOG=20,saveas=saveas,transparent_mode=transparent_mode)
 

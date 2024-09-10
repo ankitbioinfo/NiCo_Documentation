@@ -296,19 +296,6 @@ def create_spatial_CT_feature_matrix(radius,PP,louvain,noct,fraction_CT,saveSpat
     input_mat_for_log_reg=np.array(input_mat_for_log_reg)
     np.savez(saveSpatial+'normalized_spatial_neighborhood_'+str(radius)+'.npz',input_mat_for_log_reg=input_mat_for_log_reg)
 
-    '''
-    expectedNeighbors=np.array(expectedNeighbors)
-    M=[]
-    for i in range(len(noct)):
-        a=np.where(expectedNeighbors[:,0]==i)
-        b=np.where(expectedNeighbors[:,0]!=i)
-        #print('a',len(a[0]),len(b[0]))
-        myCT=np.mean(expectedNeighbors[a[0],1:],axis=0)
-        remainCT=np.mean(expectedNeighbors[b[0],1:],axis=0)
-        M.append(myCT/remainCT)
-        #print(i,M[i])
-    M=np.array(M)
-    '''
     M=0
 
     distance=[]
@@ -391,32 +378,6 @@ def reading_data(coordinates,louvainFull,degbased_ctname,saveSpatial,removed_CTs
             CTname.append(name)
             CTid.append(degbased_ctname[i][0])
 
-    '''
-    CTname=[]
-    with open(celltypeFilename,'r') as f:
-        cont = f.read()
-        lines=cont.split('\n')
-        CTname=[]
-        CTid=[]
-        for i in range(1,len(lines)):
-            l=lines[i].split(delimiter)
-            if len(l)>1:
-                name=l[1]
-                '
-                name=l[1].replace('/','_')
-                name=name.replace(' ','_')
-                name=name.replace('"','')
-                name=name.replace("'",'')
-                name=name.replace(')','')
-                name=name.replace('(','')
-                name=name.replace('+','p')
-                name=name.replace('-','n')
-                name=name.replace('.','')
-                '
-                if name not in removed_CTs_before_finding_CT_CT_interactions:
-                    CTname.append(name)
-                    CTid.append(int(l[0]))
-    '''
 
     #CTid=data[:,0]
     #CTname=data[:,1]
@@ -1109,30 +1070,6 @@ def model_log_regression(K_fold,n_repeats,neighborhoodClass,target,lambda_c,stra
 
     CTFeatures=poly.get_feature_names_out()
     #print("Features", CTFeatures,type(CTFeatures))
-    '''
-    print("accuracy score\t",np.mean(scorecalc[0]))
-    print("\nmacro")
-    print("f1 score\t",np.mean(scorecalc[1]))
-    print("precision score\t",np.mean(scorecalc[2]))
-    print("recall score\t",np.mean(scorecalc[3]))
-
-    print("\nmicro f1, precision, recall all same")
-    print("score\t",np.mean(scorecalc[4]))
-    #print("precision score in 10 run\t",np.mean(scorecalc[5]))
-    #print("recall score in 10 run\t",np.mean(scorecalc[6]))
-
-    print("\nWeighted")
-    print("f1 score\t",np.mean(scorecalc[7]))
-    print("precision\t",np.mean(scorecalc[8]))
-    print("recall score\t",np.mean(scorecalc[9]))
-
-
-    print('\ncohen_kappa_score (best=1): {0:.4f}'.format(np.mean(scorecalc[10])))
-    print('log_loss or cross entropy (best=lowest): {0:.4f}'.format(np.mean(scorecalc[11])))
-    print('matthews_corrcoef: {0:.4f}'.format( np.mean(scorecalc[12])  ))
-    print('hemming_loss (best=lowest): {0:.4f}'.format( np.mean(scorecalc[13] )))
-    print('zero_one_loss (best=0): {0:.4f}'.format(np.mean(scorecalc[14])))
-    '''
 
     return cmn,coef,comp_score,cmn_std,coef_std,comp_score_std,classes, lambda_c,CTFeatures,x_test,x_train,y_prob ,fpr, tpr, roc_auc
 
@@ -1278,40 +1215,7 @@ coeff_cutoff=20,saveas='pdf',transparent_mode=False,showit=True,figsize=(4.0,2.0
                 else:
                     plt.close('all')
 
-'''
-def plot_celltype_nich_prediction_from_neighborhood_all_together(cmn,coef,cmn_std,coef_std,figuresize,filename):
-            a=np.diag(cmn)
-            b=np.diag(cmn_std)
-            goodPredictedCellType=np.argsort(-a)
-            create_directory(filename)
-            fig,ax=plt.subplots( figsize=(figuresize[0],figuresize[1]))
-            xx=range(len(coeff_of_CT))
-            yy=np.zeros((len(coeff_of_CT)))
-            ax.errorbar(xx, coeff_of_CT, yerr=std_of_coeff,fmt='o',markeredgewidth=0,markerfacecolor=None,markeredgecolor=None,linewidth=1,capsize=1,markersize=2,elinewidth=0.1,capthick=0.75)#markeredgecolor='blue',markerfacecolor='blue',
-            ax.plot(xx,yy,'k-',linewidth=0.2)
-            #ax.set_ylabel('value of coeff.')
-            #ax.set_xlabel('name of the coeff.')
-            #titlename=nameOfCellType[goodPredictedCellType[k]]+', conf score = {0:.3f}'.format(a[goodPredictedCellType[k]]) +'$\pm$'+str('%0.3f'%b[goodPredictedCellType[k]])
-            titlename=nameOfCellType[goodPredictedCellType[k]]+', id = '+str(goodPredictedCellType[k])+', conf score = {0:.3f}'.format(a[goodPredictedCellType[k]]) +'$\pm$'+str('%0.3f'%b[goodPredictedCellType[k]])
 
-            titlename=titlename.replace('_',' ')
-            ax.set_title(titlename,fontsize=7)
-
-
-            ax.set_xticks(xx)
-            for ind in range(len(name_of_the_coeff)):
-                name_of_the_coeff[ind]=name_of_the_coeff[ind].replace('_',' ')
-            ax.set_xticklabels(name_of_the_coeff)
-            for tick in ax.get_xticklabels():
-                tick.set_rotation(90)
-                tick.set_fontsize(7)
-
-            #fig.tight_layout()
-            savefname=remove_extra_character_from_name(nameOfCellType[goodPredictedCellType[k]])
-            fig.savefig(filename+'/Rank'+str(k+1)+'_'+savefname+'.pdf',bbox_inches='tight',transparent=True)
-            fig.savefig(filename+'/Rank'+str(k+1)+'_'+savefname,bbox_inches='tight',transparent=True,dpi=300)
-            fig.clf()
-'''
 
 def remove_extra_character_from_name(name):
     """
@@ -1637,65 +1541,7 @@ def plot_evaluation_scores(input,saveas='pdf',transparent_mode=False,showit=True
         plt.close('all')
 
 
-'''
-def plot_normalized_coefficients_radius_wise(inputRadius,BothLinearAndCrossTerms,inputdir,strategy,figuresize):
-    f=open(inputdir+'BiologicalNameOfCT.dat')
-    nameOfCellType={}
-    featureName=[]
-    for line in f:
-        l=line[0:-1].split('\t')
-        nameOfCellType[int(l[0])]=l[1]
-        featureName.append(l[1])
-    savedir=mainoutputdir+"RadiusWiseNormalizedCoefficients/"
-    create_directory(savedir)
 
-    coef=[]
-    confusion=[]
-    for radius in inputRadius:
-        fname=mainoutputdir+'classifier_matrices_'+str(radius)+'.npz'
-        data=np.load(fname,allow_pickle=True)
-        coef.append(data['coef'])
-        cmn=data['cmn']
-        #cmn_std=data['cmn_std']
-        #coef_std=data['coef_std']
-        CTFeatures=data['CTFeatures']
-        #coef.append(np.loadtxt(maindir+'matrix_avg_coefficients_R'+str(radius)+'.dat',delimiter=','))
-        #cmn=np.loadtxt(maindir+'matrix_avg_confusion_R'+str(radius)+'.dat',delimiter=',')
-        confusion.append(np.diagonal(cmn))
-
-
-    coefSize=coef[0].shape
-    coef=np.array(coef)
-    C=np.array(confusion)
-    B=np.einsum('kij->ikj',coef)
-    #print(B.shape,C.shape)
-
-
-    name_of_the_coeff=[]
-    n=coefSize[1]
-    for i in range(n):
-        l=CTFeatures[i].split()
-        temp=''
-        for j in range(len(l)):
-            temp+=nameOfCellType[int(l[j][1:])]
-            if j!=(len(l)-1):
-                temp+='--'
-        name_of_the_coeff.append(temp)
-
-
-    for i in range(len(B)):
-        fig,ax=plt.subplots(1,1,figsize=(figuresize[0],figuresize[1]))
-        for j in range(len(B[i])):
-            value=np.max(abs(B[i][j]))
-            B[i][j]=B[i][j]/value
-        snn.heatmap(B[i],xticklabels=name_of_the_coeff)#,xticklabels=classes)
-        ax.set_yticklabels(inputRadius,fontsize=5, rotation=0)
-        ax.set_xticklabels(name_of_the_coeff,fontsize=5, rotation=90)
-        ax.set_title(featureName[i] + ' [%0.2f'%C[0,i] + ', %0.2f]'%C[-1,i]   ,fontsize=7)
-        fig.tight_layout()
-        fig.savefig(savedir+'CT_'+str(i+1)+ '_'+featureName[i]  + '.png',bbox_inches='tight',dpi=300)
-        fig.clf()
-'''
 
 def plot_niche_interactions_without_edge_weight(input,niche_cutoff=0.1,saveas='pdf',transparent_mode=False,showit=True,figsize=(10,7)):
 
@@ -1821,45 +1667,6 @@ def plot_niche_interactions_with_edge_weight(input,niche_cutoff=0.1,saveas='pdf'
 
         #print(coef.shape,len(CTFeatures))
 
-        '''
-        meanCoefficients=coef[0]
-        stdCoefficients=coef_std[0]
-        #highestIndex=np.argsort(-abs(meanCoefficients))
-
-        n=min(len(meanCoefficients))
-        coeff_of_CT=[]
-        name_of_the_coeff=[]
-        std_of_coeff=[]
-
-
-        for i in range(n):
-            l=CTFeatures[i].split()
-            temp=''
-            for j in range(len(l)):
-                temp+=nameOfCellType[int(l[j][1:])]
-                if j!=(len(l)-1):
-                    temp+='--'
-        integerName=CTFeatures[i].replace('x','')
-        coeff_of_CT.append(meanCoefficients[i])
-        name_of_the_coeff.append(temp)
-        std_of_coeff.append(stdCoefficients[i])
-        #sklearn.cluster.bicluster
-        linked=linkage(coef,'single')
-        #plt.figure(figsize=(10, 7))
-        fig,ax=plt.subplots( figsize=(figsize_niche[0],figsize_niche[1]))
-        dendrogram(linked,
-            orientation='top',
-            labels=nameOfCellType,
-            distance_sort='descending',
-            show_leaf_counts=True)
-        #ax.set_xticks(xx)
-        #ax.set_xticklabels(name_of_the_coeff)
-        for tick in ax.get_xticklabels():
-            tick.set_rotation(90)
-
-        fig.savefig(mainoutputdir+'HierarchicalClustering_Rad'+str(Radius),bbox_inches='tight',dpi=300)
-        plt.close('all')
-        '''
 
         n=len(input.nameOfCellType)
         top=cm.get_cmap('jet')
@@ -1893,15 +1700,6 @@ def plot_niche_interactions_with_edge_weight(input,niche_cutoff=0.1,saveas='pdf'
         #G.add_edges_from([(1, 2,10), (1, 3,20)])
         #G.add_weighted_edges_from(edges)
 
-
-        '''
-        #layout
-        pos=nx.fruchterman_reingold_layout(G)
-        pos=nx.circular_layout(G)
-        pos=nx.random_layout(G)
-        pos=nx.spectral_layout(G)
-        pos=nx.spring_layout(G)
-        '''
 
         edges = G.edges()
         colors = [G[u][v]['color'] for u,v in edges]
