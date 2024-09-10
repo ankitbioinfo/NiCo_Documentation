@@ -67,9 +67,7 @@ the documentation or just write the function and add ``.__doc__`` to
 retrieve infromation on all relelvant parameters.
 
 ``print(sann.find_anchor_cells_between_ref_and_query.__doc__)``
-
 ``print(sint.spatial_neighborhood_analysis.__doc__)``
-
 ``print(scov.gene_covariation_analysis.__doc__)``
 
 All the figures will be saved in ``saveas=pdf`` format as vector

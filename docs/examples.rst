@@ -22,18 +22,18 @@ Below is a complete example demonstrating the usage of the main steps (modules) 
 
 .. code-block:: python
 
-   # if you installed the nico package 
+   # if you installed the nico package
    from nico import NicoAnalysis
    from nico import Annotations as sann
    from nico import Interactions as sint
    from nico import Covariations as scov
-   
+
    # if you did not install the nico package and downloaded the nico files into the current directory
    #import Annotations as sann
    #import Interactions as sint
    #import Covariations as scov
-   
-   
+
+
    import scanpy as sc
    import numpy as np
    import matplotlib.pyplot as plt
@@ -291,7 +291,7 @@ Below is a complete example demonstrating the usage of the main steps (modules) 
 .. code-block:: python
 
    print('\n\nModule G')
-   scov.plot_top_genes_for_a_given_celltype_from_all_three_factors(
+   scov.plot_top_genes_for_a_given_celltype_from_all_factors(
    cov_out,
    choose_celltypes=[],
    top_NOG=20,
