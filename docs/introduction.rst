@@ -24,7 +24,8 @@ To get started with NiCo, follow the installation instructions and refer to the 
 Github Tutorials:
 ----------------
 
-The tutorials in jupyter notebook format is `available here. <https://github.com/ankitbioinfo/nico_tutorial>`_
+The tutorials in Jupyter notebook format for finding covariation in selected colocalized cell type are `available here, <https://github.com/ankitbioinfo/nico_tutorial>`_
+and the Python scripts for finding the covariation in all colocalized cell types is `available here. <https://github.com/ankitbioinfo/nico_tutorial/blob/main/nico_analysis_highres_image_tech.py>`_
 
 Contributing:
 -------------

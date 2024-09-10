@@ -53,6 +53,17 @@ To verify that NiCo is installed correctly, run the following command:
 
 If the installation is successful, you should see a blank ```>>>``` prompt.
 
+
+If you do not wish to install NiCo, you can use the scripts directly,
+`available here, <https://github.com/ankitbioinfo/nico_tutorial/tree/main/NiCo>`_ and call them at the start of the tutorials.
+
+.. code:: ipython3
+
+    import Annotations as sann
+    import Interactions as sint
+    import Covariations as scov
+
+
 Updating NiCo
 -------------------
 
