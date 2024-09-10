@@ -55,7 +55,7 @@ If the installation is successful, you should see a blank ```>>>``` prompt.
 
 
 If you do not wish to install NiCo, you can use the scripts directly,
-`available here, <https://github.com/ankitbioinfo/nico_tutorial/tree/main/NiCo>`_ and call them at the start of the tutorials.
+`available here, <https://github.com/ankitbioinfo/nico_tutorial/tree/main/NiCo>`_ and call them at the beginning of the tutorials.
 
 .. code:: ipython3
 
