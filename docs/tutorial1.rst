@@ -523,11 +523,11 @@ and Paneth).
 
 
 
-.. image:: tutorial1_files/tutorial1_41_1.png
+.. image:: tutorial1_files/tutorial1_42_1.png
 
 
 
-.. image:: tutorial1_files/tutorial1_41_2.png
+.. image:: tutorial1_files/tutorial1_42_2.png
 
 
 If regression coefficients for the niche neighborhoods of all cell
@@ -559,7 +559,7 @@ Plot the average confusion matrix of the classifier from cross-folds:
 
 
 
-.. image:: tutorial1_files/tutorial1_46_1.png
+.. image:: tutorial1_files/tutorial1_47_1.png
 
 
 Plot the average coefficient matrix of the classifier from cross-folds:
@@ -576,7 +576,7 @@ Plot the average coefficient matrix of the classifier from cross-folds:
 
 
 
-.. image:: tutorial1_files/tutorial1_48_1.png
+.. image:: tutorial1_files/tutorial1_49_1.png
 
 
 Plot the evaluation score of the classifier for different metrics:
@@ -594,7 +594,7 @@ Plot the evaluation score of the classifier for different metrics:
 
 
 
-.. image:: tutorial1_files/tutorial1_50_1.png
+.. image:: tutorial1_files/tutorial1_51_1.png
 
 
 
@@ -702,7 +702,7 @@ leave empty for generating output for all cell types.
 
 
 
-.. image:: tutorial1_files/tutorial1_59_1.png
+.. image:: tutorial1_files/tutorial1_60_1.png
 
 
 .. code:: ipython3
@@ -721,7 +721,7 @@ leave empty for generating output for all cell types.
 
 
 
-.. image:: tutorial1_files/tutorial1_60_1.png
+.. image:: tutorial1_files/tutorial1_61_1.png
 
 
 Visualizes genes associated with the latent factors along with average expression
@@ -754,7 +754,7 @@ correlation (correlation_with_spearman=True) for cell type Stem/TA
 
 
 
-.. image:: tutorial1_files/tutorial1_62_1.png
+.. image:: tutorial1_files/tutorial1_63_1.png
 
 
 Inspect genes associated with a latent factor
@@ -985,7 +985,7 @@ choose_celltypes empty.
 
 
 
-.. image:: tutorial1_files/tutorial1_68_1.png
+.. image:: tutorial1_files/tutorial1_69_1.png
 
 
 In the following example, a p-value cutoff is explicitely defined by the
@@ -1011,7 +1011,7 @@ circles.
 
 
 
-.. image:: tutorial1_files/tutorial1_70_1.png
+.. image:: tutorial1_files/tutorial1_71_1.png
 
 
 
@@ -1039,7 +1039,7 @@ shows the -log10 p-values.
 
 
 
-.. image:: tutorial1_files/tutorial1_73_1.png
+.. image:: tutorial1_files/tutorial1_74_1.png
 
 
 E: Analysis of ligand-receptor interactions between covarying niche cell types
@@ -1120,15 +1120,15 @@ the stringency of the output filtering can be controled.
 
 
 
-.. image:: tutorial1_files/tutorial1_79_2.png
+.. image:: tutorial1_files/tutorial1_80_2.png
 
 
 
-.. image:: tutorial1_files/tutorial1_79_3.png
+.. image:: tutorial1_files/tutorial1_80_3.png
 
 
 
-.. image:: tutorial1_files/tutorial1_79_4.png
+.. image:: tutorial1_files/tutorial1_80_4.png
 
 
 Perform ligand-receptors analysis of the Paneth cell niche including all
@@ -1508,11 +1508,11 @@ types.
 
 
 
-.. image:: tutorial1_files/tutorial1_95_1.png
+.. image:: tutorial1_files/tutorial1_103_1.png
 
 
 
-.. image:: tutorial1_files/tutorial1_95_2.png
+.. image:: tutorial1_files/tutorial1_103_2.png
 
 
 .. code:: ipython3
@@ -1529,7 +1529,7 @@ types.
 
 
 
-.. image:: tutorial1_files/tutorial1_96_1.png
+.. image:: tutorial1_files/tutorial1_104_1.png
 
 
 H: Visualize factor values in the UMAP
@@ -1565,7 +1565,7 @@ choose_interacting_celltype_pair.
 
 
 
-.. image:: tutorial1_files/tutorial1_99_2.png
+.. image:: tutorial1_files/tutorial1_107_2.png
 
 
 Visualize factor values for select cell types, e.g., Stem/TA and Paneth cells (choose_interacting_celltype_pair=['Stem/TA','Paneth']) in the spatial transcriptomics data UMAP.
@@ -1596,7 +1596,7 @@ Select factors for each cell type (visualize_factors_id=[1,1]). List entries cor
 
 
 
-.. image:: tutorial1_files/tutorial1_101_2.png
+.. image:: tutorial1_files/tutorial1_109_2.png
 
 
 .. code:: ipython3
@@ -1632,8 +1632,8 @@ Select factors for each cell type (visualize_factors_id=[1,1]). List entries cor
 
 
 
-.. image:: tutorial1_files/tutorial1_102_2.png
+.. image:: tutorial1_files/tutorial1_110_2.png
 
 
 
-.. image:: tutorial1_files/tutorial1_102_3.png
+.. image:: tutorial1_files/tutorial1_110_3.png
