@@ -63,7 +63,7 @@ nico_analysis_highres_image_tech.ipynb
 
 .. parsed-literal::
 
-    1.3.0
+    1.4.0
 
 
 .. code:: ipython3

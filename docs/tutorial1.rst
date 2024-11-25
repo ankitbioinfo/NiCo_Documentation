@@ -58,7 +58,7 @@ Please prepare the input files of scRNA-seq reference data and spatial transcrip
 
 .. parsed-literal::
 
-    1.3.0
+    1.4.0
 
 
 **Usage introduction**
@@ -423,13 +423,37 @@ work.
    if  not '/home/[username]/miniforge3/envs/SC/bin/' in os.environ["PATH"]:
        os.environ["PATH"] += os.pathsep + '/home/[username]/miniforge3/envs/SC/bin/'
 
-.. code:: ipython3
+Example A: Plot the niche interaction network without any edge weight details for cutoff 0.1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    # Plot the niche interaction network without any edge weight details for cutoff 0.1
+| In the following plot you can reduce the opacity of colors using the
+  ``alpha`` parameter and change the colormap with ``input_colormap``.
+  The popoular choice of colormaps are following: ‘summer’, ‘autumn’,
+  ‘winter’, ‘cool’, ‘Wistia’, ‘hot’, ‘afmhot’, ‘gist_heat’,
+  ‘copper’,‘Diverging’, ‘PiYG’, ‘PRGn’, ‘BrBG’, ‘PuOr’, ‘RdGy’, ‘RdBu’,
+  ‘RdYlBu’, ‘RdYlGn’, ‘Spectral’, ‘coolwarm’, ‘bwr’, ‘seismic’, ‘flag’,
+  ‘prism’, ‘ocean’, ‘gist_earth’, ‘terrain’,
+  ‘gist_stern’,‘gist_rainbow’, ‘rainbow’, ‘jet’, ‘turbo’
+| For more detail colormap options, refer to the `matplotlib colormap
+  reference <https://matplotlib.org/stable/gallery/color/colormap_reference.html>`__
+
+.. code:: ipython3
 
     sint.plot_niche_interactions_without_edge_weight(niche_pred_output,
     niche_cutoff=celltype_niche_interaction_cutoff,
-    saveas=saveas,transparent_mode=transparent_mode)
+    saveas=saveas,
+    transparent_mode=transparent_mode,
+    showit=True,
+    figsize=(10,7),
+    dpi=dpi,                #Resolution in dots per inch for saving the figure.
+    input_colormap='jet',   #Colormap for node colors, from matplotlib colormaps.
+    with_labels=True,       #Display cell type labels on the nodes, if True.
+    node_size=500,          #Size of the nodes.
+    linewidths=0.5,         #Width of the node border lines.
+    node_font_size=6,       #Font size for node labels.
+    alpha=0.5,              #Opacity level for nodes and edges. 1 is fully opaque, and 0 is fully transparent.
+    font_weight='bold'      #Font weight for node labels; 'bold' for emphasis, 'normal' otherwise.
+    )
 
 
 
@@ -439,17 +463,31 @@ work.
 
 
 
-.. image:: tutorial1_files/tutorial1_36_1.png
+.. image:: tutorial1_files/tutorial1_37_1.png
 
+
+Example B: Using edge weights included in the niche interaction plot can be done as shown below
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: ipython3
 
-    # Plot the niche interaction network with edge weight details for cutoff 0.1
-
     sint.plot_niche_interactions_with_edge_weight(niche_pred_output,
     niche_cutoff=celltype_niche_interaction_cutoff,
-    saveas=saveas,transparent_mode=transparent_mode)
-
+    saveas=saveas,
+    transparent_mode=transparent_mode,
+    showit=True,
+    figsize=(10,7),
+    dpi=dpi,
+    input_colormap='jet',
+    with_labels=True,
+    node_size=500,
+    linewidths=1,
+    node_font_size=8,
+    alpha=0.5,
+    font_weight='normal',
+    edge_label_pos=0.35,   #Relative position of the weight label along the edge.
+    edge_font_size=3       #Font size for edge labels.
+    )
 
 
 .. parsed-literal::
@@ -458,8 +496,7 @@ work.
 
 
 
-.. image:: tutorial1_files/tutorial1_37_1.png
-
+.. image:: tutorial1_files/tutorial1_39_1.png
 
 
 Individual cell type niche plot
@@ -1133,8 +1170,8 @@ choose_factors_id=[] if empty, generate plots for all significantly covarying fa
 F: Perform functional enrichment analysis for genes associated with latent factors
 ----------------------------------------------------------------------------------
 
-Perform pathway enrichment analysis for factor-associated genes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Example 1: Perform pathway enrichment analysis for factor-associated genes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In this example, pathway analysis is performed for the top 50
 (NOG_pathway=50) genes, positively correlated
@@ -1151,9 +1188,19 @@ folder.
     choose_celltypes=['Stem/TA'],
     NOG_pathway=50,
     choose_factors_id=[2],
-    positively_correlated=True,
     savefigure=False,
-    database=['GO_Biological_Process_2021'])
+    positively_correlated=True,
+    saveas='pdf',
+    rps_rpl_mt_genes_included=False,
+    display_plot_as='dotplot',
+    correlation_with_spearman=True,
+    circlesize=12,
+    database=['GO_Biological_Process_2021'], #database=['BioPlanet_2019'],
+    object_for_color='Adjusted P-value',
+    object_for_xaxis='Combined Score',
+    fontsize=12,
+    showit=True,
+    input_colormap='viridis')
 
 
 .. parsed-literal::
@@ -1163,17 +1210,111 @@ folder.
 
 
 
-.. image:: tutorial1_files/tutorial1_86_1.png
+.. image:: tutorial1_files/tutorial1_87_1.png
 
+
+Example 2: increase the size of dot
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code:: ipython3
+
+    scov.pathway_analysis(cov_out,
+    choose_celltypes=['Stem/TA'],
+    NOG_pathway=50,
+    choose_factors_id=[2],
+    savefigure=False,
+    positively_correlated=True,
+    saveas='pdf',
+    rps_rpl_mt_genes_included=False,
+    display_plot_as='dotplot',
+    correlation_with_spearman=True,
+    circlesize=20,
+    database=['GO_Biological_Process_2021'],
+    object_for_color='Adjusted P-value',
+    object_for_xaxis='Combined Score',
+    fontsize=12,
+    showit=True,
+    input_colormap='viridis')
+
+
+.. parsed-literal::
+
+    The pathway figures are saved in  ./nico_out/covariations_R0_F3/Pathway_figures/
+    cell types found  ['Stem/TA']
+
+
+
+.. image:: tutorial1_files/tutorial1_89_1.png
+
+
+Example 3: instead of dotplot show as a barplot
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code:: ipython3
+
+    scov.pathway_analysis(cov_out,
+    choose_celltypes=['Stem/TA'],
+    NOG_pathway=50,
+    choose_factors_id=[2],
+    positively_correlated=True,
+    database=['GO_Biological_Process_2021'], #database=['BioPlanet_2019'],
+    rps_rpl_mt_genes_included=False,
+    display_plot_as='barplot',
+    correlation_with_spearman=True,
+    object_for_color='Adjusted P-value',
+    object_for_xaxis='Combined Score',
+    showit=True,
+    input_colormap='hot_r')
+
+
+.. parsed-literal::
+
+    The pathway figures are saved in  ./nico_out/covariations_R0_F3/Pathway_figures/
+    cell types found  ['Stem/TA']
+
+
+
+.. image:: tutorial1_files/tutorial1_91_1.png
+
+
+Example 4 (Recommended version): We recommend using the following version of the plot
+-------------------------------------------------------------------------------------
+
+.. code:: ipython3
+
+    scov.pathway_analysis(cov_out,
+    choose_celltypes=['Stem/TA'],
+    NOG_pathway=50,
+    choose_factors_id=[2],
+    positively_correlated=True,
+    database=['GO_Biological_Process_2021'], #database=['BioPlanet_2019'],
+    rps_rpl_mt_genes_included=False,
+    display_plot_as='barplot',
+    correlation_with_spearman=True,
+    object_for_color='Adjusted P-value',
+    object_for_xaxis='Odds Ratio',
+    showit=True,
+    input_colormap='hot_r')
+
+
+.. parsed-literal::
+
+    The pathway figures are saved in  ./nico_out/covariations_R0_F3/Pathway_figures/
+    cell types found  ['Stem/TA']
+
+
+
+.. image:: tutorial1_files/tutorial1_93_1.png
+
+
+Example 5
+~~~~~~~~~
 
 In this example, pathway analysis is performed for the top 50
 (NOG_pathway=50) genes, negatively correlated
 (positively_correlated=False) with factor 2 (choose_factors_id=[2]) of
 Stem/TA cells (choose_celltypes=[‘Stem/TA’]) testing for enrichment of
 GO Biological Processes (database=[‘GO_Biological_Process_2021’]).
-
-If savefigure=True, then the figures will be saved in the respective
-folder.
 
 .. code:: ipython3
 
@@ -1182,8 +1323,14 @@ folder.
     NOG_pathway=50,
     choose_factors_id=[2],
     positively_correlated=False,
-    savefigure=False,
-    database=['GO_Biological_Process_2021'])
+    database=['GO_Biological_Process_2021'], #database=['BioPlanet_2019'],
+    rps_rpl_mt_genes_included=False,
+    display_plot_as='barplot',
+    correlation_with_spearman=True,
+    object_for_color='Adjusted P-value',
+    object_for_xaxis='Odds Ratio',
+    showit=True,
+    input_colormap='hot_r')
 
 
 .. parsed-literal::
@@ -1193,15 +1340,19 @@ folder.
 
 
 
-.. image:: tutorial1_files/tutorial1_88_1.png
+.. image:: tutorial1_files/tutorial1_95_1.png
 
+
+Example 6
+~~~~~~~~~
 
 In this example, pathway analyses are performed for the top 50
 (NOG_pathway=50) genes, positively correlated
 (positively_correlated=True) with any factor (choose_factors_id=[]) of
 Paneth cells (choose_celltypes=[‘Paneth’]), ribosome and mitochondrial
 genes are not included in the gene list testing for enrichment of
-pathways from three databases (GO_Biological_Process_2021, BioPlanet_2019, Reactome_2016).
+pathways from three databases (GO_Biological_Process_2021,
+BioPlanet_2019, Reactome_2016).
 
 .. code:: ipython3
 
@@ -1211,8 +1362,13 @@ pathways from three databases (GO_Biological_Process_2021, BioPlanet_2019, React
     choose_factors_id=[],
     positively_correlated=True,
     savefigure=False,
-    rps_rpl_mt_genes_included=False)
-
+    rps_rpl_mt_genes_included=False,
+    #database=['GO_Biological_Process_2021'], #database=['BioPlanet_2019'],
+    display_plot_as='barplot',
+    object_for_color='Adjusted P-value',
+    object_for_xaxis='Odds Ratio',
+    showit=True,
+    input_colormap='hot_r')
 
 
 .. parsed-literal::
@@ -1222,54 +1378,65 @@ pathways from three databases (GO_Biological_Process_2021, BioPlanet_2019, React
 
 
 
-.. image:: tutorial1_files/tutorial1_90_1.png
+.. image:: tutorial1_files/tutorial1_97_1.png
 
 
 
-.. image:: tutorial1_files/tutorial1_90_2.png
+.. image:: tutorial1_files/tutorial1_97_2.png
 
 
 
-.. image:: tutorial1_files/tutorial1_90_3.png
+.. image:: tutorial1_files/tutorial1_97_3.png
 
 
 
-.. image:: tutorial1_files/tutorial1_90_4.png
+.. image:: tutorial1_files/tutorial1_97_4.png
 
 
 
-.. image:: tutorial1_files/tutorial1_90_5.png
+.. image:: tutorial1_files/tutorial1_97_5.png
 
 
 
-.. image:: tutorial1_files/tutorial1_90_6.png
+.. image:: tutorial1_files/tutorial1_97_6.png
 
 
 
-.. image:: tutorial1_files/tutorial1_90_7.png
+.. image:: tutorial1_files/tutorial1_97_7.png
 
 
 
-.. image:: tutorial1_files/tutorial1_90_8.png
+.. image:: tutorial1_files/tutorial1_97_8.png
 
 
-In this example, pathway analysis is performed for the top 50
-(NOG_pathway=50) genes, negatively correlated
+
+.. image:: tutorial1_files/tutorial1_97_9.png
+
+
+Example 7
+~~~~~~~~~
+
+In this example, pathway analysis is performed for negatively correlated
 (positively_correlated=False) with factor 2 (choose_factors_id=[2]) of
 Goblet cells (choose_celltypes=[‘Goblet’]) testing for enrichment of
-BioPlanet pathways (database=[‘BioPlanet_2019’]).
-
-If savefigure=True, then the figures will be saved in the respective
-folder.
+BioPlanet pathways (database=[‘BioPlanet_2019’]). Object_for_color=‘Odds
+Ratio’ and Object_for_xaxis=‘Adjusted P-value’
 
 .. code:: ipython3
 
     scov.pathway_analysis(cov_out,
     choose_celltypes=['Goblet'],
-    NOG_pathway=50,choose_factors_id=[2],
+    NOG_pathway=50,
+    choose_factors_id=[2],
     positively_correlated=False,
     savefigure=False,
-    database=['BioPlanet_2019'])
+    rps_rpl_mt_genes_included=False,
+    database=['BioPlanet_2019'],
+    display_plot_as='barplot',
+    object_for_color='Odds Ratio',#columntag  P-value,Adjusted P-value,Old P-value,Old Adjusted P-value,
+    object_for_xaxis= 'Adjusted P-value',#Odds Ratio', #'Combined Score'
+    showit=True,
+    input_colormap='hot_r')
 
 
 .. parsed-literal::
@@ -1279,8 +1446,39 @@ folder.
 
 
 
-.. image:: tutorial1_files/tutorial1_92_1.png
+.. image:: tutorial1_files/tutorial1_99_1.png
 
+
+Example 8
+~~~~~~~~~
+
+Object_for_color=‘Combined Score’ and Object_for_xaxis=‘P-value’
+
+.. code:: ipython3
+
+    scov.pathway_analysis(cov_out,
+    choose_celltypes=['Goblet'],
+    NOG_pathway=50,
+    choose_factors_id=[2],
+    positively_correlated=False,
+    savefigure=False,
+    rps_rpl_mt_genes_included=False,
+    database=['BioPlanet_2019'],
+    display_plot_as='barplot',
+    object_for_color='Combined Score',#columntag  P-value,Adjusted P-value,Old P-value,Old Adjusted P-value,
+    object_for_xaxis= 'P-value',#Odds Ratio', #'Combined Score'
+    showit=True,
+    input_colormap='hot_r')
+
+
+.. parsed-literal::
+
+    The pathway figures are saved in  ./nico_out/covariations_R0_F3/Pathway_figures/
+    cell types found  ['Goblet']
+
+
+
+.. image:: tutorial1_files/tutorial1_101_1.png
 
 
 G: Visualization of top genes across cell types and factors as dotplot
