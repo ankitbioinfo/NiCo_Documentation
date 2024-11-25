@@ -56,7 +56,7 @@ This tutorial do not require scRNA-seq reference data for integration, and assum
 
 .. parsed-literal::
 
-   1.3.0
+   1.4.0
 
 
 Usage introduction
@@ -925,6 +925,9 @@ folder.
     NOG_pathway=50,
     choose_factors_id=[1],
     positively_correlated=True,
+    display_plot_as='barplot',
+    object_for_color='Adjusted P-value',
+    object_for_xaxis='Odds Ratio',
     savefigure=False,database=['BioPlanet_2019'])
 
 
@@ -935,7 +938,7 @@ folder.
 
 
 
-.. image:: tutorial2_files/tutorial2_68_1.png
+.. image:: tutorial2_files/tutorial2_66_1.png
 
 
 In this example, pathway analysis is performed for the top 50
@@ -954,6 +957,9 @@ folder.
     NOG_pathway=50,
     choose_factors_id=[1],
     positively_correlated=True,
+    display_plot_as='barplot',
+    object_for_color='Adjusted P-value',
+    object_for_xaxis='Odds Ratio',
     savefigure=False,database=['BioPlanet_2019'])
 
 
@@ -964,7 +970,7 @@ folder.
 
 
 
-.. image:: tutorial2_files/tutorial2_70_1.png
+.. image:: tutorial2_files/tutorial2_68_1.png
 
 
 
@@ -993,7 +999,7 @@ If the choose_celltypes=[], the plot will be generated for all cell types.
 
 
 
-.. image:: tutorial2_files/tutorial2_73_1.png
+.. image:: tutorial2_files/tutorial2_71_1.png
 
 
 
@@ -1016,11 +1022,11 @@ If the choose_celltypes=[], the plot will be generated for all cell types.
 
 
 
-.. image:: tutorial2_files/tutorial2_75_1.png
+.. image:: tutorial2_files/tutorial2_73_1.png
 
 
 
-.. image:: tutorial2_files/tutorial2_75_2.png
+.. image:: tutorial2_files/tutorial2_73_2.png
 
 
 H: Visualize factor values in the UMAP
@@ -1051,7 +1057,7 @@ scRNA-seq data umap. Select factors for each cell type
 
 
 
-.. image:: tutorial2_files/tutorial2_80_2.png
+.. image:: tutorial2_files/tutorial2_78_2.png
 
 
 .. code:: ipython3
@@ -1072,4 +1078,4 @@ scRNA-seq data umap. Select factors for each cell type
 
 
 
-.. image:: tutorial2_files/tutorial2_81_2.png
+.. image:: tutorial2_files/tutorial2_79_2.png
