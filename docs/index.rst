@@ -15,6 +15,14 @@ NiCo: Niche covariation analysis of spatial transcriptomics data
     Infer cellular crosstalk from spatial transcriptomics and scRNAseq data
 
 
+.. important::
+
+   **For future NiCo applications, we recommend using** `nico-wrapper <https://github.com/gruenlab/nico-wrapper>`_.
+
+   ``nico-wrapper`` provides structured command-line and Python workflows for preprocessing,
+   label transfer, niche interaction analysis, and covariation analysis. It is a wrapper around
+   NiCo—not a replacement or fork—and NiCo continues to perform the core scientific computations.
+
 
 The Niche Covariation (NiCo) package is developed for the integration of single-cell resolution
 spatial transcriptomics and scRNA-seq data (or from sequencing-based spatial transcriptomics data alone)
