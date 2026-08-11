@@ -1,6 +1,23 @@
 Introduction
 ============
 
+.. important::
+
+   **🚀 NEW USERS — START HERE!**
+
+   For **new NiCo analyses**, please use `nico-wrapper`_ as the
+   **preferred way to apply NiCo**.
+
+   Since August 1, 2026, `nico-wrapper`_ provides streamlined **command-line and Python interfaces**
+   for the main NiCo workflow while continuing to use **NiCo for the
+   underlying scientific computations**.
+
+   **👉 Start with** `nico-wrapper`_ on Gruenlab GitHub
+
+   The direct NiCo installation and tutorials on this website are primarily
+   retained for **existing users, legacy analyses, and reproducibility**.
+
+
 Welcome to the Nico Documentation!
 
 NiCo ( **Ni** che **Co** variation) is a tool designed for the comprehensive analysis of imaging- and sequencing-based spatial transcriptomics data.
@@ -36,3 +53,7 @@ Support:
 --------
 
 For support, please check the FAQ section.
+
+
+.. _nico-wrapper: https://github.com/gruenlab/nico-wrapper
+.. _nico-tutorial-github: https://github.com/ankitbioinfo/nico_tutorial
