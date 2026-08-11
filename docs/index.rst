@@ -17,7 +17,7 @@ NiCo: Niche covariation analysis of spatial transcriptomics data
    for the main NiCo workflow while continuing to use **NiCo for the
    underlying scientific computations**.
 
-   **👉 Go to `nico-wrapper`_ on Gruenlab GitHub**
+   **👉 Start with** `nico-wrapper`_ on Gruenlab GitHub
 
    The direct NiCo installation and tutorials on this website are primarily
    retained for **existing users, legacy analyses, and reproducibility**.
@@ -41,7 +41,7 @@ NiCo: Niche covariation analysis of spatial transcriptomics data
    through both **CLI and Python interfaces**, while NiCo remains the
    underlying scientific computation framework.
 
-   **👉 Start with `nico-wrapper`_**
+   **👉 Start with** `nico-wrapper`_
 
    Existing users who need to reproduce previous analyses can continue using
    the direct NiCo package and the tutorials provided in this documentation.
@@ -72,7 +72,7 @@ Installation
 
 .. warning::
 
-   **For new analyses, please use `nico-wrapper`_ instead of the direct NiCo
+   **For new analyses, please use** `nico-wrapper`_ **instead of the direct NiCo
    installation below.**
 
    Since August 1, 2026, `nico-wrapper`_ provides a streamlined command-line
@@ -109,7 +109,6 @@ or sequencing-based methods, e.g., Slide-seqV2, are available here <nico-tutoria
 
 
 .. _nico-wrapper: https://github.com/gruenlab/nico-wrapper
-.. _nico-wrapper-github: https://github.com/gruenlab/nico-wrapper
 .. _nico-tutorial-github: https://github.com/ankitbioinfo/nico_tutorial
 
 
